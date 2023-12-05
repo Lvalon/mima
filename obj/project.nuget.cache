@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "VbOviB6YNGFaYmJiJW5dyKAmerEtCSfIYhCZNDx7+FYOGOHI988M0DHmZ7O4VlZN6MKYML6WA60C+1D9C6Q82w==",
+  "dgSpecHash": "lWOhvFs+buQNLUT+F1zkmLzwT0fibZHWlllGZhH5+k1m31FvWeb6+nhNl1aTG/n/AnqYDpRypcfTY+EJLTf+Bg==",
   "success": true,
-  "projectFilePath": "C:\\Users\\e\\Downloads\\projects\\indev\\lvalonmima\\lvalonmima.csproj",
+  "projectFilePath": "Z:\\projects\\indev\\lvalonmima\\lvalonmima.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\e\\.nuget\\packages\\bepinex.analyzers\\1.0.8\\bepinex.analyzers.1.0.8.nupkg.sha512",
     "C:\\Users\\e\\.nuget\\packages\\bepinex.baselib\\5.4.20\\bepinex.baselib.5.4.20.nupkg.sha512",

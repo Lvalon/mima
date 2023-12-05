@@ -2422,14 +2422,14 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\e\\Downloads\\projects\\indev\\lvalonmima\\lvalonmima.csproj",
+      "projectUniqueName": "Z:\\projects\\indev\\lvalonmima\\lvalonmima.csproj",
       "projectName": "lvalonmima",
-      "projectPath": "C:\\Users\\e\\Downloads\\projects\\indev\\lvalonmima\\lvalonmima.csproj",
+      "projectPath": "Z:\\projects\\indev\\lvalonmima\\lvalonmima.csproj",
       "packagesPath": "C:\\Users\\e\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\e\\Downloads\\projects\\indev\\lvalonmima\\obj\\",
+      "outputPath": "Z:\\projects\\indev\\lvalonmima\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\e\\Downloads\\projects\\indev\\lvalonmima\\NuGet.Config",
+        "Z:\\projects\\indev\\lvalonmima\\NuGet.Config",
         "C:\\Users\\e\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],

@@ -43,6 +43,7 @@ namespace lvalonmima
         public override StatusEffectConfig MakeConfig()
         {
             var statusEffectConfig = new StatusEffectConfig(
+                Index: 8745,
                 Id: "",
                 Order: 1,
                 Type: StatusEffectType.Positive,
@@ -125,7 +126,7 @@ namespace lvalonmima
                     {
                         base.NotifyActivating();
                         yield return new ForceKillAction(base.Owner, base.Owner);
-                        //yield return new RemoveStatusEffectAction(this, true);
+                        yield return new RemoveStatusEffectAction(this, true);
                         //args.ActionSource != this
                         yield break;
                     }
@@ -143,7 +144,7 @@ namespace lvalonmima
                 if (base.Owner.IsAlive)
                 {
                     base.NotifyActivating();
-                    yield return new HealAction(base.Owner, base.Owner, base.Owner.MaxHp, HealType.Base, 0.2f);
+                    yield return new HealAction(base.Owner, base.Owner, base.Owner.MaxHp, HealType.Normal, 0.2f);
                 }
                 yield break;
             }
