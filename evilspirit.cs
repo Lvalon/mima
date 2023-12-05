@@ -18,6 +18,7 @@ using LBoL.Core.Battle.BattleActions;
 using LBoL.Base.Extensions;
 using LBoL.Core.Units;
 using LBoL.EntityLib.StatusEffects.Enemy;
+//using static UnityEngine.UI.CanvasScaler;
 
 namespace lvalonmima
 {
