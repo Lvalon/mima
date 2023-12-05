@@ -43,7 +43,7 @@ namespace lvalonmima
         public override StatusEffectConfig MakeConfig()
         {
             var statusEffectConfig = new StatusEffectConfig(
-                Index: 8745,
+                Index: 87450,
                 Id: "",
                 Order: 1,
                 Type: StatusEffectType.Positive,
