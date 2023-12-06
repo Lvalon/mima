@@ -19,7 +19,7 @@ using LBoL.Base.Extensions;
 using LBoL.Core.Units;
 using LBoL.EntityLib.StatusEffects.Enemy;
 
-namespace lvalonmima
+namespace lvalonmima.SE
 {
     public sealed class evilspiritdef : StatusEffectTemplate
     {
@@ -78,13 +78,13 @@ namespace lvalonmima
             //they worked
             protected override void OnAdded(Unit unit)
             {
-                base.HandleOwnerEvent<DieEventArgs>(base.Owner.Dying, new GameEventHandler<DieEventArgs>(this.OnDying));
-                base.ReactOwnerEvent<GameEventArgs>(base.Battle.RoundEnding, new EventSequencedReactor<GameEventArgs>(this.OnRoundEnding));
-                base.ReactOwnerEvent<GameEventArgs>(base.Battle.BattleEnding, new EventSequencedReactor<GameEventArgs>(this.OnBattleEnding));
-                this.React(PerformAction.Effect(unit, "JunkoNightmare", 0f, "JunkoNightmare", 0f, PerformAction.EffectBehavior.PlayOneShot, 0f));
-                this.React(PerformAction.Effect(unit, "JunkoNightmare", 1f, "", 0f, PerformAction.EffectBehavior.PlayOneShot, 0f));
-                this.React(PerformAction.Effect(unit, "JunkoNightmare", 2f, "", 0f, PerformAction.EffectBehavior.PlayOneShot, 0f));
-                this.React(PerformAction.Effect(unit, "JinziMirror", 3f, "", 1f, PerformAction.EffectBehavior.Add, 0f));
+                HandleOwnerEvent(Owner.Dying, new GameEventHandler<DieEventArgs>(OnDying));
+                ReactOwnerEvent(Battle.RoundEnding, new EventSequencedReactor<GameEventArgs>(OnRoundEnding));
+                ReactOwnerEvent(Battle.BattleEnding, new EventSequencedReactor<GameEventArgs>(OnBattleEnding));
+                React(PerformAction.Effect(unit, "JunkoNightmare", 0f, "JunkoNightmare", 0f, PerformAction.EffectBehavior.PlayOneShot, 0f));
+                React(PerformAction.Effect(unit, "JunkoNightmare", 1f, "", 0f, PerformAction.EffectBehavior.PlayOneShot, 0f));
+                React(PerformAction.Effect(unit, "JunkoNightmare", 2f, "", 0f, PerformAction.EffectBehavior.PlayOneShot, 0f));
+                React(PerformAction.Effect(unit, "JinziMirror", 3f, "", 1f, PerformAction.EffectBehavior.Add, 0f));
             }
 
             //heal to full, gain 1 level 3 defense matrix on death
@@ -93,25 +93,25 @@ namespace lvalonmima
             {
                 if (args.ActionSource != this)
                 {
-                    base.NotifyActivating();
+                    NotifyActivating();
                     //int num = args.Unit.MaxHp;
                     if (Battle.Player.BaseName == Owner.BaseName)
                     {
-                        this.React(PerformAction.Effect(base.Owner, "JunkoNightmare", 0f, "JunkoNightmare", 0f, PerformAction.EffectBehavior.PlayOneShot, 0f));
-                        base.GameRun.SetHpAndMaxHp(base.Owner.MaxHp, base.Owner.MaxHp, false);
+                        React(PerformAction.Effect(Owner, "JunkoNightmare", 0f, "JunkoNightmare", 0f, PerformAction.EffectBehavior.PlayOneShot, 0f));
+                        GameRun.SetHpAndMaxHp(Owner.MaxHp, Owner.MaxHp, false);
                         args.CancelBy(this);
-                        this.React(new ApplyStatusEffectAction<DroneBlock>(this.Owner, 3));
+                        React(new ApplyStatusEffectAction<DroneBlock>(Owner, 3));
                     }
                     else
                     {
-                        this.React(PerformAction.Effect(base.Owner, "JunkoNightmare", 0f, "JunkoNightmare", 0f, PerformAction.EffectBehavior.PlayOneShot, 0f));
-                        base.GameRun.SetEnemyHpAndMaxHp(base.Owner.MaxHp, base.Owner.MaxHp, (EnemyUnit)Owner, false);
+                        React(PerformAction.Effect(Owner, "JunkoNightmare", 0f, "JunkoNightmare", 0f, PerformAction.EffectBehavior.PlayOneShot, 0f));
+                        GameRun.SetEnemyHpAndMaxHp(Owner.MaxHp, Owner.MaxHp, (EnemyUnit)Owner, false);
                         args.CancelBy(this);
-                        this.React(new ApplyStatusEffectAction<DroneBlock>(this.Owner, 3));
+                        React(new ApplyStatusEffectAction<DroneBlock>(Owner, 3));
                     }
-                    if (base.GameRun.Battle != null)
+                    if (GameRun.Battle != null)
                     {
-                        base.Level++;
+                        Level++;
                     }
                 }
                 return;
@@ -121,14 +121,14 @@ namespace lvalonmima
             //it works
             private IEnumerable<BattleAction> OnRoundEnding(GameEventArgs args)
             {
-                if (base.IsAutoDecreasing)
+                if (IsAutoDecreasing)
                 {
-                    int num = base.Level - 1;
-                    base.Level = num;
-                    if (base.Level == 0)
+                    int num = Level - 1;
+                    Level = num;
+                    if (Level == 0)
                     {
-                        base.NotifyActivating();
-                        yield return new ForceKillAction(base.Owner, base.Owner);
+                        NotifyActivating();
+                        yield return new ForceKillAction(Owner, Owner);
                         yield return new RemoveStatusEffectAction(this, true);
                         //args.ActionSource != this
                         yield break;
@@ -136,7 +136,7 @@ namespace lvalonmima
                 }
                 else
                 {
-                    base.IsAutoDecreasing = true;
+                    IsAutoDecreasing = true;
                 }
                 yield break;
             }
@@ -144,10 +144,10 @@ namespace lvalonmima
             //it works
             private IEnumerable<BattleAction> OnBattleEnding(GameEventArgs args)
             {
-                if (base.Owner.IsAlive)
+                if (Owner.IsAlive)
                 {
-                    base.NotifyActivating();
-                    yield return new HealAction(base.Owner, base.Owner, base.Owner.MaxHp, HealType.Normal, 0.2f);
+                    NotifyActivating();
+                    yield return new HealAction(Owner, Owner, Owner.MaxHp, HealType.Normal, 0.2f);
                 }
                 yield break;
             }
