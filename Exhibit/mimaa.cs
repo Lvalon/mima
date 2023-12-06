@@ -23,7 +23,7 @@ using System.Linq;
 
 namespace lvalonmima.Exhibit
 {
-    internal class mimaadef : ExhibitTemplate
+    public sealed class mimaadef : ExhibitTemplate
     {
         public override IdContainer GetId()
         {
@@ -39,7 +39,7 @@ namespace lvalonmima.Exhibit
         {
             // embedded resource folders are separated by a dot
             // this means exhibit image name must be exhibitid.png
-            var folder = "";
+            var folder = "Resources.";
             var exhibitSprites = new ExhibitSprites();
             Func<string, Sprite> wrap = (s) => ResourceLoader.LoadSprite(folder + GetId() + s + ".png", embeddedSource);
             exhibitSprites.main = wrap("");
@@ -49,11 +49,11 @@ namespace lvalonmima.Exhibit
         public override ExhibitConfig MakeConfig()
         {
             var exhibitConfig = new ExhibitConfig(
-                Index: sequenceTable.Next(typeof(ExhibitConfig)),
+                Index: 0,
                 Id: "",
                 Order: 10,
                 IsDebug: false,
-                IsPooled: true,
+                IsPooled: false,
                 IsSentinel: false,
                 Revealable: false,
                 Appearance: AppearanceType.Nowhere,
@@ -68,7 +68,7 @@ namespace lvalonmima.Exhibit
                 BaseManaColor: ManaColor.Blue,
                 BaseManaAmount: 0,
                 HasCounter: false,
-                InitialCounter: 0,
+                InitialCounter: null,
                 Keywords: Keyword.None,
                 RelativeEffects: new List<string>() { "GuangxueMicai", "evilspirit", "Burst" },
                 RelativeCards: new List<string>() { }
@@ -76,19 +76,23 @@ namespace lvalonmima.Exhibit
             return exhibitConfig;
         }
 
-        [EntityLogic(typeof(mimaa))]
+        [EntityLogic(typeof(mimaadef))]
         public sealed class mimaa : ShiningExhibit
         {
             protected override void OnEnterBattle()
             {
                 base.ReactBattleEvent<GameEventArgs>(base.Battle.BattleStarted, new EventSequencedReactor<GameEventArgs>(this.OnBattleStarted));
-                base.HandleGameRunEvent(Owner.Dying, new GameEventHandler<DieEventArgs>(OnDying));
+                //base.HandleGameRunEvent(Owner.Dying, new GameEventHandler<DieEventArgs>(OnDying));
+                //StatusEffect.HandleOwnerEvent(Owner.Dying, new GameEventHandler<DieEventArgs>(OnDying));
             }
 
             private IEnumerable<BattleAction> OnBattleStarted(GameEventArgs args)
             {
                 base.NotifyActivating();
+                //int? duration = new int?(1);
                 yield return new ApplyStatusEffectAction<evilspirit>(base.Owner, new int?(base.Value1), null, null, null, 0f, true);
+                yield return new ApplyStatusEffectAction<Burst>(base.Owner, new int?(base.Value2), null, null, null, 0f, true);
+                //yield return new ApplyStatusEffectAction<GuangxueMicai>(base.Owner, duration, null, null, null, 0f, true);
                 yield break;
             }
 
@@ -97,9 +101,14 @@ namespace lvalonmima.Exhibit
                 //base.NotifyActivating();
                 //foreach (var se in Owner.StatusEffects.Where(se => se.Id == "evilspirit"))
                 //{
-                    React(new ApplyStatusEffectAction<Burst>(Owner, base.Value2));
-                    React(new ApplyStatusEffectAction<GuangxueMicai>(Owner, base.Value3));
+                GameRun.SetHpAndMaxHp(Owner.MaxHp, Owner.MaxHp, false);
+                args.CancelBy(this);
+
+                //React(new ApplyStatusEffectAction<Burst>(base.Owner, new int?(base.Value2), null, null, null, 0f, true));
+                //React(new ApplyStatusEffectAction<GuangxueMicai>(base.Owner, new int?(base.Value3), null, null, null, 0f, true));
                 //}
+                //React(new ApplyStatusEffectAction<Burst>(Owner, base.Value2));
+                //React(new ApplyStatusEffectAction<GuangxueMicai>(Owner, base.Value3));
                 return;
             }
         }

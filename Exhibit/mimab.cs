@@ -25,7 +25,7 @@ using LBoL.Core.Cards;
 
 namespace lvalonmima.Exhibit
 {
-    internal class mimabdef : ExhibitTemplate
+    public sealed class mimabdef : ExhibitTemplate
     {
         public override IdContainer GetId()
         {
@@ -41,7 +41,7 @@ namespace lvalonmima.Exhibit
         {
             // embedded resource folders are separated by a dot
             // this means exhibit image name must be exhibitid.png
-            var folder = "";
+            var folder = "Resources.";
             var exhibitSprites = new ExhibitSprites();
             Func<string, Sprite> wrap = (s) => ResourceLoader.LoadSprite(folder + GetId() + s + ".png", embeddedSource);
             exhibitSprites.main = wrap("");
@@ -51,11 +51,11 @@ namespace lvalonmima.Exhibit
         public override ExhibitConfig MakeConfig()
         {
             var exhibitConfig = new ExhibitConfig(
-                Index: sequenceTable.Next(typeof(ExhibitConfig)),
+                Index: 0,
                 Id: "",
                 Order: 10,
                 IsDebug: false,
-                IsPooled: true,
+                IsPooled: false,
                 IsSentinel: false,
                 Revealable: false,
                 Appearance: AppearanceType.Nowhere,
@@ -64,13 +64,13 @@ namespace lvalonmima.Exhibit
                 Rarity: Rarity.Shining,
                 Value1: 2,
                 Value2: 10,
-                Value3: 2,
+                Value3: 1,
                 Mana: new ManaGroup() { Black = 1 },
                 BaseManaRequirement: null,
                 BaseManaColor: ManaColor.Black,
                 BaseManaAmount: 0,
                 HasCounter: false,
-                InitialCounter: 0,
+                InitialCounter: null,
                 Keywords: Keyword.None,
                 RelativeEffects: new List<string>() { "Firepower", "evilspirit" },
                 RelativeCards: new List<string>() { }
@@ -78,29 +78,32 @@ namespace lvalonmima.Exhibit
             return exhibitConfig;
         }
 
-        [EntityLogic(typeof(mimab))]
+        [EntityLogic(typeof(mimabdef))]
         public sealed class mimab : ShiningExhibit
         {
             protected override void OnEnterBattle()
             {
                 base.ReactBattleEvent<GameEventArgs>(base.Battle.BattleStarted, new EventSequencedReactor<GameEventArgs>(this.OnBattleStarted));
-                base.HandleGameRunEvent(Owner.Dying, new GameEventHandler<DieEventArgs>(OnDying));
+                //base.HandleGameRunEvent(Owner.Dying, new GameEventHandler<DieEventArgs>(OnDying));
             }
 
             private IEnumerable<BattleAction> OnBattleStarted(GameEventArgs args)
             {
                 base.NotifyActivating();
                 yield return new ApplyStatusEffectAction<evilspirit>(base.Owner, new int?(base.Value1), null, null, null, 0f, true);
+                //yield return new DamageAction(base.Owner, base.Battle.EnemyGroup.Alives, DamageInfo.Attack((float)base.Value2, false), "ExhFeixiang", GunType.Single);
+                yield return new ApplyStatusEffectAction<Firepower>(base.Owner, new int?(base.Value3), null, null, null, 0f, true);
                 yield break;
             }
+
 
             private void OnDying(DieEventArgs args)
             {
                 //base.NotifyActivating();
                 //foreach (var se in Owner.StatusEffects.Where(se => se.Id == "evilspirit"))
                 //{
-                React(new DamageAction(base.Owner, base.Battle.EnemyGroup.Alives, DamageInfo.Attack((float)base.Value2, false), "ExhFeixiang", GunType.Single));
-                React(new ApplyStatusEffectAction<Burst>(Owner, base.Value3));
+                //React(new DamageAction(base.Owner, base.Battle.EnemyGroup.Alives, DamageInfo.Attack((float)base.Value2, false), "ExhFeixiang", GunType.Single));
+                //React(new ApplyStatusEffectAction<Burst>(base.Owner, new int?(base.Value2), null, null, null, 0f, true));
                 //}
                 return;
             }
