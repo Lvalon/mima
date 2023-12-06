@@ -12,33 +12,33 @@ namespace lvalonmima
     public abstract class toolbox
     {
 
-        public static GlobalLocalization LocalizationCard(DirectorySource dirsorc)
+        public static GlobalLocalization loccard()
         {
-            var loc = new GlobalLocalization(dirsorc);
+            var loc = new GlobalLocalization(BepinexPlugin.embeddedSource);
             loc.LocalizationFiles.AddLocaleFile(Locale.En, "cardEn.yaml");
             return loc;
         }
-        public static GlobalLocalization LocalizationStatus(DirectorySource dirsorc)
+        public static GlobalLocalization locse()
         {
-            var loc = new GlobalLocalization(dirsorc);
+            var loc = new GlobalLocalization(BepinexPlugin.embeddedSource);
             loc.LocalizationFiles.AddLocaleFile(Locale.En, "SEEn.yaml");
             return loc;
         }
-        public static GlobalLocalization LocalizationExhibit(DirectorySource dirsorc)
+        public static GlobalLocalization locex()
         {
-            var loc = new GlobalLocalization(dirsorc);
+            var loc = new GlobalLocalization(BepinexPlugin.embeddedSource);
             loc.LocalizationFiles.AddLocaleFile(Locale.En, "exEn.yaml");
             return loc;
         }
-        public static GlobalLocalization LocalizationUlt(DirectorySource dirsorc)
+        public static GlobalLocalization locbomb()
         {
-            var loc = new GlobalLocalization(dirsorc);
+            var loc = new GlobalLocalization(BepinexPlugin.embeddedSource);
             loc.LocalizationFiles.AddLocaleFile(Locale.En, "bombEn.yaml");
             return loc;
         }
-        public static GlobalLocalization LocalizationPlayer(DirectorySource dirsorc)
+        public static GlobalLocalization locplayer()
         {
-            var loc = new GlobalLocalization(dirsorc);
+            var loc = new GlobalLocalization(BepinexPlugin.embeddedSource);
             loc.LocalizationFiles.AddLocaleFile(Locale.En, "playerEn.yaml");
             return loc;
         }

@@ -30,9 +30,10 @@ namespace lvalonmima
 
         public override LocalizationOption LoadLocalization()
         {
-            var loc = new GlobalLocalization(BepinexPlugin.embeddedSource);
-            loc.LocalizationFiles.AddLocaleFile(LBoL.Core.Locale.En, "SEEn.yaml");
-            return loc;
+            //var loc = new GlobalLocalization(BepinexPlugin.embeddedSource);
+            //loc.LocalizationFiles.AddLocaleFile(LBoL.Core.Locale.En, "SEEn.yaml");
+            //return loc;
+            return toolbox.locse();
         }
 
         public override Sprite LoadSprite()
