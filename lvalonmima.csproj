@@ -321,6 +321,7 @@
 
     <ItemGroup>
       <None Remove="resources\exEn.yaml" />
+      <None Remove="Resources\mimab.png" />
       <None Remove="resources\playerEn.yaml" />
     </ItemGroup>
 
