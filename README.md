@@ -7,3 +7,5 @@ huge thanks to everyone in #modding of the official discord server for helping o
 mima portrait/spellcard portrait by dairi: https://www.pixiv.net/en/users/4920496
 
 mima sprite by hemogurobin a1c: https://www.pixiv.net/en/users/465582
+
+status effect and most card art by walfas <3
