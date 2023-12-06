@@ -20,14 +20,16 @@ using static lvalonmima.SE.evilspiritdef;
 using LBoL.Base.Extensions;
 using LBoL.EntityLib.StatusEffects.Enemy;
 using System.Linq;
+using static lvalonmima.Exhibit.mimaadef;
+using LBoL.Core.Cards;
 
 namespace lvalonmima.Exhibit
 {
-    internal class mimaadef : ExhibitTemplate
+    internal class mimabdef : ExhibitTemplate
     {
         public override IdContainer GetId()
         {
-            return nameof(mimaa);
+            return nameof(mimab);
         }
 
         public override LocalizationOption LoadLocalization()
@@ -61,23 +63,23 @@ namespace lvalonmima.Exhibit
                 LosableType: ExhibitLosableType.DebutLosable,
                 Rarity: Rarity.Shining,
                 Value1: 2,
-                Value2: 1,
-                Value3: 1,
-                Mana: new ManaGroup() { Blue = 1 },
+                Value2: 10,
+                Value3: 2,
+                Mana: new ManaGroup() { Black = 1 },
                 BaseManaRequirement: null,
-                BaseManaColor: ManaColor.Blue,
+                BaseManaColor: ManaColor.Black,
                 BaseManaAmount: 0,
                 HasCounter: false,
                 InitialCounter: 0,
                 Keywords: Keyword.None,
-                RelativeEffects: new List<string>() { "GuangxueMicai", "evilspirit", "Burst" },
+                RelativeEffects: new List<string>() { "Firepower", "evilspirit" },
                 RelativeCards: new List<string>() { }
             );
             return exhibitConfig;
         }
 
-        [EntityLogic(typeof(mimaa))]
-        public sealed class mimaa : ShiningExhibit
+        [EntityLogic(typeof(mimab))]
+        public sealed class mimab : ShiningExhibit
         {
             protected override void OnEnterBattle()
             {
@@ -97,8 +99,8 @@ namespace lvalonmima.Exhibit
                 //base.NotifyActivating();
                 //foreach (var se in Owner.StatusEffects.Where(se => se.Id == "evilspirit"))
                 //{
-                    React(new ApplyStatusEffectAction<Burst>(Owner, base.Value2));
-                    React(new ApplyStatusEffectAction<GuangxueMicai>(Owner, base.Value3));
+                React(new DamageAction(base.Owner, base.Battle.EnemyGroup.Alives, DamageInfo.Attack((float)base.Value2, false), "ExhFeixiang", GunType.Single));
+                React(new ApplyStatusEffectAction<Burst>(Owner, base.Value3));
                 //}
                 return;
             }
