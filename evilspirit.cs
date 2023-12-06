@@ -18,6 +18,7 @@ using LBoL.Core.Battle.BattleActions;
 using LBoL.Base.Extensions;
 using LBoL.Core.Units;
 using LBoL.EntityLib.StatusEffects.Enemy;
+//using static UnityEngine.UI.CanvasScaler;
 
 namespace lvalonmima
 {
@@ -96,12 +97,14 @@ namespace lvalonmima
                     //int num = args.Unit.MaxHp;
                     if (Battle.Player.BaseName == Owner.BaseName)
                     {
+                        this.React(PerformAction.Effect(base.Owner, "JunkoNightmare", 0f, "JunkoNightmare", 0f, PerformAction.EffectBehavior.PlayOneShot, 0f));
                         base.GameRun.SetHpAndMaxHp(base.Owner.MaxHp, base.Owner.MaxHp, false);
                         args.CancelBy(this);
                         this.React(new ApplyStatusEffectAction<DroneBlock>(this.Owner, 3));
                     }
                     else
                     {
+                        this.React(PerformAction.Effect(base.Owner, "JunkoNightmare", 0f, "JunkoNightmare", 0f, PerformAction.EffectBehavior.PlayOneShot, 0f));
                         base.GameRun.SetEnemyHpAndMaxHp(base.Owner.MaxHp, base.Owner.MaxHp, (EnemyUnit)Owner, false);
                         args.CancelBy(this);
                         this.React(new ApplyStatusEffectAction<DroneBlock>(this.Owner, 3));
