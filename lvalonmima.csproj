@@ -320,6 +320,11 @@
 
 
     <ItemGroup>
+      <None Remove="resources\playerEn.yaml" />
+    </ItemGroup>
+
+
+    <ItemGroup>
       <Folder Include="DirResources\" />
     </ItemGroup>
 
