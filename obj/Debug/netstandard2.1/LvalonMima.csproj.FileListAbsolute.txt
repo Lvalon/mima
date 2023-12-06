@@ -210,13 +210,6 @@ C:\Users\e\Downloads\projects\indev\lvalonmima - Copy\obj\Debug\netstandard2.1\l
 C:\Users\e\Downloads\projects\indev\lvalonmima - Copy\obj\Debug\netstandard2.1\lvalonmima.csproj.CopyComplete
 C:\Users\e\Downloads\projects\indev\lvalonmima - Copy\obj\Debug\netstandard2.1\lvalonmima.dll
 C:\Users\e\Downloads\projects\indev\lvalonmima - Copy\obj\Debug\netstandard2.1\lvalonmima.pdb
-Z:\projects\indev\lvalonmima\obj\Debug\netstandard2.1\lvalonmima.csproj.AssemblyReference.cache
-Z:\projects\indev\lvalonmima\obj\Debug\netstandard2.1\lvalonmima.GeneratedMSBuildEditorConfig.editorconfig
-Z:\projects\indev\lvalonmima\obj\Debug\netstandard2.1\lvalonmima.AssemblyInfoInputs.cache
-Z:\projects\indev\lvalonmima\obj\Debug\netstandard2.1\lvalonmima.AssemblyInfo.cs
-Z:\projects\indev\lvalonmima\obj\Debug\netstandard2.1\lvalonmima.csproj.CoreCompileInputs.cache
-Z:\projects\indev\lvalonmima\obj\Debug\netstandard2.1\lvalonmima.dll
-Z:\projects\indev\lvalonmima\obj\Debug\netstandard2.1\lvalonmima.pdb
 Z:\projects\indev\lvalonmima\bin\Debug\netstandard2.1\lvalonmima.deps.json
 Z:\projects\indev\lvalonmima\bin\Debug\netstandard2.1\lvalonmima.dll
 Z:\projects\indev\lvalonmima\bin\Debug\netstandard2.1\lvalonmima.pdb
@@ -315,4 +308,11 @@ Z:\projects\indev\lvalonmima\bin\Debug\netstandard2.1\Unity.Mathematics.dll
 Z:\projects\indev\lvalonmima\bin\Debug\netstandard2.1\Unity.RenderPipeline.Universal.ShaderLibrary.dll
 Z:\projects\indev\lvalonmima\bin\Debug\netstandard2.1\Unity.Burst.dll
 Z:\projects\indev\lvalonmima\bin\Debug\netstandard2.1\Unity.Burst.Unsafe.dll
+Z:\projects\indev\lvalonmima\obj\Debug\netstandard2.1\lvalonmima.csproj.AssemblyReference.cache
+Z:\projects\indev\lvalonmima\obj\Debug\netstandard2.1\lvalonmima.GeneratedMSBuildEditorConfig.editorconfig
+Z:\projects\indev\lvalonmima\obj\Debug\netstandard2.1\lvalonmima.AssemblyInfoInputs.cache
+Z:\projects\indev\lvalonmima\obj\Debug\netstandard2.1\lvalonmima.AssemblyInfo.cs
+Z:\projects\indev\lvalonmima\obj\Debug\netstandard2.1\lvalonmima.csproj.CoreCompileInputs.cache
 Z:\projects\indev\lvalonmima\obj\Debug\netstandard2.1\lvalonmima.csproj.CopyComplete
+Z:\projects\indev\lvalonmima\obj\Debug\netstandard2.1\lvalonmima.dll
+Z:\projects\indev\lvalonmima\obj\Debug\netstandard2.1\lvalonmima.pdb
