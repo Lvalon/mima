@@ -54,7 +54,7 @@ namespace lvalonmima.SE
                 HasLevel: true,
                 LevelStackType: StackType.Add,
                 HasDuration: false,
-                DurationStackType: StackType.Add,
+                DurationStackType: null,
                 DurationDecreaseTiming: DurationDecreaseTiming.Custom,
                 HasCount: false,
                 CountStackType: StackType.Keep,
@@ -121,22 +121,15 @@ namespace lvalonmima.SE
             //it works
             private IEnumerable<BattleAction> OnRoundEnding(GameEventArgs args)
             {
-                if (IsAutoDecreasing)
+                int num = Level - 1;
+                Level = num;
+                if (Level == 0)
                 {
-                    int num = Level - 1;
-                    Level = num;
-                    if (Level == 0)
-                    {
-                        NotifyActivating();
-                        yield return new ForceKillAction(Owner, Owner);
-                        yield return new RemoveStatusEffectAction(this, true);
-                        //args.ActionSource != this
-                        yield break;
-                    }
-                }
-                else
-                {
-                    IsAutoDecreasing = true;
+                    NotifyActivating();
+                    yield return new ForceKillAction(Owner, Owner);
+                    yield return new RemoveStatusEffectAction(this, true);
+                    //args.ActionSource != this
+                    yield break;
                 }
                 yield break;
             }
