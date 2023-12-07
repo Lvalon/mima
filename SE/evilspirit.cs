@@ -30,9 +30,6 @@ namespace lvalonmima.SE
 
         public override LocalizationOption LoadLocalization()
         {
-            //var loc = new GlobalLocalization(BepinexPlugin.embeddedSource);
-            //loc.LocalizationFiles.AddLocaleFile(LBoL.Core.Locale.En, "SEEn.yaml");
-            //return loc;
             return toolbox.locse();
         }
 
@@ -44,7 +41,7 @@ namespace lvalonmima.SE
         public override StatusEffectConfig MakeConfig()
         {
             var statusEffectConfig = new StatusEffectConfig(
-                Index: 87450,
+                Index: 0,
                 Id: "",
                 Order: 1,
                 Type: StatusEffectType.Special,
