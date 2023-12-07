@@ -69,7 +69,7 @@ namespace lvalonmima.Exhibit
                 Mana: new ManaGroup() { Black = 1 },
                 BaseManaRequirement: null,
                 BaseManaColor: ManaColor.Black,
-                BaseManaAmount: 0,
+                BaseManaAmount: 1,
                 HasCounter: false,
                 InitialCounter: null,
                 Keywords: Keyword.None,
