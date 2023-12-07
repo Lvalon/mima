@@ -64,7 +64,7 @@ namespace lvalonmima.Exhibit
                 Rarity: Rarity.Shining,
                 Value1: 2,
                 Value2: 10,
-                Value3: 1,
+                Value3: 2,
                 Mana: new ManaGroup() { Black = 1 },
                 BaseManaRequirement: null,
                 BaseManaColor: ManaColor.Black,
