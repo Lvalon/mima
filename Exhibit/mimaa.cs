@@ -21,6 +21,7 @@ using LBoL.Base.Extensions;
 using LBoL.EntityLib.StatusEffects.Enemy;
 using System.Linq;
 using LBoL.Core.Randoms;
+using static lvalonmima.SE.transmigrateddef;
 
 namespace lvalonmima.Exhibit
 {
@@ -71,7 +72,7 @@ namespace lvalonmima.Exhibit
                 HasCounter: false,
                 InitialCounter: null,
                 Keywords: Keyword.None,
-                RelativeEffects: new List<string>() { "evilspirit", "Burst" },
+                RelativeEffects: new List<string>() { "evilspirit", "transmigrated" },
                 RelativeCards: new List<string>() { }
             );
             return exhibitConfig;
@@ -108,7 +109,7 @@ namespace lvalonmima.Exhibit
                 if (Owner.Hp >= oghp && ogdmg > 0 && oghp <= ogdmg)
                 {
                     base.NotifyActivating();
-                    React(new ApplyStatusEffectAction<Burst>(base.Owner, new int?(base.Value2), null, null, null, 0f, true));
+                    React(new ApplyStatusEffectAction<transmigrated>(base.Owner, new int?(base.Value2), null, null, null, 0f, true));
                 }
             }
 
