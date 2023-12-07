@@ -70,7 +70,7 @@ namespace lvalonmima.Exhibit
                 HasCounter: false,
                 InitialCounter: null,
                 Keywords: Keyword.None,
-                RelativeEffects: new List<string>() { "GuangxueMicai", "evilspirit", "Burst" },
+                RelativeEffects: new List<string>() { "evilspirit", "Burst" },
                 RelativeCards: new List<string>() { }
             );
             return exhibitConfig;
