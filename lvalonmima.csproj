@@ -328,7 +328,9 @@
 
 
     <ItemGroup>
-      <Folder Include="DirResources\" />
+      <EmbeddedResource Include="DirResources\playermimabomb.png" />
+      <EmbeddedResource Include="DirResources\playermimaportrait.png" />
+      <EmbeddedResource Include="DirResources\playermimasprite.png" />
     </ItemGroup>
 
 

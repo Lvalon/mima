@@ -3,6 +3,6 @@ evilspirit:
   Brief: "When defeated, heal to maximum Life, then gain |Evil Spirit| and |Defense Matrix|.\nAt the end of each round, lose 1 |Evil Spirit|. Lose the game on losing all levels.\nHeal to maximum life after each combat."
   Name: Evil Spirit
 transmigrated:
-  Description: "Take 50% more damage. Attacks deal 5 more damage.\nAt the end of each round, lose 1 |Transmigrated|."
-  Brief: "Take 50% more damage. Attacks deal 5 more damage.\nAt the end of each round, lose 1 |Transmigrated|."
+  Description: "Take 50% more damage.\nAttacks deal 5 more damage.\nAt the end of each round, lose 1 |Transmigrated|."
+  Brief: "Take 50% more damage.\nAttacks deal 5 more damage.\nAt the end of each round, lose 1 |Transmigrated|."
   Name: Transmigrated
