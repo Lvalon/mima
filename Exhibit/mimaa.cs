@@ -20,6 +20,7 @@ using static lvalonmima.SE.evilspiritdef;
 using LBoL.Base.Extensions;
 using LBoL.EntityLib.StatusEffects.Enemy;
 using System.Linq;
+using LBoL.Core.Randoms;
 
 namespace lvalonmima.Exhibit
 {
@@ -79,38 +80,53 @@ namespace lvalonmima.Exhibit
         [EntityLogic(typeof(mimaadef))]
         public sealed class mimaa : ShiningExhibit
         {
+            private int oghp;
+            private int ogdmg;
+
             protected override void OnEnterBattle()
             {
                 base.ReactBattleEvent<GameEventArgs>(base.Battle.BattleStarted, new EventSequencedReactor<GameEventArgs>(this.OnBattleStarted));
-                //base.HandleGameRunEvent(Owner.Dying, new GameEventHandler<DieEventArgs>(OnDying));
-                //StatusEffect.HandleOwnerEvent(Owner.Dying, new GameEventHandler<DieEventArgs>(OnDying));
+                base.HandleBattleEvent<DamageEventArgs>(base.Battle.Player.DamageTaking, new GameEventHandler<DamageEventArgs>(this.OnPlayerDamageTaking));
+                base.HandleBattleEvent<DamageEventArgs>(base.Battle.Player.DamageReceived, new GameEventHandler<DamageEventArgs>(this.OnPlayerDamageReceived));
             }
 
             private IEnumerable<BattleAction> OnBattleStarted(GameEventArgs args)
             {
                 base.NotifyActivating();
-                //int? duration = new int?(1);
                 yield return new ApplyStatusEffectAction<evilspirit>(base.Owner, new int?(base.Value1), null, null, null, 0f, true);
-                yield return new ApplyStatusEffectAction<Burst>(base.Owner, new int?(base.Value2), null, null, null, 0f, true);
-                //yield return new ApplyStatusEffectAction<GuangxueMicai>(base.Owner, duration, null, null, null, 0f, true);
                 yield break;
             }
 
-            private void OnDying(DieEventArgs args)
+            private void OnPlayerDamageTaking(DamageEventArgs args)
             {
+                oghp = Owner.Hp;
+                ogdmg = args.DamageInfo.Damage.RoundToInt();
+            }
+
+            private void OnPlayerDamageReceived(DamageEventArgs args)
+            {
+                if (Owner.Hp >= oghp && ogdmg > 0 && oghp <= ogdmg)
+                {
+                    base.NotifyActivating();
+                    React(new ApplyStatusEffectAction<Burst>(base.Owner, new int?(base.Value2), null, null, null, 0f, true));
+                }
+            }
+
+            //private void OnDying(DieEventArgs args)
+            //{
                 //base.NotifyActivating();
                 //foreach (var se in Owner.StatusEffects.Where(se => se.Id == "evilspirit"))
                 //{
-                GameRun.SetHpAndMaxHp(Owner.MaxHp, Owner.MaxHp, false);
-                args.CancelBy(this);
+                //GameRun.SetHpAndMaxHp(Owner.MaxHp, Owner.MaxHp, false);
+                //args.CancelBy(this);
 
                 //React(new ApplyStatusEffectAction<Burst>(base.Owner, new int?(base.Value2), null, null, null, 0f, true));
                 //React(new ApplyStatusEffectAction<GuangxueMicai>(base.Owner, new int?(base.Value3), null, null, null, 0f, true));
                 //}
                 //React(new ApplyStatusEffectAction<Burst>(Owner, base.Value2));
                 //React(new ApplyStatusEffectAction<GuangxueMicai>(Owner, base.Value3));
-                return;
-            }
+                //return;
+            //}
         }
     }
 }
