@@ -94,7 +94,6 @@ namespace lvalonmima.SE
                 if (args.ActionSource != this)
                 {
                     NotifyActivating();
-                    //int num = args.Unit.MaxHp;
                     if (Battle.Player.BaseName == Owner.BaseName)
                     {
                         React(PerformAction.Effect(Owner, "JunkoNightmare", 0f, "JunkoNightmare", 0f, PerformAction.EffectBehavior.PlayOneShot, 0f));
@@ -128,7 +127,6 @@ namespace lvalonmima.SE
                     NotifyActivating();
                     yield return new ForceKillAction(Owner, Owner);
                     yield return new RemoveStatusEffectAction(this, true);
-                    //args.ActionSource != this
                     yield break;
                 }
                 yield break;

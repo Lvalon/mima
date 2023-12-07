@@ -22,6 +22,7 @@ using LBoL.EntityLib.StatusEffects.Enemy;
 using System.Linq;
 using static lvalonmima.Exhibit.mimaadef;
 using LBoL.Core.Cards;
+using LBoL.EntityLib.StatusEffects.Enemy.SeijaItems;
 
 namespace lvalonmima.Exhibit
 {
@@ -63,8 +64,8 @@ namespace lvalonmima.Exhibit
                 LosableType: ExhibitLosableType.DebutLosable,
                 Rarity: Rarity.Shining,
                 Value1: 2,
-                Value2: 10,
-                Value3: 2,
+                Value2: 2,
+                Value3: 10,
                 Mana: new ManaGroup() { Black = 1 },
                 BaseManaRequirement: null,
                 BaseManaColor: ManaColor.Black,
@@ -72,7 +73,7 @@ namespace lvalonmima.Exhibit
                 HasCounter: false,
                 InitialCounter: null,
                 Keywords: Keyword.None,
-                RelativeEffects: new List<string>() { "Firepower", "evilspirit" },
+                RelativeEffects: new List<string>() { "evilspirit", "firepower" },
                 RelativeCards: new List<string>() { }
             );
             return exhibitConfig;
@@ -81,30 +82,41 @@ namespace lvalonmima.Exhibit
         [EntityLogic(typeof(mimabdef))]
         public sealed class mimab : ShiningExhibit
         {
+            private int oghp;
+            private int ogdmg;
+
             protected override void OnEnterBattle()
             {
                 base.ReactBattleEvent<GameEventArgs>(base.Battle.BattleStarted, new EventSequencedReactor<GameEventArgs>(this.OnBattleStarted));
-                //base.HandleGameRunEvent(Owner.Dying, new GameEventHandler<DieEventArgs>(OnDying));
+                base.HandleBattleEvent<DamageEventArgs>(base.Battle.Player.DamageTaking, new GameEventHandler<DamageEventArgs>(this.OnPlayerDamageTaking));
+                base.HandleBattleEvent<DamageEventArgs>(base.Battle.Player.DamageReceived, new GameEventHandler<DamageEventArgs>(this.OnPlayerDamageReceived));
             }
 
             private IEnumerable<BattleAction> OnBattleStarted(GameEventArgs args)
             {
                 base.NotifyActivating();
                 yield return new ApplyStatusEffectAction<evilspirit>(base.Owner, new int?(base.Value1), null, null, null, 0f, true);
-                //yield return new DamageAction(base.Owner, base.Battle.EnemyGroup.Alives, DamageInfo.Attack((float)base.Value2, false), "ExhFeixiang", GunType.Single);
-                yield return new ApplyStatusEffectAction<Firepower>(base.Owner, new int?(base.Value3), null, null, null, 0f, true);
                 yield break;
             }
 
+            private void OnPlayerDamageTaking(DamageEventArgs args)
+            {
+                oghp = Owner.Hp;
+                ogdmg = args.DamageInfo.Damage.RoundToInt();
+            }
+
+            private void OnPlayerDamageReceived(DamageEventArgs args)
+            {
+                if (Owner.Hp >= oghp && ogdmg > 0 && oghp <= ogdmg)
+                {
+                    base.NotifyActivating();
+                    React(new ApplyStatusEffectAction<Firepower>(base.Owner, new int?(base.Value2), null, null, null, 0f, true));
+                    React(new DamageAction(base.Owner, base.Battle.EnemyGroup.Alives, DamageInfo.Attack((float)base.Value3, false), "InfinityGemsSe1", GunType.Single));//ExhFeixiang
+                }
+            }
 
             private void OnDying(DieEventArgs args)
             {
-                //base.NotifyActivating();
-                //foreach (var se in Owner.StatusEffects.Where(se => se.Id == "evilspirit"))
-                //{
-                //React(new DamageAction(base.Owner, base.Battle.EnemyGroup.Alives, DamageInfo.Attack((float)base.Value2, false), "ExhFeixiang", GunType.Single));
-                //React(new ApplyStatusEffectAction<Burst>(base.Owner, new int?(base.Value2), null, null, null, 0f, true));
-                //}
                 return;
             }
         }
