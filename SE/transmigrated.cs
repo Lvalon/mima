@@ -89,7 +89,7 @@ namespace lvalonmima.SE
                 HandleOwnerEvent<DamageDealingEventArgs>(unit.DamageDealing, new GameEventHandler<DamageDealingEventArgs>(this.OnDamageDealing));
                 HandleOwnerEvent<DamageEventArgs>(unit.DamageReceiving, new GameEventHandler<DamageEventArgs>(this.OnDamageReceiving));
                 ReactOwnerEvent(Battle.RoundEnding, new EventSequencedReactor<GameEventArgs>(OnRoundEnding));
-                React(PerformAction.Effect(unit, "JinHua", 0f, null, 0f, PerformAction.EffectBehavior.PlayOneShot, 0f));
+                React(PerformAction.Effect(unit, "JingHua", 0f, "", 0f, PerformAction.EffectBehavior.PlayOneShot, 0f));
             }
 
             private void OnDamageDealing(DamageDealingEventArgs args)
