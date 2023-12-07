@@ -47,7 +47,7 @@ namespace lvalonmima.SE
                 Index: 87450,
                 Id: "",
                 Order: 1,
-                Type: StatusEffectType.Positive,
+                Type: StatusEffectType.Special,
                 IsVerbose: true,
                 IsStackable: true,
                 StackActionTriggerLevel: null,
