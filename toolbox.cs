@@ -3,6 +3,7 @@ using LBoL.Core;
 using LBoL.Core.Battle.BattleActions;
 using LBoL.Core.Cards;
 using LBoLEntitySideloader.Resource;
+using Mono.Cecil;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -14,7 +15,11 @@ namespace lvalonmima
 {
     public abstract class toolbox
     {
+        //CARD IMG
 
+        //var imgs = new CardImages(embeddedSource);
+        //imgs.AutoLoad(this, extension: ".png");
+        //    return imgs;
         public static GlobalLocalization loccard()
         {
             var loc = new GlobalLocalization(BepinexPlugin.embeddedSource);
