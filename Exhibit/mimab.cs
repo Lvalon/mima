@@ -23,6 +23,7 @@ using System.Linq;
 using static lvalonmima.Exhibit.mimaadef;
 using LBoL.Core.Cards;
 using LBoL.EntityLib.StatusEffects.Enemy.SeijaItems;
+using LBoL.EntityLib.Mixins;
 
 namespace lvalonmima.Exhibit
 {
@@ -93,12 +94,45 @@ namespace lvalonmima.Exhibit
                 base.HandleBattleEvent<DamageEventArgs>(base.Battle.Player.DamageReceived, new GameEventHandler<DamageEventArgs>(this.OnPlayerDamageReceived));
                 base.HandleBattleEvent<StatusEffectApplyEventArgs>(base.Battle.Player.StatusEffectAdded, new GameEventHandler<StatusEffectApplyEventArgs>(this.OnStatusEffectAdded), (GameEventPriority)0);
                 base.HandleBattleEvent<StatusEffectEventArgs>(base.Battle.Player.StatusEffectRemoved, new GameEventHandler<StatusEffectEventArgs>(this.OnStatusEffectRemoved), (GameEventPriority)0);
+                base.ReactBattleEvent<GameEventArgs>(base.Battle.BattleEnding, new EventSequencedReactor<GameEventArgs>(this.OnBattleEnding));
+                DamageInfo damageInfo = DamageInfo.Attack(Value3, false);
+                BattleController battle = Battle;
+                int counter = battle.CalculateDamage(this, Battle.Player, null, DamageInfo.Attack(Value3, false));
+                if (counter > 99)
+                {
+                    base.Counter = 99;
+                }
+                else
+                {
+                    base.Counter = battle.CalculateDamage(this, Battle.Player, null, DamageInfo.Attack(Value3, false));
+                }
+            }
+
+            public int dmgshown
+            {
+                get
+                {
+                    if (this.Battle == null)
+                    {
+                        return 10;
+                    }
+                    else
+                    {
+                        return Battle.CalculateDamage(this, Battle.Player, null, DamageInfo.Attack(Value3, false));
+                    }
+                }
             }
 
             private IEnumerable<BattleAction> OnBattleStarted(GameEventArgs args)
             {
                 base.NotifyActivating();
                 yield return new ApplyStatusEffectAction<evilspirit>(base.Owner, new int?(base.Value1), null, null, null, 0f, true);
+                yield break;
+            }
+
+            private IEnumerable<BattleAction> OnBattleEnding(GameEventArgs args)
+            {
+                base.Counter = 10;
                 yield break;
             }
 
@@ -114,19 +148,37 @@ namespace lvalonmima.Exhibit
                 if (Owner.Hp == Owner.MaxHp && ogdmg > 0 && ((oghp - ogdmg != Owner.Hp - ogdmg) || ogdmg >= ogmax))
                 {
                     base.NotifyActivating();
-                    React(new DamageAction(base.Owner, base.Battle.EnemyGroup.Alives, DamageInfo.Attack((float)base.Value3, false), "InfinityGemsSe1", GunType.Single));//ExhFeixiang
+                    React(new DamageAction(base.Owner, base.Battle.EnemyGroup.Alives, DamageInfo.Attack(Value3, false), "InfinityGemsSe1", GunType.Single));//ExhFeixiang
                     React(new ApplyStatusEffectAction<Firepower>(base.Owner, new int?(base.Value2), null, null, null, 0f, true));
                 }
             }
 
             private void OnStatusEffectRemoved(StatusEffectEventArgs args)
             {
-                base.Counter = base.Counter;
+                BattleController battle = Battle;
+                int counter = battle.CalculateDamage(this, Battle.Player, null, DamageInfo.Attack(Value3, false));
+                if (counter > 99)
+                {
+                    base.Counter = 99;
+                }
+                else
+                {
+                    base.Counter = battle.CalculateDamage(this, Battle.Player, null, DamageInfo.Attack(Value3, false));
+                }
             }
 
             private void OnStatusEffectAdded(StatusEffectApplyEventArgs args)
             {
-                base.Counter = base.Counter;
+                BattleController battle = Battle;
+                int counter = battle.CalculateDamage(this, Battle.Player, null, DamageInfo.Attack(Value3, false));
+                if (counter > 99)
+                {
+                    base.Counter = 99;
+                }
+                else
+                {
+                    base.Counter = battle.CalculateDamage(this, Battle.Player, null, DamageInfo.Attack(Value3, false));
+                }
             }
         }
     }
