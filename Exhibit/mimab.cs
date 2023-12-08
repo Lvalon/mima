@@ -70,8 +70,8 @@ namespace lvalonmima.Exhibit
                 BaseManaRequirement: null,
                 BaseManaColor: ManaColor.Black,
                 BaseManaAmount: 1,
-                HasCounter: false,
-                InitialCounter: null,
+                HasCounter: true,
+                InitialCounter: 10,
                 Keywords: Keyword.None,
                 RelativeEffects: new List<string>() { "evilspirit", "Firepower" },
                 RelativeCards: new List<string>() { }
@@ -83,6 +83,7 @@ namespace lvalonmima.Exhibit
         public sealed class mimab : ShiningExhibit
         {
             private int oghp;
+            private int ogmax;
             private int ogdmg;
 
             protected override void OnEnterBattle()
@@ -90,6 +91,8 @@ namespace lvalonmima.Exhibit
                 base.ReactBattleEvent<GameEventArgs>(base.Battle.BattleStarted, new EventSequencedReactor<GameEventArgs>(this.OnBattleStarted));
                 base.HandleBattleEvent<DamageEventArgs>(base.Battle.Player.DamageTaking, new GameEventHandler<DamageEventArgs>(this.OnPlayerDamageTaking));
                 base.HandleBattleEvent<DamageEventArgs>(base.Battle.Player.DamageReceived, new GameEventHandler<DamageEventArgs>(this.OnPlayerDamageReceived));
+                base.HandleBattleEvent<StatusEffectApplyEventArgs>(base.Battle.Player.StatusEffectAdded, new GameEventHandler<StatusEffectApplyEventArgs>(this.OnStatusEffectAdded), (GameEventPriority)0);
+                base.HandleBattleEvent<StatusEffectEventArgs>(base.Battle.Player.StatusEffectRemoved, new GameEventHandler<StatusEffectEventArgs>(this.OnStatusEffectRemoved), (GameEventPriority)0);
             }
 
             private IEnumerable<BattleAction> OnBattleStarted(GameEventArgs args)
@@ -102,22 +105,28 @@ namespace lvalonmima.Exhibit
             private void OnPlayerDamageTaking(DamageEventArgs args)
             {
                 oghp = Owner.Hp;
+                ogmax = Owner.MaxHp;
                 ogdmg = args.DamageInfo.Damage.RoundToInt();
             }
 
             private void OnPlayerDamageReceived(DamageEventArgs args)
             {
-                if (Owner.Hp >= oghp && ogdmg > 0 && oghp <= ogdmg)
+                if (Owner.Hp == Owner.MaxHp && ogdmg > 0 && ((oghp - ogdmg != Owner.Hp - ogdmg) || ogdmg >= ogmax))
                 {
                     base.NotifyActivating();
-                    React(new ApplyStatusEffectAction<Firepower>(base.Owner, new int?(base.Value2), null, null, null, 0f, true));
                     React(new DamageAction(base.Owner, base.Battle.EnemyGroup.Alives, DamageInfo.Attack((float)base.Value3, false), "InfinityGemsSe1", GunType.Single));//ExhFeixiang
+                    React(new ApplyStatusEffectAction<Firepower>(base.Owner, new int?(base.Value2), null, null, null, 0f, true));
                 }
             }
 
-            private void OnDying(DieEventArgs args)
+            private void OnStatusEffectRemoved(StatusEffectEventArgs args)
             {
-                return;
+                base.Counter = base.Counter;
+            }
+
+            private void OnStatusEffectAdded(StatusEffectApplyEventArgs args)
+            {
+                base.Counter = base.Counter;
             }
         }
     }

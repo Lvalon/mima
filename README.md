@@ -4,6 +4,8 @@ made with love and unhingedness by lvalon
 
 huge thanks to everyone in #modding of the official discord server for helping out and stuff~
 
+and diddy for a bit of reactor support: https://github.com/diddykong27
+
 mima portrait/spellcard portrait by dairi: https://www.pixiv.net/en/users/4920496
 
 mima sprite by hemogurobin a1c: https://www.pixiv.net/en/users/465582
