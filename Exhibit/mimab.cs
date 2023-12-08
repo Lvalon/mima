@@ -97,14 +97,14 @@ namespace lvalonmima.Exhibit
                 base.ReactBattleEvent<GameEventArgs>(base.Battle.BattleEnding, new EventSequencedReactor<GameEventArgs>(this.OnBattleEnding));
                 DamageInfo damageInfo = DamageInfo.Attack(Value3, false);
                 BattleController battle = Battle;
-                int counter = battle.CalculateDamage(this, Battle.Player, null, DamageInfo.Attack(Value3, false));
+                int counter = battle.CalculateDamage(this, Battle.Player, null, DamageInfo.Attack(Value3, true));
                 if (counter > 99)
                 {
                     base.Counter = 99;
                 }
                 else
                 {
-                    base.Counter = battle.CalculateDamage(this, Battle.Player, null, DamageInfo.Attack(Value3, false));
+                    base.Counter = battle.CalculateDamage(this, Battle.Player, null, DamageInfo.Attack(Value3, true));
                 }
             }
 
@@ -118,7 +118,7 @@ namespace lvalonmima.Exhibit
                     }
                     else
                     {
-                        return Battle.CalculateDamage(this, Battle.Player, null, DamageInfo.Attack(Value3, false));
+                        return Battle.CalculateDamage(this, Battle.Player, null, DamageInfo.Attack(Value3, true));
                     }
                 }
             }
@@ -148,7 +148,7 @@ namespace lvalonmima.Exhibit
                 if (Owner.Hp == Owner.MaxHp && ogdmg > 0 && ((oghp - ogdmg != Owner.Hp - ogdmg) || ogdmg >= ogmax))
                 {
                     base.NotifyActivating();
-                    React(new DamageAction(base.Owner, base.Battle.EnemyGroup.Alives, DamageInfo.Attack(Value3, false), "InfinityGemsSe1", GunType.Single));//ExhFeixiang
+                    React(new DamageAction(base.Owner, base.Battle.EnemyGroup.Alives, DamageInfo.Attack(Value3, true), "InfinityGemsSe1", GunType.Single));//ExhFeixiang
                     React(new ApplyStatusEffectAction<Firepower>(base.Owner, new int?(base.Value2), null, null, null, 0f, true));
                 }
             }
@@ -156,28 +156,28 @@ namespace lvalonmima.Exhibit
             private void OnStatusEffectRemoved(StatusEffectEventArgs args)
             {
                 BattleController battle = Battle;
-                int counter = battle.CalculateDamage(this, Battle.Player, null, DamageInfo.Attack(Value3, false));
+                int counter = battle.CalculateDamage(this, Battle.Player, null, DamageInfo.Attack(Value3, true));
                 if (counter > 99)
                 {
                     base.Counter = 99;
                 }
                 else
                 {
-                    base.Counter = battle.CalculateDamage(this, Battle.Player, null, DamageInfo.Attack(Value3, false));
+                    base.Counter = battle.CalculateDamage(this, Battle.Player, null, DamageInfo.Attack(Value3, true));
                 }
             }
 
             private void OnStatusEffectAdded(StatusEffectApplyEventArgs args)
             {
                 BattleController battle = Battle;
-                int counter = battle.CalculateDamage(this, Battle.Player, null, DamageInfo.Attack(Value3, false));
+                int counter = battle.CalculateDamage(this, Battle.Player, null, DamageInfo.Attack(Value3, true));
                 if (counter > 99)
                 {
                     base.Counter = 99;
                 }
                 else
                 {
-                    base.Counter = battle.CalculateDamage(this, Battle.Player, null, DamageInfo.Attack(Value3, false));
+                    base.Counter = battle.CalculateDamage(this, Battle.Player, null, DamageInfo.Attack(Value3, true));
                 }
             }
         }
