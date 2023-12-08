@@ -77,6 +77,7 @@ namespace lvalonmima.SE
             {
                 HandleOwnerEvent(Owner.Dying, new GameEventHandler<DieEventArgs>(OnDying));
                 ReactOwnerEvent(Battle.RoundEnding, new EventSequencedReactor<GameEventArgs>(OnRoundEnding));
+                base.HandleOwnerEvent<UnitEventArgs>(base.Owner.TurnStarting, new GameEventHandler<UnitEventArgs>(this.OnOwnerTurnStarting));
                 ReactOwnerEvent(Battle.BattleEnding, new EventSequencedReactor<GameEventArgs>(OnBattleEnding));
                 React(PerformAction.Effect(unit, "JunkoNightmare", 0f, "JunkoNightmare", 0f, PerformAction.EffectBehavior.PlayOneShot, 0f));
                 React(PerformAction.Effect(unit, "JunkoNightmare", 1f, "", 0f, PerformAction.EffectBehavior.PlayOneShot, 0f));
@@ -91,6 +92,7 @@ namespace lvalonmima.SE
                 if (args.ActionSource != this)
                 {
                     NotifyActivating();
+                    React(PerformAction.Effect(Owner, "JinziMirror", 3f, "", 1f, PerformAction.EffectBehavior.Add, 0f));
                     if (Battle.Player.BaseName == Owner.BaseName)
                     {
                         React(PerformAction.Effect(Owner, "JunkoNightmare", 0f, "JunkoNightmare", 0f, PerformAction.EffectBehavior.PlayOneShot, 0f));
@@ -138,6 +140,12 @@ namespace lvalonmima.SE
                     yield return new HealAction(Owner, Owner, Owner.MaxHp, HealType.Normal, 0.2f);
                 }
                 yield break;
+            }
+
+            //effect readd
+            private void OnOwnerTurnStarting(UnitEventArgs args)
+            {
+                React(PerformAction.Effect(Owner, "JinziMirror", 3f, "", 1f, PerformAction.EffectBehavior.Add, 0f));
             }
         }
     }
