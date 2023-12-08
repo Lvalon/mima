@@ -50,7 +50,7 @@ namespace lvalonmima.Player
             Order: 0,
             UnlockLevel: 0,
             ModleName: "",
-            NarrativeColor: "#e58c27",
+            NarrativeColor: "#ffffff",
             IsSelectable: true,
             MaxHp: 40,
             InitialMana: new LBoL.Base.ManaGroup() { Blue = 2, Black = 2 },
