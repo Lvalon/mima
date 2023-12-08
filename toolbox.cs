@@ -1,11 +1,14 @@
 ﻿using LBoL.Base.Extensions;
 using LBoL.Core;
+using LBoL.Core.Battle.BattleActions;
 using LBoL.Core.Cards;
 using LBoLEntitySideloader.Resource;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Xml.Serialization;
+using static lvalonmima.SE.transmigrateddef;
+using static UnityEngine.UI.GridLayoutGroup;
 
 namespace lvalonmima
 {
@@ -42,5 +45,25 @@ namespace lvalonmima
             loc.LocalizationFiles.AddLocaleFile(Locale.En, "playerEn.yaml");
             return loc;
         }
+        //ONREVIVE
+
+        //private int oghp;
+        //private int ogmax;
+        //private int ogdmg;
+
+        //private void OnPlayerDamageTaking(DamageEventArgs args)
+        //{
+        //    oghp = Owner.Hp;
+        //    ogmax = Owner.MaxHp;
+        //    ogdmg = args.DamageInfo.Damage.RoundToInt();
+        //}
+
+        //private void OnPlayerDamageReceived(DamageEventArgs args)
+        //{
+        //    if (Owner.Hp == Owner.MaxHp && ogdmg > 0 && ((oghp - ogdmg != Owner.Hp - ogdmg) || ogdmg >= ogmax))
+        //    {
+        //        base.NotifyActivating();
+        //    }
+        //}
     }
 }

@@ -82,6 +82,7 @@ namespace lvalonmima.Exhibit
         public sealed class mimaa : ShiningExhibit
         {
             private int oghp;
+            private int ogmax;
             private int ogdmg;
 
             protected override void OnEnterBattle()
@@ -101,12 +102,13 @@ namespace lvalonmima.Exhibit
             private void OnPlayerDamageTaking(DamageEventArgs args)
             {
                 oghp = Owner.Hp;
+                ogmax = Owner.MaxHp;
                 ogdmg = args.DamageInfo.Damage.RoundToInt();
             }
 
             private void OnPlayerDamageReceived(DamageEventArgs args)
             {
-                if (Owner.Hp >= oghp && ogdmg > 0 && oghp <= ogdmg)
+                if (Owner.Hp == Owner.MaxHp && ogdmg > 0 && ((oghp - ogdmg != Owner.Hp - ogdmg) || ogdmg >= ogmax))
                 {
                     base.NotifyActivating();
                     React(new ApplyStatusEffectAction<transmigrated>(base.Owner, new int?(base.Value2), null, null, null, 0f, true));
