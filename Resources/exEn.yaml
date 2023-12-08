@@ -1,14 +1,14 @@
 mimaa:
-  Description: |-
+  Description:
     Adds {BaseMana} to the mana base. Cards unique to |Mima| are added to the card pool.
     At the start of combat, {PlayerName} gains {Value1} |Evil Spirit|.
     Whenever {PlayerName} is defeated, become |Transmigrated|.
   Name: Reincarnation
   FlavorText: I die with the dying. I'm born with the dead!
 mimab:
-  Description: |-
+  Description:
     Adds {BaseMana} to the mana base. Cards unique to |Mima| are added to the card pool.
     At the start of combat, {PlayerName} gains {Value1} |Evil Spirit|.
-    Whenever {PlayerName} is defeated, deal {Counter} |Accurate| attack damage to each enemy and gain {Value2} |Firepower|.
+    Whenever {PlayerName} is defeated, deal {dmgshown} |Accurate| attack damage to each enemy and gain {Value2} |Firepower|.
   Name: Vengeful Nature
   FlavorText: "It's not An eye for an eye when you're against an evil spirit. Evil Field!"
