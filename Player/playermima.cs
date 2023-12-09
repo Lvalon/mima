@@ -79,7 +79,10 @@ namespace lvalonmima.Player
 
         public override IdContainer GetId() => new playermima().UniqueId;
 
-        public override LocalizationOption LoadLocalization() => new DirectLocalization(new Dictionary<string, object>() { { "Default", "Mima" }, { "Short", "Mima" } });
+        public override LocalizationOption LoadLocalization()
+        {
+            return toolbox.locmodel();
+        }
 
         public override ModelOption LoadModelOptions()
         {
