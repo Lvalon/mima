@@ -6,3 +6,4 @@ cardmarisaskill:
   Description: Discover 2 Marisa cards.
   Name: Achievements of the Apprentice
   FlavorText: how work
+  DetailText: These |e:alternate cards| ignore total mana and mana color restrictions.
