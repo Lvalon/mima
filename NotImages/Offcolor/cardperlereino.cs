@@ -16,8 +16,12 @@ using System.Linq;
 using UnityEngine;
 using static lvalonmima.BepinexPlugin;
 using LBoL.Core.Units;
+using System.Xml.Linq;
+using static lvalonmima.SE.evilspiritdef;
+using Unity.IO.LowLevel.Unsafe;
+using LBoL.EntityLib.StatusEffects.Cirno;
 
-namespace lvalonmima.Card.Offcolor
+namespace lvalonmima.NotImages.Offcolor
 {
     public sealed class cardperlereinodef : CardTemplate
     {
@@ -58,7 +62,7 @@ namespace lvalonmima.Card.Offcolor
                TargetType: TargetType.All,
                Colors: new List<ManaColor>() { ManaColor.Blue, ManaColor.Black, ManaColor.White },
                IsXCost: false,
-               Cost: new ManaGroup() { Colorless = 2, Blue = 1, Black = 1, White = 1 },
+               Cost: new ManaGroup() { Any = 2, Blue = 1, Black = 1, White = 1 },
                UpgradedCost: new ManaGroup() { Blue = 1, Black = 1, White = 1 },
                MoneyCost: null,
                Damage: null,
@@ -67,9 +71,9 @@ namespace lvalonmima.Card.Offcolor
                UpgradedBlock: null,
                Shield: null,
                UpgradedShield: null,
-               Value1: 2,
-               UpgradedValue1: 3,
-               Value2: 1,
+               Value1: null,
+               UpgradedValue1: null,
+               Value2: null,
                UpgradedValue2: null,
                Mana: new ManaGroup() { Any = 0 },
                UpgradedMana: null,
@@ -95,7 +99,7 @@ namespace lvalonmima.Card.Offcolor
                UpgradedRelativeEffects: new List<string>() { "evilspirit", "Invincible" },
                RelativeCards: new List<string>() { },
                UpgradedRelativeCards: new List<string>() { },
-               Owner: null,
+               Owner: "Mima",
                ImageId: "",
                UpgradeImageId: "",
                Unfinished: false,
@@ -108,6 +112,27 @@ namespace lvalonmima.Card.Offcolor
         [EntityLogic(typeof(cardperlereinodef))]
         public sealed class cardperlereino : Card
         {
+            protected override IEnumerable<BattleAction> Actions(UnitSelector selector, ManaGroup consumingMana, Interaction precondition)
+            {
+                //yield return base.BuffAction<Invincible>(0, base.Value1, 0, 0, 0.2f);
+                //yield return base.BuffAction<evilspirit>(0, base.Value1, 0, 0, 0.2f);
+                log.LogDebug("actions entered");
+                int buff = 0;
+                foreach (Unit target in selector.GetUnits(base.Battle))
+                {
+                    log.LogDebug(target);
+                    foreach (StatusEffect status in target.StatusEffects.Where(status => status.Id != "evilspirit"))
+                    {
+                        log.LogDebug("second forloop entered");
+                        new RemoveStatusEffectAction(status, true);
+                        buff++;
+                        log.LogDebug(status);
+                    }
+                }
+                yield return base.BuffAction<Invincible>(0, buff, 0, 0, 0.2f);
+                yield return base.BuffAction<evilspirit>(buff, 0, 0, 0, 0.2f);
+                yield break;
+            }
         }
     }
 }
