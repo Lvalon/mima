@@ -24,11 +24,11 @@ using LBoL.Core.Randoms;
 
 namespace lvalonmima.NotImages.Offcolor
 {
-    public sealed class marisaskilldef : CardTemplate
+    public sealed class cardmarisaskilldef : CardTemplate
     {
         public override IdContainer GetId()
         {
-            return nameof(marisaskill);
+            return nameof(cardmarisaskill);
         }
 
         public override CardImages LoadCardImages()
@@ -58,13 +58,13 @@ namespace lvalonmima.NotImages.Offcolor
                IsPooled: true,
                HideMesuem: false,
                IsUpgradable: true,
-               Rarity: Rarity.Rare,
+               Rarity: Rarity.Uncommon,
                Type: CardType.Skill,
                TargetType: TargetType.All,
-               Colors: new List<ManaColor>() { ManaColor.Blue, ManaColor.Black, ManaColor.White },
+               Colors: new List<ManaColor>() { ManaColor.Red, ManaColor.Black },
                IsXCost: false,
-               Cost: new ManaGroup() { Any = 2, Blue = 1, Black = 1, White = 1 },
-               UpgradedCost: new ManaGroup() { Blue = 1, Black = 1, White = 1 },
+               Cost: new ManaGroup() { Any = 1, Red = 1, Black = 1 },
+               UpgradedCost: null,
                MoneyCost: null,
                Damage: null,
                UpgradedDamage: null,
@@ -73,8 +73,8 @@ namespace lvalonmima.NotImages.Offcolor
                Shield: null,
                UpgradedShield: null,
                Value1: 2,
-               UpgradedValue1: null,
-               Value2: null,
+               UpgradedValue1: 3,
+               Value2: 3,
                UpgradedValue2: null,
                Mana: new ManaGroup() { Any = 0 },
                UpgradedMana: null,
@@ -110,69 +110,34 @@ namespace lvalonmima.NotImages.Offcolor
             return cardConfig;
         }
 
-        [EntityLogic(typeof(marisaskilldef))]
-        public sealed class marisaskill : Card
+        [EntityLogic(typeof(cardmarisaskilldef))]
+        public sealed class cardmarisaskill : Card
         {
             //discover 2/3 marisa skill cards
             protected override IEnumerable<BattleAction> Actions(UnitSelector selector, ManaGroup consumingMana, Interaction precondition)
             {
-                int check = 0;
-                while (check == 0)
-                {
-                    Card One = base.Battle.RollCard(new CardWeightTable(RarityWeightTable.BattleCard, OwnerWeightTable.AllOnes, CardTypeWeightTable.OnlySkill), delegate (CardConfig config)
-                    {
-                        string owner = config.Owner;
-                        if (owner != null && owner == "Marisa")
-                        {
-                            check = 1;
-                            return false;
-                        }
-                    });
-                }
-                while (check == 1)
-                {
-                    Card Two = base.Battle.RollCard(new CardWeightTable(RarityWeightTable.BattleCard, OwnerWeightTable.AllOnes, CardTypeWeightTable.OnlySkill), delegate (CardConfig config)
-                    {
-                        string owner = config.Owner;
-                        if (owner != null && owner == "Marisa")
-                        {
-                            check = 2;
-                            return false;
-                        }
-                    });
-                }
-                while (check == 2)
-                {
-                    Card Three = base.Battle.RollCard(new CardWeightTable(RarityWeightTable.BattleCard, OwnerWeightTable.AllOnes, CardTypeWeightTable.OnlySkill), delegate (CardConfig config)
-                    {
-                        string owner = config.Owner;
-                        if (owner != null && owner == "Marisa")
-                        {
-                            check = 3;
-                            return false;
-                        }
-                    });
-                }
 
-                //value1 is cards selectable
+                //value2 is cards shown, value1 is cards selectable
                 //mana is temporary mana cost
-                //Card[] array = new Card[] { One }, new Card[] { Two }, new Card[] { Three };
-                Card[] array = One, Two, Three;
-                foreach (Card card in array)
-                {
-                    card.SetTurnCost(base.Mana);
-                    card.IsEthereal = true;
-                    card.IsExile = true;
-                }
-                SelectCardInteraction interaction = new SelectCardInteraction(0, base.Value1, array, SelectedCardHandling.DoNothing)
+                List<Card> list = new List<Card>();
+
+                list = base.Battle.RollCardsWithoutManaLimit(new CardWeightTable(RarityWeightTable.BattleCard, OwnerWeightTable.AllOnes, CardTypeWeightTable.OnlySkill), base.Value2, (CardConfig config) => config.Owner == "Marisa").ToList<Card>();
+                SelectCardInteraction interaction = new SelectCardInteraction(0, base.Value1, list, SelectedCardHandling.DoNothing)
                 {
                     Source = this
                 };
                 yield return new InteractionAction(interaction, false);
                 IReadOnlyList<Card> selectedCards = interaction.SelectedCards;
-                if (selectedCards.Count > 0)
+
+                if (selectedCards != null)
                 {
-                    yield return new AddCardsToHandAction(selectedCards);
+                    foreach (Card card in selectedCards)
+                    {
+                        card.SetTurnCost(base.Mana);
+                        card.IsEthereal = true;
+                        card.IsExile = true;
+                        yield return new AddCardsToHandAction(card);
+                    }
                 }
                 yield break;
             }
