@@ -321,11 +321,13 @@
 
     <ItemGroup>
       <None Remove="resources\cardEn.yaml" />
+      <None Remove="Resources\cardmarisaskill.png" />
       <None Remove="resources\exEn.yaml" />
       <None Remove="Resources\mimab.png" />
       <None Remove="resources\modelEn.yaml" />
       <None Remove="resources\playerEn.yaml" />
       <None Remove="Resources\setransmigrated.png" />
+      <None Remove="resources\unfinished.txt" />
     </ItemGroup>
 
 
