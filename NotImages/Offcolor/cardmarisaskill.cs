@@ -136,8 +136,9 @@ namespace lvalonmima.NotImages.Offcolor
                         card.SetTurnCost(base.Mana);
                         card.IsEthereal = true;
                         card.IsExile = true;
-                        yield return new AddCardsToHandAction(card);
+                        //yield return new AddCardsToHandAction(card);
                     }
+                    yield return new AddCardsToHandAction(selectedCards);
                 }
                 yield break;
             }
