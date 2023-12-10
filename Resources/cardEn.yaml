@@ -1,6 +1,6 @@
 cardperlereino:
   Description: "Remove all status effects except |Evil Spirit| on each unit.\nGain |Evil Spirit| and |Flawless| for each status effect removed by this effect."
-  Name: Transmigration to Perlereino
+  Name: Transmigrating to Perlereino
   FlavorText: She dreams of a certain world where absolute power resides.
   DetailText: There are a few |e:unconventional exceptions| to ensure that the game could run properly.
 cardmarisaskill:

@@ -327,6 +327,7 @@
       <None Remove="resources\modelEn.yaml" />
       <None Remove="resources\playerEn.yaml" />
       <None Remove="Resources\setransmigrated.png" />
+      <None Remove="resources\ultEn.yaml" />
       <None Remove="resources\unfinished.txt" />
     </ItemGroup>
 
