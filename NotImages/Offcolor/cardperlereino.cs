@@ -114,23 +114,36 @@ namespace lvalonmima.NotImages.Offcolor
         {
             protected override IEnumerable<BattleAction> Actions(UnitSelector selector, ManaGroup consumingMana, Interaction precondition)
             {
-                //yield return base.BuffAction<Invincible>(0, base.Value1, 0, 0, 0.2f);
-                //yield return base.BuffAction<evilspirit>(0, base.Value1, 0, 0, 0.2f);
-                log.LogDebug("actions entered");
+                //log.LogDebug("actions entered");
                 int buff = 0;
                 foreach (Unit target in selector.GetUnits(base.Battle))
                 {
-                    log.LogDebug(target);
-                    foreach (StatusEffect status in target.StatusEffects.Where(status => status.Id != "evilspirit"))
+                    //backup for anti-levelling
+
+                    //foreach (StatusEffect status in (from se in target.StatusEffects
+                    //                                 where se.Id != "evilspirit" && se.HasLevel
+                    //                                 select se).ToList())
+                    //{
+                    //    yield return new ApplyStatusEffectAction(status.GetType() ,target, new int?(-status.Level), null, null, null, 0f, true);
+                    //}
+
+                    //if (!seExceptions.Contains(status.Id))
+                    //{
+                    //}
+
+                    foreach (StatusEffect status in (from se in target.StatusEffects
+                                                     where se.Id != "evilspirit" && se.Id != "SijiZui"
+                                                     select se).ToList())
                     {
-                        log.LogDebug("second forloop entered");
-                        new RemoveStatusEffectAction(status, true);
+                        yield return new RemoveStatusEffectAction(status, true, 0.1f);
                         buff++;
-                        log.LogDebug(status);
                     }
                 }
-                yield return base.BuffAction<Invincible>(0, buff, 0, 0, 0.2f);
-                yield return base.BuffAction<evilspirit>(buff, 0, 0, 0, 0.2f);
+                if (buff > 0)
+                {
+                    yield return base.BuffAction<Invincible>(0, buff, 0, 0, 0.2f);
+                    yield return base.BuffAction<evilspirit>(buff, 0, 0, 0, 0.2f);
+                }
                 yield break;
             }
         }
