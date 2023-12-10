@@ -59,11 +59,11 @@ namespace lvalonmima.Exhibit
                 IsSentinel: false,
                 Revealable: false,
                 Appearance: AppearanceType.Nowhere,
-                Owner: "", //"Mima"
+                Owner: "Mima", //"Mima"
                 LosableType: ExhibitLosableType.DebutLosable,
                 Rarity: Rarity.Shining,
                 Value1: 2,
-                Value2: 1,
+                Value2: 2,
                 Value3: 1,
                 Mana: new ManaGroup() { Blue = 1 },
                 BaseManaRequirement: null,
@@ -114,22 +114,6 @@ namespace lvalonmima.Exhibit
                     React(new ApplyStatusEffectAction<transmigrated>(base.Owner, new int?(base.Value2), null, null, null, 0f, true));
                 }
             }
-
-            //private void OnDying(DieEventArgs args)
-            //{
-                //base.NotifyActivating();
-                //foreach (var se in Owner.StatusEffects.Where(se => se.Id == "evilspirit"))
-                //{
-                //GameRun.SetHpAndMaxHp(Owner.MaxHp, Owner.MaxHp, false);
-                //args.CancelBy(this);
-
-                //React(new ApplyStatusEffectAction<Burst>(base.Owner, new int?(base.Value2), null, null, null, 0f, true));
-                //React(new ApplyStatusEffectAction<GuangxueMicai>(base.Owner, new int?(base.Value3), null, null, null, 0f, true));
-                //}
-                //React(new ApplyStatusEffectAction<Burst>(Owner, base.Value2));
-                //React(new ApplyStatusEffectAction<GuangxueMicai>(Owner, base.Value3));
-                //return;
-            //}
         }
     }
 }

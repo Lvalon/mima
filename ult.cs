@@ -40,13 +40,13 @@ namespace lvalonmima
             var config = new UltimateSkillConfig(
                 Id: "",
                 Order: 10,
-                PowerCost: 80,
-                PowerPerLevel: 80,
-                MaxPowerLevel: 2,
-                RepeatableType: UsRepeatableType.OncePerBattle,
-                Damage: 15,
-                Value1: 999,
-                Value2: 3,
+                PowerCost: 20,
+                PowerPerLevel: 20,
+                MaxPowerLevel: 6,
+                RepeatableType: UsRepeatableType.FreeToUse,
+                Damage: 5,
+                Value1: 25,
+                Value2: 2,
                 Keywords: Keyword.None,
                 RelativeEffects: new List<string>() { },
                 RelativeCards: new List<string>() { }
@@ -63,15 +63,29 @@ namespace lvalonmima
                 base.TargetType = TargetType.RandomEnemy;
                 base.GunName = "Butterfly1";
             }
+            public int hplosing
+            {
+                get
+                {
+                    if (base.GameRun != null)
+                    { return (Value1 - base.GameRun.UltimateUseCount > 0) ? (Value1 - base.GameRun.UltimateUseCount) : 0; }
+                    else { return Value1; }
+                }
+            }
+
             protected override IEnumerable<BattleAction> Actions(UnitSelector selector)
             {
-                yield return new DamageAction(base.Owner, base.Owner, DamageInfo.HpLose(Value1, true), "Instant", GunType.Single);
+                if (Value1 - base.GameRun.UltimateUseCount > 0)
+                {
+                    yield return new DamageAction(base.Owner, base.Owner, DamageInfo.HpLose(hplosing, true), "Instant", GunType.Single);
+                }
                 int atktimeleft = Value2;
                 while ( atktimeleft > 0 && !base.Battle.BattleShouldEnd)
                 {
-                    yield return new DamageAction(base.Owner, selector.GetEnemy(base.Battle), this.Damage, base.GunName, GunType.Single);
                     atktimeleft--;
+                    yield return new DamageAction(base.Owner, selector.GetEnemy(base.Battle), this.Damage, base.GunName, GunType.Single);
                 }
+                yield break;
             }
         }
     }
@@ -95,12 +109,12 @@ namespace lvalonmima
             var config = new UltimateSkillConfig(
                 Id: "",
                 Order: 10,
-                PowerCost: 120,
-                PowerPerLevel: 120,
-                MaxPowerLevel: 2,
+                PowerCost: 40,
+                PowerPerLevel: 40,
+                MaxPowerLevel: 5,
                 RepeatableType: UsRepeatableType.FreeToUse,
                 Damage: 0,
-                Value1: 666,
+                Value1: 50,
                 Value2: 0,
                 Keywords: Keyword.None,
                 RelativeEffects: new List<string>() { },
@@ -117,18 +131,22 @@ namespace lvalonmima
             {
                 base.TargetType = TargetType.RandomEnemy;
             }
+            public int hplosing
+            {
+                get
+                {
+                    if (base.GameRun != null)
+                    { return (Value1 - base.GameRun.UltimateUseCount - base.GameRun.UltimateUseCount > 0) ? (Value1 - base.GameRun.UltimateUseCount - base.GameRun.UltimateUseCount) : 0; }
+                    else { return Value1; }
+                }
+            }
             protected override IEnumerable<BattleAction> Actions(UnitSelector selector)
             {
-                yield return new DamageAction(base.Owner, base.Owner, DamageInfo.HpLose(Value1, true), "Instant", GunType.Single);
-                if (base.Battle.BattleShouldEnd)
+                if (Value1 - base.GameRun.UltimateUseCount - base.GameRun.UltimateUseCount > 0)
                 {
-                    yield break;
+                    yield return new DamageAction(base.Owner, base.Owner, DamageInfo.HpLose(hplosing, true), "Instant", GunType.Single);
                 }
-                yield return new DamageAction(base.Owner, base.Owner, DamageInfo.HpLose(Value1, true), "Instant", GunType.Single);
-                if (base.Battle.BattleShouldEnd)
-                {
-                    yield break;
-                }
+                yield break;
             }
         }
     }

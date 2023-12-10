@@ -320,6 +320,7 @@
 
 
     <ItemGroup>
+      <None Remove="Resources\carddoublefall.png" />
       <None Remove="resources\cardEn.yaml" />
       <None Remove="Resources\cardmarisaskill.png" />
       <None Remove="resources\exEn.yaml" />

@@ -2,7 +2,7 @@ mimaa:
   Description:
     Adds {BaseMana} to the mana base. Cards unique to |Mima| are added to the card pool.
     At the start of combat, {PlayerName} gains {Value1} |Evil Spirit|.
-    Whenever {PlayerName} is defeated, become |Transmigrated|.
+    Whenever {PlayerName} is defeated, become |Transmigrated| for {Value2} turns.
   Name: Reincarnation
   FlavorText: I die with the dying. I'm born with the dead!
 mimab:
