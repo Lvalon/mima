@@ -56,6 +56,12 @@ namespace lvalonmima
             loc.LocalizationFiles.AddLocaleFile(Locale.En, "modelEn.yaml");
             return loc;
         }
+        public static GlobalLocalization locult()
+        {
+            var loc = new GlobalLocalization(BepinexPlugin.embeddedSource);
+            loc.LocalizationFiles.AddLocaleFile(Locale.En, "ultEn.yaml");
+            return loc;
+        }
         //ONREVIVE
 
         //private int oghp;

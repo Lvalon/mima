@@ -1,0 +1,8 @@
+ulta:
+  Title: 'Magic Sign'
+  Content: 'Kaleidoscopic Boisterous Dance'
+  Description: 'Lose {Value1} life. Deal {Damage} damage to a random enemy 3 times. |Accurate|'
+ultb:
+  Title: 'Grudge Sign'
+  Content: 'Overlaying Evil Fields'
+  Description: 'Lose {Value1} life twice.'
