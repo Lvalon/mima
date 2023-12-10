@@ -9,3 +9,7 @@ cardmarisaskill:
   Name: Achievements of the Apprentice
   FlavorText: Marisa! Are your potions stable yet?
   DetailText: These |e:alternate cards| ignore total mana and mana color restrictions.
+carddoublefall:
+  Description: "Target becomes |Transmigrated| for 1 turn.\ndeal {Damage} damage twice."
+  Name: Double the Fall
+  FlavorText: Impotent youkai like you must be eradicated.

@@ -61,7 +61,7 @@ namespace lvalonmima.Exhibit
                 IsSentinel: false,
                 Revealable: false,
                 Appearance: AppearanceType.Nowhere,
-                Owner: "", //"Mima"
+                Owner: "Mima", //"Mima"
                 LosableType: ExhibitLosableType.DebutLosable,
                 Rarity: Rarity.Shining,
                 Value1: 2,
