@@ -11,6 +11,7 @@ using LBoL.Core.Units;
 using LBoLEntitySideloader.Attributes;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
+using LBoL.Core;
 
 namespace lvalonmima
 {
@@ -31,11 +32,7 @@ namespace lvalonmima
         {
             var sprites = new PlayerImages();
 
-            var asyncLoading = ResourceLoader.LoadSpriteAsync("playermimaportrait.png", directorySource);
-
-            sprites.SetStartPanelStand(asyncLoading);
-            sprites.SetWinStand(asyncLoading);
-            sprites.SetDeckStand(asyncLoading);
+            sprites.AutoLoad("", (s) => ResourceLoader.LoadSprite(s, dir, ppu: 100, 1, FilterMode.Bilinear, generateMipMaps: true), (s) => ResourceLoader.LoadSpriteAsync(s, dir));
 
             return sprites;
         }
@@ -48,23 +45,23 @@ namespace lvalonmima
             Id: "",
             ShowOrder: 2147483647,
             Order: 0,
-            UnlockLevel: 0,
+            UnlockLevel: 10,
             ModleName: "",
             NarrativeColor: "#ffffff",
             IsSelectable: true,
-            MaxHp: 40,
-            InitialMana: new LBoL.Base.ManaGroup() { Blue = 2, Black = 2 },
-            InitialMoney: 120,
+            MaxHp: 66,
+            InitialMana: new LBoL.Base.ManaGroup() { Philosophy = 2, Colorless = 2 },
+            InitialMoney: 66,
             InitialPower: 0,
             //temp
             UltimateSkillA: "ulta",
             UltimateSkillB: "ultb",
             ExhibitA: "mimaa",
             ExhibitB: "mimab",
-            DeckA: new List<string> { "Shoot", "Shoot", "Shoot", "Shoot", "Shoot", "Shoot", "Shoot", "Shoot", "Shoot", "Shoot" },
-            DeckB: new List<string> { "Shoot", "Shoot", "Shoot", "Shoot", "Shoot", "Shoot", "Shoot", "Shoot", "Shoot", "Shoot" },
-            DifficultyA: 3,
-            DifficultyB: 3
+            DeckA: new List<string> { "Shoot", "Shoot", "Shoot", "Shoot" },
+            DeckB: new List<string> { "Shoot", "Shoot", "Shoot", "Shoot" },
+            DifficultyA: 6,
+            DifficultyB: 6
             );
             return config;
         }

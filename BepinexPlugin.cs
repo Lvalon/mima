@@ -159,6 +159,23 @@ namespace lvalonmima
                 harmony.UnpatchSelf();
         }
 
-
+        //debut exhibit losable check
+        [HarmonyPatch(typeof(Debut), nameof(Debut.ExchangeExhibit))]
+        class Debut_ExchangeExhibit_Patch
+        {
+            static bool Prefix(Debut __instance)
+            {
+                if (GameMaster.Instance.CurrentGameRun != null && GameMaster.Instance.CurrentGameRun.Player.Exhibits[0].LosableType == ExhibitLosableType.CantLose)
+                {
+                    GameMaster.Instance.CurrentGameRun.GainExhibitRunner(__instance._exhibit, true, new VisualSourceData
+                    {
+                        SourceType = VisualSourceType.Vn,
+                        Index = -1
+                    });
+                    return false;
+                }
+                return true;
+            }
+        }
     }
 }

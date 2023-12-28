@@ -1,8 +1,60 @@
+karmanation:
+  Description: "Deal {dmgscale} times the damage.\nEach extra Level doubles |Karmanation|'s effect.\n|d:Stops doubling effect after 27 levels.|"
+  Brief: "Deal 2 times the damage.\nEach extra Level doubles |Karmanation|'s effect."
+  Name: Karmanation
 evilspirit:
-  Description: "Whenever the Player is defeated, heal to maximum life instead, then gain 1 |Evil Spirit| and 3 |Defense Matrix|.\nAt the end of each round, lose 1 |Evil Spirit|.\nIf the Player loses all |Evil Spirit|, they lose the game.\nHeal to maximum life after each combat."
-  Brief: "When defeated, heal to maximum life, then gain |Evil Spirit| and |Defense Matrix|.\nAt the end of each round, lose 1 |Evil Spirit|. Lose the game on losing all levels.\nHeal to maximum life after each combat."
+  Description: "|p:Only the evilest of beings can embrace the intrusive power of an evil spirit.|\nDeal |l:25%| damage. Whenever {OwnerName} is defeated, heal to maximum life, then gain |Karmanation| and once per turn, |Evil Spirit|.\nAt the end of each round, lose 1 |Evil Spirit|.\nIf {OwnerName} loses all |Evil Spirit|, they lose the game.\nFully heal after each combat."
+  Brief: "Deal |l:25%| damage. When defeated, heal to maximum life, then gain |Karmanation| and once per turn, |Evil Spirit|.\nAt the end of each round, lose 1 |Evil Spirit|.\nLose the game on losing all levels.\nFully heal after each combat."
   Name: Evil Spirit
-transmigrated:
-  Description: "Take 50% more damage.\nAttacks deal 5 more damage.\nAt the end of each round, lose 1 |Transmigrated|."
-  Brief: "Take 50% more damage.\nAttacks deal 5 more damage.\nAt the end of each round, lose 1 |Transmigrated|."
-  Name: Transmigrated
+transcended:
+  Description: "Whenever a skill card is played, gain {Mana}.\nAt the end of each round in which at least 1 skill card is played after |Transcended| is present, lose 1 |Transcended|."
+  Brief: "Whenever a skill card is played, gain {Mana}.\nAt the end of each round in which at least 1 skill card is played after |Transcended| is present, lose 1 |Transcended|."
+  Name: Transcended
+theabyss:
+  Description: "Skill cards cost {Mana} to play.\nAt the end of the round in which at least 1 skill card is played after |The Abyss| is present, lose 1 |The Abyss|."
+  Brief: "Skill cards cost {Mana} to play.\nAt the end of the round in which at least 1 skill card is played after |The Abyss| is present, lose 1 |The Abyss|."
+  Name: The Abyss
+magicalburst:
+  Description: "At the end of the round, consume all |Magical Burst| counters.\nConsumed |Magical Burst| counters are used to deal {truecounter} |Accurate| damage to all enemies."
+  Brief: "At the end of the round, consume all |Magical Burst| counters to deal |Accurate| damage to all enemies."
+  Name: Magical Burst
+accumulation:
+  Description: "Delay |Magical Burst|'s natural consumption by {Level} round{Level:plural one='' other='s'}.\nSuppressed when {OwnerName} has |Everlasting Magic|."
+  Brief: "Delay |Magical Burst|'s natural activation."
+  Name: Spell Accumulation
+fastburst:
+  Description: "Immediately consume {showfastburst}% |Magical Burst| counters after a card is played, then lose |Predestinated Burst|."
+  Brief: "Immediately consume some |Magical Burst| counters after a card is played, then lose |Predestinated Burst|."
+  Name: Predestinated Burst
+concentratedburst:
+  Description: "|Magical Burst| deal |Accurate| damage to a random enemy {Level}x{enemycount} times instead.\nMultiplicative with |Split Burst|."
+  Brief: "|Magical Burst| deal |Accurate| damage to a random enemy for |Level| x |Enemy Count| times instead."
+  Name: Concentrated Outbursts
+splitburst:
+  Description: "|Magical Burst| deal {splitdmg}% |Accurate| damage.\n|Magical Burst| deal damage {Level} extra time{Level:plural one='' other='s'}.\nMultiplicative with |Concentrated Outbursts|."
+  Brief: "|Magical Burst| deal divided |Accurate| damage.\n|Magical Burst| deal damage some more times."
+  Name: Split Burst
+retribution:
+  Description: "Whenever |Magical Burst| counters are lost, {OwnerName} loses life equal to |Magical Burst| counters lost."
+  Brief: "Whenever |Magical Burst| counters are lost, lose life equal to |Magical Burst| counters lost."
+  Name: Retribution
+implosion:
+  Description: "Whenever a unit takes unblocked damage from |Magical Burst|'s attack, they lose life equal to {Level} time{Level:plural one='' other='s'} of |Magical Burst|'s attack damage."
+  Brief: "Whenever a unit takes unblocked damage from |Magical Burst|, they lose life equal to |Magical Burst|'s attack damage."
+  Name: Implosion
+everlastingmagic:
+  Description: "Gain {showeverlasting}% less |Magical Burst|.\n|Magical Burst| counters are no longer consumed."
+  Brief: "Gain less |Magical Burst|.\n|Magical Burst| counters are no longer consumed."
+  Name: Everlasting Magic
+damageadder:
+  Description: "It's impossible."
+  Brief: "It's impossible."
+  Name: Total Extra Damage
+damagemultiplier:
+  Description: "It's impossible."
+  Brief: "It's impossible."
+  Name: Total Damage Multiplier
+RepeatActionSe:
+  Description: "Repeats the effect of the last card played {Level} time{Level:plural one='' other='s'} at the start of the turn."
+  Brief: "Repeats the effect of the last card played at the start of the turn."
+  Name: Repetition

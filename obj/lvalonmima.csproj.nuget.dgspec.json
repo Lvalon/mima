@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "Z:\\projects\\indev\\lvalonmima\\lvalonmima.csproj": {}
+    "Y:\\projects\\indev\\lvalonmima\\lvalonmima.csproj": {}
   },
   "projects": {
-    "Z:\\projects\\indev\\lvalonmima\\lvalonmima.csproj": {
+    "Y:\\projects\\indev\\lvalonmima\\lvalonmima.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "Z:\\projects\\indev\\lvalonmima\\lvalonmima.csproj",
+        "projectUniqueName": "Y:\\projects\\indev\\lvalonmima\\lvalonmima.csproj",
         "projectName": "lvalonmima",
-        "projectPath": "Z:\\projects\\indev\\lvalonmima\\lvalonmima.csproj",
+        "projectPath": "Y:\\projects\\indev\\lvalonmima\\lvalonmima.csproj",
         "packagesPath": "C:\\Users\\e\\.nuget\\packages\\",
-        "outputPath": "Z:\\projects\\indev\\lvalonmima\\obj\\",
+        "outputPath": "Y:\\projects\\indev\\lvalonmima\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "Z:\\projects\\indev\\lvalonmima\\NuGet.Config",
+          "Y:\\projects\\indev\\lvalonmima\\NuGet.Config",
           "C:\\Users\\e\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],

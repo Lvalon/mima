@@ -40,13 +40,13 @@ namespace lvalonmima
             var config = new UltimateSkillConfig(
                 Id: "",
                 Order: 10,
-                PowerCost: 20,
-                PowerPerLevel: 20,
-                MaxPowerLevel: 6,
+                PowerCost: 100,
+                PowerPerLevel: 100,
+                MaxPowerLevel: 2,
                 RepeatableType: UsRepeatableType.FreeToUse,
-                Damage: 5,
-                Value1: 25,
-                Value2: 2,
+                Damage: 6,
+                Value1: 33,
+                Value2: 6,
                 Keywords: Keyword.None,
                 RelativeEffects: new List<string>() { },
                 RelativeCards: new List<string>() { }
@@ -67,20 +67,15 @@ namespace lvalonmima
             {
                 get
                 {
-                    if (base.GameRun != null)
-                    { return (Value1 - base.GameRun.UltimateUseCount > 0) ? (Value1 - base.GameRun.UltimateUseCount) : 0; }
-                    else { return Value1; }
+                    return Value1;
                 }
             }
 
             protected override IEnumerable<BattleAction> Actions(UnitSelector selector)
             {
-                if (Value1 - base.GameRun.UltimateUseCount > 0)
-                {
-                    yield return new DamageAction(base.Owner, base.Owner, DamageInfo.HpLose(hplosing, true), "Instant", GunType.Single);
-                }
+                yield return new DamageAction(base.Owner, base.Owner, DamageInfo.HpLose(hplosing, true), "Instant", GunType.Single);
                 int atktimeleft = Value2;
-                while ( atktimeleft > 0 && !base.Battle.BattleShouldEnd)
+                while (atktimeleft > 0 && !base.Battle.BattleShouldEnd)
                 {
                     atktimeleft--;
                     yield return new DamageAction(base.Owner, selector.GetEnemy(base.Battle), this.Damage, base.GunName, GunType.Single);
@@ -109,12 +104,12 @@ namespace lvalonmima
             var config = new UltimateSkillConfig(
                 Id: "",
                 Order: 10,
-                PowerCost: 40,
-                PowerPerLevel: 40,
-                MaxPowerLevel: 5,
+                PowerCost: 120,
+                PowerPerLevel: 120,
+                MaxPowerLevel: 3,
                 RepeatableType: UsRepeatableType.FreeToUse,
                 Damage: 0,
-                Value1: 50,
+                Value1: 666,
                 Value2: 0,
                 Keywords: Keyword.None,
                 RelativeEffects: new List<string>() { },
@@ -129,23 +124,18 @@ namespace lvalonmima
         {
             public ultb()
             {
-                base.TargetType = TargetType.RandomEnemy;
+                base.TargetType = TargetType.Self;
             }
             public int hplosing
             {
                 get
                 {
-                    if (base.GameRun != null)
-                    { return (Value1 - base.GameRun.UltimateUseCount - base.GameRun.UltimateUseCount > 0) ? (Value1 - base.GameRun.UltimateUseCount - base.GameRun.UltimateUseCount) : 0; }
-                    else { return Value1; }
+                    return Value1;
                 }
             }
             protected override IEnumerable<BattleAction> Actions(UnitSelector selector)
             {
-                if (Value1 - base.GameRun.UltimateUseCount - base.GameRun.UltimateUseCount > 0)
-                {
-                    yield return new DamageAction(base.Owner, base.Owner, DamageInfo.HpLose(hplosing, true), "Instant", GunType.Single);
-                }
+                yield return new DamageAction(base.Owner, base.Owner, DamageInfo.HpLose(hplosing, true), "Instant", GunType.Single);
                 yield break;
             }
         }

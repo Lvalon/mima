@@ -29,6 +29,7 @@
           "UnityEngine.UIModule": "0.0.0.0",
           "UnityEngine.UnityWebRequestAudioModule": "0.0.0.0",
           "UnityEngine.UnityWebRequestModule": "0.0.0.0",
+          "YarnSpinner": "2.2.0.0",
           "LBoL.Base": "0.0.0.0",
           "LBoL.ConfigData": "0.0.0.0",
           "LBoL.Core": "0.0.0.0",
@@ -501,6 +502,14 @@
           }
         }
       },
+      "YarnSpinner/2.2.0.0": {
+        "runtime": {
+          "YarnSpinner.dll": {
+            "assemblyVersion": "2.2.0.0",
+            "fileVersion": "2.2.0.0"
+          }
+        }
+      },
       "LBoL.Base/0.0.0.0": {
         "runtime": {
           "LBoL.Base.dll": {
@@ -554,14 +563,6 @@
           "YamlDotNet.dll": {
             "assemblyVersion": "11.0.0.0",
             "fileVersion": "11.2.1.0"
-          }
-        }
-      },
-      "YarnSpinner/2.2.0.0": {
-        "runtime": {
-          "YarnSpinner.dll": {
-            "assemblyVersion": "2.2.0.0",
-            "fileVersion": "2.2.0.0"
           }
         }
       },
@@ -1480,6 +1481,11 @@
       "serviceable": false,
       "sha512": ""
     },
+    "YarnSpinner/2.2.0.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
     "LBoL.Base/0.0.0.0": {
       "type": "reference",
       "serviceable": false,
@@ -1511,11 +1517,6 @@
       "sha512": ""
     },
     "YamlDotNet/11.0.0.0": {
-      "type": "reference",
-      "serviceable": false,
-      "sha512": ""
-    },
-    "YarnSpinner/2.2.0.0": {
       "type": "reference",
       "serviceable": false,
       "sha512": ""

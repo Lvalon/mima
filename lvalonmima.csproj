@@ -6,8 +6,8 @@
     </PropertyGroup>
 
     <PropertyGroup>
-        <GameFolder>X:\LBoL.app</GameFolder>
-        <BepInExFolder>X:\BepInEx</BepInExFolder>
+        <GameFolder>W:\LBoL.app</GameFolder>
+        <BepInExFolder>W:\BepInEx</BepInExFolder>
     </PropertyGroup>
 
     <ItemGroup>
@@ -310,6 +310,9 @@
         </Reference>
         <Reference Include="UnityEngine.UnityEngine.ParticleSystemModule">
             <HintPath>$(GameFolder)\Contents\Resources\Data\Managed\UnityEngine.ParticleSystemModule.dll</HintPath>
+        </Reference>
+        <Reference Include="YarnSpinner">
+          <HintPath>C:\Users\e\Downloads\dlls\YarnSpinner.dll</HintPath>
         </Reference>	
     </ItemGroup>
 
@@ -320,23 +323,31 @@
 
 
     <ItemGroup>
-      <None Remove="Resources\carddoublefall.png" />
+      <EmbeddedResource Remove="Resources\playermimabomb.png" />
+    </ItemGroup>
+
+
+    <ItemGroup>
       <None Remove="resources\cardEn.yaml" />
       <None Remove="Resources\cardmarisaskill.png" />
       <None Remove="resources\exEn.yaml" />
       <None Remove="Resources\mimab.png" />
       <None Remove="resources\modelEn.yaml" />
       <None Remove="resources\playerEn.yaml" />
-      <None Remove="Resources\setransmigrated.png" />
+      <None Remove="Resources\seaccumulation.png" />
+      <None Remove="Resources\seconcentratedburst.png" />
+      <None Remove="Resources\sedamageadder.png" />
+      <None Remove="Resources\sedamagemultiplier.png" />
+      <None Remove="Resources\seeverlastingmagic.png" />
+      <None Remove="Resources\sefastburst.png" />
+      <None Remove="Resources\seimplosion.png" />
+      <None Remove="Resources\sekarmanation.png" />
+      <None Remove="Resources\semagicalburst.png" />
+      <None Remove="Resources\seretribution.png" />
+      <None Remove="Resources\sesplitburst.png" />
+      <None Remove="Resources\setheabyss.png" />
       <None Remove="resources\ultEn.yaml" />
       <None Remove="resources\unfinished.txt" />
-    </ItemGroup>
-
-
-    <ItemGroup>
-      <EmbeddedResource Include="DirResources\playermimabomb.png" />
-      <EmbeddedResource Include="DirResources\playermimaportrait.png" />
-      <EmbeddedResource Include="DirResources\playermimasprite.png" />
     </ItemGroup>
 
 
