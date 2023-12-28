@@ -1,5 +1,6 @@
 ﻿using LBoL.Base.Extensions;
 using LBoL.Core;
+using LBoL.Core.Battle;
 using LBoL.Core.Battle.BattleActions;
 using LBoL.Core.Cards;
 using LBoLEntitySideloader.Resource;
@@ -8,7 +9,8 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Xml.Serialization;
-using static lvalonmima.SE.transmigrateddef;
+using UnityEngine;
+using static lvalonmima.SE.transcendeddef;
 using static UnityEngine.UI.GridLayoutGroup;
 
 namespace lvalonmima
@@ -68,6 +70,12 @@ namespace lvalonmima
         //private int ogmax;
         //private int ogdmg;
 
+        //protected override void OnEnterBattle(BattleController battle)
+        //{
+        //    base.HandleBattleEvent<DamageEventArgs>(base.Battle.Player.DamageTaking, new GameEventHandler<DamageEventArgs>(this.OnPlayerDamageTaking));
+        //    base.HandleBattleEvent<DamageEventArgs>(base.Battle.Player.DamageReceived, new GameEventHandler<DamageEventArgs>(this.OnPlayerDamageReceived));
+        //}
+
         //private void OnPlayerDamageTaking(DamageEventArgs args)
         //{
         //    oghp = Owner.Hp;
@@ -78,6 +86,20 @@ namespace lvalonmima
         //private void OnPlayerDamageReceived(DamageEventArgs args)
         //{
         //    if (Owner.Hp == Owner.MaxHp && ogdmg > 0 && ((oghp - ogdmg != Owner.Hp - ogdmg) || ogdmg >= ogmax))
+        //    {
+        //        base.NotifyActivating();
+        //    }
+        //}
+
+        //private void OnPlayerDamageTaking(DamageEventArgs args)
+        //{
+        //    oghp = base.Battle.Player.Hp;
+        //    ogmax = base.Battle.Player.MaxHp;
+        //    ogdmg = args.DamageInfo.Damage.RoundToInt();
+        //}
+        //private void OnPlayerDamageReceived(DamageEventArgs args)
+        //{
+        //    if (base.Battle.Player.Hp == base.Battle.Player.MaxHp && ogdmg > 0 && ((oghp - ogdmg != base.Battle.Player.Hp - ogdmg) || ogdmg >= ogmax))
         //    {
         //        base.NotifyActivating();
         //    }

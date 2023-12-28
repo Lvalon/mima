@@ -3,12 +3,8 @@ ulta:
   Content: 'Kaleidoscopic Boisterous Dance'
   Description: 'Lose {hplosing} life. Deal {Damage} damage to a random enemy {Value2} times.
 
-  |Accurate|
-
-  Whenever this Spell Card is activated, permanently decrease the life {PlayerName} loses from this Spell Card by 1.'
+  |Accurate|'
 ultb:
   Title: 'Grudge Sign'
   Content: 'Overlaying Evil Fields'
-  Description: 'Lose {hplosing} life.
-
-Whenever this Spell Card is activated, permanently decrease the life {PlayerName} loses from this Spell Card by 2.'
+  Description: 'Lose {hplosing} life.'

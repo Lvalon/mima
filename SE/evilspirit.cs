@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
 using static lvalonmima.BepinexPlugin;
+using static lvalonmima.SE.karmanationdef;
 using LBoL.Core.Battle.BattleActions;
 using LBoL.Base.Extensions;
 using LBoL.Core.Units;
@@ -41,7 +42,7 @@ namespace lvalonmima.SE
         public override StatusEffectConfig MakeConfig()
         {
             var statusEffectConfig = new StatusEffectConfig(
-                Index: 0,
+                Index: sequenceTable.Next(typeof(CardConfig)),
                 Id: "",
                 Order: 1,
                 Type: StatusEffectType.Special,
@@ -58,7 +59,7 @@ namespace lvalonmima.SE
                 LimitStackType: StackType.Keep,
                 ShowPlusByLimit: false,
                 Keywords: Keyword.None,
-                RelativeEffects: new List<string>() { "DroneBlock" },
+                RelativeEffects: new List<string>() { "karmanation" },
                 VFX: "Default",
                 VFXloop: "Default",
                 SFX: "Default"
@@ -69,24 +70,32 @@ namespace lvalonmima.SE
         [EntityLogic(typeof(evilspiritdef))]
         public sealed class evilspirit : StatusEffect
         {
-
+            bool thisturn = false;
             //set up triggers to give a fuck on
             //also vfx/sfx
             //they worked
             protected override void OnAdded(Unit unit)
             {
-                HandleOwnerEvent(Owner.Dying, new GameEventHandler<DieEventArgs>(OnDying));
+                if (unit.Name == "Mima")
+                {
+                    GameRun.SetHpAndMaxHp(66, 66, false);
+                }
                 ReactOwnerEvent(Battle.RoundEnding, new EventSequencedReactor<GameEventArgs>(OnRoundEnding));
-                base.HandleOwnerEvent<UnitEventArgs>(base.Owner.TurnStarting, new GameEventHandler<UnitEventArgs>(this.OnOwnerTurnStarting));
-                ReactOwnerEvent(Battle.BattleEnding, new EventSequencedReactor<GameEventArgs>(OnBattleEnding));
-                React(PerformAction.Effect(unit, "JunkoNightmare", 0f, "JunkoNightmare", 0f, PerformAction.EffectBehavior.PlayOneShot, 0f));
-                React(PerformAction.Effect(unit, "JunkoNightmare", 1f, "", 0f, PerformAction.EffectBehavior.PlayOneShot, 0f));
-                React(PerformAction.Effect(unit, "JunkoNightmare", 2f, "", 0f, PerformAction.EffectBehavior.PlayOneShot, 0f));
-                React(PerformAction.Effect(unit, "JinziMirror", 3f, "", 1f, PerformAction.EffectBehavior.Add, 0f));
+                ReactOwnerEvent<StatusEffectApplyEventArgs>(base.Battle.Player.StatusEffectAdded, new EventSequencedReactor<StatusEffectApplyEventArgs>(this.OnStatusEffectAdded));
+                //base.HandleOwnerEvent<DamageEventArgs>(unit.DamageReceiving, new GameEventHandler<DamageEventArgs>(this.OnDamageReceiving));
+                base.HandleOwnerEvent<DamageDealingEventArgs>(base.Owner.DamageDealing, new GameEventHandler<DamageDealingEventArgs>(this.OnDamageDealing));
+                if (Owner.MaxHp != 66) { React(new ForceKillAction(Owner, Owner)); }
+                else
+                {
+                    HandleOwnerEvent(Owner.Dying, new GameEventHandler<DieEventArgs>(OnDying));
+                    base.HandleOwnerEvent<UnitEventArgs>(base.Owner.TurnStarting, new GameEventHandler<UnitEventArgs>(this.OnOwnerTurnStarting));
+                    ReactOwnerEvent(Battle.BattleEnding, new EventSequencedReactor<GameEventArgs>(OnBattleEnding));
+                    React(PerformAction.Effect(unit, "JunkoNightmare", 0f, "JunkoNightmare", 0f, PerformAction.EffectBehavior.PlayOneShot, 0f));
+                    React(PerformAction.Effect(unit, "JunkoNightmare", 1f, "", 0f, PerformAction.EffectBehavior.PlayOneShot, 0f));
+                    React(PerformAction.Effect(unit, "JunkoNightmare", 2f, "", 0f, PerformAction.EffectBehavior.PlayOneShot, 0f));
+                    React(PerformAction.Effect(unit, "JinziMirror", 3f, "", 1f, PerformAction.EffectBehavior.Add, 0f));
+                }
             }
-
-            //heal to full, gain 1 level 3 defense matrix on death
-            //IT WORKED LETS FUCKING GO
             private void OnDying(DieEventArgs args)
             {
                 if (args.ActionSource != this)
@@ -98,18 +107,19 @@ namespace lvalonmima.SE
                         React(PerformAction.Effect(Owner, "JunkoNightmare", 0f, "JunkoNightmare", 0f, PerformAction.EffectBehavior.PlayOneShot, 0f));
                         GameRun.SetHpAndMaxHp(Owner.MaxHp, Owner.MaxHp, false);
                         args.CancelBy(this);
-                        React(new ApplyStatusEffectAction<DroneBlock>(Owner, 3));
+                        //React(new ApplyStatusEffectAction<DroneBlock>(Owner, 3));
                     }
                     else
                     {
                         React(PerformAction.Effect(Owner, "JunkoNightmare", 0f, "JunkoNightmare", 0f, PerformAction.EffectBehavior.PlayOneShot, 0f));
                         GameRun.SetEnemyHpAndMaxHp(Owner.MaxHp, Owner.MaxHp, (EnemyUnit)Owner, false);
                         args.CancelBy(this);
-                        React(new ApplyStatusEffectAction<DroneBlock>(Owner, 3));
+                        //React(new ApplyStatusEffectAction<DroneBlock>(Owner, 3));
                     }
                     if (GameRun.Battle != null)
                     {
-                        Level++;
+                        if (thisturn == false) { Level++; thisturn = true; }
+                        React(new ApplyStatusEffectAction<karmanation>(base.Owner, 1, null, null, null, 0f, true));
                     }
                 }
                 return;
@@ -119,6 +129,7 @@ namespace lvalonmima.SE
             //it works
             private IEnumerable<BattleAction> OnRoundEnding(GameEventArgs args)
             {
+                thisturn = false;
                 int num = Level - 1;
                 Level = num;
                 if (Level == 0)
@@ -137,6 +148,7 @@ namespace lvalonmima.SE
                 if (Owner.IsAlive)
                 {
                     NotifyActivating();
+                    //GameRun.GainMaxHp(1, true, true);
                     yield return new HealAction(Owner, Owner, Owner.MaxHp, HealType.Normal, 0.2f);
                 }
                 yield break;
@@ -146,6 +158,39 @@ namespace lvalonmima.SE
             private void OnOwnerTurnStarting(UnitEventArgs args)
             {
                 React(PerformAction.Effect(Owner, "JinziMirror", 3f, "", 1f, PerformAction.EffectBehavior.Add, 0f));
+            }
+
+            private IEnumerable<BattleAction> OnStatusEffectAdded(StatusEffectApplyEventArgs args)
+            {
+                if (Level == 0)
+                {
+                    NotifyActivating();
+                    yield return new ForceKillAction(Owner, Owner);
+                    yield return new RemoveStatusEffectAction(this, true);
+                }
+                yield break;
+            }
+            //private void OnDamageReceiving(DamageEventArgs args)
+            //{
+            //    DamageInfo damageInfo = args.DamageInfo;
+            //    if (damageInfo.DamageType == DamageType.Attack)
+            //    {
+            //        damageInfo.Damage = damageInfo.Amount * 10f;
+            //        args.DamageInfo = damageInfo;
+            //        args.AddModifier(this);
+            //    }
+            //}
+            private void OnDamageDealing(DamageDealingEventArgs args)
+            {
+                if (args.DamageInfo.DamageType == DamageType.Attack)
+                {
+                    args.DamageInfo = args.DamageInfo.MultiplyBy(0.25f);
+                    args.AddModifier(this);
+                    if (args.Cause != ActionCause.OnlyCalculate)
+                    {
+                        base.NotifyActivating();
+                    }
+                }
             }
         }
     }
