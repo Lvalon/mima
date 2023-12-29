@@ -1,3 +1,46 @@
+cardoncetime:
+  Description: "Lose {Value1} life. Gain {Mana}. Draw {Value2} card and upgrade it."
+  Name: Once Upon A Time
+  FlavorText: "Dreams always start at the middle, but what started the dreams?"
+cardmconvert:
+  Description: "|For each <sprite=\"ManaSprite\" name=\"P\"> spent|: Gain {Value1} random mana.\n|For each <sprite=\"ManaSprite\" name=\"C\"> spent|: Draw {Value1} card."
+  UpgradedDescription: "|For each <sprite=\"ManaSprite\" name=\"P\"> spent|: Gain {Mana}.\n|For each <sprite=\"ManaSprite\" name=\"C\"> spent|: Draw {Value1} card."
+  Name: Magic Conversion
+  FlavorText: "Fantasy is when equivalence breaks."
+cardshepherdg:
+  Description: "At the start of each turn, lose {Value1} life and gain {Value2} |Magical Burst|."
+  Name: The Shepherd's Girl
+  FlavorText: "This is the beginning of eternity."
+cardpurediamond:
+  Description: "When {SelfName} enters the hand: Gain {Mana}.\nDeal {Value1} damage to all units and exile {SelfName}."
+  Name: Pure Diamond
+  FlavorText: "How many seconds, in eternity?"
+cardmountain:
+  Description: "Add {Value1} |Pure Diamonds| to the discard pile."
+  UpgradedDescription: "Add {Value1} |Pure Diamonds| to the draw pile."
+  Name: Mountain of Pure Diamond
+  FlavorText: "The grest quest of time."
+cardextrav:
+  Description: "Draw {Value1} cards."
+  Name: Spell of Extravagance
+  FlavorText: "Greed is a relic of the past."
+cardenterzone:
+  Description: "Become |Transcended| for {Value1} turn.\n|Overdraft| {Value2}."
+  UpgradedDescription: "Become |Transcended| for {Value1} turn."
+  Name: Entering The Zone!
+  FlavorText: "Is she really entering the zone when she can enter it whenever she wants?"
+cardwheresleep:
+  Description: "|At the start of combat|: |Exile| {SelfName}, lose {Value1} life and gain {Value2} |Magical Burst|."
+  Name: Where I Reside
+  FlavorText: "Running is good and all, what about staying?"
+cardendlesswalk:
+  Description: "Add {Value1} |Pure Diamond| to the draw pile.\nDraw {Value2} card."
+  Name: Endless Walkthrough
+  FlavorText: "The mountain seemed larger the more it's been dug."
+cardsharppeak:
+  Description: "|For each <sprite=\"ManaSprite\" name=\"R\"> spent|: Gain {Value1} |Magical Burst|.\n|For each <sprite=\"ManaSprite\" name=\"W\"> spent|: Upgrade {Value2} random cards in hand.\nGain {Value3} |Predestinated Burst|."
+  Name: Sharpen the Peak
+  FlavorText: "One day, the entire mountain will be chiseled away."
 cardperlereino:
   Description: "Remove all status effects except |Evil Spirit| on all enemies.\nGain |Evil Spirit| and |Flawless| for each status effect removed by this effect."
   Name: Transmigrating to Perlereino
@@ -5,7 +48,6 @@ cardperlereino:
   DetailText: There are a few |e:unconventional exceptions| to ensure that the game could run properly.
 cardmarisaskill:
   Description: "Choose up to {Value1} of {Value2} |Marisa| skill cards to add to the hand.\nThey |temporarily cost| {Mana} and have |Exile| and |Ethereal|."
-  UpgradedDescription: "Choose up to all of {Value2} |Marisa| skill cards to add to the hand.\nThey |temporarily cost| {Mana} and have |Exile| and |Ethereal|."
   Name: Achievements of the Apprentice
   FlavorText: "Marisa! Are your potions stable yet?"
   DetailText: These |e:alternate cards| ignore total mana and mana color restrictions.

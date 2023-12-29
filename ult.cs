@@ -73,6 +73,7 @@ namespace lvalonmima
 
             protected override IEnumerable<BattleAction> Actions(UnitSelector selector)
             {
+                yield return PerformAction.Spell(Battle.Player, "ulta");
                 yield return new DamageAction(base.Owner, base.Owner, DamageInfo.HpLose(hplosing, true), "Instant", GunType.Single);
                 int atktimeleft = Value2;
                 while (atktimeleft > 0 && !base.Battle.BattleShouldEnd)
@@ -135,6 +136,7 @@ namespace lvalonmima
             }
             protected override IEnumerable<BattleAction> Actions(UnitSelector selector)
             {
+                yield return PerformAction.Spell(Battle.Player, "ultb");
                 yield return new DamageAction(base.Owner, base.Owner, DamageInfo.HpLose(hplosing, true), "Instant", GunType.Single);
                 yield break;
             }

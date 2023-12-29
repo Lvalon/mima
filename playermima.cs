@@ -12,6 +12,11 @@ using LBoLEntitySideloader.Attributes;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using LBoL.Core;
+using LBoL.EntityLib.EnemyUnits.Character;
+using LBoL.EntityLib.EnemyUnits.Normal;
+using LBoL.EntityLib.StatusEffects.Basic;
+using System.Xml.Linq;
+using UnityEngine.InputSystem.HID;
 
 namespace lvalonmima
 {
@@ -93,12 +98,21 @@ namespace lvalonmima
         public override UnitModelConfig MakeConfig()
         {
 
-            var config = UnitModelConfig.FromName("Reimu").Copy();
-            config.Flip = true;
-            config.Type = 0;
-            config.Offset = new Vector2(0, -0.1f);
-            return config;
+            //var config = UnitModelConfig.FromName("Reimu").Copy();
+            //config.HasSpellPortrait = true;
+            //config.Flip = true;
+            //config.Type = 0;
+            //config.Offset = new Vector2(0, -0.1f);
+            //return config;
 
+            var unitModelConfig = new UnitModelConfig(Name: "Mima", Type: 0, EffectName:null, Offset: new Vector2(0, -0.1f), Flip: true, Dielevel: 2,
+            Box: new Vector2(0.8f, 1.8f), Shield: 1.2f, Block: 1.3f, Hp: new Vector2(0.0f, -1.3f), HpLength: 666, Info: new Vector2(0.0f, 1.2f),
+            Select: new Vector2(1.6f, 2.0f), ShootStartTime: new float[] { 0.1f }, new Vector2[] { new Vector2(0.6f, 0.3f) }, ShooterPoint: new Vector2[] { new Vector2(0.6f, 0.3f) },
+            Hit: new Vector2(0.3f, 0.0f), HitRep: 0.1f, GuardRep: 0.1f, Chat: new Vector2(0.4f, 0.8f), ChatPortraitXY: new Vector2(-0.8f, -0.58f),
+            ChatPortraitWH: new Vector2(0.6f, 0.5f), HasSpellPortrait: true, SpellPosition: new Vector2(400.00f, 0.00f), SpellScale: 0.9f,
+            SpellColor: new Color32[] { new Color32(186, 66, 255, 255), new Color32(155, 5, 193, 255), new Color32(186, 66, 255, 150), new Color32(155, 5, 193, 255) });
+            return unitModelConfig; }
         }
-    }
 }
+
+
