@@ -329,7 +329,17 @@
 
     <ItemGroup>
       <None Remove="resources\cardEn.yaml" />
+      <None Remove="Resources\cardendlesswalk.png" />
+      <None Remove="Resources\cardenterzone.png" />
+      <None Remove="Resources\cardextrav.png" />
       <None Remove="Resources\cardmarisaskill.png" />
+      <None Remove="Resources\cardmconvert.png" />
+      <None Remove="Resources\cardmountain.png" />
+      <None Remove="Resources\cardoncetime.png" />
+      <None Remove="Resources\cardpurediamond.png" />
+      <None Remove="Resources\cardsharppeak.png" />
+      <None Remove="Resources\cardshepherdg.png" />
+      <None Remove="Resources\cardwheresleep.png" />
       <None Remove="resources\exEn.yaml" />
       <None Remove="Resources\mimab.png" />
       <None Remove="resources\modelEn.yaml" />
@@ -344,6 +354,7 @@
       <None Remove="Resources\sekarmanation.png" />
       <None Remove="Resources\semagicalburst.png" />
       <None Remove="Resources\seretribution.png" />
+      <None Remove="Resources\seshepherdg.png" />
       <None Remove="Resources\sesplitburst.png" />
       <None Remove="Resources\setheabyss.png" />
       <None Remove="resources\ultEn.yaml" />

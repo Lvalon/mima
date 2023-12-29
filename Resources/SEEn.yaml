@@ -54,6 +54,10 @@ damagemultiplier:
   Description: "It's impossible."
   Brief: "It's impossible."
   Name: Total Damage Multiplier
+seshepherdg:
+  Description: "At the start of each turn, lose {Level} life and gain {Level} |Magical Burst|."
+  Brief: "At the start of each turn, lose life and gain |Magical Burst|."
+  Name: The Shepherd's Girl
 RepeatActionSe:
   Description: "Repeats the effect of the last card played {Level} time{Level:plural one='' other='s'} at the start of the turn."
   Brief: "Repeats the effect of the last card played at the start of the turn."
