@@ -43,7 +43,7 @@ namespace lvalonmima.SE
             var statusEffectConfig = new StatusEffectConfig(
                 Index: sequenceTable.Next(typeof(CardConfig)),
                 Id: "",
-                Order: 1,
+                Order: 20,
                 Type: StatusEffectType.Special,
                 IsVerbose: true,
                 IsStackable: true,

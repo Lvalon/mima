@@ -91,8 +91,8 @@ namespace lvalonmima.NotImages.Uncommon
                UltimateCost: null,
                UpgradedUltimateCost: null,
 
-               Keywords: Keyword.None,
-               UpgradedKeywords: Keyword.None,
+               Keywords: Keyword.Exile,
+               UpgradedKeywords: Keyword.Exile,
                EmptyDescription: false,
                RelativeKeyword: Keyword.Overdraft,
                UpgradedRelativeKeyword: Keyword.Overdraft,
@@ -112,7 +112,7 @@ namespace lvalonmima.NotImages.Uncommon
         }
 
         [EntityLogic(typeof(cardenterzonedef))]
-        public sealed class cardenterzone : Card
+        public sealed class cardenterzone : mimaextensions.mimacard
         {
             protected override IEnumerable<BattleAction> Actions(UnitSelector selector, ManaGroup consumingMana, Interaction precondition)
             {

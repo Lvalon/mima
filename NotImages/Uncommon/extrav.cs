@@ -61,9 +61,9 @@ namespace lvalonmima.NotImages.Uncommon
                Rarity: Rarity.Uncommon,
                Type: CardType.Skill,
                TargetType: TargetType.All,
-               Colors: new List<ManaColor>() { ManaColor.Colorless, ManaColor.Blue },
+               Colors: new List<ManaColor>() { ManaColor.Blue, ManaColor.Colorless },
                IsXCost: false,
-               Cost: new ManaGroup() { Colorless = 1, Blue = 1 },
+               Cost: new ManaGroup() { Blue = 1, Colorless = 1 },
                UpgradedCost: null,
                MoneyCost: null,
                Damage: null,
@@ -111,7 +111,7 @@ namespace lvalonmima.NotImages.Uncommon
         }
 
         [EntityLogic(typeof(cardextravdef))]
-        public sealed class cardextrav : Card
+        public sealed class cardextrav : mimaextensions.mimacard
         {
             protected override IEnumerable<BattleAction> Actions(UnitSelector selector, ManaGroup consumingMana, Interaction precondition)
             {

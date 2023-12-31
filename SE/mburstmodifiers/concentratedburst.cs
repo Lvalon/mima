@@ -102,9 +102,10 @@ namespace lvalonmima.SE.mburstmodifiers
             private IEnumerable<BattleAction> OnEnemyDied(DieEventArgs arg)
             {
                 base.NotifyChanged();
+                enemycount = 0;
                 foreach (Unit target in base.Battle.AllAliveEnemies)
                 {
-                    enemycount -= 1;
+                    enemycount++;
                 }
                 yield break;
             }

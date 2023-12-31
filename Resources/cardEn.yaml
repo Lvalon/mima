@@ -1,10 +1,17 @@
+cardmimaalib:
+  Description: "|When Mima enters The Bamboo Forest|:\nRemove {SelfName} from the |library|, add {Value1} |Mima| non-Rare skill cards to the library."
+  Name: The Phoenix Archive
+  FlavorText: "Experience accumulates."
+cardmimablib:
+  Description: "|p:mimab cards are not made yet.|\n|When Mima enters The Bamboo Forest|:\nRemove {SelfName} from the |library|, draft {Value1} non-Rare |Mima| cards to the library."
+  Name: Abyssal Reconstruction
+  FlavorText: "Harnessed the harness."
 cardoncetime:
-  Description: "Lose {Value1} life. Gain {Mana}. Draw {Value2} card and upgrade it."
+  Description: "Lose {Value1} life. Gain {Mana}. Draw {Value2} card and |upgrade| it until the end of combat."
   Name: Once Upon A Time
   FlavorText: "Dreams always start at the middle, but what started the dreams?"
 cardmconvert:
-  Description: "|For each <sprite=\"ManaSprite\" name=\"P\"> spent|: Gain {Value1} random mana.\n|For each <sprite=\"ManaSprite\" name=\"C\"> spent|: Draw {Value1} card."
-  UpgradedDescription: "|For each <sprite=\"ManaSprite\" name=\"P\"> spent|: Gain {Mana}.\n|For each <sprite=\"ManaSprite\" name=\"C\"> spent|: Draw {Value1} card."
+  Description: "|For each <sprite=\"ManaSprite\" name=\"P\"> spent|: Gain {Mana}.\n|For each <sprite=\"ManaSprite\" name=\"C\"><sprite=\"ManaSprite\" name=\"C\"> spent|: Draw {Value1} card."
   Name: Magic Conversion
   FlavorText: "Fantasy is when equivalence breaks."
 cardshepherdg:
@@ -16,12 +23,12 @@ cardpurediamond:
   Name: Pure Diamond
   FlavorText: "How many seconds, in eternity?"
 cardmountain:
-  Description: "Add {Value1} |Pure Diamonds| to the discard pile."
-  UpgradedDescription: "Add {Value1} |Pure Diamonds| to the draw pile."
+  Description: "Add {Value1} |Pure Diamonds| to the draw pile."
+  UpgradedDescription: "Add {Value1} |Pure Diamonds| to the draw pile.\nDraw {Value2} cards."
   Name: Mountain of Pure Diamond
   FlavorText: "The grest quest of time."
 cardextrav:
-  Description: "Draw {Value1} cards."
+  Description: "Draw {Value1} card{Value1:plural one='' other='s'}."
   Name: Spell of Extravagance
   FlavorText: "Greed is a relic of the past."
 cardenterzone:
@@ -34,20 +41,115 @@ cardwheresleep:
   Name: Where I Reside
   FlavorText: "Running is good and all, what about staying?"
 cardendlesswalk:
-  Description: "Add {Value1} |Pure Diamond| to the draw pile.\nDraw {Value2} card."
+  Description: "Add {Value1} |Pure Diamond| to the draw pile.\nDraw {Value2} card{Value2:plural one='' other='s'}."
   Name: Endless Walkthrough
   FlavorText: "The mountain seemed larger the more it's been dug."
 cardsharppeak:
-  Description: "|For each <sprite=\"ManaSprite\" name=\"R\"> spent|: Gain {Value1} |Magical Burst|.\n|For each <sprite=\"ManaSprite\" name=\"W\"> spent|: Upgrade {Value2} random cards in hand.\nGain {Value3} |Predestinated Burst|."
+  Description: "|For each <sprite=\"ManaSprite\" name=\"R\"> spent|: Gain {Value1} |Magical Burst|.\n|For each <sprite=\"ManaSprite\" name=\"W\"> spent|: |Upgrade| {Value2} random card{Value2:plural one='' other='s'} in hand until the end of combat.\nImmediately consume {Value3pct}% |Magical Burst|."
   Name: Sharpen the Peak
   FlavorText: "One day, the entire mountain will be chiseled away."
-cardperlereino:
-  Description: "Remove all status effects except |Evil Spirit| on all enemies.\nGain |Evil Spirit| and |Flawless| for each status effect removed by this effect."
-  Name: Transmigrating to Perlereino
-  FlavorText: "She dreams of a certain world where absolute power resides."
-  DetailText: There are a few |e:unconventional exceptions| to ensure that the game could run properly.
+cardextratick:
+  Description: "Immediately consume all |Magical Burst|.\nAt the start of {PlayerName}'s turn, lose {Value2} life and gain {Mana}."
+  Name: An Extra Tick in Time
+  FlavorText: "The flow of time is only ever constant to their observers."
+cardbirdq:
+  Description: "Discard {Value1} card{Value1:plural one='' other='s'}.\nDraw {Value1} card{Value1:plural one='' other='s'}.\nAdd {Value2} |Pure Diamond| to the draw pile.\nDelay |Magical Burst|'s natural activation by {Value2} turn{Value2:plural one='' other='s'}."
+  Name: "The Bird in Question"
+  FlavorText: "It would be one hell of a bird."
+cardfromhell:
+  Description: "Gain {Value1} |EX Temporary Firepower|.\nGain {Value1} |Magical Burst|."
+  Name: From Hell
+  FlavorText: "A bird? From hell? That sounded familiar..."
+carderosion:
+  Description: "Lose {Value2} life.\nApply {Value1} |Poison| to each enemy.\nGain {Value3} |Weak|."
+  Name: Spiritual Erosion
+  FlavorText: "The mere presence of an evil spirit affects all living beings around."
+cardremini:
+  Description: "Chooase {Value1} of {Value2} {PlayerName} skill card{Value2:plural one='' other='s'} to add to the hand."
+  Name: Spellbook of Reminiscence
+  FlavorText: "Even spirits have a limit on how many things they can remember?"
+cardrewind:
+  Description: "Discard the hand.\nSwap the draw and discard piles.\nGain {Value1} random mana, |Scry| {Scry} and draw {Value2}.\nDelay |Magical Burst|'s natural activation by {Value3} turn{Value4:plural one='' other='s'}."
+  Name: It's Rewind Time
+  FlavorText: "It's Rewind Time."
+cardgrasp:
+  Description: "Lose {Value1} Life.\nAdd {Value2} random skill card{Value2:plural one='' other='s'} from both the draw and discard pile to the hand."
+  Name: Within My Grasp!
+  FlavorText: "When a true magician is ready, she won't have to."
+cardchannelling:
+  Description: "Lose {Value1} life.\nLose all |Magical Burst|.\nGain |Time Pulse| equal to |Magical Burst| lost by this effect."
+  Name: Channelling the Timestream
+  FlavorText: "This is what can be done by turning the past, present and the future into clay."
+cardstarliege:
+  Description: "Gain {Value1} |EX Temporary Firepower|.\n{Value2} random card{Value2:plural one='' other='s'} in the hand gain |Echo|."
+  Name: Starliege Beacon
+  FlavorText: "Forever shining, the Seyfert will."
+cardstake:
+  Description: "Gain {Value1} Flawless.\nGain {Mana}.\n|Upgrade| all cards in the hand until the end of combat."
+  Name: Stake Your Spirit!
+  FlavorText: "Vanquisher of fantasies."
+cardtwelve:
+  Description: "All cards in the hand |temporarily cost| {Mana}, gain |Exile| and |Ethereal|."
+  Name: Clock Strikes Twelve
+  FlavorText: "Thoughts on a clock?"
+cardnineplus:
+  Description: "Draw until there are {Value1} cards in the hand.\nGain {Value2} |Magical Burst|."
+  Name: "9+10"
+  FlavorText: "21"
+cardutmost:
+  Description: "For each enemy, |Magical Burst| deal |Accurate| damage to a random enemy 1 time instead.\n|p:Stackable|"
+  Name: Utmost Concentration
+  FlavorText: "Everything unnecessary for combat is removed from perception."
+cardburstwave:
+  Description: "|Magical Burst| deal 1/{Value3} |Accurate| damage.\n|Magical Burst| deal damage {Value1} extra time{Value1:plural one='' other='s'}.\n|p:Stackable|"
+  Name: Burst Wave Function
+  FlavorText: "The amount of bursts that will be released is unknown until it's been observed."
 cardmarisaskill:
-  Description: "Choose up to {Value1} of {Value2} |Marisa| skill cards to add to the hand.\nThey |temporarily cost| {Mana} and have |Exile| and |Ethereal|."
+  Description: "Choose up to {Value1} of {Value2} |Marisa| skill card{Value2:plural one='' other='s'} to add to the hand.\nThey |temporarily cost| {Mana} and have |Exile| and |Ethereal|."
   Name: Achievements of the Apprentice
   FlavorText: "Marisa! Are your potions stable yet?"
   DetailText: These |e:alternate cards| ignore total mana and mana color restrictions.
+cardrivalry:
+  Description: "Add 1 random {PlayerName} ability card to the hand.\nIt |temporarily costs| {Mana} and has |Ethereal|."
+  Name: Rivalry of the Sworn Enemies
+  FlavorText: "There can only be one type of strongest in Gensokyo."
+cardtpartner:
+  Description: "Add 1 random card with |Time Limit| to the hand.\nIt |temporarily costs| {Mana}."
+  Name: Partners in Time
+  FlavorText: "Sweet Dreams in the time of the Alpha."
+  DetailText: "These |e:alternate cards| ignore total mana, mana color and character restrictions.\n{SelfName} cannot be produced by this effect."
+cardexistp:
+  Description: "Add {Value1} random card{Value1:plural one='' other='s'} with |Instinct| to the hand. Gain {Mana}."
+  Name: Existence and Perseverance
+  DetailText: "These |e:alternate cards| ignore character restrictions."
+cardperlereino:
+  Description: "Remove all status effects except |Evil Spirit| from all enemies.\nGain |Flawless|.\nGain |Evil Spirit| for each status effect removed by this effect.\n{SelfName}s lose all effect for the rest of this combat."
+  exDescription1: "|d:Remove all status effects except Evil Spirit from all enemies.|\n|d:Gain Flawless.|\n|d:Gain Evil Spirit for each status effect removed by this effect.|\n{SelfName}s lose all effect for the rest of this combat."
+  Name: Transmigrating to Perlereino
+  FlavorText: "She dreams of a certain world where absolute power resides."
+  DetailText: There are a few |e:unconventional exceptions| to ensure that the game could run properly.
+cardwraitsoth:
+  Description: "Gain {gainred}% less |Magical Burst|.\n|Magical Burst| is no longer consumed.\nGain {Value2} |Evil Spirit|."
+  UpgradedDescription: "|Magical Burst| is no longer consumed.\nGain {Value2} |Evil Spirit|."
+  Name: Unleashing of Wraitsoth
+  FlavorText: "Holding the axe of wraith, she banished anyone who dare stood in her way."
+cardalgophobia:
+  Description: "Whenever an enemy takes unblocked damage from |Magical Burst|'s attack, they lose life equal to |Magical Burst|'s attack damage."
+  Name: Algophobia
+  FlavorText: "The more afraid you are to be hurt, the more you would be hurt."
+cardrpolarity:
+  Description: "Whenever |Magical Burst| causes an enemy to lose life, {PlayerName} loses {Value1} life."
+  Name: Reversing the Polarity
+  FlavorText: "The polarity is a bit confused, but it got the spirit."
+cardcardtable:
+  Description: "Add random skill cards to the hand until the hand is full.\nThey |temporarily cost| {Value1} random mana less."
+  Name: Cards On The Table
+  FlavorText: '"THIS, is all there is from me."'
+cardmicrocosmos:
+  Description: "End {PlayerName}'s turn, then take an extra turn.\nDraw a card whenever a skill card is played that turn."
+  Name: Micro Cosmos
+  FlavorText: "Must be the cause of global warming..."
+carddawntime:
+  Description: "End {PlayerName} turn, then take an extra turn.\n{PlayerName} takes and deal no damage, cards cost {Mana}, cannot gain mana or draw cards during that turn.\nAt the start of that turn, add {Value1} random {PlayerName} cards to the hand, they have |Exile| and |Ethereal|."
+  Name: At The Dawn of Time
+  FlavorText: "Witness the beginning of everything."

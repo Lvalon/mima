@@ -328,18 +328,43 @@
 
 
     <ItemGroup>
+      <None Remove="Resources\cardalgophobia.png" />
+      <None Remove="Resources\cardbirdq.png" />
+      <None Remove="Resources\cardburstwave.png" />
+      <None Remove="Resources\cardcardtable.png" />
+      <None Remove="Resources\cardchannelling.png" />
+      <None Remove="Resources\carddawntime.png" />
       <None Remove="resources\cardEn.yaml" />
       <None Remove="Resources\cardendlesswalk.png" />
       <None Remove="Resources\cardenterzone.png" />
+      <None Remove="Resources\carderosion.png" />
+      <None Remove="Resources\cardexistp.png" />
+      <None Remove="Resources\cardextratick.png" />
       <None Remove="Resources\cardextrav.png" />
+      <None Remove="Resources\cardfromhell.png" />
+      <None Remove="Resources\cardgrasp.png" />
       <None Remove="Resources\cardmarisaskill.png" />
       <None Remove="Resources\cardmconvert.png" />
+      <None Remove="Resources\cardmicrocosmos.png" />
+      <None Remove="Resources\cardmimaalib.png" />
+      <None Remove="Resources\cardmimablib.png" />
       <None Remove="Resources\cardmountain.png" />
+      <None Remove="Resources\cardnineplus.png" />
       <None Remove="Resources\cardoncetime.png" />
       <None Remove="Resources\cardpurediamond.png" />
+      <None Remove="Resources\cardremini.png" />
+      <None Remove="Resources\cardrewind.png" />
+      <None Remove="Resources\cardrivalry.png" />
+      <None Remove="Resources\cardrpolarity.png" />
       <None Remove="Resources\cardsharppeak.png" />
       <None Remove="Resources\cardshepherdg.png" />
+      <None Remove="Resources\cardstake.png" />
+      <None Remove="Resources\cardstarliege.png" />
+      <None Remove="Resources\cardtpartner.png" />
+      <None Remove="Resources\cardtwelve.png" />
+      <None Remove="Resources\cardutmost.png" />
       <None Remove="Resources\cardwheresleep.png" />
+      <None Remove="Resources\cardwraitsoth.png" />
       <None Remove="resources\exEn.yaml" />
       <None Remove="Resources\mimab.png" />
       <None Remove="resources\modelEn.yaml" />
@@ -348,6 +373,8 @@
       <None Remove="Resources\seconcentratedburst.png" />
       <None Remove="Resources\sedamageadder.png" />
       <None Remove="Resources\sedamagemultiplier.png" />
+      <None Remove="Resources\sedawntime.png" />
+      <None Remove="Resources\sedrawonskill.png" />
       <None Remove="Resources\seeverlastingmagic.png" />
       <None Remove="Resources\sefastburst.png" />
       <None Remove="Resources\seimplosion.png" />
@@ -356,6 +383,7 @@
       <None Remove="Resources\seretribution.png" />
       <None Remove="Resources\seshepherdg.png" />
       <None Remove="Resources\sesplitburst.png" />
+      <None Remove="Resources\sestartturnloselife.png" />
       <None Remove="Resources\setheabyss.png" />
       <None Remove="resources\ultEn.yaml" />
       <None Remove="resources\unfinished.txt" />

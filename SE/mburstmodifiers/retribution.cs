@@ -23,6 +23,8 @@ using LBoL.EntityLib.StatusEffects.Enemy;
 using LBoL.EntityLib.StatusEffects.Koishi;
 using static UnityEngine.GraphicsBuffer;
 using System.Linq;
+using LBoL.EntityLib.StatusEffects.Others;
+using LBoL.EntityLib.StatusEffects.Neutral.TwoColor;
 
 namespace lvalonmima.SE.mburstmodifiers
 {
@@ -79,33 +81,41 @@ namespace lvalonmima.SE.mburstmodifiers
                 isMBmod = false;
                 truecounter = 0;
             }
-            public override bool ForceNotShowNumber
-            {
-                get
-                {
-                    return true;
-                }
-            }
-            int oldmb = 0;
-            int newmb = 0;
-            //set up triggers to give a fuck on
-            //also vfx/sfx
-            //they worked
+            //int oldmb = 0;
+            //int newmb = 0;
             protected override void OnAdded(Unit unit)
             {
-                if (Owner.TryGetStatusEffect<magicalburst>(out var tmp) && tmp is mimaextensions.mimase magicalburst)
-                {
-                    oldmb = newmb = magicalburst.truecounter;
-                }
-                ReactOwnerEvent(Owner.StatusEffectAdded, new EventSequencedReactor<StatusEffectApplyEventArgs>(this.OnStatusEffectAdded));
+                //if (Owner.TryGetStatusEffect<magicalburst>(out var tmp) && tmp is mimaextensions.mimase magicalburst)
+                //{
+                //    oldmb = newmb = magicalburst.truecounter;
+                //}
+                //ReactOwnerEvent(Owner.StatusEffectAdded, new EventSequencedReactor<StatusEffectApplyEventArgs>(this.OnStatusEffectAdded));
+                base.ReactOwnerEvent<DamageEventArgs>(base.Owner.DamageDealt, new EventSequencedReactor<DamageEventArgs>(this.OnDamageDealt));
             }
-            private IEnumerable<BattleAction> OnStatusEffectAdded(StatusEffectApplyEventArgs args)
+            //private IEnumerable<BattleAction> OnStatusEffectAdded(StatusEffectApplyEventArgs args)
+            //{
+            //    if (Owner.TryGetStatusEffect<magicalburst>(out var tmp) && tmp is mimaextensions.mimase magicalburst)
+            //    {
+            //        newmb = magicalburst.truecounter;
+            //        if (oldmb > newmb) { yield return DamageAction.LoseLife(base.Owner, oldmb - newmb, "Cold2"); }
+            //        oldmb = magicalburst.truecounter;
+            //    }
+            //    yield break;
+            //}
+            private IEnumerable<BattleAction> OnDamageDealt(DamageEventArgs args)
             {
-                if (Owner.TryGetStatusEffect<magicalburst>(out var tmp) && tmp is mimaextensions.mimase magicalburst)
+                if (base.Battle.BattleShouldEnd)
                 {
-                    newmb = magicalburst.truecounter;
-                    if (oldmb > newmb) { yield return DamageAction.LoseLife(base.Owner, oldmb - newmb, "Cold2"); }
-                    oldmb = magicalburst.truecounter;
+                    yield break;
+                }
+                if (args.ActionSource is StatusEffect statusEffect && statusEffect is magicalburst)
+                {
+                    DamageInfo damageInfo = args.DamageInfo;
+                    if (damageInfo.Damage > 0f)
+                    {
+                        base.NotifyActivating();
+                        yield return DamageAction.LoseLife(base.Owner, Level, "Cold2");
+                    }
                 }
                 yield break;
             }

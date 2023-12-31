@@ -2,6 +2,7 @@
 using LBoL.Core;
 using LBoL.Core.Cards;
 using LBoL.Core.StatusEffects;
+using LBoL.EntityLib.StatusEffects.ExtraTurn;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -15,6 +16,9 @@ namespace lvalonmima
         {
         }
         public abstract class mimaexhibit : Exhibit
+        {
+        }
+        public abstract class mimaexpartner : ExtraTurnPartner
         {
         }
         public abstract class mimase : StatusEffect

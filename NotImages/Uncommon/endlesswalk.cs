@@ -65,7 +65,7 @@ namespace lvalonmima.NotImages.Uncommon
                Colors: new List<ManaColor>() { ManaColor.White, ManaColor.Colorless },
                IsXCost: false,
                Cost: new ManaGroup() { White = 1, Colorless = 1 },
-               UpgradedCost: new ManaGroup() { Any = 1 },
+               UpgradedCost: new ManaGroup() { Any = 2 },
                MoneyCost: null,
                Damage: null,
                UpgradedDamage: null,
@@ -75,7 +75,7 @@ namespace lvalonmima.NotImages.Uncommon
                UpgradedShield: null,
                Value1: 1,
                UpgradedValue1: null,
-               Value2: 1,
+               Value2: 2,
                UpgradedValue2: null,
                Mana: null,
                UpgradedMana: null,
@@ -112,7 +112,7 @@ namespace lvalonmima.NotImages.Uncommon
         }
 
         [EntityLogic(typeof(cardendlesswalkdef))]
-        public sealed class cardendlesswalk : Card
+        public sealed class cardendlesswalk : mimaextensions.mimacard
         {
             protected override IEnumerable<BattleAction> Actions(UnitSelector selector, ManaGroup consumingMana, Interaction precondition)
             {
