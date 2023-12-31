@@ -65,7 +65,7 @@ carderosion:
   Name: Spiritual Erosion
   FlavorText: "The mere presence of an evil spirit affects all living beings around."
 cardremini:
-  Description: "Chooase {Value1} of {Value2} {PlayerName} skill card{Value2:plural one='' other='s'} to add to the hand."
+  Description: "Chooase {Value1} of {Value2} non-Rare {PlayerName} skill card{Value2:plural one='' other='s'} to add to the hand."
   Name: Spellbook of Reminiscence
   FlavorText: "Even spirits have a limit on how many things they can remember?"
 cardrewind:
@@ -110,7 +110,7 @@ cardmarisaskill:
   FlavorText: "Marisa! Are your potions stable yet?"
   DetailText: These |e:alternate cards| ignore total mana and mana color restrictions.
 cardrivalry:
-  Description: "Add 1 random {PlayerName} ability card to the hand.\nIt |temporarily costs| {Mana} and has |Ethereal|."
+  Description: "Add 1 random non-Rare {PlayerName} ability card to the hand.\nIt |temporarily costs| {Mana} and has |Ethereal|."
   Name: Rivalry of the Sworn Enemies
   FlavorText: "There can only be one type of strongest in Gensokyo."
 cardtpartner:
@@ -153,3 +153,4 @@ carddawntime:
   Description: "End {PlayerName} turn, then take an extra turn.\n{PlayerName} takes and deal no damage, cards cost {Mana}, cannot gain mana or draw cards during that turn.\nAt the start of that turn, add {Value1} random {PlayerName} cards to the hand, they have |Exile| and |Ethereal|."
   Name: At The Dawn of Time
   FlavorText: "Witness the beginning of everything."
+  DetailText: "These |e:alternate cards| ignore total mana and mana color restrictions.\n{SelfName} cannot be produced by this effect."
