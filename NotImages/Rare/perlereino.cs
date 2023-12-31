@@ -20,6 +20,7 @@ using System.Xml.Linq;
 using static lvalonmima.SE.evilspiritdef;
 using Unity.IO.LowLevel.Unsafe;
 using LBoL.EntityLib.StatusEffects.Cirno;
+using LBoL.EntityLib.Cards.Character.Sakuya;
 
 namespace lvalonmima.NotImages.Rare
 {
@@ -95,8 +96,8 @@ namespace lvalonmima.NotImages.Rare
                RelativeKeyword: Keyword.None,
                UpgradedRelativeKeyword: Keyword.None,
 
-               RelativeEffects: new List<string>() { "evilspirit", "Invincible" },
-               UpgradedRelativeEffects: new List<string>() { "evilspirit", "Invincible" },
+               RelativeEffects: new List<string>() { "evilspirit", "InvincibleEternal" },
+               UpgradedRelativeEffects: new List<string>() { "evilspirit", "InvincibleEternal" },
                RelativeCards: new List<string>() { },
                UpgradedRelativeCards: new List<string>() { },
                Owner: "Mima",
@@ -110,41 +111,70 @@ namespace lvalonmima.NotImages.Rare
         }
 
         [EntityLogic(typeof(cardperlereinodef))]
-        public sealed class cardperlereino : Card
+        public sealed class cardperlereino : mimaextensions.mimacard
         {
+            private string exDescription1
+            {
+                get
+                {
+                    return this.LocalizeProperty("exDescription1", true, true);
+                }
+            }
+            protected override string GetBaseDescription()
+            {
+                if (!this.Active)
+                {
+                    return this.exDescription1;
+                }
+                return base.GetBaseDescription();
+            }
+            private bool Active
+            {
+                get
+                {
+                    if (base.Battle != null)
+                    {
+                        return !base.Battle.BattleCardUsageHistory.Any((Card card) => card is cardperlereino);
+                    }
+                    return true;
+                }
+            }
             protected override IEnumerable<BattleAction> Actions(UnitSelector selector, ManaGroup consumingMana, Interaction precondition)
             {
-                //log.LogDebug("actions entered");
-                int buff = 0;
-                foreach (Unit target in selector.GetUnits(Battle))
+                if (this.Active)
                 {
-                    //backup for anti-levelling
-
-                    //foreach (StatusEffect status in (from se in target.StatusEffects
-                    //                                 where se.Id != "evilspirit" && se.HasLevel
-                    //                                 select se).ToList())
-                    //{
-                    //    yield return new ApplyStatusEffectAction(status.GetType() ,target, new int?(-status.Level), null, null, null, 0f, true);
-                    //}
-
-                    //if (!seExceptions.Contains(status.Id))
-                    //{
-                    //}
-
-                    foreach (StatusEffect status in (from se in target.StatusEffects
-                                                     where se.Id != "evilspirit" && se.Id != "SijiZui" && target != base.Battle.Player
-                                                     select se).ToList())
+                    int buff = 0;
+                    foreach (Unit target in selector.GetUnits(Battle))
                     {
-                        yield return new RemoveStatusEffectAction(status, true, 0.1f);
-                        buff++;
+                        //backup for anti-levelling
+
+                        //foreach (StatusEffect status in (from se in target.StatusEffects
+                        //                                 where se.Id != "evilspirit" && se.HasLevel
+                        //                                 select se).ToList())
+                        //{
+                        //    yield return new ApplyStatusEffectAction(status.GetType() ,target, new int?(-status.Level), null, null, null, 0f, true);
+                        //}
+
+                        //if (!seExceptions.Contains(status.Id))
+                        //{
+                        //}
+
+                        foreach (StatusEffect status in (from se in target.StatusEffects
+                                                         where se.Id != "evilspirit" && se.Id != "SijiZui" && target != base.Battle.Player
+                                                         select se).ToList())
+                        {
+                            yield return new RemoveStatusEffectAction(status, true, 0.1f);
+                            buff++;
+                        }
                     }
+                    if (buff > 0)
+                    {
+                        yield return BuffAction<InvincibleEternal>(1, 0, 0, 0, 0.2f);
+                        yield return BuffAction<evilspirit>(buff, 0, 0, 0, 0.2f);
+                    }
+                    yield break;
                 }
-                if (buff > 0)
-                {
-                    yield return BuffAction<Invincible>(0, buff, 0, 0, 0.2f);
-                    yield return BuffAction<evilspirit>(buff, 0, 0, 0, 0.2f);
-                }
-                yield break;
+
             }
         }
     }

@@ -70,7 +70,7 @@ namespace lvalonmima.SE
         }
 
         [EntityLogic(typeof(transcendeddef))]
-        public sealed class transcended : StatusEffect
+        public sealed class transcended : mimaextensions.mimase
         {
             public ManaGroup Mana
             {

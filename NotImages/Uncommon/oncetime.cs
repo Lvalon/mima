@@ -63,8 +63,8 @@ namespace lvalonmima.NotImages.Uncommon
                TargetType: TargetType.All,
                Colors: new List<ManaColor>() { ManaColor.White, ManaColor.Black },
                IsXCost: false,
-               Cost: new ManaGroup() { Any = 1 },
-               UpgradedCost: new ManaGroup() { Any = 0 },
+               Cost: new ManaGroup() { White = 1, Black = 1 },
+               UpgradedCost: new ManaGroup() { Any = 2 },
                MoneyCost: null,
                Damage: null,
                UpgradedDamage: null,
@@ -111,7 +111,7 @@ namespace lvalonmima.NotImages.Uncommon
         }
 
         [EntityLogic(typeof(cardoncetimedef))]
-        public sealed class cardoncetime : Card
+        public sealed class cardoncetime : mimaextensions.mimacard
         {
             protected override IEnumerable<BattleAction> Actions(UnitSelector selector, ManaGroup consumingMana, Interaction precondition)
             {

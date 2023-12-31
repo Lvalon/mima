@@ -74,9 +74,9 @@ namespace lvalonmima.NotImages.Uncommon
                UpgradedBlock: null,
                Shield: null,
                UpgradedShield: null,
-               Value1: 3,
+               Value1: 4,
                UpgradedValue1: null,
-               Value2: 3,
+               Value2: 4,
                UpgradedValue2: null,
                Mana: null,
                UpgradedMana: null,
@@ -113,7 +113,7 @@ namespace lvalonmima.NotImages.Uncommon
         }
 
         [EntityLogic(typeof(cardshepherdgdef))]
-        public sealed class cardshepherdg : Card
+        public sealed class cardshepherdg : mimaextensions.mimacard
         {
             protected override IEnumerable<BattleAction> Actions(UnitSelector selector, ManaGroup consumingMana, Interaction precondition)
             {

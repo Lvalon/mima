@@ -113,15 +113,17 @@ namespace lvalonmima.NotImages.Uncommon
         }
 
         [EntityLogic(typeof(cardsharppeakdef))]
-        public sealed class cardsharppeak : Card
+        public sealed class cardsharppeak : mimaextensions.mimacard
         {
             public int Value3
             {
                 get
                 {
-                    return 2;
+                    return 1;
                 }
             }
+            public int Value3pct
+            { get { return 20; } }
             public override ManaGroup GetXCostFromPooled(ManaGroup pooledMana)
             {
                 return new ManaGroup

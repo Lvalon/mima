@@ -24,6 +24,7 @@ using LBoL.EntityLib.StatusEffects.Koishi;
 using static UnityEngine.GraphicsBuffer;
 using System.Linq;
 using static lvalonmima.SE.mburstmodifiers.accumulationdef;
+using static MonoMod.Cil.RuntimeILReferenceBag.FastDelegateInvokers;
 
 namespace lvalonmima.SE.mburstmodifiers
 {
@@ -88,25 +89,26 @@ namespace lvalonmima.SE.mburstmodifiers
                     else { return (Level > 5) ? Convert.ToInt32(5 * 20) : Convert.ToInt32(Level * 20); }
                 }
             }
+            bool holup = false;
             //set up triggers to give a fuck on
             //also vfx/sfx
             //they worked
             protected override void OnAdded(Unit unit)
             {
-                ReactOwnerEvent(base.Battle.CardUsed, new EventSequencedReactor<CardUsingEventArgs>(this.OnCardUsed));
+                //ReactOwnerEvent(base.Battle.CardUsed, new EventSequencedReactor<CardUsingEventArgs>(this.OnCardUsed));
                 ReactOwnerEvent<StatusEffectApplyEventArgs>(base.Owner.StatusEffectAdded, new EventSequencedReactor<StatusEffectApplyEventArgs>(this.OnStatusEffectAdded));
                 if (Level > 5) { base.NotifyChanged(); Level = 5; }
             }
 
-            private IEnumerable<BattleAction> OnCardUsed(GameEventArgs args)
-            {
-                if (Owner.TryGetStatusEffect<magicalburst>(out var effect))
-                {
-                    NotifyActivating();
-                    yield return new RemoveStatusEffectAction(this, true);
-                }
-                yield break;
-            }
+            //private IEnumerable<BattleAction> OnCardUsed(GameEventArgs args)
+            //{
+            //    if (Owner.TryGetStatusEffect<magicalburst>(out var effect))
+            //    {
+            //        NotifyActivating();
+            //        yield return new RemoveStatusEffectAction(this, true);
+            //    }
+            //    yield break;
+            //}
 
             private IEnumerable<BattleAction> OnStatusEffectAdded(StatusEffectApplyEventArgs args)
             {

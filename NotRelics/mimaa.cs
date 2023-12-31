@@ -24,6 +24,7 @@ using LBoL.Core.Randoms;
 using static lvalonmima.SE.transcendeddef;
 using static lvalonmima.SE.magicalburstdef;
 using LBoL.Core.Stations;
+using LBoL.Core.Cards;
 
 namespace lvalonmima.NotRelics
 {
@@ -86,7 +87,6 @@ namespace lvalonmima.NotRelics
             private int oghp;
             private int ogmax;
             private int ogdmg;
-
             protected override void OnAdded(PlayerUnit player)
             {
                 GameRunController gameRun = base.GameRun;
@@ -102,6 +102,25 @@ namespace lvalonmima.NotRelics
                 //        station.Rewards.Add(station.Stage.GetEnemyCardReward());
                 //    }
                 //});
+                base.HandleGameRunEvent<StationEventArgs>(base.GameRun.StationEntered, delegate (StationEventArgs args)
+                {
+                    EntryStation entryStation = args.Station as EntryStation;
+                    if (entryStation != null && base.GameRun.Stages.IndexOf(entryStation.Stage) == 0)
+                    {
+                        gameRun.RemoveDeckCards(from card in GameRun.BaseDeck select card, false);
+                        for (int i = 0; i < 12; i++)
+                        {
+                            Card[] cards = gameRun.RollCards(gameRun.CardRng, new CardWeightTable(RarityWeightTable.EnemyCard, OwnerWeightTable.OnlyPlayer, CardTypeWeightTable.OnlySkill), 1, false, (CardConfig config) => config.Rarity != Rarity.Rare);
+                            gameRun.AddDeckCards(cards, false, null);
+                        }
+                    }
+                });
+                //gameRun.RemoveDeckCards(from card in GameRun.BaseDeck select card, false);
+                //for (int i = 0; i < 12; i++)
+                //{
+                //    Card[] cards = gameRun.RollCards(gameRun.CardRng, new CardWeightTable(RarityWeightTable.EnemyCard, OwnerWeightTable.OnlyPlayer, CardTypeWeightTable.OnlySkill), 1, false, (CardConfig config) => config.Rarity != Rarity.Rare);
+                //    gameRun.AddDeckCards(cards, false, null);
+                //}
             }
             protected override void OnEnterBattle()
             {

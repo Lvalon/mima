@@ -77,7 +77,7 @@ namespace lvalonmima.NotImages.Uncommon
                UpgradedShield: null,
                Value1: 2,
                UpgradedValue1: null,
-               Value2: null,
+               Value2: 2,
                UpgradedValue2: null,
                Mana: null,
                UpgradedMana: null,
@@ -114,12 +114,12 @@ namespace lvalonmima.NotImages.Uncommon
         }
 
         [EntityLogic(typeof(cardmountaindef))]
-        public sealed class cardmountain : Card
+        public sealed class cardmountain : mimaextensions.mimacard
         {
             protected override IEnumerable<BattleAction> Actions(UnitSelector selector, ManaGroup consumingMana, Interaction precondition)
             {
-                if (!IsUpgraded) { yield return new AddCardsToDiscardAction(Library.CreateCards<cardpurediamond>(Value1, false), AddCardsType.Normal); }
-                else { yield return new AddCardsToDrawZoneAction(Library.CreateCards<cardpurediamond>(Value1, false), DrawZoneTarget.Random, AddCardsType.Normal); }
+                yield return new AddCardsToDrawZoneAction(Library.CreateCards<cardpurediamond>(Value1, false), DrawZoneTarget.Random, AddCardsType.Normal);
+                if (IsUpgraded) { yield return new DrawManyCardAction(Value2); }
             }
         }
     }

@@ -115,7 +115,7 @@ namespace lvalonmima.NotImages.Rare
         }
 
         [EntityLogic(typeof(cardpurediamonddef))]
-        public sealed class cardpurediamond : Card
+        public sealed class cardpurediamond : mimaextensions.mimacard
         {
             public override IEnumerable<BattleAction> OnDraw()
             {

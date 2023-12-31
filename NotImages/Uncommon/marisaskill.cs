@@ -63,7 +63,7 @@ namespace lvalonmima.NotImages.Uncommon
                TargetType: TargetType.All,
                Colors: new List<ManaColor>() { ManaColor.Black, ManaColor.Red },
                IsXCost: false,
-               Cost: new ManaGroup() { Any = 1, Black = 1, Red = 1 },
+               Cost: new ManaGroup() { Black = 1, Red = 1 },
                UpgradedCost: null,
                MoneyCost: null,
                Damage: null,
@@ -111,7 +111,7 @@ namespace lvalonmima.NotImages.Uncommon
         }
 
         [EntityLogic(typeof(cardmarisaskilldef))]
-        public sealed class cardmarisaskill : Card
+        public sealed class cardmarisaskill : mimaextensions.mimacard
         {
             //discover 2/3 marisa skill cards
             protected override IEnumerable<BattleAction> Actions(UnitSelector selector, ManaGroup consumingMana, Interaction precondition)

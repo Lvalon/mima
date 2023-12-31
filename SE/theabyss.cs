@@ -70,7 +70,7 @@ namespace lvalonmima.SE
         }
 
         [EntityLogic(typeof(theabyssdef))]
-        public sealed class theabyss : StatusEffect
+        public sealed class theabyss : mimaextensions.mimase
         {
             int cardused = 0;
             //set up triggers to give a fuck on

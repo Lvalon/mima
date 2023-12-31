@@ -71,7 +71,7 @@ namespace lvalonmima.SE
         }
 
         [EntityLogic(typeof(seshepherdgdef))]
-        public sealed class seshepherdg : StatusEffect
+        public sealed class seshepherdg : mimaextensions.mimase
         {
             protected override void OnAdded(Unit unit)
             {

@@ -114,7 +114,7 @@ namespace lvalonmima.NotImages.Uncommon
         }
 
         [EntityLogic(typeof(cardwheresleepdef))]
-        public sealed class cardwheresleep : Card
+        public sealed class cardwheresleep : mimaextensions.mimacard
         {
             protected override void OnEnterBattle(BattleController battle)
             {

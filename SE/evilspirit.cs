@@ -44,7 +44,7 @@ namespace lvalonmima.SE
             var statusEffectConfig = new StatusEffectConfig(
                 Index: sequenceTable.Next(typeof(CardConfig)),
                 Id: "",
-                Order: 1,
+                Order: 20,
                 Type: StatusEffectType.Special,
                 IsVerbose: true,
                 IsStackable: true,
@@ -78,7 +78,8 @@ namespace lvalonmima.SE
             {
                 if (unit.Name == "Mima")
                 {
-                    GameRun.SetHpAndMaxHp(66, 66, false);
+                    if (unit.Hp > 66) { GameRun.SetHpAndMaxHp(66, 66, false); }
+                    else { GameRun.SetHpAndMaxHp(unit.Hp, 66, false); }
                 }
                 ReactOwnerEvent(Battle.RoundEnding, new EventSequencedReactor<GameEventArgs>(OnRoundEnding));
                 ReactOwnerEvent<StatusEffectApplyEventArgs>(base.Battle.Player.StatusEffectAdded, new EventSequencedReactor<StatusEffectApplyEventArgs>(this.OnStatusEffectAdded));
@@ -182,15 +183,22 @@ namespace lvalonmima.SE
             //}
             private void OnDamageDealing(DamageDealingEventArgs args)
             {
-                if (args.DamageInfo.DamageType == DamageType.Attack)
+                DamageInfo damageInfo = args.DamageInfo;
+                if (damageInfo.DamageType == DamageType.Attack)
                 {
-                    args.DamageInfo = args.DamageInfo.MultiplyBy(0.25f);
+                    damageInfo.Damage = damageInfo.Amount * (0.25f);
+                    args.DamageInfo = damageInfo;
                     args.AddModifier(this);
-                    if (args.Cause != ActionCause.OnlyCalculate)
-                    {
-                        base.NotifyActivating();
-                    }
                 }
+                //if (args.DamageInfo.DamageType == DamageType.Attack)
+                //{
+                //    args.DamageInfo = args.DamageInfo.MultiplyBy(0.25f);
+                //    args.AddModifier(this);
+                //    if (args.Cause != ActionCause.OnlyCalculate)
+                //    {
+                //        base.NotifyActivating();
+                //    }
+                //}
             }
         }
     }

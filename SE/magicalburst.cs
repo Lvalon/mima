@@ -118,6 +118,10 @@ namespace lvalonmima.SE
                     this.NotifyChanged();
                     dmgcalc();
                 }
+                if (Owner.TryGetStatusEffect<fastburst>(out var tmp) && tmp is mimaextensions.mimase fastburst)
+                {
+                    dealdmg(fastburst.Level * 20);
+                }
                 yield break;
             }
             private IEnumerable<BattleAction> OnStatusEffectRemoved(StatusEffectEventArgs args)
@@ -131,11 +135,10 @@ namespace lvalonmima.SE
             }
             private void OnCardUsing(CardUsingEventArgs args)
             {
-                if (Owner.TryGetStatusEffect<fastburst>(out var tmp) && tmp is mimaextensions.mimase fastburst)
-                {
-                    dealdmg(fastburst.Level * 20);
-                    React(new RemoveStatusEffectAction(fastburst, true, 0.1f));
-                }
+                //if (Owner.TryGetStatusEffect<fastburst>(out var tmp) && tmp is mimaextensions.mimase fastburst)
+                //{
+                //    dealdmg(fastburst.Level * 20);
+                //}
             }
             private void dealdmg(int consume100)
             {
@@ -320,15 +323,19 @@ namespace lvalonmima.SE
                         if (!Battle.BattleShouldEnd)
                         { yield return new DamageAction(base.Owner, Battle.EnemyGroup.Alives, DamageInfo.Attack(actualdmg, true), "JunkoLunatic", GunType.Single); }
                     }
-                    if (Owner.TryGetStatusEffect<everlastingmagic>(out var tmp)) { }
+                    if (Owner.TryGetStatusEffect<everlastingmagic>(out var tmp2)) { }
                     else
                     {
                         truecounter -= (int)actualdmg;
                         actualdmg = 0;
                         yield return new ApplyStatusEffectAction<magicalburst>(Owner, 0, null, null, null, 0f, false);
                     }
+                    dealdmgletsgo = false;
+                    if (Owner.TryGetStatusEffect<fastburst>(out var effect))
+                    {
+                        yield return new RemoveStatusEffectAction(effect, true);
+                    }
                 }
-                dealdmgletsgo = false;
                 dmgcalc();
                 yield break;
             }

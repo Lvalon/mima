@@ -65,7 +65,7 @@ namespace lvalonmima.SE
             return statusEffectConfig;
         }
         [EntityLogic(typeof(RepeatActionSeDef))]
-        public sealed class RepeatActionSe : StatusEffect
+        public sealed class RepeatActionSe : mimaextensions.mimase
         {
             private bool Temp = false;
             private Card card;

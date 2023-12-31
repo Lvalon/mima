@@ -22,7 +22,8 @@ namespace lvalonmima
 {
     public sealed class playermima : PlayerUnitTemplate
     {
-        public static DirectorySource dir = new DirectorySource(PluginInfo.GUID, "lvalonmima");
+        //public static DirectorySource dir = new DirectorySource(PluginInfo.GUID, "lvalonmima");
+        public static DirectorySource dir = new DirectorySource(PInfo.GUID, "");
 
         public static string name = nameof(Mima);
 
@@ -37,7 +38,8 @@ namespace lvalonmima
         {
             var sprites = new PlayerImages();
 
-            sprites.AutoLoad("", (s) => ResourceLoader.LoadSprite(s, dir, ppu: 100, 1, FilterMode.Bilinear, generateMipMaps: true), (s) => ResourceLoader.LoadSpriteAsync(s, dir));
+            //sprites.AutoLoad("", (s) => ResourceLoader.LoadSprite(s, dir, ppu: 100, 1, FilterMode.Bilinear, generateMipMaps: true), (s) => ResourceLoader.LoadSpriteAsync(s, dir));
+            sprites.AutoLoad("", (s) => ResourceLoader.LoadSprite(s, dir, ppu: 100, 1, FilterMode.Bilinear, generateMipMaps: true), (s) => ResourceLoader.LoadSpriteAsync(s, directorySource));
 
             return sprites;
         }
@@ -63,8 +65,8 @@ namespace lvalonmima
             UltimateSkillB: "ultb",
             ExhibitA: "mimaa",
             ExhibitB: "mimab",
-            DeckA: new List<string> { "Shoot", "Shoot", "Shoot", "Shoot" },
-            DeckB: new List<string> { "Shoot", "Shoot", "Shoot", "Shoot" },
+            DeckA: new List<string> { "cardmimaalib" },
+            DeckB: new List<string> { "cardmimablib" },
             DifficultyA: 6,
             DifficultyB: 6
             );

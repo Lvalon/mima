@@ -90,8 +90,8 @@ namespace lvalonmima.NotImages.Uncommon
                UltimateCost: null,
                UpgradedUltimateCost: null,
 
-               Keywords: Keyword.None,
-               UpgradedKeywords: Keyword.None,
+               Keywords: Keyword.Exile,
+               UpgradedKeywords: Keyword.Exile | Keyword.Echo,
                EmptyDescription: false,
                RelativeKeyword: Keyword.Philosophy | Keyword.XCost | Keyword.Synergy,
                UpgradedRelativeKeyword: Keyword.Philosophy | Keyword.XCost | Keyword.Synergy,
@@ -111,7 +111,7 @@ namespace lvalonmima.NotImages.Uncommon
         }
 
         [EntityLogic(typeof(cardmconvertdef))]
-        public sealed class cardmconvert : Card
+        public sealed class cardmconvert : mimaextensions.mimacard
         {
             public override ManaGroup GetXCostFromPooled(ManaGroup pooledMana)
             {
@@ -126,11 +126,10 @@ namespace lvalonmima.NotImages.Uncommon
                 ManaGroup manaGroup = ManaGroup.Empty;
                 for (int i = 0; i < base.SynergyAmount(consumingMana, ManaColor.Philosophy, 1); i++)
                 {
-                    if (!this.IsUpgraded) { manaGroup += ManaGroup.Single(ManaColors.Colors.Sample(base.GameRun.BattleRng)); }
-                    else { manaGroup += ManaGroup.Single(ManaColor.Philosophy); }
+                    manaGroup += ManaGroup.Single(ManaColor.Philosophy);
                 }
                 yield return new GainManaAction(manaGroup);
-                yield return new DrawManyCardAction(base.SynergyAmount(consumingMana, ManaColor.Colorless, 1));
+                yield return new DrawManyCardAction(base.SynergyAmount(consumingMana, ManaColor.Colorless, 2));
             }
         }
     }
