@@ -65,7 +65,7 @@ namespace lvalonmima.NotImages.Uncommon
                Colors: new List<ManaColor>() { ManaColor.Colorless },
                IsXCost: false,
                Cost: new ManaGroup() { Any = 2, Colorless = 2 },
-               UpgradedCost: new ManaGroup() { Any = 1, Colorless = 2 },
+               UpgradedCost: new ManaGroup() { Colorless = 2 },
                MoneyCost: null,
                Damage: null,
                UpgradedDamage: null,

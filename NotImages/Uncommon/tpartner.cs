@@ -92,8 +92,8 @@ namespace lvalonmima.NotImages.Uncommon
                UltimateCost: null,
                UpgradedUltimateCost: null,
 
-               Keywords: Keyword.None,
-               UpgradedKeywords: Keyword.None,
+               Keywords: Keyword.Ethereal,
+               UpgradedKeywords: Keyword.Ethereal,
                EmptyDescription: false,
                RelativeKeyword: Keyword.TempMorph,
                UpgradedRelativeKeyword: Keyword.TempMorph,

@@ -68,7 +68,7 @@ namespace lvalonmima.NotImages.Uncommon
                Colors: new List<ManaColor>() { ManaColor.Blue, ManaColor.Green },
                IsXCost: false,
                Cost: new ManaGroup() { Any = 1, Blue = 1, Green = 1 },
-               UpgradedCost: new ManaGroup() { Any = 2 },
+               UpgradedCost: new ManaGroup() { Any = 1 },
                MoneyCost: null,
                Damage: null,
                UpgradedDamage: null,
@@ -121,7 +121,7 @@ namespace lvalonmima.NotImages.Uncommon
             protected override IEnumerable<BattleAction> Actions(UnitSelector selector, ManaGroup consumingMana, Interaction precondition)
             {
                 yield return BuffAction<fastburst>(Value1, 0, 0, 0, 0.2f);
-                yield return BuffAction<startturnloselife>(Value2, 0, 0, 0, 0.2f);
+                //yield return BuffAction<startturnloselife>(Value2, 0, 0, 0, 0.2f);
                 yield return BuffAction<FreeFlySe>(Value3, 0, 0, 0, 0.2f);
             }
         }

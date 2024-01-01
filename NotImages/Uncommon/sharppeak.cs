@@ -77,7 +77,7 @@ namespace lvalonmima.NotImages.Uncommon
                Value1: 2,
                UpgradedValue1: 3,
                Value2: 1,
-               UpgradedValue2: 2,
+               UpgradedValue2: null,
                Mana: null,
                UpgradedMana: null,
                Scry: null,
