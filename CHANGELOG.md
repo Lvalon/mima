@@ -4,3 +4,4 @@ v0.0.12/v0.0.13: fix At The Dawn of Time 6color issue (lbol skill issue), and le
 v0.0.14: made sure Rare cards cant be generated at the start of a mima gamerun
 v0.0.15: some balancing
 v0.0.16: more balancing on discovery and generation cards
+v0.0.17: even more balancing

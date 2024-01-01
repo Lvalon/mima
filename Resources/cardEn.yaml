@@ -49,7 +49,7 @@ cardsharppeak:
   Name: Sharpen the Peak
   FlavorText: "One day, the entire mountain will be chiseled away."
 cardextratick:
-  Description: "Immediately consume all |Magical Burst|.\nAt the start of {PlayerName}'s turn, lose {Value2} life and gain {Mana}."
+  Description: "Immediately consume all |Magical Burst|.\nAt the start of {PlayerName}'s turn, gain {Mana}."
   Name: An Extra Tick in Time
   FlavorText: "The flow of time is only ever constant to their observers."
 cardbirdq:
@@ -97,7 +97,7 @@ cardnineplus:
   Name: "9+10"
   FlavorText: "21"
 cardutmost:
-  Description: "For each enemy, |Magical Burst| deal |Accurate| damage to a random enemy 1 time instead.\n|p:Stackable|"
+  Description: "For each enemy, |Magical Burst| deal |Accurate| damage to a random enemy {Value1} time{Value1:plural one='' other='s'} instead.\n|p:Stackable|"
   Name: Utmost Concentration
   FlavorText: "Everything unnecessary for combat is removed from perception."
 cardburstwave:
