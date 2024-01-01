@@ -115,7 +115,7 @@ namespace lvalonmima.NotImages.Uncommon
         {
             protected override IEnumerable<BattleAction> Actions(UnitSelector selector, ManaGroup consumingMana, Interaction precondition)
             {
-                List<Card> list = base.Battle.RollCards(new CardWeightTable(RarityWeightTable.BattleCard, OwnerWeightTable.OnlyPlayer, CardTypeWeightTable.CanBeLoot), Value1, (CardConfig config) => config.Type == CardType.Ability).ToList<Card>();
+                List<Card> list = base.Battle.RollCards(new CardWeightTable(RarityWeightTable.NoneRare, OwnerWeightTable.OnlyPlayer, CardTypeWeightTable.CanBeLoot), Value1, (CardConfig config) => config.Type == CardType.Ability).ToList<Card>();
                 if (list.Count > 0)
                 {
                     foreach (Card card in list)

@@ -1,6 +1,6 @@
 {
   "name": "Mima",
-  "version_number": "0.0.14",
+  "version_number": "0.0.16",
   "website_url": "https://github.com/Lvalon/mima",
   "description": "(Early Access) adds mima to lbol",
   "dependencies": [ "BepInEx-BepInExPack-5.4.2100", "TeamNeo-Sideloader-0.5.0"]

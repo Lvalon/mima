@@ -163,7 +163,7 @@ namespace lvalonmima.SE
             {
                 if (base.ThisTurnActivating)
                 {
-                    List<Card> list = base.Battle.RollCards(new CardWeightTable(RarityWeightTable.BattleCard, OwnerWeightTable.OnlyPlayer, CardTypeWeightTable.CanBeLoot), base.Level, (CardConfig config) => !config.Keywords.HasFlag(Keyword.Forbidden)).ToList<Card>();
+                    List<Card> list = base.Battle.RollCards(new CardWeightTable(RarityWeightTable.BattleCard, OwnerWeightTable.OnlyPlayer, CardTypeWeightTable.CanBeLoot), base.Level, (CardConfig config) => !config.Keywords.HasFlag(Keyword.Forbidden) && config.Id != "carddawntime").ToList<Card>();
                     if (list.Count > 0)
                     {
                         foreach (Card card in list)

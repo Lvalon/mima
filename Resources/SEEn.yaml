@@ -20,7 +20,7 @@ magicalburst:
   Name: Magical Burst
 accumulation:
   Description: "Delay |Magical Burst|'s natural consumption by {Level} round{Level:plural one='' other='s'}.\nSuppressed when {OwnerName} has |Everlasting Magic|."
-  Brief: "Delay |Magical Burst|'s natural activation."
+  Brief: "Delay |Magical Burst|'s natural activation.\nSuppressed by |Everlasting Magic|."
   Name: Spell Accumulation
 fastburst:
   Description: "Immediately consume {showfastburst}% |Magical Burst| after a card is played, then lose |Predestinated Burst|."
