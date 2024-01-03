@@ -23,6 +23,7 @@ using LBoL.EntityLib.StatusEffects.Cirno;
 using LBoL.Core.Randoms;
 using static lvalonmima.SE.magicalburstdef;
 using static lvalonmima.SE.extmpfiredef;
+using static lvalonmima.SE.mburstmodifiers.accumulationdef;
 
 namespace lvalonmima.NotImages.Uncommon
 {
@@ -80,8 +81,8 @@ namespace lvalonmima.NotImages.Uncommon
                UpgradedValue2: 7,
                Mana: null,
                UpgradedMana: null,
-               Scry: 8,
-               UpgradedScry: 10,
+               Scry: 2,
+               UpgradedScry: 3,
                ToolPlayableTimes: null,
                Loyalty: null,
                UpgradedLoyalty: null,
@@ -149,6 +150,7 @@ namespace lvalonmima.NotImages.Uncommon
                 yield return new GainManaAction(manaGroup);
                 yield return new ScryAction(base.Scry);
                 yield return new DrawManyCardAction(base.Value2);
+                yield return BuffAction<accumulation>(Value3, 0, 0, 0, 0.2f);
                 yield break;
             }
         }

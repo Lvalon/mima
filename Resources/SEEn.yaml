@@ -1,22 +1,22 @@
 karmanation:
-  Description: "Deal {dmgscale} times the damage.\nEach extra Level doubles |Karmanation|'s effect.\n|d:Stops doubling effect after 27 levels.|"
-  Brief: "Deal 2 times the damage.\nEach extra Level doubles |Karmanation|'s effect."
+  Description: "Deal {dmgscale} times the attack damage.\nEach extra Level doubles |Karmanation|'s effect.\n|d:Stops doubling effect after 27 levels.|"
+  Brief: "Deal 2 times the attack damage.\nEach extra Level doubles |Karmanation|'s effect."
   Name: Karmanation
 evilspirit:
-  Description: "|p:Only the evilest of beings can embrace the intrusive power of an evil spirit.|\nDeal |l:25%| damage. Whenever {OwnerName} is defeated, heal to maximum life, then gain |Karmanation| and once per turn, |Evil Spirit|.\nAt the end of each round, lose 1 |Evil Spirit|.\nIf {OwnerName} loses all |Evil Spirit|, they lose the game.\nFully heal after each combat."
-  Brief: "Deal |l:25%| damage. When defeated, heal to maximum life, then gain |Karmanation| and once per turn, |Evil Spirit|.\nAt the end of each round, lose 1 |Evil Spirit|.\nLose the game on losing all levels.\nFully heal after each combat."
+  Description: "|p:Only the evilest of beings can embrace the intrusive power of an evil spirit.|\nDeal |l:25%| attack damage. Whenever {OwnerName} is defeated, heal to maximum life, then gain |Karmanation| and once per turn, |Evil Spirit|.\nAt the end of each round, lose 1 |Evil Spirit|.\nIf {OwnerName} loses all |Evil Spirit|, they lose the game.\nFully heal after each combat."
+  Brief: "Deal |l:25%| attack damage. When defeated, heal to maximum life, then gain |Karmanation| and once per turn, |Evil Spirit|.\nAt the end of each round, lose 1 |Evil Spirit|.\nLose the game on losing all levels.\nFully heal after each combat."
   Name: Evil Spirit
 transcended:
   Description: "Whenever a skill card is played, gain {Mana}.\nAt the end of each round in which at least 1 skill card is played after |Transcended| is present, lose 1 |Transcended|."
   Brief: "Whenever a skill card is played, gain {Mana}.\nAt the end of each round in which at least 1 skill card is played after |Transcended| is present, lose 1 |Transcended|."
   Name: Transcended
 theabyss:
-  Description: "Skill cards cost {Mana} to play.\nAt the end of the round in which at least 1 skill card is played after |The Abyss| is present, lose 1 |The Abyss|."
-  Brief: "Skill cards cost {Mana} to play.\nAt the end of the round in which at least 1 skill card is played after |The Abyss| is present, lose 1 |The Abyss|."
+  Description: "Skill cards with a base cost of 3 or more cost {Mana} to play.\nAt the end of the round in which at least 1 skill card is played after |The Abyss| is present, lose 1 |The Abyss|."
+  Brief: "Skill cards with a base cost of 3 or more cost {Mana} to play.\nAt the end of the round in which at least 1 skill card is played after |The Abyss| is present, lose 1 |The Abyss|."
   Name: The Abyss
 magicalburst:
-  Description: "At the end of the round, consume all |Magical Burst|.\nConsumed |Magical Burst| are used to deal {truecounter} |Accurate| damage to all enemies."
-  Brief: "At the end of the round, consume all |Magical Burst| to deal |Accurate| damage to all enemies."
+  Description: "At the end of the round, consume all |Magical Burst|.\nConsumed |Magical Burst| is used to deal {truecounter} |Accurate| attack damage to all enemies."
+  Brief: "At the end of the round, consume all |Magical Burst| to deal |Accurate| attack damage to all enemies."
   Name: Magical Burst
 accumulation:
   Description: "Delay |Magical Burst|'s natural consumption by {Level} round{Level:plural one='' other='s'}.\nSuppressed when {OwnerName} has |Everlasting Magic|."
@@ -27,12 +27,12 @@ fastburst:
   Brief: "Immediately consume some |Magical Burst| after a card is played, then lose |Predestinated Burst|."
   Name: Predestinated Burst
 concentratedburst:
-  Description: "|Magical Burst| deal |Accurate| damage to a random enemy {Level}x{enemycount} times instead.\n|p:Multiplicative with Split Burst.|"
-  Brief: "|Magical Burst| deal |Accurate| damage to a random enemy for |Level| x |Enemy Count| times instead."
+  Description: "|Magical Burst| deals |Accurate| damage to a random enemy {Level}x{enemycount} times instead.\n|p:Multiplicative with Split Burst.|"
+  Brief: "|Magical Burst| deals |Accurate| damage to a random enemy for |Level| x |Enemy Count| times instead."
   Name: Concentrated Outbursts
 splitburst:
-  Description: "|Magical Burst| deal {splitdmg}% |Accurate| damage.\n|Magical Burst| deal damage {Level} extra time{Level:plural one='' other='s'}.\n|p:Multiplicative with Concentrated Outbursts.|"
-  Brief: "|Magical Burst| deal divided |Accurate| damage.\n|Magical Burst| deal damage some more times."
+  Description: "|Magical Burst| deals {splitdmg}% |Accurate| damage.\n|Magical Burst| deals damage {Level} extra time{Level:plural one='' other='s'}.\n|p:Multiplicative with Concentrated Outbursts.|"
+  Brief: "|Magical Burst| deals divided |Accurate| damage.\n|Magical Burst| deals damage some more times."
   Name: Split Burst
 retribution:
   Description: "Whenever |Magical Burst| causes an enemy to lose life, {OwnerName} loses {Level} life."

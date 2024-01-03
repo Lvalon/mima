@@ -66,7 +66,7 @@ namespace lvalonmima.NotImages.Uncommon
                Colors: new List<ManaColor>() { ManaColor.Blue, ManaColor.Green },
                IsXCost: false,
                Cost: new ManaGroup() { Any = 2 },
-               UpgradedCost: null,
+               UpgradedCost: new ManaGroup() { Any = 1 },
                MoneyCost: null,
                Damage: null,
                UpgradedDamage: null,
@@ -74,8 +74,8 @@ namespace lvalonmima.NotImages.Uncommon
                UpgradedBlock: null,
                Shield: null,
                UpgradedShield: null,
-               Value1: 2,
-               UpgradedValue1: 3,
+               Value1: 1,
+               UpgradedValue1: 2,
                Value2: 1,
                UpgradedValue2: null,
                Mana: null,
@@ -139,21 +139,21 @@ namespace lvalonmima.NotImages.Uncommon
             }
             protected override IEnumerable<BattleAction> Actions(UnitSelector selector, ManaGroup consumingMana, Interaction precondition)
             {
-                if (precondition != null)
-                {
-                    IReadOnlyList<Card> selectedCards = ((SelectHandInteraction)precondition).SelectedCards;
-                    if (selectedCards != null)
-                    {
-                        yield return new DiscardManyAction(selectedCards);
-                    }
-                }
-                else if (this.allHand.Count > 0)
-                {
-                    yield return new DiscardManyAction(this.allHand);
-                    this.allHand = null;
-                }
+                //if (precondition != null)
+                //{
+                //    IReadOnlyList<Card> selectedCards = ((SelectHandInteraction)precondition).SelectedCards;
+                //    if (selectedCards != null)
+                //    {
+                //        yield return new DiscardManyAction(selectedCards);
+                //    }
+                //}
+                //else if (this.allHand.Count > 0)
+                //{
+                //    yield return new DiscardManyAction(this.allHand);
+                //    this.allHand = null;
+                //}
                 yield return new DrawManyCardAction(Value1);
-                yield return new AddCardsToDrawZoneAction(Library.CreateCards<cardpurediamond>(Value2, false), DrawZoneTarget.Random, AddCardsType.Normal);
+                //yield return new AddCardsToDrawZoneAction(Library.CreateCards<cardpurediamond>(Value2, false), DrawZoneTarget.Random, AddCardsType.Normal);
                 yield return BuffAction<accumulation>(Value2, 0, 0, 0, 0.2f);
             }
             private List<Card> allHand;

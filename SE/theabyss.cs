@@ -86,7 +86,7 @@ namespace lvalonmima.SE
             {
                 foreach (Card card in cards)
                 {
-                    if (card.CardType == CardType.Skill)
+                    if (card.CardType == CardType.Skill && card.BaseCost.Amount > 2)
                     {
                         card.FreeCost = true;
                     }

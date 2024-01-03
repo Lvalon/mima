@@ -75,8 +75,8 @@ namespace lvalonmima.NotImages.Uncommon
                UpgradedShield: null,
                Value1: 1,
                UpgradedValue1: null,
-               Value2: 1,
-               UpgradedValue2: null,
+               Value2: 2,
+               UpgradedValue2: 1,
                Mana: null,
                UpgradedMana: null,
                Scry: null,
@@ -117,7 +117,7 @@ namespace lvalonmima.NotImages.Uncommon
             protected override IEnumerable<BattleAction> Actions(UnitSelector selector, ManaGroup consumingMana, Interaction precondition)
             {
                 yield return base.BuffAction<transcended>(base.Value1, 0, 0, 0, 0.2f);
-                if (!IsUpgraded) { yield return new LockRandomTurnManaAction(base.Value2); }
+                yield return new LockRandomTurnManaAction(base.Value2);
             }
         }
     }

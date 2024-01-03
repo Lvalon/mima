@@ -117,7 +117,7 @@ namespace lvalonmima.NotImages.Uncommon
             protected override IEnumerable<BattleAction> Actions(UnitSelector selector, ManaGroup consumingMana, Interaction precondition)
             {
                 yield return new AddCardsToDrawZoneAction(Library.CreateCards<cardpurediamond>(Value1, false), DrawZoneTarget.Random, AddCardsType.Normal);
-                yield return new DrawManyCardAction(Value2);
+                if (IsUpgraded) { yield return new DrawManyCardAction(Value2); }
             }
         }
     }
