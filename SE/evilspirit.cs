@@ -54,7 +54,7 @@ namespace lvalonmima.SE
                 HasDuration: false,
                 DurationStackType: null,
                 DurationDecreaseTiming: DurationDecreaseTiming.Custom,
-                HasCount: false,
+                HasCount: true,
                 CountStackType: StackType.Keep,
                 LimitStackType: StackType.Keep,
                 ShowPlusByLimit: false,
@@ -76,6 +76,7 @@ namespace lvalonmima.SE
             //they worked
             protected override void OnAdded(Unit unit)
             {
+                Count = 1;
                 if (unit.Name == "Mima")
                 {
                     if (unit.Hp > 66) { GameRun.SetHpAndMaxHp(66, 66, false); }
@@ -119,7 +120,7 @@ namespace lvalonmima.SE
                     }
                     if (GameRun.Battle != null)
                     {
-                        if (thisturn == false) { Level++; thisturn = true; }
+                        if (thisturn == false) { Level++; thisturn = true; Count = 0; }
                         React(new ApplyStatusEffectAction<karmanation>(base.Owner, 1, null, null, null, 0f, true));
                     }
                 }
@@ -131,6 +132,7 @@ namespace lvalonmima.SE
             private IEnumerable<BattleAction> OnRoundEnding(GameEventArgs args)
             {
                 thisturn = false;
+                Count = 1;
                 int num = Level - 1;
                 Level = num;
                 if (Level == 0)

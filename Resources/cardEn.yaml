@@ -10,9 +10,9 @@ cardoncetime:
   Description: "Lose {Value1} life. Gain {Mana}. Draw {Value2} card and |upgrade| it until the end of combat."
   Name: Once Upon A Time
   FlavorText: "Dreams always start at the middle, but what started the dreams?"
-cardmconvert:
+cardmexploit:
   Description: "|For each <sprite=\"ManaSprite\" name=\"P\"> spent|: Gain {Mana}.\n|For each <sprite=\"ManaSprite\" name=\"C\"><sprite=\"ManaSprite\" name=\"C\"> spent|: Draw {Value1} card."
-  Name: Magic Conversion
+  Name: Mana Exploit
   FlavorText: "Fantasy is when equivalence breaks."
 cardshepherdg:
   Description: "At the start of each turn, lose {Value1} life and gain {Value2} |Magical Burst|."
@@ -23,8 +23,8 @@ cardpurediamond:
   Name: Pure Diamond
   FlavorText: "How many seconds, in eternity?"
 cardmountain:
-  Description: "Add {Value1} |Pure Diamonds| to the draw pile."
-  UpgradedDescription: "Add {Value1} |Pure Diamonds| to the draw pile.\nDraw {Value2} cards."
+  Description: "Add {Value1} |Pure Diamond{Value1:plural one='' other='s'}| to the discard pile."
+  UpgradedDescription: "Add {Value1} |Pure Diamond{Value1:plural one='' other='s'}| to the draw pile."
   Name: Mountain of Pure Diamond
   FlavorText: "The grest quest of time."
 cardextrav:
@@ -33,7 +33,6 @@ cardextrav:
   FlavorText: "Greed is a relic of the past."
 cardenterzone:
   Description: "Become |Transcended| for {Value1} turn.\n|Overdraft| {Value2}."
-  UpgradedDescription: "Become |Transcended| for {Value1} turn."
   Name: Entering The Zone!
   FlavorText: "Is she really entering the zone when she can enter it whenever she wants?"
 cardwheresleep:
@@ -41,11 +40,12 @@ cardwheresleep:
   Name: Where I Reside
   FlavorText: "Running is good and all, what about staying?"
 cardendlesswalk:
-  Description: "Add {Value1} |Pure Diamond| to the draw pile.\nDraw {Value2} card{Value2:plural one='' other='s'}."
+  Description: "Add {Value1} |Pure Diamond| to the draw pile."
+  UpgradedDescription: "Add {Value1} |Pure Diamond| to the draw pile.\nDraw {Value2} card{Value2:plural one='' other='s'}."
   Name: Endless Walkthrough
   FlavorText: "The mountain seemed larger the more it's been dug."
 cardsharppeak:
-  Description: "|For each <sprite=\"ManaSprite\" name=\"R\"> spent|: Gain {Value1} |Magical Burst|.\n|For each <sprite=\"ManaSprite\" name=\"W\"> spent|: |Upgrade| {Value2} random card{Value2:plural one='' other='s'} in hand until the end of combat.\nImmediately consume {Value3pct}% |Magical Burst|."
+  Description: "|For each <sprite=\"ManaSprite\" name=\"R\"> spent|: Gain {Value1} |Magical Burst|.\n|For each <sprite=\"ManaSprite\" name=\"W\"> spent|: |Upgrade| {Value2} random card{Value2:plural one='' other='s'} in hand until the end of combat."
   Name: Sharpen the Peak
   FlavorText: "One day, the entire mountain will be chiseled away."
 cardextratick:
@@ -53,7 +53,7 @@ cardextratick:
   Name: An Extra Tick in Time
   FlavorText: "The flow of time is only ever constant to their observers."
 cardbirdq:
-  Description: "Discard {Value1} card{Value1:plural one='' other='s'}.\nDraw {Value1} card{Value1:plural one='' other='s'}.\nAdd {Value2} |Pure Diamond| to the draw pile.\nDelay |Magical Burst|'s natural activation by {Value2} turn{Value2:plural one='' other='s'}."
+  Description: "Draw {Value1} card{Value1:plural one='' other='s'}.\nDelay |Magical Burst|'s natural activation by {Value2} turn{Value2:plural one='' other='s'}."
   Name: "The Bird in Question"
   FlavorText: "It would be one hell of a bird."
 cardfromhell:
@@ -65,7 +65,7 @@ carderosion:
   Name: Spiritual Erosion
   FlavorText: "The mere presence of an evil spirit affects all living beings around."
 cardremini:
-  Description: "Chooase {Value1} of {Value2} non-Rare {PlayerName} skill card{Value2:plural one='' other='s'} to add to the hand."
+  Description: "Choose {Value1} of {Value2} non-Rare {PlayerName} skill card{Value2:plural one='' other='s'} to add to the hand."
   Name: Spellbook of Reminiscence
   FlavorText: "Even spirits have a limit on how many things they can remember?"
 cardrewind:
@@ -97,11 +97,11 @@ cardnineplus:
   Name: "9+10"
   FlavorText: "21"
 cardutmost:
-  Description: "For each enemy, |Magical Burst| deal |Accurate| damage to a random enemy {Value1} time{Value1:plural one='' other='s'} instead.\n|p:Stackable|"
+  Description: "For each enemy, |Magical Burst| deals |Accurate| damage to a random enemy {Value1} time{Value1:plural one='' other='s'} instead.\n|p:Stackable|"
   Name: Utmost Concentration
   FlavorText: "Everything unnecessary for combat is removed from perception."
 cardburstwave:
-  Description: "|Magical Burst| deal 1/{Value3} |Accurate| damage.\n|Magical Burst| deal damage {Value1} extra time{Value1:plural one='' other='s'}.\n|p:Stackable|"
+  Description: "|Magical Burst| deals 1/{Value3} |Accurate| damage.\n|Magical Burst| deals damage {Value1} extra time{Value1:plural one='' other='s'}.\n|p:Stackable|"
   Name: Burst Wave Function
   FlavorText: "The amount of bursts that will be released is unknown until it's been observed."
 cardmarisaskill:

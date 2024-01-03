@@ -74,8 +74,8 @@ namespace lvalonmima.NotImages.Uncommon
                UpgradedBlock: null,
                Shield: null,
                UpgradedShield: null,
-               Value1: 2,
-               UpgradedValue1: 3,
+               Value1: 3,
+               UpgradedValue1: 5,
                Value2: 1,
                UpgradedValue2: null,
                Mana: null,
@@ -115,13 +115,13 @@ namespace lvalonmima.NotImages.Uncommon
         [EntityLogic(typeof(cardsharppeakdef))]
         public sealed class cardsharppeak : mimaextensions.mimacard
         {
-            public int Value3
-            {
-                get
-                {
-                    return 1;
-                }
-            }
+            //public int Value3
+            //{
+            //    get
+            //    {
+            //        return 1;
+            //    }
+            //}
             public int Value3pct
             { get { return 20; } }
             public override ManaGroup GetXCostFromPooled(ManaGroup pooledMana)
@@ -147,7 +147,7 @@ namespace lvalonmima.NotImages.Uncommon
                     base.NotifyActivating();
                     yield return new UpgradeCardsAction(list);
                 }
-                yield return BuffAction<fastburst>(Value3, 0, 0, 0, 0.2f);
+                //yield return BuffAction<fastburst>(Value3, 0, 0, 0, 0.2f);
                 yield break;
             }
         }
