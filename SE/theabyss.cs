@@ -79,6 +79,10 @@ namespace lvalonmima.SE
             {
                 this.CardToFree(base.Battle.EnumerateAllCards());
                 ReactOwnerEvent(Battle.RoundEnding, new EventSequencedReactor<GameEventArgs>(OnRoundEnding));
+                base.HandleOwnerEvent<CardsEventArgs>(base.Battle.CardsAddedToDiscard, new GameEventHandler<CardsEventArgs>(this.OnAddCard));
+                base.HandleOwnerEvent<CardsEventArgs>(base.Battle.CardsAddedToHand, new GameEventHandler<CardsEventArgs>(this.OnAddCard));
+                base.HandleOwnerEvent<CardsEventArgs>(base.Battle.CardsAddedToExile, new GameEventHandler<CardsEventArgs>(this.OnAddCard));
+                base.HandleOwnerEvent<CardsAddingToDrawZoneEventArgs>(base.Battle.CardsAddedToDrawZone, new GameEventHandler<CardsAddingToDrawZoneEventArgs>(this.OnAddCardToDraw));
                 base.ReactOwnerEvent<CardUsingEventArgs>(base.Battle.CardUsed, new EventSequencedReactor<CardUsingEventArgs>(this.OnCardUsed));
                 React(PerformAction.Effect(unit, "JingHua", 0f, "", 0f, PerformAction.EffectBehavior.PlayOneShot, 0f));
             }
@@ -91,6 +95,14 @@ namespace lvalonmima.SE
                         card.FreeCost = true;
                     }
                 }
+            }
+            private void OnAddCardToDraw(CardsAddingToDrawZoneEventArgs args)
+            {
+                this.CardToFree(args.Cards);
+            }
+            private void OnAddCard(CardsEventArgs args)
+            {
+                this.CardToFree(args.Cards);
             }
             private IEnumerable<BattleAction> OnCardUsed(CardUsingEventArgs args)
             {

@@ -65,7 +65,7 @@ namespace lvalonmima
             UltimateSkillB: "ultb",
             ExhibitA: "mimaa",
             ExhibitB: "mimab",
-            DeckA: new List<string> { "cardmimaalib" },
+            DeckA: new List<string> { "cardchannelling", "cardmountain", "cardmimaalib", "cardremini", "carderosion" },
             DeckB: new List<string> { "cardmimablib" },
             DifficultyA: 6,
             DifficultyB: 6
