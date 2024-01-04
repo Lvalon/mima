@@ -7,8 +7,9 @@ cardmimablib:
   Name: Abyssal Reconstruction
   FlavorText: "Harnessed the harness."
 cardoncetime:
-  Description: "Lose {Value1} life. Gain {Mana}. Draw {Value2} card and |upgrade| it until the end of combat."
-  Name: Once Upon A Time
+  Description: "Lose {Value1} life. Gain {Mana}."
+  UpgradedDescription: "Lose {Value1} life. Gain {Mana}. Draw {Value2} card{Value2:plural one='' other='s'} and |upgrade| it until the end of combat."
+  Name: Once Upon A Time...
   FlavorText: "Dreams always start at the middle, but what started the dreams?"
 cardmexploit:
   Description: "|For each <sprite=\"ManaSprite\" name=\"P\"> spent|: Gain {Mana}.\n|For each <sprite=\"ManaSprite\" name=\"C\"><sprite=\"ManaSprite\" name=\"C\"> spent|: Draw {Value1} card."
@@ -24,7 +25,6 @@ cardpurediamond:
   FlavorText: "How many seconds, in eternity?"
 cardmountain:
   Description: "Add {Value1} |Pure Diamond{Value1:plural one='' other='s'}| to the discard pile."
-  UpgradedDescription: "Add {Value1} |Pure Diamond{Value1:plural one='' other='s'}| to the draw pile."
   Name: Mountain of Pure Diamond
   FlavorText: "The grest quest of time."
 cardextrav:
@@ -69,7 +69,7 @@ cardremini:
   Name: Spellbook of Reminiscence
   FlavorText: "Even spirits have a limit on how many things they can remember?"
 cardrewind:
-  Description: "Discard the hand.\nSwap the draw and discard piles.\nGain {Value1} random mana, |Scry| {Scry} and draw {Value2}.\nDelay |Magical Burst|'s natural activation by {Value3} turn{Value4:plural one='' other='s'}."
+  Description: "Discard the hand.\nSwap the draw and discard piles.\nGain {Value1} random mana, |Scry| {Scry} and draw {Value2}.\nDelay |Magical Burst|'s natural activation by {Value3} turn{Value3:plural one='' other='s'}."
   Name: It's Rewind Time
   FlavorText: "It's Rewind Time."
 cardgrasp:
@@ -105,7 +105,7 @@ cardburstwave:
   Name: Burst Wave Function
   FlavorText: "The amount of bursts that will be released is unknown until it's been observed."
 cardmarisaskill:
-  Description: "Choose up to {Value1} of {Value2} |Marisa| skill card{Value2:plural one='' other='s'} to add to the hand.\nThey |temporarily cost| {Mana} and have |Exile| and |Ethereal|."
+  Description: "Choose up to {Value1} of {Value2} |Marisa| skill card{Value2:plural one='' other='s'} to add to the hand.\n{Value1:plural one='It' other='They'} |temporarily cost{Value1:plural one='s' other=''}| {Mana} and {Value1:plural one='has' other='have'} |Exile| and |Ethereal|."
   Name: Achievements of the Apprentice
   FlavorText: "Marisa! Are your potions stable yet?"
   DetailText: These |e:alternate cards| ignore total mana and mana color restrictions.
@@ -119,7 +119,7 @@ cardtpartner:
   FlavorText: "Sweet Dreams in the time of the Alpha."
   DetailText: "These |e:alternate cards| ignore total mana, mana color and character restrictions.\n{SelfName} cannot be produced by this effect."
 cardexistp:
-  Description: "Add {Value1} random card{Value1:plural one='' other='s'} with |Instinct| to the hand. Gain {Mana}."
+  Description: "Add {Value1} random card{Value1:plural one='' other='s'} with |Instinct| or mention{Value1:plural one='' other='s'} |Instinct| to the hand.\n{Value1:plural one='It has' other='They have'} |Exile| and |Ethereal|.\nGain {Mana}."
   Name: Existence and Perseverance
   DetailText: "These |e:alternate cards| ignore character restrictions."
 cardperlereino:

@@ -28,11 +28,11 @@ fastburst:
   Name: Predestinated Burst
 concentratedburst:
   Description: "|Magical Burst| deals |Accurate| damage to a random enemy {Level}x{enemycount} times instead.\n|p:Multiplicative with Split Burst.|"
-  Brief: "|Magical Burst| deals |Accurate| damage to a random enemy for |Level| x |Enemy Count| times instead."
+  Brief: "|Magical Burst| deals |Accurate| damage to a random enemy for |Level| x |Enemy Count| times instead.\n|p:Multiplicative with Split Burst.|"
   Name: Concentrated Outbursts
 splitburst:
   Description: "|Magical Burst| deals {splitdmg}% |Accurate| damage.\n|Magical Burst| deals damage {Level} extra time{Level:plural one='' other='s'}.\n|p:Multiplicative with Concentrated Outbursts.|"
-  Brief: "|Magical Burst| deals divided |Accurate| damage.\n|Magical Burst| deals damage some more times."
+  Brief: "|Magical Burst| deals divided |Accurate| damage.\n|Magical Burst| deals damage some more times.\n|p:Multiplicative with Concentrated Outbursts.|"
   Name: Split Burst
 retribution:
   Description: "Whenever |Magical Burst| causes an enemy to lose life, {OwnerName} loses {Level} life."

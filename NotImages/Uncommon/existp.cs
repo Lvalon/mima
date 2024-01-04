@@ -66,7 +66,7 @@ namespace lvalonmima.NotImages.Uncommon
                Colors: new List<ManaColor>() { ManaColor.Black, ManaColor.Green },
                IsXCost: false,
                Cost: new ManaGroup() { Black = 1, Green = 1 },
-               UpgradedCost: new ManaGroup() { Any = 1 },
+               UpgradedCost: new ManaGroup() { Any = 2 },
                MoneyCost: null,
                Damage: null,
                UpgradedDamage: null,
@@ -95,8 +95,8 @@ namespace lvalonmima.NotImages.Uncommon
                Keywords: Keyword.None,
                UpgradedKeywords: Keyword.None,
                EmptyDescription: false,
-               RelativeKeyword: Keyword.Philosophy | Keyword.Instinct,
-               UpgradedRelativeKeyword: Keyword.Philosophy | Keyword.Instinct,
+               RelativeKeyword: Keyword.Philosophy | Keyword.Instinct | Keyword.Exile | Keyword.Ethereal,
+               UpgradedRelativeKeyword: Keyword.Philosophy | Keyword.Instinct | Keyword.Exile | Keyword.Ethereal,
 
                RelativeEffects: new List<string>() { },
                UpgradedRelativeEffects: new List<string>() { },
@@ -117,7 +117,12 @@ namespace lvalonmima.NotImages.Uncommon
         {
             protected override IEnumerable<BattleAction> Actions(UnitSelector selector, ManaGroup consumingMana, Interaction precondition)
             {
-                List<Card> list = Battle.RollCards(new CardWeightTable(RarityWeightTable.AllOnes, OwnerWeightTable.AllOnes, CardTypeWeightTable.CanBeLoot), Value1, (CardConfig config) => config.Keywords.HasFlag(Keyword.Instinct) || config.UpgradedKeywords.HasFlag(Keyword.Instinct)).ToList();
+                List<Card> list = Battle.RollCards(new CardWeightTable(RarityWeightTable.AllOnes, OwnerWeightTable.AllOnes, CardTypeWeightTable.CanBeLoot), Value1, (CardConfig config) => config.RelativeKeyword.HasFlag(Keyword.Instinct) || config.UpgradedRelativeKeyword.HasFlag(Keyword.Instinct) || config.Keywords.HasFlag(Keyword.Instinct) || config.UpgradedKeywords.HasFlag(Keyword.Instinct)).ToList();
+                foreach (Card card in list)
+                {
+                    card.IsEthereal = true;
+                    card.IsExile = true;
+                }
                 yield return new AddCardsToHandAction(list);
                 yield return new GainManaAction(Mana);
             }

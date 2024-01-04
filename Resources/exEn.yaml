@@ -1,6 +1,6 @@
 mimaa:
   Description:
-    "|p:Unswappable|\nAt the start of {PlayerName}'s turn, gain 1 random mana.\nCards unique to |Mima| are added to the card pool.\nAt the start of combat, {PlayerName} gains {Value1} |Evil Spirit|.\nWhenever {PlayerName} plays a spell card, gain {Value3} |Magical Burst|.\nWhenever {PlayerName} is defeated, become |Transcended|."
+    "|p:Unswappable|\nAt the start of {PlayerName}'s turn, gain 1 random mana.\nCards unique to |Mima| are added to the card pool.\nAt the start of combat, {PlayerName} gains {Value1} |Evil Spirit|.\nWhenever {PlayerName} plays a skill card, gain {Value3} |Magical Burst|.\nWhenever {PlayerName} is defeated, become |Transcended|."
   Name: Reincarnation
   FlavorText: I die with the dying. I'm born with the dead!
 mimab:

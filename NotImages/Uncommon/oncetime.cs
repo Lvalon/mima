@@ -63,7 +63,7 @@ namespace lvalonmima.NotImages.Uncommon
                TargetType: TargetType.All,
                Colors: new List<ManaColor>() { ManaColor.White, ManaColor.Black },
                IsXCost: false,
-               Cost: new ManaGroup() { White = 1, Black = 1 },
+               Cost: new ManaGroup() { Any = 1, Black = 1 },
                UpgradedCost: new ManaGroup() { Any = 2 },
                MoneyCost: null,
                Damage: null,
@@ -117,21 +117,24 @@ namespace lvalonmima.NotImages.Uncommon
             {
                 yield return base.SacrificeAction(base.Value1);
                 yield return new GainManaAction(base.Mana);
-                List<Card> upgraded = null;
-                DrawManyCardAction drawAction = new DrawManyCardAction(base.Value2);
-                yield return drawAction;
-                IReadOnlyList<Card> drawnCards = drawAction.DrawnCards;
-                if (drawnCards != null && drawnCards.Count > 0)
+                if (IsUpgraded)
                 {
-                    upgraded = (from card in drawnCards
-                                where card.IsUpgraded
-                                select card).ToList<Card>();
-                    List<Card> list = (from card in drawnCards
-                                       where card.CanUpgradeAndPositive
-                                       select card).ToList<Card>();
-                    if (list.Count > 0)
+                    List<Card> upgraded = null;
+                    DrawManyCardAction drawAction = new DrawManyCardAction(base.Value2);
+                    yield return drawAction;
+                    IReadOnlyList<Card> drawnCards = drawAction.DrawnCards;
+                    if (drawnCards != null && drawnCards.Count > 0)
                     {
-                        yield return new UpgradeCardsAction(list);
+                        upgraded = (from card in drawnCards
+                                    where card.IsUpgraded
+                                    select card).ToList<Card>();
+                        List<Card> list = (from card in drawnCards
+                                           where card.CanUpgradeAndPositive
+                                           select card).ToList<Card>();
+                        if (list.Count > 0)
+                        {
+                            yield return new UpgradeCardsAction(list);
+                        }
                     }
                 }
             }

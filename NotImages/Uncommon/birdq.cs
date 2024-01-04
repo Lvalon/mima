@@ -65,8 +65,8 @@ namespace lvalonmima.NotImages.Uncommon
                TargetType: TargetType.All,
                Colors: new List<ManaColor>() { ManaColor.Blue, ManaColor.Green },
                IsXCost: false,
-               Cost: new ManaGroup() { Any = 2 },
-               UpgradedCost: new ManaGroup() { Any = 1 },
+               Cost: new ManaGroup() { Any = 1 },
+               UpgradedCost: null,
                MoneyCost: null,
                Damage: null,
                UpgradedDamage: null,
@@ -74,8 +74,8 @@ namespace lvalonmima.NotImages.Uncommon
                UpgradedBlock: null,
                Shield: null,
                UpgradedShield: null,
-               Value1: 1,
-               UpgradedValue1: 2,
+               Value1: 2,
+               UpgradedValue1: 3,
                Value2: 1,
                UpgradedValue2: null,
                Mana: null,
@@ -92,16 +92,16 @@ namespace lvalonmima.NotImages.Uncommon
                UltimateCost: null,
                UpgradedUltimateCost: null,
 
-               Keywords: Keyword.None,
-               UpgradedKeywords: Keyword.None,
+               Keywords: Keyword.Exile,
+               UpgradedKeywords: Keyword.Exile,
                EmptyDescription: false,
                RelativeKeyword: Keyword.None,
                UpgradedRelativeKeyword: Keyword.None,
 
                RelativeEffects: new List<string>() { "accumulation" },
                UpgradedRelativeEffects: new List<string>() { "accumulation" },
-               RelativeCards: new List<string>() { "cardpurediamond" },
-               UpgradedRelativeCards: new List<string>() { "cardpurediamond" },
+               RelativeCards: new List<string>() { },
+               UpgradedRelativeCards: new List<string>() { },
                Owner: "Mima",
                ImageId: "",
                UpgradeImageId: "",
@@ -115,28 +115,28 @@ namespace lvalonmima.NotImages.Uncommon
         [EntityLogic(typeof(cardbirdqdef))]
         public sealed class cardbirdq : mimaextensions.mimacard
         {
-            public override bool DiscardCard
-            {
-                get
-                {
-                    return true;
-                }
-            }
-            public override Interaction Precondition()
-            {
-                List<Card> list = (from hand in base.Battle.HandZone
-                                   where hand != this
-                                   select hand).ToList<Card>();
-                if (list.Count <= base.Value1)
-                {
-                    this.allHand = list;
-                }
-                if (list.Count <= base.Value1)
-                {
-                    return null;
-                }
-                return new SelectHandInteraction(base.Value1, base.Value1, list);
-            }
+            //public override bool DiscardCard
+            //{
+            //    get
+            //    {
+            //        return true;
+            //    }
+            //}
+            //public override Interaction Precondition()
+            //{
+            //    List<Card> list = (from hand in base.Battle.HandZone
+            //                       where hand != this
+            //                       select hand).ToList<Card>();
+            //    if (list.Count <= base.Value1)
+            //    {
+            //        this.allHand = list;
+            //    }
+            //    if (list.Count <= base.Value1)
+            //    {
+            //        return null;
+            //    }
+            //    return new SelectHandInteraction(base.Value1, base.Value1, list);
+            //}
             protected override IEnumerable<BattleAction> Actions(UnitSelector selector, ManaGroup consumingMana, Interaction precondition)
             {
                 //if (precondition != null)
@@ -156,7 +156,7 @@ namespace lvalonmima.NotImages.Uncommon
                 //yield return new AddCardsToDrawZoneAction(Library.CreateCards<cardpurediamond>(Value2, false), DrawZoneTarget.Random, AddCardsType.Normal);
                 yield return BuffAction<accumulation>(Value2, 0, 0, 0, 0.2f);
             }
-            private List<Card> allHand;
+            //private List<Card> allHand;
         }
     }
 }

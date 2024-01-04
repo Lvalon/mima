@@ -96,6 +96,7 @@ namespace lvalonmima.SE
                 base.HandleOwnerEvent<CardsEventArgs>(base.Battle.CardsAddedToDiscard, new GameEventHandler<CardsEventArgs>(this.OnAddCard));
                 base.HandleOwnerEvent<CardsEventArgs>(base.Battle.CardsAddedToHand, new GameEventHandler<CardsEventArgs>(this.OnAddCard));
                 base.HandleOwnerEvent<CardsEventArgs>(base.Battle.CardsAddedToExile, new GameEventHandler<CardsEventArgs>(this.OnAddCard));
+                base.ReactOwnerEvent<CardMovingEventArgs>(base.Battle.CardMoved, new EventSequencedReactor<CardMovingEventArgs>(this.OnCardMoved));
                 base.HandleOwnerEvent<CardsAddingToDrawZoneEventArgs>(base.Battle.CardsAddedToDrawZone, new GameEventHandler<CardsAddingToDrawZoneEventArgs>(this.OnAddCardToDraw));
             }
             private void OnDamageTaking(DamageEventArgs args)
@@ -123,15 +124,15 @@ namespace lvalonmima.SE
             }
             private void OnManaGaining(ManaEventArgs args)
             {
-                if (base.ThisTurnActivating && args.Cause == ActionCause.TurnStart)
+                if (base.ThisTurnActivating)
                 {
-                    if (base.Battle.ExtraTurnMana.IsEmpty)
-                    {
-                        args.CancelBy(this);
-                        return;
-                    }
-                    args.Value = base.Battle.ExtraTurnMana;
-                    args.AddModifier(this);
+                    //if (base.Battle.ExtraTurnMana.IsEmpty)
+                    //{
+                    args.CancelBy(this);
+                    //    return;
+                    //}
+                    //args.Value = base.Battle.ExtraTurnMana;
+                    //args.AddModifier(this);
                 }
             }
             private void OnAddCardToDraw(CardsAddingToDrawZoneEventArgs args)
@@ -142,13 +143,22 @@ namespace lvalonmima.SE
             {
                 if (base.ThisTurnActivating) { this.CardToFree(args.Cards); }
             }
+            private IEnumerable<BattleAction> OnCardMoved(CardMovingEventArgs args)
+            {
+                if (base.ThisTurnActivating)
+                {
+                    Card card = args.Card;
+                    if (card.Config.IsXCost == false) { card.FreeCost = true; }
+                    yield break;
+                }
+            }
             private void CardToFree(IEnumerable<Card> cards)
             {
                 if (base.ThisTurnActivating)
                 {
                     foreach (Card card in cards)
                     {
-                        card.FreeCost = true;
+                        if (card.Config.IsXCost == false) { card.FreeCost = true; }
                     }
                 }
             }

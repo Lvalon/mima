@@ -58,7 +58,7 @@ namespace lvalonmima.NotImages
                IsPooled: false,
                HideMesuem: true,
                IsUpgradable: false,
-               Rarity: Rarity.Common,
+               Rarity: Rarity.Rare,
                Type: CardType.Status,
                TargetType: TargetType.All,
                Colors: new List<ManaColor>() { ManaColor.Colorless },

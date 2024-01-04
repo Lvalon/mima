@@ -77,7 +77,7 @@ namespace lvalonmima.NotImages.Uncommon
                Value1: 1,
                UpgradedValue1: null,
                Value2: 3,
-               UpgradedValue2: 4,
+               UpgradedValue2: null,
                Mana: null,
                UpgradedMana: null,
                Scry: null,
@@ -117,7 +117,7 @@ namespace lvalonmima.NotImages.Uncommon
         {
             protected override IEnumerable<BattleAction> Actions(UnitSelector selector, ManaGroup consumingMana, Interaction precondition)
             {
-                List<Card> list = base.Battle.RollCards(new CardWeightTable(RarityWeightTable.NoneRare, OwnerWeightTable.OnlyPlayer, CardTypeWeightTable.OnlySkill), base.Value2, null).ToList<Card>();
+                List<Card> list = base.Battle.RollCards(new CardWeightTable(RarityWeightTable.NoneRare, OwnerWeightTable.OnlyPlayer, CardTypeWeightTable.OnlySkill), base.Value2, (CardConfig config) => !config.Keywords.HasFlag(Keyword.Forbidden)).ToList<Card>();
                 if (list.Count > 0)
                 {
                     SelectCardInteraction interaction = new SelectCardInteraction(Value1, Value1, list, SelectedCardHandling.DoNothing)

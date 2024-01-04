@@ -118,8 +118,7 @@ namespace lvalonmima.NotImages.Uncommon
         {
             protected override IEnumerable<BattleAction> Actions(UnitSelector selector, ManaGroup consumingMana, Interaction precondition)
             {
-                if (!IsUpgraded) { yield return new AddCardsToDiscardAction(Library.CreateCards<cardpurediamond>(Value1, false), AddCardsType.Normal); }
-                else { yield return new AddCardsToDrawZoneAction(Library.CreateCards<cardpurediamond>(Value1, false), DrawZoneTarget.Random, AddCardsType.Normal); }
+                yield return new AddCardsToDiscardAction(Library.CreateCards<cardpurediamond>(Value1, false), AddCardsType.Normal);
             }
         }
     }
