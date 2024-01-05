@@ -63,7 +63,7 @@ namespace lvalonmima.NotImages.Uncommon
                Rarity: Rarity.Uncommon,
                Type: CardType.Skill,
                TargetType: TargetType.All,
-               Colors: new List<ManaColor>() { ManaColor.Red, ManaColor.White },
+               Colors: new List<ManaColor>() { ManaColor.White, ManaColor.Red },
                IsXCost: true,
                Cost: new ManaGroup() { Red = 1, White = 1 },
                UpgradedCost: null,

@@ -66,7 +66,7 @@ namespace lvalonmima.NotImages.Uncommon
                Colors: new List<ManaColor>() { ManaColor.Black, ManaColor.Red },
                IsXCost: false,
                Cost: new ManaGroup() { Black = 1, Red = 1 },
-               UpgradedCost: new ManaGroup() { Any = 2 },
+               UpgradedCost: new ManaGroup() { Any = 1 },
                MoneyCost: null,
                Damage: null,
                UpgradedDamage: null,
@@ -117,6 +117,8 @@ namespace lvalonmima.NotImages.Uncommon
         {
             protected override IEnumerable<BattleAction> Actions(UnitSelector selector, ManaGroup consumingMana, Interaction precondition)
             {
+                yield return base.SacrificeAction(base.Value1);
+                yield return base.BuffAction<magicalburst>(Value2, 0, 0, 0, 0.2f);
                 yield return base.BuffAction<seshepherdg>(Value1, 0, 0, 0, 0.2f);
             }
         }

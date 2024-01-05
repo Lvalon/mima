@@ -94,11 +94,11 @@ namespace lvalonmima.NotImages.Uncommon
                Keywords: Keyword.Exile,
                UpgradedKeywords: Keyword.Exile,
                EmptyDescription: false,
-               RelativeKeyword: Keyword.Overdraft,
-               UpgradedRelativeKeyword: Keyword.Overdraft,
+               RelativeKeyword: Keyword.Overdraft | Keyword.TempMorph,
+               UpgradedRelativeKeyword: Keyword.Overdraft | Keyword.TempMorph,
 
-               RelativeEffects: new List<string>() { "transcended" },
-               UpgradedRelativeEffects: new List<string>() { "transcended" },
+               RelativeEffects: new List<string>() { },
+               UpgradedRelativeEffects: new List<string>() { },
                RelativeCards: new List<string>() { },
                UpgradedRelativeCards: new List<string>() { },
                Owner: "Mima",
@@ -116,8 +116,21 @@ namespace lvalonmima.NotImages.Uncommon
         {
             protected override IEnumerable<BattleAction> Actions(UnitSelector selector, ManaGroup consumingMana, Interaction precondition)
             {
-                yield return base.BuffAction<transcended>(base.Value1, 0, 0, 0, 0.2f);
+                using (IEnumerator<Card> enumerator = (from card in base.Battle.HandZone select card).GetEnumerator())
+                {
+                    while (enumerator.MoveNext())
+                    {
+                        Card card2 = enumerator.Current;
+                        if (card2.Cost.Amount > 0)
+                        {
+                            card2.NotifyActivating();
+                            ManaColor[] components = card2.Cost.EnumerateComponents().SampleManyOrAll(Value1, base.GameRun.BattleRng);
+                            card2.DecreaseTurnCost(ManaGroup.FromComponents(components));
+                        }
+                    }
+                }
                 yield return new LockRandomTurnManaAction(base.Value2);
+                yield break;
             }
         }
     }

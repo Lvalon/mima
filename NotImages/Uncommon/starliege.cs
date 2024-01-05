@@ -91,8 +91,8 @@ namespace lvalonmima.NotImages.Uncommon
                UltimateCost: null,
                UpgradedUltimateCost: null,
 
-               Keywords: Keyword.Exile,
-               UpgradedKeywords: Keyword.Exile,
+               Keywords: Keyword.None,
+               UpgradedKeywords: Keyword.None,
                EmptyDescription: false,
                RelativeKeyword: Keyword.Echo,
                UpgradedRelativeKeyword: Keyword.Echo,

@@ -1,3 +1,7 @@
+v0.0.28: most cards tweaked, evil spirit now gains both self & karmanation once per turn, magical burst now doubles damage while under a gimmick, pure diamond replenish removed and damage reverted
+
+v0.0.27: magical burst now lets owner gain ex temp firepower instead of temp firepower, mimaA reference fix (it's long af sorry)
+
 v0.0.26: reduce rare cards color intensiveness, dawn of time mana still gained fix, minor yaml fix
 
 v0.0.25: mountain of pure diamonds adding to draw instead of discard, quik fix

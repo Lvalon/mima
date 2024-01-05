@@ -16,7 +16,7 @@ cardmexploit:
   Name: Mana Exploit
   FlavorText: "Fantasy is when equivalence breaks."
 cardshepherdg:
-  Description: "At the start of each turn, lose {Value1} life and gain {Value2} |Magical Burst|."
+  Description: "Lose {Value1} life and gain {Value2} |Magical Burst|.\nAt the start of each turn, lose {Value1} life and gain {Value2} |Magical Burst|."
   Name: The Shepherd's Girl
   FlavorText: "This is the beginning of eternity."
 cardpurediamond:
@@ -24,7 +24,7 @@ cardpurediamond:
   Name: Pure Diamond
   FlavorText: "How many seconds, in eternity?"
 cardmountain:
-  Description: "Add {Value1} |Pure Diamond{Value1:plural one='' other='s'}| to the discard pile."
+  Description: "Add {Value1} |Pure Diamond{Value1:plural one='' other='s'}| to the draw pile."
   Name: Mountain of Pure Diamond
   FlavorText: "The grest quest of time."
 cardextrav:
@@ -32,7 +32,7 @@ cardextrav:
   Name: Spell of Extravagance
   FlavorText: "Greed is a relic of the past."
 cardenterzone:
-  Description: "Become |Transcended| for {Value1} turn.\n|Overdraft| {Value2}."
+  Description: "All cards in hand |temporarily cost| {Value1} random mana less.\n|Overdraft| {Value2}."
   Name: Entering The Zone!
   FlavorText: "Is she really entering the zone when she can enter it whenever she wants?"
 cardwheresleep:
@@ -40,10 +40,9 @@ cardwheresleep:
   Name: Where I Reside
   FlavorText: "Running is good and all, what about staying?"
 cardendlesswalk:
-  Description: "Add {Value1} |Pure Diamond| to the draw pile."
-  UpgradedDescription: "Add {Value1} |Pure Diamond| to the draw pile.\nDraw {Value2} card{Value2:plural one='' other='s'}."
+  Description: "Add {Value1} |Pure Diamond| to the draw pile.\nDraw {Value2} card{Value2:plural one='' other='s'}."
   Name: Endless Walkthrough
-  FlavorText: "The mountain seemed larger the more it's been dug."
+  FlavorText: "The mountain seemed more enormous the more it's been dug."
 cardsharppeak:
   Description: "|For each <sprite=\"ManaSprite\" name=\"R\"> spent|: Gain {Value1} |Magical Burst|.\n|For each <sprite=\"ManaSprite\" name=\"W\"> spent|: |Upgrade| {Value2} random card{Value2:plural one='' other='s'} in hand until the end of combat."
   Name: Sharpen the Peak
@@ -101,7 +100,7 @@ cardutmost:
   Name: Utmost Concentration
   FlavorText: "Everything unnecessary for combat is removed from perception."
 cardburstwave:
-  Description: "|Magical Burst| deals 1/{Value3} |Accurate| damage.\n|Magical Burst| deals damage {Value1} extra time{Value1:plural one='' other='s'}.\n|p:Stackable|"
+  Description: "|Magical Burst| deals 1/{Value3} |Accurate| damage.\n|Magical Burst| deals damage {Value1} extra time{Value1:plural one='' other='s'}.\nGain {Value2} |Firepower|.\n|p:Stackable|"
   Name: Burst Wave Function
   FlavorText: "The amount of bursts that will be released is unknown until it's been observed."
 cardmarisaskill:
@@ -119,7 +118,7 @@ cardtpartner:
   FlavorText: "Sweet Dreams in the time of the Alpha."
   DetailText: "These |e:alternate cards| ignore total mana, mana color and character restrictions.\n{SelfName} cannot be produced by this effect."
 cardexistp:
-  Description: "Add {Value1} random card{Value1:plural one='' other='s'} with |Instinct| or mention{Value1:plural one='' other='s'} |Instinct| to the hand.\n{Value1:plural one='It has' other='They have'} |Exile| and |Ethereal|.\nGain {Mana}."
+  Description: "Add {Value1} random card{Value1:plural one='' other='s'} that mention{Value1:plural one='' other='s'} |Instinct| to the hand.\n{Value1:plural one='It has' other='They have'} |Exile| and |Ethereal|.\nGain {Mana}."
   Name: Existence and Perseverance
   DetailText: "These |e:alternate cards| ignore character restrictions."
 cardperlereino:
@@ -129,8 +128,8 @@ cardperlereino:
   FlavorText: "She dreams of a certain world where absolute power resides."
   DetailText: There are a few |e:unconventional exceptions| to ensure that the game could run properly.
 cardwraitsoth:
-  Description: "Gain {gainred}% less |Magical Burst|.\n|Magical Burst| is no longer consumed.\nGain {Value2} |Evil Spirit|."
-  UpgradedDescription: "|Magical Burst| is no longer consumed.\nGain {Value2} |Evil Spirit|."
+  Description: "Gain {gainred}% less |Magical Burst|.\n|Magical Burst| is no longer consumed.\n|Magical Burst|'s activation can no longer be delayed."
+  UpgradedDescription: "|Magical Burst| is no longer consumed.\nGain {Value2} |Evil Spirit|.\n|Magical Burst|'s activation can no longer be delayed."
   Name: Unleashing of Wraitsoth
   FlavorText: "Holding the axe of wraith, she banished anyone who dare stood in her way."
 cardalgophobia:

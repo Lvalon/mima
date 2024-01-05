@@ -62,9 +62,9 @@ namespace lvalonmima.NotImages.Rare
                Rarity: Rarity.Rare,
                Type: CardType.Ability,
                TargetType: TargetType.All,
-               Colors: new List<ManaColor>() { ManaColor.Blue, ManaColor.Red, ManaColor.Colorless },
+               Colors: new List<ManaColor>() { ManaColor.Red, ManaColor.Colorless },
                IsXCost: false,
-               Cost: new ManaGroup() { Blue = 2, Red = 2, Colorless = 1 },
+               Cost: new ManaGroup() {  Red = 3, Colorless = 2 },
                UpgradedCost: null,
                MoneyCost: null,
                Damage: null,
@@ -118,7 +118,7 @@ namespace lvalonmima.NotImages.Rare
             protected override IEnumerable<BattleAction> Actions(UnitSelector selector, ManaGroup consumingMana, Interaction precondition)
             {
                 yield return BuffAction<everlastingmagic>(Value1, 0, 0, 0, 0.2f);
-                yield return BuffAction<evilspirit>(Value2, 0, 0, 0, 0.2f);
+                //yield return BuffAction<evilspirit>(Value2, 0, 0, 0, 0.2f);
                 yield break;
             }
 

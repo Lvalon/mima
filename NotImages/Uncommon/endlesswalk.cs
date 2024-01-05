@@ -75,8 +75,8 @@ namespace lvalonmima.NotImages.Uncommon
                UpgradedShield: null,
                Value1: 1,
                UpgradedValue1: null,
-               Value2: 2,
-               UpgradedValue2: null,
+               Value2: 1,
+               UpgradedValue2: 2,
                Mana: null,
                UpgradedMana: null,
                Scry: null,
@@ -117,7 +117,8 @@ namespace lvalonmima.NotImages.Uncommon
             protected override IEnumerable<BattleAction> Actions(UnitSelector selector, ManaGroup consumingMana, Interaction precondition)
             {
                 yield return new AddCardsToDrawZoneAction(Library.CreateCards<cardpurediamond>(Value1, false), DrawZoneTarget.Random, AddCardsType.Normal);
-                if (IsUpgraded) { yield return new DrawManyCardAction(Value2); }
+                //if (IsUpgraded) { yield return new DrawManyCardAction(Value2); }
+                yield return new DrawManyCardAction(Value2);
             }
         }
     }

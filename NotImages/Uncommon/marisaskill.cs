@@ -90,8 +90,8 @@ namespace lvalonmima.NotImages.Uncommon
                UltimateCost: null,
                UpgradedUltimateCost: null,
 
-               Keywords: Keyword.Exile | Keyword.Ethereal,
-               UpgradedKeywords: Keyword.Exile | Keyword.Ethereal,
+               Keywords: Keyword.Exile,
+               UpgradedKeywords: Keyword.Exile,
                EmptyDescription: false,
                RelativeKeyword: Keyword.TempMorph,
                UpgradedRelativeKeyword: Keyword.TempMorph,
@@ -121,7 +121,7 @@ namespace lvalonmima.NotImages.Uncommon
                 //mana is temporary mana cost
                 List<Card> list = new List<Card>();
 
-                list = Battle.RollCardsWithoutManaLimit(new CardWeightTable(RarityWeightTable.BattleCard, OwnerWeightTable.AllOnes, CardTypeWeightTable.OnlySkill), Value2, (config) => config.Owner == "Marisa").ToList();
+                list = Battle.RollCardsWithoutManaLimit(new CardWeightTable(RarityWeightTable.BattleCard, OwnerWeightTable.AllOnes, CardTypeWeightTable.OnlySkill), Value2, (config) => config.Owner == "Marisa" && !config.Keywords.HasFlag(Keyword.Forbidden)).ToList();
                 SelectCardInteraction interaction = new SelectCardInteraction(0, Value1, list, SelectedCardHandling.DoNothing)
                 {
                     Source = this
