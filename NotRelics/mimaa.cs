@@ -81,7 +81,7 @@ namespace lvalonmima.NotRelics
                 HasCounter: false,
                 InitialCounter: null,
                 Keywords: Keyword.Philosophy,
-                RelativeEffects: new List<string>() { "evilspirit", "transcended" },
+                RelativeEffects: new List<string>() { nameof(evilspirit), nameof(transcended), nameof(magicalburst) },
                 RelativeCards: new List<string>() { }
             );
             return exhibitConfig;

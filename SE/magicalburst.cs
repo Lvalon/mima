@@ -28,6 +28,8 @@ using LBoL.EntityLib.StatusEffects.Enemy;
 using System.Linq;
 using LBoL.EntityLib.StatusEffects.Cirno;
 using static UnityEngine.TouchScreenKeyboard;
+using LBoL.EntityLib.StatusEffects.Neutral.TwoColor;
+using static lvalonmima.SE.extmpfiredef;
 
 namespace lvalonmima.SE
 {
@@ -68,7 +70,7 @@ namespace lvalonmima.SE
                 LimitStackType: StackType.Keep,
                 ShowPlusByLimit: false,
                 Keywords: Keyword.None,
-                RelativeEffects: new List<string>() { },
+                RelativeEffects: new List<string>() { nameof(extmpfire) },
                 VFX: "Default",
                 VFXloop: "Default",
                 SFX: "Default"
@@ -82,6 +84,7 @@ namespace lvalonmima.SE
             public int burstdmgshow { get { return (Battle == null) ? 0 : Convert.ToInt32(0); } }
             bool accrealthisturn = false;
             bool dealdmgletsgo = false;
+            int fireneeded = 0;
             int counterlost = 0;
             int otcounter = 0;
             float actualdmg = 0;
@@ -98,12 +101,28 @@ namespace lvalonmima.SE
             }
             protected override void OnAdded(Unit unit)
             {
+                base.HandleOwnerEvent<StatusEffectApplyEventArgs>(base.Owner.StatusEffectAdding, new GameEventHandler<StatusEffectApplyEventArgs>(this.OnStatusEffectAdding));
                 ReactOwnerEvent(Owner.StatusEffectAdded, new EventSequencedReactor<StatusEffectApplyEventArgs>(this.OnStatusEffectAdded));
                 ReactOwnerEvent(Owner.StatusEffectRemoved, new EventSequencedReactor<StatusEffectEventArgs>(this.OnStatusEffectRemoved));
                 HandleOwnerEvent(Battle.CardUsing, new GameEventHandler<CardUsingEventArgs>(this.OnCardUsing));
                 ReactOwnerEvent(Battle.CardUsed, new EventSequencedReactor<CardUsingEventArgs>(this.OnCardUsed));
                 ReactOwnerEvent(Battle.AllEnemyTurnStarting, new EventSequencedReactor<GameEventArgs>(OnAllEnemyTurnStarting1));
                 ReactOwnerEvent(Battle.AllEnemyTurnStarting, new EventSequencedReactor<GameEventArgs>(this.OnAllEnemyTurnStarting2));
+            }
+            private void OnStatusEffectAdding(StatusEffectApplyEventArgs args)
+            {
+                StatusEffect effect = args.Effect;
+                if (effect is TempFirepower)
+                {
+                    fireneeded = effect.Level;
+                    if (Owner.TryGetStatusEffect<MeilingAbilitySe>(out var tmp))
+                    {
+                        fireneeded *= 2;
+                    }
+                    base.NotifyActivating();
+                    React(new ApplyStatusEffectAction<extmpfire>(base.Owner, new int?(fireneeded), null, null, null, 0f, true));
+                    args.CancelBy(this);
+                }
             }
             private IEnumerable<BattleAction> OnStatusEffectAdded(StatusEffectApplyEventArgs args)
             {

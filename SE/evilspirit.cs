@@ -19,6 +19,10 @@ using LBoL.Core.Battle.BattleActions;
 using LBoL.Base.Extensions;
 using LBoL.Core.Units;
 using LBoL.EntityLib.StatusEffects.Enemy;
+using static lvalonmima.SE.magicalburstdef;
+using LBoL.EntityLib.StatusEffects.Neutral.TwoColor;
+using static lvalonmima.SE.transcendeddef;
+using static lvalonmima.SE.theabyssdef;
 
 namespace lvalonmima.SE
 {
@@ -118,10 +122,12 @@ namespace lvalonmima.SE
                         args.CancelBy(this);
                         //React(new ApplyStatusEffectAction<DroneBlock>(Owner, 3));
                     }
-                    if (GameRun.Battle != null)
+                    if (GameRun.Battle != null && thisturn == false)
                     {
-                        if (thisturn == false) { Level++; thisturn = true; Count = 0; }
+                        Level++;
                         React(new ApplyStatusEffectAction<karmanation>(base.Owner, 1, null, null, null, 0f, true));
+                        thisturn = true;
+                        Count = 0;
                     }
                 }
                 return;
@@ -188,9 +194,18 @@ namespace lvalonmima.SE
                 DamageInfo damageInfo = args.DamageInfo;
                 if (damageInfo.DamageType == DamageType.Attack)
                 {
+                    //if ((Owner.TryGetStatusEffect<transcended>(out var tmp) || Owner.TryGetStatusEffect<theabyss>(out var tmp2)) && args.ActionSource is StatusEffect statusEffect && (statusEffect is magicalburst))
+                    //{
+                    //    damageInfo.Damage = damageInfo.Amount * (0.5f);
+                    //    args.DamageInfo = damageInfo;
+                    //    args.AddModifier(this);
+                    //}
+                    //else
+                    //{
                     damageInfo.Damage = damageInfo.Amount * (0.25f);
                     args.DamageInfo = damageInfo;
                     args.AddModifier(this);
+                    //}
                 }
                 //if (args.DamageInfo.DamageType == DamageType.Attack)
                 //{

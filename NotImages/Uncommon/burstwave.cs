@@ -67,7 +67,7 @@ namespace lvalonmima.NotImages.Uncommon
                Colors: new List<ManaColor>() { ManaColor.White, ManaColor.Colorless },
                IsXCost: false,
                Cost: new ManaGroup() { White = 1, Colorless = 1 },
-               UpgradedCost: new ManaGroup() { Any = 1 },
+               UpgradedCost: null,
                MoneyCost: null,
                Damage: null,
                UpgradedDamage: null,
@@ -77,8 +77,8 @@ namespace lvalonmima.NotImages.Uncommon
                UpgradedShield: null,
                Value1: 1,
                UpgradedValue1: 2,
-               Value2: null,
-               UpgradedValue2: null,
+               Value2: 2,
+               UpgradedValue2: 3,
                Mana: null,
                UpgradedMana: null,
                Scry: null,
@@ -99,8 +99,8 @@ namespace lvalonmima.NotImages.Uncommon
                RelativeKeyword: Keyword.None,
                UpgradedRelativeKeyword: Keyword.None,
 
-               RelativeEffects: new List<string>() { "splitburst" },
-               UpgradedRelativeEffects: new List<string>() { "splitburst" },
+               RelativeEffects: new List<string>() { nameof(splitburst), nameof(Firepower) },
+               UpgradedRelativeEffects: new List<string>() { nameof(splitburst), nameof(Firepower) },
                RelativeCards: new List<string>() { },
                UpgradedRelativeCards: new List<string>() { },
                Owner: "Mima",
@@ -120,6 +120,7 @@ namespace lvalonmima.NotImages.Uncommon
             protected override IEnumerable<BattleAction> Actions(UnitSelector selector, ManaGroup consumingMana, Interaction precondition)
             {
                 yield return base.BuffAction<splitburst>(base.Value1, 0, 0, 0, 0.2f);
+                yield return base.BuffAction<Firepower>(base.Value2, 0, 0, 0, 0.2f);
             }
         }
     }
