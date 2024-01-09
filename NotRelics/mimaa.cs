@@ -23,14 +23,14 @@ using System.Linq;
 using LBoL.Core.Randoms;
 using static lvalonmima.SE.transcendeddef;
 using static lvalonmima.SE.magicalburstdef;
-using static lvalonmima.NotImages.Uncommon.cardchannellingdef;
+using static lvalonmima.NotImages.Starter.cardchannellingdef;
 using LBoL.Core.Stations;
 using LBoL.Core.Cards;
 using LBoL.EntityLib.Cards.Neutral.NoColor;
 using LBoL.Presentation.UI.Panels;
-using static lvalonmima.NotImages.Uncommon.cardmountaindef;
-using static lvalonmima.NotImages.Uncommon.cardreminidef;
-using static lvalonmima.NotImages.Uncommon.carderosiondef;
+using static lvalonmima.NotImages.Starter.cardmountaindef;
+using static lvalonmima.NotImages.Starter.cardreminidef;
+using static lvalonmima.NotImages.Starter.carderosiondef;
 
 namespace lvalonmima.NotRelics
 {
@@ -113,6 +113,7 @@ namespace lvalonmima.NotRelics
                     EntryStation entryStation = args.Station as EntryStation;
                     if (entryStation != null && base.GameRun.Stages.IndexOf(entryStation.Stage) == 0)
                     {
+                        int addcard = 12;
                         gameRun.RemoveDeckCards(from card in GameRun.BaseDeck select card, false);
                         List<Card> card1 = new List<Card>
                         {
@@ -122,15 +123,15 @@ namespace lvalonmima.NotRelics
                             Library.CreateCard<carderosion>()
                         };
                         base.GameRun.AddDeckCards(card1, false, null);
-                        for (int i = 0; i < 8; i++)
+                        for (int i = 0; i < addcard; i++)
                         {
                             Card[] cards = gameRun.RollCards(gameRun.CardRng, new CardWeightTable(RarityWeightTable.EnemyCard, OwnerWeightTable.OnlyPlayer, CardTypeWeightTable.OnlySkill), 1, false, (CardConfig config) => config.Rarity != Rarity.Rare);
                             gameRun.AddDeckCards(cards, false, null);
                         }
                         //fallback to no rarity limit
-                        if (GameRun.BaseDeck.Count < 12)
+                        if (GameRun.BaseDeck.Count < addcard + 4)
                         {
-                            int j = (12 - GameRun.BaseDeck.Count);
+                            int j = (addcard + 4 - GameRun.BaseDeck.Count);
                             for (int i = 0; i < j; i++)
                             {
                                 Card[] card2 = gameRun.RollCards(gameRun.CardRng, new CardWeightTable(RarityWeightTable.EnemyCard, OwnerWeightTable.OnlyPlayer, CardTypeWeightTable.OnlySkill), 1, false, null);
@@ -138,9 +139,9 @@ namespace lvalonmima.NotRelics
                             }
                         }
                         //fallback to no rarity and type limit
-                        if (GameRun.BaseDeck.Count < 12)
+                        if (GameRun.BaseDeck.Count < addcard + 4)
                         {
-                            int k = (12 - GameRun.BaseDeck.Count);
+                            int k = (addcard + 4 - GameRun.BaseDeck.Count);
                             for (int i = 0; i < k; i++)
                             {
                                 Card[] card2 = gameRun.RollCards(gameRun.CardRng, new CardWeightTable(RarityWeightTable.OnlyRare, OwnerWeightTable.OnlyPlayer, CardTypeWeightTable.CanBeLoot), 1, false, null);

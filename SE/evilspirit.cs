@@ -90,7 +90,7 @@ namespace lvalonmima.SE
                 ReactOwnerEvent<StatusEffectApplyEventArgs>(base.Battle.Player.StatusEffectAdded, new EventSequencedReactor<StatusEffectApplyEventArgs>(this.OnStatusEffectAdded));
                 //base.HandleOwnerEvent<DamageEventArgs>(unit.DamageReceiving, new GameEventHandler<DamageEventArgs>(this.OnDamageReceiving));
                 base.HandleOwnerEvent<DamageDealingEventArgs>(base.Owner.DamageDealing, new GameEventHandler<DamageDealingEventArgs>(this.OnDamageDealing));
-                if (Owner.MaxHp != 66) { React(new ForceKillAction(Owner, Owner)); }
+                if (unit.Name != "Mima") { React(new ForceKillAction(Owner, Owner)); }
                 else
                 {
                     HandleOwnerEvent(Owner.Dying, new GameEventHandler<DieEventArgs>(OnDying));
@@ -145,7 +145,7 @@ namespace lvalonmima.SE
                 {
                     NotifyActivating();
                     yield return new ForceKillAction(Owner, Owner);
-                    yield return new RemoveStatusEffectAction(this, true);
+                    Level++;
                     yield break;
                 }
                 yield break;
@@ -171,12 +171,12 @@ namespace lvalonmima.SE
 
             private IEnumerable<BattleAction> OnStatusEffectAdded(StatusEffectApplyEventArgs args)
             {
-                if (Level == 0)
-                {
-                    NotifyActivating();
-                    yield return new ForceKillAction(Owner, Owner);
-                    yield return new RemoveStatusEffectAction(this, true);
-                }
+                //if (Level == 0)
+                //{
+                //    NotifyActivating();
+                //    yield return new ForceKillAction(Owner, Owner);
+                //    yield return new RemoveStatusEffectAction(this, true);
+                //}
                 yield break;
             }
             //private void OnDamageReceiving(DamageEventArgs args)

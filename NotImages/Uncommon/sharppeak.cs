@@ -122,8 +122,8 @@ namespace lvalonmima.NotImages.Uncommon
             //        return 1;
             //    }
             //}
-            public int Value3pct
-            { get { return 20; } }
+            //public int Value3pct
+            //{ get { return 20; } }
             public override ManaGroup GetXCostFromPooled(ManaGroup pooledMana)
             {
                 return new ManaGroup
@@ -137,11 +137,9 @@ namespace lvalonmima.NotImages.Uncommon
             {
                 ManaGroup manaGroup = ManaGroup.Empty;
                 yield return base.BuffAction<magicalburst>(base.SynergyAmount(consumingMana, ManaColor.Red, 1) * Value1, 0, 0, 0, 0.2f);
-                //this one below doesnt fix the card applied vs status effect/debug applied problem
-                //yield return new ApplyStatusEffectAction<magicalburst>(base.Battle.Player, new int?(base.SynergyAmount(consumingMana, ManaColor.Red, 1) * Value1), null, null, null, 0.4f, true);
                 List<Card> list = (from card in base.Battle.HandZone
                                    where card.CanUpgradeAndPositive
-                                   select card).ToList<Card>().SampleManyOrAll(base.SynergyAmount(consumingMana, ManaColor.White, 1) * Value2, base.GameRun.BattleRng).ToList<Card>();
+                                   select card).ToList<Card>().SampleManyOrAll(base.SynergyAmount(consumingMana, ManaColor.White, !IsUpgraded ? 2 : 1) * Value2, base.GameRun.BattleRng).ToList<Card>();
                 if (list.Count > 0)
                 {
                     base.NotifyActivating();
