@@ -63,7 +63,7 @@ namespace lvalonmima.NotImages.Uncommon
                TargetType: TargetType.All,
                Colors: new List<ManaColor>() { ManaColor.White, ManaColor.Red },
                IsXCost: false,
-               Cost: new ManaGroup() { White = 1, Red = 1 },
+               Cost: new ManaGroup() { Any = 1, White = 1, Red = 1 },
                UpgradedCost: new ManaGroup() { Any = 2 },
                MoneyCost: null,
                Damage: null,
@@ -72,9 +72,9 @@ namespace lvalonmima.NotImages.Uncommon
                UpgradedBlock: null,
                Shield: null,
                UpgradedShield: null,
-               Value1: 1,
+               Value1: 2,
                UpgradedValue1: null,
-               Value2: null,
+               Value2: 1,
                UpgradedValue2: null,
                Mana: new ManaGroup() { Any = 0 },
                UpgradedMana: null,
@@ -115,16 +115,36 @@ namespace lvalonmima.NotImages.Uncommon
         {
             protected override IEnumerable<BattleAction> Actions(UnitSelector selector, ManaGroup consumingMana, Interaction precondition)
             {
-                List<Card> list = base.Battle.RollCards(new CardWeightTable(RarityWeightTable.NoneRare, OwnerWeightTable.OnlyPlayer, CardTypeWeightTable.CanBeLoot), Value1, (CardConfig config) => config.Type == CardType.Ability).ToList<Card>();
-                if (list.Count > 0)
+                //List<Card> list = base.Battle.RollCards(new CardWeightTable(RarityWeightTable.NoneRare, OwnerWeightTable.OnlyPlayer, CardTypeWeightTable.CanBeLoot), Value1, (CardConfig config) => config.Type == CardType.Ability).ToList<Card>();
+                //if (list.Count > 0)
+                //{
+                //    foreach (Card card in list)
+                //    {
+                //        card.SetTurnCost(this.Mana);
+                //        card.IsEthereal = true;
+                //    }
+                //    yield return new AddCardsToHandAction(list);
+                //}
+                List<Card> list = new List<Card>();
+
+                list = Battle.RollCards(new CardWeightTable(RarityWeightTable.OnlyUncommon, OwnerWeightTable.OnlyPlayer, CardTypeWeightTable.CanBeLoot), Value1, (CardConfig config) => config.Type == CardType.Ability).ToList<Card>();
+                SelectCardInteraction interaction = new SelectCardInteraction(Value2, Value2, list, SelectedCardHandling.DoNothing)
                 {
-                    foreach (Card card in list)
+                    Source = this
+                };
+                yield return new InteractionAction(interaction, false);
+                IReadOnlyList<Card> selectedCards = interaction.SelectedCards;
+
+                if (selectedCards != null)
+                {
+                    foreach (Card card in selectedCards)
                     {
                         card.SetTurnCost(this.Mana);
                         card.IsEthereal = true;
                     }
-                    yield return new AddCardsToHandAction(list);
+                    yield return new AddCardsToHandAction(selectedCards);
                 }
+                yield break;
             }
         }
     }

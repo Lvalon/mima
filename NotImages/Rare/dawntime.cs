@@ -97,15 +97,15 @@ namespace lvalonmima.NotImages.Rare
                RelativeKeyword: Keyword.TempMorph,
                UpgradedRelativeKeyword: Keyword.TempMorph,
 
-               RelativeEffects: new List<string>() { "ExtraTurn", "sedawntime" },
-               UpgradedRelativeEffects: new List<string>() { "ExtraTurn", "sedawntime" },
+               RelativeEffects: new List<string>() { nameof(ExtraTurn), nameof(sedawntime) },
+               UpgradedRelativeEffects: new List<string>() { nameof(ExtraTurn), nameof(sedawntime) },
                RelativeCards: new List<string>() { },
                UpgradedRelativeCards: new List<string>() { },
                Owner: "Mima",
                ImageId: "",
                UpgradeImageId: "",
                Unfinished: false,
-               Illustrator: "Dairi",
+               Illustrator: "Lvalon",
                SubIllustrator: new List<string>() { }
             );
             return cardConfig;

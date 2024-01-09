@@ -24,6 +24,7 @@ using LBoL.EntityLib.StatusEffects.Cirno;
 using LBoL.Core.Randoms;
 using LBoL.EntityLib.StatusEffects.Neutral.Red;
 using lvalonmima.SE.mburstmodifiers;
+using static lvalonmima.NotImages.Uncommon.cardutmostdef;
 
 namespace lvalonmima.NotImages.Uncommon
 {
@@ -64,9 +65,9 @@ namespace lvalonmima.NotImages.Uncommon
                Rarity: Rarity.Uncommon,
                Type: CardType.Ability,
                TargetType: TargetType.All,
-               Colors: new List<ManaColor>() { ManaColor.White, ManaColor.Colorless },
+               Colors: new List<ManaColor>() { ManaColor.Red, ManaColor.Colorless },
                IsXCost: false,
-               Cost: new ManaGroup() { White = 1, Colorless = 1 },
+               Cost: new ManaGroup() { Red = 1, Colorless = 1 },
                UpgradedCost: null,
                MoneyCost: null,
                Damage: null,
@@ -101,8 +102,8 @@ namespace lvalonmima.NotImages.Uncommon
 
                RelativeEffects: new List<string>() { nameof(splitburst), nameof(Firepower) },
                UpgradedRelativeEffects: new List<string>() { nameof(splitburst), nameof(Firepower) },
-               RelativeCards: new List<string>() { },
-               UpgradedRelativeCards: new List<string>() { },
+               RelativeCards: new List<string>() { nameof(cardutmost) },
+               UpgradedRelativeCards: new List<string>() { nameof(cardutmost) },
                Owner: "Mima",
                ImageId: "",
                UpgradeImageId: "",

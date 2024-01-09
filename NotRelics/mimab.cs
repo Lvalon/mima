@@ -98,11 +98,17 @@ namespace lvalonmima.NotRelics
                 int rewardAndShopCardColorLimitFlag = gameRun.RewardAndShopCardColorLimitFlag + 1;
                 gameRun.RewardAndShopCardColorLimitFlag = rewardAndShopCardColorLimitFlag;
                 //base.GameRun.AdditionalRewardCardCount += base.Value3;
+                gameRun.RemoveDeckCards(from card in GameRun.BaseDeck select card, false);
                 HandleGameRunEvent(GameRun.StationEntered, new GameEventHandler<StationEventArgs>(OnGamerunStationEntered));
             }
             private void OnGamerunStationEntered(StationEventArgs args)
             {
-                if (args.Station.Type == StationType.Entry && args.Station.Stage.Level == 1)
+                //if (args.Station.Type == StationType.Entry && args.Station.Stage.Level == 1)
+                //{
+                //    GameMaster.Instance.StartCoroutine(Draft());
+                //}
+                EntryStation entryStation = args.Station as EntryStation;
+                if (entryStation != null && base.GameRun.Stages.IndexOf(entryStation.Stage) == 0)
                 {
                     GameMaster.Instance.StartCoroutine(Draft());
                 }

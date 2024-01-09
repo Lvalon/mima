@@ -95,8 +95,8 @@ namespace lvalonmima.NotImages.Uncommon
                Keywords: Keyword.Ethereal,
                UpgradedKeywords: Keyword.Ethereal,
                EmptyDescription: false,
-               RelativeKeyword: Keyword.TempMorph,
-               UpgradedRelativeKeyword: Keyword.TempMorph,
+               RelativeKeyword: Keyword.TempMorph | Keyword.Exile,
+               UpgradedRelativeKeyword: Keyword.TempMorph | Keyword.Exile,
 
                RelativeEffects: new List<string>() { "TimeIsLimited" },
                UpgradedRelativeEffects: new List<string>() { "TimeIsLimited" },
@@ -121,6 +121,8 @@ namespace lvalonmima.NotImages.Uncommon
                 foreach (Card card in list)
                 {
                     card.SetTurnCost(base.Mana);
+                    card.IsEthereal = true;
+                    card.IsExile = true;
                 }
                 yield return new AddCardsToHandAction(list);
             }

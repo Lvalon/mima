@@ -24,6 +24,7 @@ using LBoL.EntityLib.StatusEffects.Cirno;
 using LBoL.Core.Randoms;
 using LBoL.EntityLib.StatusEffects.Neutral.Red;
 using lvalonmima.SE.mburstmodifiers;
+using static lvalonmima.NotImages.Uncommon.cardburstwavedef;
 
 namespace lvalonmima.NotImages.Uncommon
 {
@@ -99,10 +100,10 @@ namespace lvalonmima.NotImages.Uncommon
                RelativeKeyword: Keyword.None,
                UpgradedRelativeKeyword: Keyword.None,
 
-               RelativeEffects: new List<string>() { "concentratedburst" },
-               UpgradedRelativeEffects: new List<string>() { "concentratedburst" },
-               RelativeCards: new List<string>() { },
-               UpgradedRelativeCards: new List<string>() { },
+               RelativeEffects: new List<string>() { nameof(concentratedburst) },
+               UpgradedRelativeEffects: new List<string>() { nameof(concentratedburst) },
+               RelativeCards: new List<string>() { nameof(cardburstwave) },
+               UpgradedRelativeCards: new List<string>() { nameof(cardburstwave) },
                Owner: "Mima",
                ImageId: "",
                UpgradeImageId: "",

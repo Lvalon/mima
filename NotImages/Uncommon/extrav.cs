@@ -18,9 +18,11 @@ using static lvalonmima.BepinexPlugin;
 using LBoL.Core.Units;
 using System.Xml.Linq;
 using static lvalonmima.SE.evilspiritdef;
+using static lvalonmima.SE.magicalburstdef;
 using Unity.IO.LowLevel.Unsafe;
 using LBoL.EntityLib.StatusEffects.Cirno;
 using LBoL.Core.Randoms;
+using LBoL.EntityLib.StatusEffects.Sakuya;
 
 namespace lvalonmima.NotImages.Uncommon
 {
@@ -64,7 +66,7 @@ namespace lvalonmima.NotImages.Uncommon
                Colors: new List<ManaColor>() { ManaColor.Blue, ManaColor.Colorless },
                IsXCost: false,
                Cost: new ManaGroup() { Blue = 1, Colorless = 1 },
-               UpgradedCost: null,
+               UpgradedCost: new ManaGroup() { Blue = 1 },
                MoneyCost: null,
                Damage: null,
                UpgradedDamage: null,
@@ -72,9 +74,9 @@ namespace lvalonmima.NotImages.Uncommon
                UpgradedBlock: null,
                Shield: null,
                UpgradedShield: null,
-               Value1: 3,
-               UpgradedValue1: 5,
-               Value2: null,
+               Value1: 5,
+               UpgradedValue1: null,
+               Value2: 5,
                UpgradedValue2: null,
                Mana: null,
                UpgradedMana: null,
@@ -96,8 +98,8 @@ namespace lvalonmima.NotImages.Uncommon
                RelativeKeyword: Keyword.None,
                UpgradedRelativeKeyword: Keyword.None,
 
-               RelativeEffects: new List<string>() { },
-               UpgradedRelativeEffects: new List<string>() { },
+               RelativeEffects: new List<string>() { nameof(magicalburst) },
+               UpgradedRelativeEffects: new List<string>() { nameof(magicalburst) },
                RelativeCards: new List<string>() { },
                UpgradedRelativeCards: new List<string>() { },
                Owner: "Mima",
@@ -115,6 +117,15 @@ namespace lvalonmima.NotImages.Uncommon
         {
             protected override IEnumerable<BattleAction> Actions(UnitSelector selector, ManaGroup consumingMana, Interaction precondition)
             {
+                if (Battle.Player.TryGetStatusEffect<magicalburst>(out var tmp) && tmp is mimaextensions.mimase magicalburst)
+                {   
+                    if (magicalburst.truecounter - Value1 >= 0)
+                    {
+                        magicalburst.truecounter -= Value1;
+                        yield return base.BuffAction<magicalburst>(0, 1, 0, 0, 0.2f);
+                    }
+                    else { magicalburst.truecounter = 0; yield return base.BuffAction<magicalburst>(0, 1, 0, 0, 0.2f); }
+                }
                 yield return new DrawManyCardAction(Value1);
             }
         }

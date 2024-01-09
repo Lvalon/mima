@@ -65,7 +65,7 @@ namespace lvalonmima.NotImages.Uncommon
                Colors: new List<ManaColor>() { ManaColor.Colorless },
                IsXCost: false,
                Cost: new ManaGroup() { Any = 2, Colorless = 2 },
-               UpgradedCost: new ManaGroup() { Colorless = 2 },
+               UpgradedCost: new ManaGroup() { Any = 1, Colorless = 2 },
                MoneyCost: null,
                Damage: null,
                UpgradedDamage: null,
@@ -94,8 +94,8 @@ namespace lvalonmima.NotImages.Uncommon
                Keywords: Keyword.None,
                UpgradedKeywords: Keyword.None,
                EmptyDescription: false,
-               RelativeKeyword: Keyword.Exile | Keyword.Ethereal | Keyword.TempMorph,
-               UpgradedRelativeKeyword: Keyword.Exile | Keyword.Ethereal | Keyword.TempMorph,
+               RelativeKeyword: Keyword.Exile | Keyword.Purified,
+               UpgradedRelativeKeyword: Keyword.Exile | Keyword.Purified,
 
                RelativeEffects: new List<string>() { },
                UpgradedRelativeEffects: new List<string>() { },
@@ -122,9 +122,8 @@ namespace lvalonmima.NotImages.Uncommon
                     {
                         Card card2 = enumerator.Current;
                         card2.NotifyActivating();
-                        card2.SetTurnCost(base.Mana);
+                        card2.IsPurified = true;
                         card2.IsExile = true;
-                        card2.IsEthereal = true;
                     }
                     yield break;
                 }

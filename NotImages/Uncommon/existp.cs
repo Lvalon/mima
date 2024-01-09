@@ -75,11 +75,11 @@ namespace lvalonmima.NotImages.Uncommon
                Shield: null,
                UpgradedShield: null,
                Value1: 2,
-               UpgradedValue1: null,
-               Value2: null,
+               UpgradedValue1: 3,
+               Value2: 1,
                UpgradedValue2: null,
-               Mana: new ManaGroup() { Philosophy = 1 },
-               UpgradedMana: new ManaGroup() { Philosophy = 1 },
+               Mana: null,
+               UpgradedMana: null,
                Scry: null,
                UpgradedScry: null,
                ToolPlayableTimes: null,
@@ -92,11 +92,11 @@ namespace lvalonmima.NotImages.Uncommon
                UltimateCost: null,
                UpgradedUltimateCost: null,
 
-               Keywords: Keyword.None,
-               UpgradedKeywords: Keyword.None,
+               Keywords: Keyword.Exile,
+               UpgradedKeywords: Keyword.Exile,
                EmptyDescription: false,
-               RelativeKeyword: Keyword.Philosophy | Keyword.Instinct | Keyword.Exile | Keyword.Ethereal,
-               UpgradedRelativeKeyword: Keyword.Philosophy | Keyword.Instinct | Keyword.Exile | Keyword.Ethereal,
+               RelativeKeyword: Keyword.Instinct | Keyword.Exile | Keyword.Ethereal,
+               UpgradedRelativeKeyword: Keyword.Instinct | Keyword.Exile | Keyword.Ethereal,
 
                RelativeEffects: new List<string>() { },
                UpgradedRelativeEffects: new List<string>() { },
@@ -117,14 +117,34 @@ namespace lvalonmima.NotImages.Uncommon
         {
             protected override IEnumerable<BattleAction> Actions(UnitSelector selector, ManaGroup consumingMana, Interaction precondition)
             {
-                List<Card> list = Battle.RollCards(new CardWeightTable(RarityWeightTable.AllOnes, OwnerWeightTable.AllOnes, CardTypeWeightTable.CanBeLoot), Value1, (CardConfig config) => config.RelativeKeyword.HasFlag(Keyword.Instinct) || config.UpgradedRelativeKeyword.HasFlag(Keyword.Instinct) || config.Keywords.HasFlag(Keyword.Instinct) || config.UpgradedKeywords.HasFlag(Keyword.Instinct)).ToList();
-                foreach (Card card in list)
+                List<Card> list = new List<Card>();
+                //List<Card> list = Battle.RollCards(new CardWeightTable(RarityWeightTable.AllOnes, OwnerWeightTable.AllOnes, CardTypeWeightTable.CanBeLoot), Value1, (CardConfig config) => config.Id != base.Id && (config.RelativeKeyword.HasFlag(Keyword.Instinct) || config.UpgradedRelativeKeyword.HasFlag(Keyword.Instinct) || config.Keywords.HasFlag(Keyword.Instinct) || config.UpgradedKeywords.HasFlag(Keyword.Instinct))).ToList();
+                //foreach (Card card in list)
+                //{
+                //    card.IsEthereal = true;
+                //    card.IsExile = true;
+                //}
+                //yield return new AddCardsToHandAction(list);
+                //yield return new GainManaAction(Mana);
+                list = Battle.RollCards(new CardWeightTable(RarityWeightTable.AllOnes, OwnerWeightTable.AllOnes, CardTypeWeightTable.CanBeLoot), Value1, (CardConfig config) => config.Id != base.Id && (config.RelativeKeyword.HasFlag(Keyword.Instinct) || config.UpgradedRelativeKeyword.HasFlag(Keyword.Instinct) || config.Keywords.HasFlag(Keyword.Instinct) || config.UpgradedKeywords.HasFlag(Keyword.Instinct))).ToList();
+                SelectCardInteraction interaction = new SelectCardInteraction(Value2, Value2, list, SelectedCardHandling.DoNothing)
                 {
-                    card.IsEthereal = true;
-                    card.IsExile = true;
+                    Source = this
+                };
+                yield return new InteractionAction(interaction, false);
+                IReadOnlyList<Card> selectedCards = interaction.SelectedCards;
+
+                if (selectedCards != null)
+                {
+                    foreach (Card card in selectedCards)
+                    {
+                        card.IsEthereal = true;
+                        card.IsExile = true;
+                        //yield return new AddCardsToHandAction(card);
+                    }
+                    yield return new AddCardsToHandAction(selectedCards);
                 }
-                yield return new AddCardsToHandAction(list);
-                yield return new GainManaAction(Mana);
+                yield break;
             }
         }
     }

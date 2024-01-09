@@ -53,7 +53,7 @@ namespace lvalonmima.SE
                 Order: 420,
                 Type: StatusEffectType.Special,
                 IsVerbose: true,
-                IsStackable: true,
+                IsStackable: false,
                 StackActionTriggerLevel: null,
                 HasLevel: true,
                 LevelStackType: StackType.Add,
@@ -64,7 +64,7 @@ namespace lvalonmima.SE
                 CountStackType: StackType.Keep,
                 LimitStackType: StackType.Keep,
                 ShowPlusByLimit: false,
-                Keywords: Keyword.None,
+                Keywords: Keyword.TempMorph | Keyword.Exile | Keyword.Ethereal,
                 RelativeEffects: new List<string>() { },
                 VFX: "Default",
                 VFXloop: "Default",
@@ -173,7 +173,15 @@ namespace lvalonmima.SE
             {
                 if (base.ThisTurnActivating)
                 {
-                    List<Card> list = base.Battle.RollCards(new CardWeightTable(RarityWeightTable.BattleCard, OwnerWeightTable.OnlyPlayer, CardTypeWeightTable.CanBeLoot), base.Level, (CardConfig config) => !config.Keywords.HasFlag(Keyword.Forbidden) && config.Id != "carddawntime").ToList<Card>();
+                    List<Card> hand = (from card in base.Battle.HandZone select card).ToList<Card>();
+                    if (hand.Count > 0)
+                    {
+                        foreach (Card card2 in hand)
+                        {
+                            yield return new RemoveCardAction(card2);
+                        }
+                    }
+                    List<Card> list = base.Battle.RollCardsWithoutManaLimit(new CardWeightTable(RarityWeightTable.BattleCard, OwnerWeightTable.OnlyPlayer, CardTypeWeightTable.CanBeLoot), base.Level, (CardConfig config) => !config.Keywords.HasFlag(Keyword.Forbidden) && config.Id != base.Id).ToList<Card>();
                     if (list.Count > 0)
                     {
                         foreach (Card card in list)

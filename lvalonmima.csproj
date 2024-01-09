@@ -374,8 +374,8 @@
       <None Remove="Resources\sedamageadder.png" />
       <None Remove="Resources\sedamagemultiplier.png" />
       <None Remove="Resources\sedawntime.png" />
-      <None Remove="Resources\sedrawonskill.png" />
       <None Remove="Resources\seeverlastingmagic.png" />
+      <None Remove="Resources\seexfireonskill.png" />
       <None Remove="Resources\sefastburst.png" />
       <None Remove="Resources\seimplosion.png" />
       <None Remove="Resources\sekarmanation.png" />

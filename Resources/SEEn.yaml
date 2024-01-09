@@ -39,8 +39,8 @@ retribution:
   Brief: "Whenever |Magical Burst| causes an enemy to lose life, {OwnerName} loses life."
   Name: Retribution
 implosion:
-  Description: "Whenever an enemy takes unblocked damage from |Magical Burst|'s attack, they lose life equal to {Level} time{Level:plural one='' other='s'} of |Magical Burst|'s attack damage."
-  Brief: "Whenever an enemy takes unblocked damage from |Magical Burst|, they lose life equal to |Magical Burst|'s attack damage."
+  Description: "Whenever an enemy takes unblocked damage from |Magical Burst|'s attack, they lose life equal to {Level} time{Level:plural one='' other='s'} of damage dealt by |Magical Burst|."
+  Brief: "Whenever an enemy takes unblocked damage from |Magical Burst|, they lose life equal to damage dealt by |Magical Burst|."
   Name: Implosion
 everlastingmagic:
   Description: "Gain {showeverlasting}% less |Magical Burst|.\n|Magical Burst| is no longer consumed.\n|Magical Burst|'s activation can no longer be delayed."
@@ -70,13 +70,13 @@ extmpfire:
   Description: "Until end of round, gain {Level} |Firepower|.\n|Firepower| increases damage dealt with attacks."
   Brief: "|Firepower| increased until end of round.\n|Firepower| increases damage dealt with attacks."
   Name: EX Temporary Firepower
-drawonskill:
-  Description: "Until end of turn, whenever a skill card is played, draw {Level} card{Level:plural one='' other='s'}."
-  ExtraDescription: "Until end of turn, whenever a skill card is played, draw {Level} card{Level:plural one='' other='s'}.\n{SelfName} is inactive and will only be removed after the turn it resolves."
-  Brief: "Until end of turn, whenever a skill card is played, draw some cards."
-  Name: Draw On Skill Played
+exfireonskill:
+  Description: "Until end of turn, whenever a skill card is played, gain {Level} |EX Temporary Firepower|."
+  ExtraDescription: "Until end of turn, whenever a skill card is played, gain {Level} |EX Temporary Firepower|.\n{SelfName} is inactive and will only be removed after the turn it resolves."
+  Brief: "Until end of turn, whenever a skill card is played, gain some |EX Temporary Firepower|."
+  Name: Gain EX Tmp Fire On Skill Played
 sedawntime:
-  Description: "Skip the card drawing phase of turn starting, add {Level} {OwnerName} card{Level:plural one='' other='s'} to hand that {Level:plural one='has' other='have'} |Exile| and |Ethereal| instead.\nUntil end of turn, {OwnerName} takes and deal no damage, cards cost {Mana}, cannot gain mana or draw cards."
-  ExtraDescription: "Skip the card drawing phase of turn starting, add {Level} {OwnerName} card{Level:plural one='' other='s'} to hand that {Level:plural one='has' other='have'} |Exile| and |Ethereal| instead.\nUntil end of turn, {OwnerName} takes and deal no damage, cards cost {Mana}, cannot gain mana or draw cards.\n{SelfName} is inactive and will only be removed after the turn it resolves."
-  Brief: "{OwnerName} takes and deals no damage, cards cost {Mana}, cannot gain mana or draw cards until end of turn. At the start the turn, add some random {OwnerName} cards to the hand, they have |Exile| and |Ethereal|."
+  Description: "Skip the card drawing phase of turn starting.\nRemove all cards in hand from combat.\nAdd {Level} {OwnerName} card{Level:plural one='' other='s'} to hand that {Level:plural one='has' other='have'} |Exile| and |Ethereal| instead.\nUntil end of turn, {OwnerName} takes and deal no damage, cards cost {Mana}, cannot gain mana or draw cards."
+  ExtraDescription: "Skip the card drawing phase of turn starting.\nRemove all cards in hand from combat.\nAdd {Level} {OwnerName} card{Level:plural one='' other='s'} to hand that {Level:plural one='has' other='have'} |Exile| and |Ethereal| instead.\nUntil end of turn, {OwnerName} takes and deal no damage, cards cost {Mana}, cannot gain mana or draw cards.\n{SelfName} is inactive and will only be removed after the turn it resolves."
+  Brief: "At the start the turn, remove the hand from combat, add some random {OwnerName} cards to the hand, they have |Exile| and |Ethereal|.\n{OwnerName} takes and deals no damage, cards cost {Mana}, cannot gain mana or draw cards until end of turn."
   Name: Dawn of Time
