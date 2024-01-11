@@ -35,10 +35,7 @@ namespace lvalonmima.SE
             return nameof(sedawntime);
         }
 
-        public override LocalizationOption LoadLocalization()
-        {
-            return toolbox.locse();
-        }
+        public override LocalizationOption LoadLocalization() => sebatchloc.AddEntity(this);
 
         public override Sprite LoadSprite()
         {
@@ -181,7 +178,7 @@ namespace lvalonmima.SE
                             yield return new RemoveCardAction(card2);
                         }
                     }
-                    List<Card> list = base.Battle.RollCardsWithoutManaLimit(new CardWeightTable(RarityWeightTable.BattleCard, OwnerWeightTable.OnlyPlayer, CardTypeWeightTable.CanBeLoot), base.Level, (CardConfig config) => !config.Keywords.HasFlag(Keyword.Forbidden) && config.Id != base.Id).ToList<Card>();
+                    List<Card> list = base.Battle.RollCardsWithoutManaLimit(new CardWeightTable(RarityWeightTable.BattleCard, OwnerWeightTable.OnlyPlayer, CardTypeWeightTable.CanBeLoot), base.Level, (CardConfig config) => !config.Keywords.HasFlag(Keyword.Forbidden) && config.Id != "carddawntime").ToList<Card>();
                     if (list.Count > 0)
                     {
                         foreach (Card card in list)

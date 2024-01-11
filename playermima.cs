@@ -29,10 +29,7 @@ namespace lvalonmima
 
         public override IdContainer GetId() => nameof(Mima);
 
-        public override LocalizationOption LoadLocalization()
-        {
-            return toolbox.locplayer();
-        }
+        public override LocalizationOption LoadLocalization() => playerbatchloc.AddEntity(this);
 
         public override PlayerImages LoadPlayerImages()
         {

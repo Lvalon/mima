@@ -25,10 +25,7 @@ namespace lvalonmima
     {
         public override IdContainer GetId() => nameof(ulta);
 
-        public override LocalizationOption LoadLocalization()
-        {
-            return toolbox.locult();
-        }
+        public override LocalizationOption LoadLocalization() => ultbatchloc.AddEntity(this);
 
         public override Sprite LoadSprite()
         {

@@ -31,10 +31,7 @@ namespace lvalonmima.SE
             return nameof(transcended);
         }
 
-        public override LocalizationOption LoadLocalization()
-        {
-            return toolbox.locse();
-        }
+        public override LocalizationOption LoadLocalization() => sebatchloc.AddEntity(this);
 
         public override Sprite LoadSprite()
         {

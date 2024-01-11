@@ -39,10 +39,7 @@ namespace lvalonmima.NotRelics
             return nameof(mimab);
         }
 
-        public override LocalizationOption LoadLocalization()
-        {
-            return toolbox.locex();
-        }
+        public override LocalizationOption LoadLocalization() => exbatchloc.AddEntity(this);
 
         public override ExhibitSprites LoadSprite()
         {

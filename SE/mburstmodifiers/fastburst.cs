@@ -35,10 +35,7 @@ namespace lvalonmima.SE.mburstmodifiers
             return nameof(fastburst);
         }
 
-        public override LocalizationOption LoadLocalization()
-        {
-            return toolbox.locse();
-        }
+        public override LocalizationOption LoadLocalization() => sebatchloc.AddEntity(this);
 
         public override Sprite LoadSprite()
         {
