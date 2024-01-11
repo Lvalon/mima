@@ -32,10 +32,7 @@ namespace lvalonmima.SE
             return nameof(seshepherdg);
         }
 
-        public override LocalizationOption LoadLocalization()
-        {
-            return toolbox.locse();
-        }
+        public override LocalizationOption LoadLocalization() => sebatchloc.AddEntity(this);
 
         public override Sprite LoadSprite()
         {

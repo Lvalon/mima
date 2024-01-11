@@ -38,10 +38,7 @@ namespace lvalonmima.NotImages.Uncommon
             return imgs;
         }
 
-        public override LocalizationOption LoadLocalization()
-        {
-            return toolbox.loccard();
-        }
+        public override LocalizationOption LoadLocalization() => cardbatchloc.AddEntity(this);
 
         public override CardConfig MakeConfig()
         {

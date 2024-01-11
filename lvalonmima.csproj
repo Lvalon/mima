@@ -328,13 +328,19 @@
 
 
     <ItemGroup>
+      <None Remove="DIRRESOURCES\cardEn.yaml" />
+      <None Remove="DIRRESOURCES\exEn.yaml" />
+      <None Remove="DIRRESOURCES\exZhHans.yaml" />
+      <None Remove="DIRRESOURCES\modelEn.yaml" />
+      <None Remove="DIRRESOURCES\playerEn.yaml" />
+      <None Remove="DIRRESOURCES\SEEn.yaml" />
+      <None Remove="DIRRESOURCES\ultEn.yaml" />
       <None Remove="Resources\cardalgophobia.png" />
       <None Remove="Resources\cardbirdq.png" />
       <None Remove="Resources\cardburstwave.png" />
       <None Remove="Resources\cardcardtable.png" />
       <None Remove="Resources\cardchannelling.png" />
       <None Remove="Resources\carddawntime.png" />
-      <None Remove="resources\cardEn.yaml" />
       <None Remove="Resources\cardendlesswalk.png" />
       <None Remove="Resources\cardenterzone.png" />
       <None Remove="Resources\carderosion.png" />
@@ -365,10 +371,7 @@
       <None Remove="Resources\cardutmost.png" />
       <None Remove="Resources\cardwheresleep.png" />
       <None Remove="Resources\cardwraitsoth.png" />
-      <None Remove="resources\exEn.yaml" />
       <None Remove="Resources\mimab.png" />
-      <None Remove="resources\modelEn.yaml" />
-      <None Remove="resources\playerEn.yaml" />
       <None Remove="Resources\seaccumulation.png" />
       <None Remove="Resources\seconcentratedburst.png" />
       <None Remove="Resources\sedamageadder.png" />
@@ -385,8 +388,17 @@
       <None Remove="Resources\sesplitburst.png" />
       <None Remove="Resources\sestartturnloselife.png" />
       <None Remove="Resources\setheabyss.png" />
-      <None Remove="resources\ultEn.yaml" />
-      <None Remove="resources\unfinished.txt" />
+    </ItemGroup>
+
+
+    <ItemGroup>
+      <EmbeddedResource Include="DIRRESOURCES\cardEn.yaml" />
+      <EmbeddedResource Include="DIRRESOURCES\exZhHans.yaml" />
+      <EmbeddedResource Include="DIRRESOURCES\exEn.yaml" />
+      <EmbeddedResource Include="DIRRESOURCES\modelEn.yaml" />
+      <EmbeddedResource Include="DIRRESOURCES\playerEn.yaml" />
+      <EmbeddedResource Include="DIRRESOURCES\SEEn.yaml" />
+      <EmbeddedResource Include="DIRRESOURCES\ultEn.yaml" />
     </ItemGroup>
 
 

@@ -41,10 +41,7 @@ namespace lvalonmima.NotImages.Rare
             return imgs;
         }
 
-        public override LocalizationOption LoadLocalization()
-        {
-            return toolbox.loccard();
-        }
+        public override LocalizationOption LoadLocalization() => cardbatchloc.AddEntity(this);
 
         public override CardConfig MakeConfig()
         {

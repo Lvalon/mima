@@ -34,10 +34,7 @@ namespace lvalonmima.SE.mburstmodifiers
             return nameof(implosion);
         }
 
-        public override LocalizationOption LoadLocalization()
-        {
-            return toolbox.locse();
-        }
+        public override LocalizationOption LoadLocalization() => sebatchloc.AddEntity(this);
 
         public override Sprite LoadSprite()
         {
@@ -92,7 +89,7 @@ namespace lvalonmima.SE.mburstmodifiers
                 if (args.Target.IsAlive)
                 {
                     DamageInfo damageInfo = args.DamageInfo;
-                    if (args.ActionSource.Id == "magicalburst")
+                    if (args.ActionSource.Id == "magicalburst" && damageInfo.Damage > 0f)
                     {
                         base.NotifyActivating();
                         yield return DamageAction.LoseLife(args.Target, (int)(args.DamageInfo.Damage * Level), "Cold2");
