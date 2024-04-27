@@ -57,6 +57,7 @@ namespace lvalonmima.NotImages.Starter
                DebugLevel: 0,
                Revealable: false,
                IsPooled: true,
+               FindInBattle: true,
                HideMesuem: false,
                IsUpgradable: true,
                Rarity: Rarity.Common,
@@ -105,7 +106,7 @@ namespace lvalonmima.NotImages.Starter
                ImageId: "",
                UpgradeImageId: "",
                Unfinished: false,
-               Illustrator: "Dairi",
+               Illustrator: "Lvalon",
                SubIllustrator: new List<string>() { }
             );
             return cardConfig;

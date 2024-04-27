@@ -1,246 +1,246 @@
-[6:04:38 PM INF] Initializing assembly publicization
-[6:04:38 PM INF] Referenced assemblies: 153
-[6:04:38 PM INF] Publicize: LBoL.Base, virtual members: True, compiler-generated members: False
-[6:04:38 PM INF] Publicize: LBoL.ConfigData, virtual members: True, compiler-generated members: False
-[6:04:38 PM INF] Publicize: LBoL.Core, virtual members: True, compiler-generated members: False
-[6:04:38 PM INF] Publicize: LBoL.EntityLib, virtual members: True, compiler-generated members: False
-[6:04:38 PM INF] Publicize: LBoL.Presentation, virtual members: True, compiler-generated members: False
-[6:04:38 PM INF] Publicize: Untitled.ConfigDataBuilder.Base, virtual members: True, compiler-generated members: False
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Stage.get_DefaultEventPriority
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Stage.LocalizeProperty
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Stage.LocalizeListProperty
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Stage.get_Name
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Stage.Initialize
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Stage.InitExtraFlags
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Stage.InitBoss
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Stage.CreateMap
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Stage.SetBoss
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Stage.GetAdventure
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Stage.GetShopNormalCards
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Stage.GetShopToolCards
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Stage.GetShopExhibit
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Stage.GetEliteEnemyExhibit
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Stage.GetSupplyExhibit
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Stage.GetNeutralShiningExhibit
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Stage.RollExhibitInAdventure
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Stage.GetBossExhibits
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Stage.GetDrinkTeaCardReward
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Stage.GetEnemyCardReward
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Stage.GetEliteEnemyCardReward
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Stage.GetBossCardReward
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Stage.GetEnemies
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Stage.GetEliteEnemies
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Stage.GetBoss
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.GameEntity.get_DebugName
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.GameEntity.LocalizeProperty
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.GameEntity.GetBaseDescription
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.GameEntity.get_Name
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.GameEntity.get_PlayerName
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.GameEntity.get_Description
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.GameEntity.get_DefaultEventPriority
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.GameEntity.React
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.GameEntity.Initialize
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.GameEntity.CreateFormatWrapper
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.GameEntity.add_PropertyChanged
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.GameEntity.remove_PropertyChanged
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.GameEntity.NotifyChanged
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Cards.Card.get_OnDrawVisual
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Cards.Card.OnDraw
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Cards.Card.get_OnDiscardVisual
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Cards.Card.OnDiscard
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Cards.Card.get_OnExileVisual
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Cards.Card.OnExile
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Cards.Card.get_OnMoveVisual
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Cards.Card.OnMove
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Cards.Card.get_OnRetainVisual
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Cards.Card.OnRetain
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Cards.Card.OnRemove
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Cards.Card.OnLeaveHand
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Cards.Card.AfterUseAction
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Cards.Card.Upgrade
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Cards.Card.OnEnterBattle
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Cards.Card.OnLeaveBattle
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Cards.Card.React
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Cards.Card.Precondition
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Cards.Card.Actions
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Cards.Card.SetGuns
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Cards.Card.get_Damage
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Cards.Card.get_AdditionalDamage
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Cards.Card.get_RawBlock
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Cards.Card.get_AdditionalBlock
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Cards.Card.get_AdditionalShield
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Cards.Card.get_AdditionalValue1
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Cards.Card.get_AdditionalValue2
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Cards.Card.get_DefaultEventPriority
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Cards.Card.LocalizeProperty
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Cards.Card.LocalizeListProperty
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Cards.Card.GetBaseDescription
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Cards.Card.GetXCostFromPooled
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Cards.Card.get_AdditionalCost
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Cards.Card.get_Triggered
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Cards.Card.get_CanUpgrade
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Cards.Card.get_IsUpgraded
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Cards.Card.get_UpgradeReplaceImage
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Cards.Card.get_CanUse
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Cards.Card.get_Description
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Cards.Card.Initialize
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Cards.Card.CreateFormatWrapper
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Cards.Card.Verify
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Cards.Card.NotifyActivating
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Cards.Card.ShouldPreventOtherCardUsage
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Cards.Card.get_PreventCardUsageMessage
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Units.UltimateSkill.LocalizeProperty
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Units.UltimateSkill.LocalizeListProperty
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Units.UltimateSkill.get_DefaultEventPriority
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Units.UltimateSkill.get_DebugName
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Units.UltimateSkill.get_Name
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Units.UltimateSkill.get_Damage
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Units.UltimateSkill.Initialize
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Units.UltimateSkill.CreateFormatWrapper
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Units.UltimateSkill.Actions
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Exhibit.LocalizeProperty
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Exhibit.LocalizeListProperty
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Exhibit.GetBaseDescription
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Exhibit.get_Description
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Exhibit.get_IconName
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Exhibit.get_OverrideIconName
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Exhibit.get_DefaultEventPriority
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Exhibit.Initialize
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Exhibit.get_ShowCounter
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Exhibit.OnAdding
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Exhibit.OnAdded
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Exhibit.OnRemoving
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Exhibit.OnRemoved
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Exhibit.SpecialGain
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Exhibit.OnGain
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Exhibit.OnLose
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Exhibit.OnEnterBattle
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Exhibit.OnLeaveBattle
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Exhibit.NotifyActivating
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Exhibit.React
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Exhibit.EnumerateDisplayWords
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Exhibit.EnumerateRelativeCards
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Units.PlayerUnit.LocalizeProperty
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Units.PlayerUnit.GetName
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Units.PlayerUnit.Initialize
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Units.PlayerUnit.get_DefaultEventPriority
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Units.PlayerUnit.SetView
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Units.Unit.Initialize
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Units.Unit.GetName
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Units.Unit.get_Name
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Units.Unit.EnterGameRun
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Units.Unit.OnEnterGameRun
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Units.Unit.OnLeaveGameRun
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Units.Unit.OnEnterBattle
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Units.Unit.OnLeaveBattle
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Units.Unit.React
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Units.Unit.Die
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Units.Unit.OnDie
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Units.Unit.SetView
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Units.Unit.GetView
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Units.EnemyUnit.LocalizeProperty
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Units.EnemyUnit.LocalizeListProperty
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Units.EnemyUnit.GetName
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Units.EnemyUnit.get_DefaultEventPriority
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Units.EnemyUnit.get_MovePriority
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Units.EnemyUnit.Initialize
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Units.EnemyUnit.EnterGameRun
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Units.EnemyUnit.OnSpawn
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Units.EnemyUnit.Die
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Units.EnemyUnit.Actions
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Units.EnemyUnit.GetTurnMoves
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Units.EnemyUnit.UpdateMoveCounters
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Units.EnemyUnit.AttackActions
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Units.EnemyUnit.GetIntentions
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Units.EnemyUnit.SetView
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.StatusEffects.StatusEffect.LocalizeProperty
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.StatusEffects.StatusEffect.LocalizeListProperty
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.StatusEffects.StatusEffect.get_Name
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.StatusEffects.StatusEffect.LBoL.Core.IDisplayWord.get_Description
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.StatusEffects.StatusEffect.LBoL.Core.IDisplayWord.get_IsVerbose
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.StatusEffects.StatusEffect.get_IconName
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.StatusEffects.StatusEffect.get_OverrideIconName
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.StatusEffects.StatusEffect.get_DefaultEventPriority
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.StatusEffects.StatusEffect.get_ForceNotShowNumber
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.StatusEffects.StatusEffect.Stack
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.StatusEffects.StatusEffect.Initialize
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.StatusEffects.StatusEffect.CreateFormatWrapper
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.StatusEffects.StatusEffect.OnAdding
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.StatusEffects.StatusEffect.OnAdded
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.StatusEffects.StatusEffect.OnRemoving
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.StatusEffects.StatusEffect.OnRemoved
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.StatusEffects.StatusEffect.NotifyActivating
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.StatusEffects.StatusEffect.NotifyChanged
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.StatusEffects.StatusEffect.React
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.StatusEffects.StatusEffect.StackAction
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.StatusEffects.StatusEffect.ShouldPreventCardUsage
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.StatusEffects.StatusEffect.get_PreventCardUsageMessage
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.StatusEffects.StatusEffect.get_UnitEffectName
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Units.Doll.LocalizeProperty
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Units.Doll.get_DefaultEventPriority
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Units.Doll.Initialize
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Units.Doll.CreateFormatWrapper
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Units.Doll.get_UpCounter
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Units.Doll.get_UpCounterColor
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Units.Doll.get_DownCounter
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Units.Doll.get_DownCounterColor
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Units.Doll.OnAdding
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Units.Doll.OnAdded
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Units.Doll.OnRemoving
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Units.Doll.OnRemoved
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Units.Doll.PassiveActions
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Units.Doll.ActiveActions
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.GapOptions.GapOption.get_Type
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.GapOptions.GapOption.GetBaseDescription
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Units.Intention.get_Type
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Units.Intention.LocalizeProperty
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Units.Intention.get_DefaultEventPriority
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Units.Intention.CreateFormatWrapper
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Units.Intention.get_PlayerName
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Adventures.Adventure.Initialize
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Adventures.Adventure.get_DialogName
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Adventures.Adventure.InitVariables
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.JadeBox.LocalizeProperty
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.JadeBox.LocalizeListProperty
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.JadeBox.get_Description
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.JadeBox.get_IconName
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.JadeBox.get_DefaultEventPriority
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.JadeBox.Initialize
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.JadeBox.OnGain
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.JadeBox.OnAdded
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.JadeBox.OnEnterBattle
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.JadeBox.OnLeaveBattle
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.JadeBox.React
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.JadeBox.EnumerateDisplayWords
-[6:04:38 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.JadeBox.EnumerateRelativeCards
-[6:04:38 PM INF] [LBoL.Base] Assembly processing starting...
-[6:04:38 PM INF] [LBoL.Base] Path: W:\LBoL.app\Contents\Resources\Data\Managed\LBoL.Base.dll
-[6:04:38 PM INF] [LBoL.Base] Publicization hash: 8F304AD0C71F5FFD188914A495D55411
-[6:04:38 PM INF] [LBoL.Base] Assembly already publicized at obj\Debug\netstandard2.1\PublicizedAssemblies\LBoL.Base.8F304AD0C71F5FFD188914A495D55411\LBoL.Base.dll
-[6:04:38 PM INF] [LBoL.Base] Assembly processing finished
-[6:04:38 PM INF] [LBoL.ConfigData] Assembly processing starting...
-[6:04:38 PM INF] [LBoL.ConfigData] Path: W:\LBoL.app\Contents\Resources\Data\Managed\LBoL.ConfigData.dll
-[6:04:38 PM INF] [LBoL.ConfigData] Publicization hash: 48101529B667ED8BC98455F478D986BE
-[6:04:38 PM INF] [LBoL.ConfigData] Assembly already publicized at obj\Debug\netstandard2.1\PublicizedAssemblies\LBoL.ConfigData.48101529B667ED8BC98455F478D986BE\LBoL.ConfigData.dll
-[6:04:38 PM INF] [LBoL.ConfigData] Assembly processing finished
-[6:04:38 PM INF] [LBoL.Core] Assembly processing starting...
-[6:04:38 PM INF] [LBoL.Core] Path: W:\LBoL.app\Contents\Resources\Data\Managed\LBoL.Core.dll
-[6:04:38 PM INF] [LBoL.Core] Publicization hash: A094242AECCF7B32428C1989B37BA521
-[6:04:38 PM INF] [LBoL.Core] Assembly already publicized at obj\Debug\netstandard2.1\PublicizedAssemblies\LBoL.Core.A094242AECCF7B32428C1989B37BA521\LBoL.Core.dll
-[6:04:38 PM INF] [LBoL.Core] Assembly processing finished
-[6:04:38 PM INF] [LBoL.EntityLib] Assembly processing starting...
-[6:04:38 PM INF] [LBoL.EntityLib] Path: W:\LBoL.app\Contents\Resources\Data\Managed\LBoL.EntityLib.dll
-[6:04:39 PM INF] [LBoL.EntityLib] Publicization hash: C525B074EC7EB37BCDFA0D6F07538DF1
-[6:04:39 PM INF] [LBoL.EntityLib] Assembly already publicized at obj\Debug\netstandard2.1\PublicizedAssemblies\LBoL.EntityLib.C525B074EC7EB37BCDFA0D6F07538DF1\LBoL.EntityLib.dll
-[6:04:39 PM INF] [LBoL.EntityLib] Assembly processing finished
-[6:04:39 PM INF] [LBoL.Presentation] Assembly processing starting...
-[6:04:39 PM INF] [LBoL.Presentation] Path: W:\LBoL.app\Contents\Resources\Data\Managed\LBoL.Presentation.dll
-[6:04:39 PM INF] [LBoL.Presentation] Publicization hash: B8E45649D647DCD6723FE0C7D61899A7
-[6:04:39 PM INF] [LBoL.Presentation] Assembly already publicized at obj\Debug\netstandard2.1\PublicizedAssemblies\LBoL.Presentation.B8E45649D647DCD6723FE0C7D61899A7\LBoL.Presentation.dll
-[6:04:39 PM INF] [LBoL.Presentation] Assembly processing finished
-[6:04:39 PM INF] [Untitled.ConfigDataBuilder.Base] Assembly processing starting...
-[6:04:39 PM INF] [Untitled.ConfigDataBuilder.Base] Path: W:\LBoL.app\Contents\Resources\Data\Managed\Untitled.ConfigDataBuilder.Base.dll
-[6:04:39 PM INF] [Untitled.ConfigDataBuilder.Base] Publicization hash: 46113816E97576C7EB98127C91F00539
-[6:04:39 PM INF] [Untitled.ConfigDataBuilder.Base] Assembly already publicized at obj\Debug\netstandard2.1\PublicizedAssemblies\Untitled.ConfigDataBuilder.Base.46113816E97576C7EB98127C91F00539\Untitled.ConfigDataBuilder.Base.dll
-[6:04:39 PM INF] [Untitled.ConfigDataBuilder.Base] Assembly processing finished
-[6:04:39 PM INF] Finished processing 6 assemblies. Terminating task.
+[7:48:57 PM INF] Initializing assembly publicization
+[7:48:57 PM INF] Referenced assemblies: 152
+[7:48:57 PM INF] Publicize: LBoL.Base, virtual members: True, compiler-generated members: False
+[7:48:57 PM INF] Publicize: LBoL.ConfigData, virtual members: True, compiler-generated members: False
+[7:48:57 PM INF] Publicize: LBoL.Core, virtual members: True, compiler-generated members: False
+[7:48:57 PM INF] Publicize: LBoL.EntityLib, virtual members: True, compiler-generated members: False
+[7:48:57 PM INF] Publicize: LBoL.Presentation, virtual members: True, compiler-generated members: False
+[7:48:57 PM INF] Publicize: Untitled.ConfigDataBuilder.Base, virtual members: True, compiler-generated members: False
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Stage.get_DefaultEventPriority
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Stage.LocalizeProperty
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Stage.LocalizeListProperty
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Stage.get_Name
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Stage.Initialize
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Stage.InitExtraFlags
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Stage.InitBoss
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Stage.CreateMap
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Stage.SetBoss
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Stage.GetAdventure
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Stage.GetShopNormalCards
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Stage.GetShopToolCards
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Stage.GetShopExhibit
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Stage.GetEliteEnemyExhibit
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Stage.GetSupplyExhibit
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Stage.GetNeutralShiningExhibit
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Stage.RollExhibitInAdventure
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Stage.GetBossExhibits
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Stage.GetDrinkTeaCardReward
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Stage.GetEnemyCardReward
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Stage.GetEliteEnemyCardReward
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Stage.GetBossCardReward
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Stage.GetEnemies
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Stage.GetEliteEnemies
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Stage.GetBoss
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.GameEntity.get_DebugName
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.GameEntity.LocalizeProperty
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.GameEntity.GetBaseDescription
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.GameEntity.get_Name
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.GameEntity.get_PlayerName
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.GameEntity.get_Description
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.GameEntity.get_DefaultEventPriority
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.GameEntity.React
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.GameEntity.Initialize
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.GameEntity.CreateFormatWrapper
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.GameEntity.add_PropertyChanged
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.GameEntity.remove_PropertyChanged
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.GameEntity.NotifyChanged
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Cards.Card.get_OnDrawVisual
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Cards.Card.OnDraw
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Cards.Card.get_OnDiscardVisual
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Cards.Card.OnDiscard
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Cards.Card.get_OnExileVisual
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Cards.Card.OnExile
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Cards.Card.get_OnMoveVisual
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Cards.Card.OnMove
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Cards.Card.get_OnRetainVisual
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Cards.Card.OnRetain
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Cards.Card.OnRemove
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Cards.Card.OnLeaveHand
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Cards.Card.AfterUseAction
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Cards.Card.Upgrade
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Cards.Card.OnEnterBattle
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Cards.Card.OnLeaveBattle
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Cards.Card.React
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Cards.Card.Precondition
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Cards.Card.Actions
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Cards.Card.SetGuns
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Cards.Card.get_Damage
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Cards.Card.get_AdditionalDamage
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Cards.Card.get_RawBlock
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Cards.Card.get_AdditionalBlock
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Cards.Card.get_AdditionalShield
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Cards.Card.get_AdditionalValue1
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Cards.Card.get_AdditionalValue2
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Cards.Card.get_DefaultEventPriority
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Cards.Card.LocalizeProperty
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Cards.Card.LocalizeListProperty
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Cards.Card.GetBaseDescription
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Cards.Card.GetXCostFromPooled
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Cards.Card.get_AdditionalCost
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Cards.Card.get_Triggered
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Cards.Card.get_CanUpgrade
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Cards.Card.get_IsUpgraded
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Cards.Card.get_UpgradeReplaceImage
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Cards.Card.get_CanUse
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Cards.Card.get_Description
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Cards.Card.Initialize
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Cards.Card.CreateFormatWrapper
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Cards.Card.Verify
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Cards.Card.NotifyActivating
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Cards.Card.ShouldPreventOtherCardUsage
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Cards.Card.get_PreventCardUsageMessage
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Units.UltimateSkill.LocalizeProperty
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Units.UltimateSkill.LocalizeListProperty
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Units.UltimateSkill.get_DefaultEventPriority
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Units.UltimateSkill.get_DebugName
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Units.UltimateSkill.get_Name
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Units.UltimateSkill.get_Damage
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Units.UltimateSkill.Initialize
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Units.UltimateSkill.CreateFormatWrapper
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Units.UltimateSkill.Actions
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Exhibit.LocalizeProperty
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Exhibit.LocalizeListProperty
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Exhibit.GetBaseDescription
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Exhibit.get_Description
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Exhibit.get_IconName
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Exhibit.get_OverrideIconName
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Exhibit.get_DefaultEventPriority
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Exhibit.Initialize
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Exhibit.get_ShowCounter
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Exhibit.OnAdding
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Exhibit.OnAdded
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Exhibit.OnRemoving
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Exhibit.OnRemoved
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Exhibit.SpecialGain
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Exhibit.OnGain
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Exhibit.OnLose
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Exhibit.OnEnterBattle
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Exhibit.OnLeaveBattle
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Exhibit.NotifyActivating
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Exhibit.React
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Exhibit.EnumerateDisplayWords
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Exhibit.EnumerateRelativeCards
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Units.PlayerUnit.LocalizeProperty
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Units.PlayerUnit.GetName
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Units.PlayerUnit.Initialize
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Units.PlayerUnit.get_DefaultEventPriority
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Units.PlayerUnit.SetView
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Units.Unit.Initialize
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Units.Unit.GetName
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Units.Unit.get_Name
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Units.Unit.EnterGameRun
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Units.Unit.OnEnterGameRun
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Units.Unit.OnLeaveGameRun
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Units.Unit.OnEnterBattle
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Units.Unit.OnLeaveBattle
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Units.Unit.React
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Units.Unit.Die
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Units.Unit.OnDie
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Units.Unit.SetView
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Units.Unit.GetView
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Units.EnemyUnit.LocalizeProperty
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Units.EnemyUnit.LocalizeListProperty
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Units.EnemyUnit.GetName
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Units.EnemyUnit.get_DefaultEventPriority
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Units.EnemyUnit.get_MovePriority
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Units.EnemyUnit.Initialize
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Units.EnemyUnit.EnterGameRun
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Units.EnemyUnit.OnSpawn
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Units.EnemyUnit.Die
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Units.EnemyUnit.Actions
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Units.EnemyUnit.GetTurnMoves
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Units.EnemyUnit.UpdateMoveCounters
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Units.EnemyUnit.AttackActions
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Units.EnemyUnit.GetIntentions
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Units.EnemyUnit.SetView
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.StatusEffects.StatusEffect.LocalizeProperty
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.StatusEffects.StatusEffect.LocalizeListProperty
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.StatusEffects.StatusEffect.get_Name
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.StatusEffects.StatusEffect.LBoL.Core.IDisplayWord.get_Description
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.StatusEffects.StatusEffect.LBoL.Core.IDisplayWord.get_IsVerbose
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.StatusEffects.StatusEffect.get_IconName
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.StatusEffects.StatusEffect.get_OverrideIconName
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.StatusEffects.StatusEffect.get_DefaultEventPriority
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.StatusEffects.StatusEffect.get_ForceNotShowNumber
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.StatusEffects.StatusEffect.Stack
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.StatusEffects.StatusEffect.Initialize
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.StatusEffects.StatusEffect.CreateFormatWrapper
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.StatusEffects.StatusEffect.OnAdding
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.StatusEffects.StatusEffect.OnAdded
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.StatusEffects.StatusEffect.OnRemoving
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.StatusEffects.StatusEffect.OnRemoved
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.StatusEffects.StatusEffect.NotifyActivating
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.StatusEffects.StatusEffect.NotifyChanged
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.StatusEffects.StatusEffect.React
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.StatusEffects.StatusEffect.StackAction
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.StatusEffects.StatusEffect.ShouldPreventCardUsage
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.StatusEffects.StatusEffect.get_PreventCardUsageMessage
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.StatusEffects.StatusEffect.get_UnitEffectName
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Units.Doll.LocalizeProperty
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Units.Doll.get_DefaultEventPriority
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Units.Doll.Initialize
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Units.Doll.CreateFormatWrapper
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Units.Doll.get_UpCounter
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Units.Doll.get_UpCounterColor
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Units.Doll.get_DownCounter
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Units.Doll.get_DownCounterColor
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Units.Doll.OnAdding
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Units.Doll.OnAdded
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Units.Doll.OnRemoving
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Units.Doll.OnRemoved
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Units.Doll.PassiveActions
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Units.Doll.ActiveActions
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.GapOptions.GapOption.get_Type
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.GapOptions.GapOption.GetBaseDescription
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Units.Intention.get_Type
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Units.Intention.LocalizeProperty
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Units.Intention.get_DefaultEventPriority
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Units.Intention.CreateFormatWrapper
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Units.Intention.get_PlayerName
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Adventures.Adventure.Initialize
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Adventures.Adventure.get_DialogName
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.Adventures.Adventure.InitVariables
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.JadeBox.LocalizeProperty
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.JadeBox.LocalizeListProperty
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.JadeBox.get_Description
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.JadeBox.get_IconName
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.JadeBox.get_DefaultEventPriority
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.JadeBox.Initialize
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.JadeBox.OnGain
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.JadeBox.OnAdded
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.JadeBox.OnEnterBattle
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.JadeBox.OnLeaveBattle
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.JadeBox.React
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.JadeBox.EnumerateDisplayWords
+[7:48:57 PM INF] DoNotPublicize: LBoL.Core:LBoL.Core.JadeBox.EnumerateRelativeCards
+[7:48:57 PM INF] [LBoL.Base] Assembly processing starting...
+[7:48:57 PM INF] [LBoL.Base] Path: X:\LBoL.app\Contents\Resources\Data\Managed\LBoL.Base.dll
+[7:48:57 PM INF] [LBoL.Base] Publicization hash: DFC1F8EB9D7DCAD5ED24F5A8E98AFA62
+[7:48:57 PM INF] [LBoL.Base] Assembly already publicized at obj\Debug\netstandard2.1\PublicizedAssemblies\LBoL.Base.DFC1F8EB9D7DCAD5ED24F5A8E98AFA62\LBoL.Base.dll
+[7:48:57 PM INF] [LBoL.Base] Assembly processing finished
+[7:48:57 PM INF] [LBoL.ConfigData] Assembly processing starting...
+[7:48:57 PM INF] [LBoL.ConfigData] Path: X:\LBoL.app\Contents\Resources\Data\Managed\LBoL.ConfigData.dll
+[7:48:57 PM INF] [LBoL.ConfigData] Publicization hash: 912D55D5D7C318CCECDC563399B6F662
+[7:48:57 PM INF] [LBoL.ConfigData] Assembly already publicized at obj\Debug\netstandard2.1\PublicizedAssemblies\LBoL.ConfigData.912D55D5D7C318CCECDC563399B6F662\LBoL.ConfigData.dll
+[7:48:57 PM INF] [LBoL.ConfigData] Assembly processing finished
+[7:48:57 PM INF] [LBoL.Core] Assembly processing starting...
+[7:48:57 PM INF] [LBoL.Core] Path: X:\LBoL.app\Contents\Resources\Data\Managed\LBoL.Core.dll
+[7:48:57 PM INF] [LBoL.Core] Publicization hash: BC562246C91107273447D59A9F0B6545
+[7:48:57 PM INF] [LBoL.Core] Assembly already publicized at obj\Debug\netstandard2.1\PublicizedAssemblies\LBoL.Core.BC562246C91107273447D59A9F0B6545\LBoL.Core.dll
+[7:48:57 PM INF] [LBoL.Core] Assembly processing finished
+[7:48:57 PM INF] [LBoL.EntityLib] Assembly processing starting...
+[7:48:57 PM INF] [LBoL.EntityLib] Path: X:\LBoL.app\Contents\Resources\Data\Managed\LBoL.EntityLib.dll
+[7:48:57 PM INF] [LBoL.EntityLib] Publicization hash: 9296D0BF2AAE221BE8C53611CE7B2860
+[7:48:57 PM INF] [LBoL.EntityLib] Assembly already publicized at obj\Debug\netstandard2.1\PublicizedAssemblies\LBoL.EntityLib.9296D0BF2AAE221BE8C53611CE7B2860\LBoL.EntityLib.dll
+[7:48:57 PM INF] [LBoL.EntityLib] Assembly processing finished
+[7:48:57 PM INF] [LBoL.Presentation] Assembly processing starting...
+[7:48:57 PM INF] [LBoL.Presentation] Path: X:\LBoL.app\Contents\Resources\Data\Managed\LBoL.Presentation.dll
+[7:48:57 PM INF] [LBoL.Presentation] Publicization hash: 8183AD37E369D207EC151D23E6042EBF
+[7:48:57 PM INF] [LBoL.Presentation] Assembly already publicized at obj\Debug\netstandard2.1\PublicizedAssemblies\LBoL.Presentation.8183AD37E369D207EC151D23E6042EBF\LBoL.Presentation.dll
+[7:48:57 PM INF] [LBoL.Presentation] Assembly processing finished
+[7:48:57 PM INF] [Untitled.ConfigDataBuilder.Base] Assembly processing starting...
+[7:48:57 PM INF] [Untitled.ConfigDataBuilder.Base] Path: X:\LBoL.app\Contents\Resources\Data\Managed\Untitled.ConfigDataBuilder.Base.dll
+[7:48:57 PM INF] [Untitled.ConfigDataBuilder.Base] Publicization hash: 2D5F26A3A8924254AE1392F72B345DF0
+[7:48:57 PM INF] [Untitled.ConfigDataBuilder.Base] Assembly already publicized at obj\Debug\netstandard2.1\PublicizedAssemblies\Untitled.ConfigDataBuilder.Base.2D5F26A3A8924254AE1392F72B345DF0\Untitled.ConfigDataBuilder.Base.dll
+[7:48:57 PM INF] [Untitled.ConfigDataBuilder.Base] Assembly processing finished
+[7:48:57 PM INF] Finished processing 6 assemblies. Terminating task.

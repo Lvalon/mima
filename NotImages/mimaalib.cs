@@ -53,6 +53,7 @@ namespace lvalonmima.NotImages
                DebugLevel: 0,
                Revealable: false,
                IsPooled: false,
+               FindInBattle: true,
                HideMesuem: true,
                IsUpgradable: false,
                Rarity: Rarity.Rare,

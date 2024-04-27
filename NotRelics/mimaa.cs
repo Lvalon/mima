@@ -31,6 +31,13 @@ using LBoL.Presentation.UI.Panels;
 using static lvalonmima.NotImages.Starter.cardmountaindef;
 using static lvalonmima.NotImages.Starter.cardreminidef;
 using static lvalonmima.NotImages.Starter.carderosiondef;
+using LBoL.Core.Battle.Interactions;
+using LBoL.EntityLib.JadeBoxes;
+using LBoL.Presentation;
+using System.Collections;
+using HarmonyLib;
+using LBoLEntitySideloader.ExtraFunc;
+using static lvalonmima.NotRelics.mimapassivesdef;
 
 namespace lvalonmima.NotRelics
 {
@@ -85,26 +92,19 @@ namespace lvalonmima.NotRelics
         }
 
         [EntityLogic(typeof(mimaadef))]
-        public sealed class mimaa : ShiningExhibit
+        public sealed class mimaa : mimaextensions.mimasexhibit
         {
             private int oghp;
             private int ogmax;
             private int ogdmg;
+
+            public ManaGroup losemana { get; set; } = new ManaGroup() { Colorless = 1 };
+
             protected override void OnAdded(PlayerUnit player)
             {
                 GameRunController gameRun = base.GameRun;
                 int rewardAndShopCardColorLimitFlag = gameRun.RewardAndShopCardColorLimitFlag + 1;
                 gameRun.RewardAndShopCardColorLimitFlag = rewardAndShopCardColorLimitFlag;
-                //base.GameRun.AdditionalRewardCardCount -= base.Value2;
-                //base.HandleGameRunEvent<StationEventArgs>(base.GameRun.StationRewardGenerating, delegate (StationEventArgs args)
-                //{
-                //    Station station = args.Station;
-                //    if (station.Type == StationType.Enemy || station.Type == StationType.EliteEnemy || station.Type == StationType.Boss)
-                //    {
-                //        base.NotifyActivating();
-                //        station.Rewards.Add(station.Stage.GetEnemyCardReward());
-                //    }
-                //});
                 base.HandleGameRunEvent<StationEventArgs>(base.GameRun.StationEntered, delegate (StationEventArgs args)
                 {
                     EntryStation entryStation = args.Station as EntryStation;
@@ -122,7 +122,7 @@ namespace lvalonmima.NotRelics
                         base.GameRun.AddDeckCards(card1, false, null);
                         for (int i = 0; i < addcard; i++)
                         {
-                            Card[] cards = gameRun.RollCards(gameRun.CardRng, new CardWeightTable(RarityWeightTable.EnemyCard, OwnerWeightTable.OnlyPlayer, CardTypeWeightTable.OnlySkill), 1, false, (CardConfig config) => config.Rarity != Rarity.Rare);
+                            Card[] cards = gameRun.RollCards(gameRun.CardRng, new CardWeightTable(RarityWeightTable.EnemyCard, OwnerWeightTable.OnlyPlayer, CardTypeWeightTable.OnlySkill), 1,false , true, (CardConfig config) => config.Rarity != Rarity.Rare);
                             gameRun.AddDeckCards(cards, false, null);
                         }
                         //fallback to no rarity limit
@@ -131,7 +131,7 @@ namespace lvalonmima.NotRelics
                             int j = (addcard + 4 - GameRun.BaseDeck.Count);
                             for (int i = 0; i < j; i++)
                             {
-                                Card[] card2 = gameRun.RollCards(gameRun.CardRng, new CardWeightTable(RarityWeightTable.EnemyCard, OwnerWeightTable.OnlyPlayer, CardTypeWeightTable.OnlySkill), 1, false, null);
+                                Card[] card2 = gameRun.RollCards(gameRun.CardRng, new CardWeightTable(RarityWeightTable.EnemyCard, OwnerWeightTable.OnlyPlayer, CardTypeWeightTable.OnlySkill), 1, false, false, null);
                                 gameRun.AddDeckCards(card2, false, null);
                             }
                         }
@@ -141,13 +141,82 @@ namespace lvalonmima.NotRelics
                             int k = (addcard + 4 - GameRun.BaseDeck.Count);
                             for (int i = 0; i < k; i++)
                             {
-                                Card[] card2 = gameRun.RollCards(gameRun.CardRng, new CardWeightTable(RarityWeightTable.OnlyRare, OwnerWeightTable.OnlyPlayer, CardTypeWeightTable.CanBeLoot), 1, false, null);
+                                Card[] card2 = gameRun.RollCards(gameRun.CardRng, new CardWeightTable(RarityWeightTable.OnlyRare, OwnerWeightTable.OnlyPlayer, CardTypeWeightTable.CanBeLoot), 1, false, false, null);
                                 gameRun.AddDeckCards(card2, false, null);
                             }
                         }
                     }
+
+                    //if (GameRun.BaseMana.Total > 0)
+                    //{
+                    //    log.LogDebug("HERE WE GO");
+                    //    ManaGroup pendingMana = GameRun.BaseMana.With(null, null, null, null, null, null, null, null);
+                    //    SelectBaseManaInteraction interaction = new SelectBaseManaInteraction(1, 1, pendingMana)
+                    //    {
+                    //        Description = "Select Base Mana to remove",
+                    //        CanCancel = false
+                    //    };
+                    //    GameRun.InteractionViewer.View(interaction);
+                    //    ManaGroup selectedMana = interaction.SelectedMana;
+                    //    GameRun.SetBaseMana(base.GameRun.BaseMana - selectedMana, true);
+                    //}
                 });
             }
+
+            //class CoroutineExtender : IEnumerable
+            //{
+            //    public IEnumerator target_enumerator;
+            //    public List<IEnumerator> preItems = new List<IEnumerator>();
+            //    public List<IEnumerator> postItems = new List<IEnumerator>();
+            //    public List<IEnumerator> midItems = new List<IEnumerator>();
+
+
+            //    public CoroutineExtender() { }
+
+            //    public CoroutineExtender(IEnumerator target_enumerator) { this.target_enumerator = target_enumerator; }
+
+            //    public IEnumerator GetEnumerator()
+            //    {
+            //        foreach (var e in preItems) yield return e;
+            //        int i = 0;
+            //        while (target_enumerator.MoveNext())
+            //        {
+            //            yield return target_enumerator.Current;
+            //            i++;
+            //        }
+            //        foreach (var e in postItems) yield return e;
+            //    }
+            //}
+
+            //[HarmonyPatch(typeof(Exhibit), "TriggerGain")]
+            //[HarmonyDebug]
+            //class Exhibit_Patch
+            //{
+            //    static void Postfix(ref IEnumerator __result)
+            //    {
+            //        var extendedRez = new CoroutineExtender(__result);
+
+            //        extendedRez.postItems.Add(yolo());
+
+            //        __result = extendedRez.GetEnumerator();
+            //    }
+            //}
+
+
+            //    static IEnumerator yolo()
+            //{
+            //    var run = GameMaster.Instance.CurrentGameRun;
+            //    Exhibit exhibit = run.Player.GetExhibit<mimapassives>();
+            //    if (GameMaster.Instance != null && GameMaster.Instance.CurrentGameRun != null && exhibit != null && exhibit is mimapassives mimapassive)
+            //    {
+            //        if (run.BaseMana.Colorless > 0)
+            //        {
+            //            run.LoseBaseMana(ManaGroup.Colorlesses(1), false);
+            //        }
+            //    }
+            //    yield break;
+            //}
+
             protected override void OnEnterBattle()
             {
                 base.ReactBattleEvent<GameEventArgs>(base.Battle.BattleStarted, new EventSequencedReactor<GameEventArgs>(this.OnBattleStarted));

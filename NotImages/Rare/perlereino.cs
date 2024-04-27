@@ -53,6 +53,7 @@ namespace lvalonmima.NotImages.Rare
                DebugLevel: 0,
                Revealable: false,
                IsPooled: true,
+               FindInBattle: true,
                HideMesuem: false,
                IsUpgradable: true,
                Rarity: Rarity.Rare,
@@ -93,15 +94,15 @@ namespace lvalonmima.NotImages.Rare
                RelativeKeyword: Keyword.None,
                UpgradedRelativeKeyword: Keyword.None,
 
-               RelativeEffects: new List<string>() { "evilspirit", "InvincibleEternal" },
-               UpgradedRelativeEffects: new List<string>() { "evilspirit", "InvincibleEternal" },
+               RelativeEffects: new List<string>() { nameof(evilspirit), nameof(InvincibleEternal) },
+               UpgradedRelativeEffects: new List<string>() { nameof(evilspirit), nameof(InvincibleEternal) },
                RelativeCards: new List<string>() { },
                UpgradedRelativeCards: new List<string>() { },
                Owner: "Mima",
                ImageId: "",
                UpgradeImageId: "",
                Unfinished: false,
-               Illustrator: "Dairi",
+               Illustrator: "Lvalon",
                SubIllustrator: new List<string>() { }
             );
             return cardConfig;

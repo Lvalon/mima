@@ -1,6 +1,6 @@
 mimaa:
   Description:
-    "|p:Unswappable|\nAt the start of {PlayerName}'s turn, gain 1 random mana.\nCards unique to |Mima| are added to the card pool.\nAt the start of combat, {PlayerName} gains {Value1} |Evil Spirit|.\nWhenever {PlayerName} plays a skill card, gain {Value3} |Magical Burst|.\nWhenever {PlayerName} is defeated, become |Transcended|."
+    "|p:Unswappable|\nAt the start of {PlayerName}'s turn, gain 1 random mana.\nCards unique to |Mima| are added to the card pool.\nAt the start of combat, {PlayerName} gains {Value1} |Evil Spirit|.\nWhenever {PlayerName} plays a skill card, gain {Value3} |Magical Burst|.\nWhenever {PlayerName} is defeated, become |Transcended|.\nWhenever {PlayerName} gains a |Shining Exhibit| from defeating a boss, remove {losemana} from the mana base."
   Name: Reincarnation
   FlavorText: I die with the dying. I'm born with the dead!
 mimab:
@@ -8,3 +8,10 @@ mimab:
     "|p:Unswappable|\nAdds {BaseMana} to the mana base.\nCards unique to |Mima| are added to the card pool.\nAt the start of combat, {PlayerName} gains {Value1} |Evil Spirit|.\nWhenever {PlayerName} is defeated, enter |The Abyss|."
   Name: Down Abyssmal
   FlavorText: "It stares back. Not even the strongest of beings can withstand it."
+mimapassives:
+  Description:
+    "{PlayerName} has manifested the power of the abyss. Passive effects are gained.{passivegoldyaml}"
+  passivegolddes:
+    "\nAt the start of combat, {theplayername} gains |n:{goldyaml}| <sprite=\"Point\" name=\"Gold\">."
+  Name: Void Manifestation
+  FlavorText: ""

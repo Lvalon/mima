@@ -24,6 +24,7 @@ using LBoL.Presentation.UI.Panels;
 using LBoL.EntityLib.StatusEffects.ExtraTurn;
 using LBoL.EntityLib.Cards.Character.Sakuya;
 using LBoL.Core.Randoms;
+using static lvalonmima.mimaextensions;
 using LBoL.EntityLib.JadeBoxes;
 
 namespace lvalonmima.SE
@@ -178,7 +179,8 @@ namespace lvalonmima.SE
                             yield return new RemoveCardAction(card2);
                         }
                     }
-                    List<Card> list = base.Battle.RollCardsWithoutManaLimit(new CardWeightTable(RarityWeightTable.BattleCard, OwnerWeightTable.OnlyPlayer, CardTypeWeightTable.CanBeLoot), base.Level, (CardConfig config) => !config.Keywords.HasFlag(Keyword.Forbidden) && config.Id != "carddawntime").ToList<Card>();
+                    //List<Card> list = base.Battle.RollCardsWithoutManaLimit(new CardWeightTable(RarityWeightTable.BattleCard, OwnerWeightTable.OnlyPlayer, CardTypeWeightTable.CanBeLoot), base.Level, (Card card) => card is mimacard && card.Keywords.HasFlag(Keyword.Forbidden) && card.Config.Id != "carddawntime").ToList<Card>(); //(CardConfig config) => !config.Keywords.HasFlag(Keyword.Forbidden) && config.Id != "carddawntime"
+                    List<Card> list = toolbox.RollCardsCustom(GameRun.BattleCardRng, new CardWeightTable(RarityWeightTable.BattleCard, OwnerWeightTable.OnlyPlayer, CardTypeWeightTable.CanBeLoot), base.Level, null, false, false, false, false, (Card card) => card is mimacard && !card.Keywords.HasFlag(Keyword.Forbidden) && card.Config.Id != "carddawntime").ToList<Card>(); //(CardConfig config) => !config.Keywords.HasFlag(Keyword.Forbidden) && config.Id != "carddawntime"
                     if (list.Count > 0)
                     {
                         foreach (Card card in list)

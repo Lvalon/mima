@@ -90,6 +90,7 @@ using LBoL.EntityLib.StatusEffects.Reimu;
 using LBoL.EntityLib.StatusEffects.Sakuya;
 using LBoL.EntityLib.UltimateSkills;
 using LBoL.Presentation;
+using static LBoL.Presentation.GameMaster;
 using LBoL.Presentation.Animations;
 using LBoL.Presentation.Bullet;
 using LBoL.Presentation.Effect;
@@ -115,13 +116,19 @@ using Untitled;
 using Untitled.ConfigDataBuilder;
 using Untitled.ConfigDataBuilder.Base;
 using Debug = UnityEngine.Debug;
-
+using UnityEngine.UI;
+using static lvalonmima.NotRelics.mimabdef.mimab;
+using LBoLEntitySideloader.PersistentValues;
+using static lvalonmima.playermima;
+using static lvalonmima.NotRelics.mimapassivesdef;
+using static lvalonmima.NotRelics.mimaadef;
+using LBoLEntitySideloader.ExtraFunc;
 
 namespace lvalonmima
 {
     [BepInPlugin(lvalonmima.PInfo.GUID, lvalonmima.PInfo.Name, lvalonmima.PInfo.version)]
     [BepInDependency(LBoLEntitySideloader.PluginInfo.GUID, BepInDependency.DependencyFlags.HardDependency)]
-    [BepInDependency(AddWatermark.API.GUID, BepInDependency.DependencyFlags.SoftDependency)]
+    //[BepInDependency(AddWatermark.API.GUID, BepInDependency.DependencyFlags.SoftDependency)]
     [BepInProcess("LBoL.exe")]
     public class BepinexPlugin : BaseUnityPlugin
     {
@@ -136,6 +143,46 @@ namespace lvalonmima
 
         // add this for audio loading
         internal static DirectorySource directorySource = new DirectorySource(lvalonmima.PInfo.GUID, "");
+
+        static KeyboardShortcut TestTab = new KeyboardShortcut(KeyCode.Tab);
+
+        public readonly Dictionary<string, Toggle> _characterFilterList = new Dictionary<string, Toggle>();
+        public IEnumerable<Type> FilterCardByCharacter()
+        {
+            List<Type> list = new List<Type>();
+            string[] array = { "Mima" };
+            foreach (var (item, cardConfig) in Library.EnumerateCardTypes())
+            {
+                if (array.Length == 0)
+                {
+                    list.Add(item);
+                }
+
+                if (array.Contains(cardConfig.Owner))
+                {
+                    list.Add(item);
+                }
+
+                if (array.Contains("Neutral") && string.IsNullOrWhiteSpace(cardConfig.Owner))
+                {
+                    list.Add(item);
+                }
+            }
+            return list;
+        }
+
+        public static List<Card> extradeck = new List<Card>();
+        public bool initcardpool()
+        {
+            extradeck = new List<Card>();
+            IEnumerable<Type> enumerable = FilterCardByCharacter();
+            foreach (Type cardType in enumerable)
+            {
+                Card card = Library.CreateCard(cardType);
+                extradeck.Add(card);
+            }
+            return true;
+        }
 
         internal static BatchLocalization cardbatchloc = new BatchLocalization(directorySource, typeof(CardTemplate), "card");
         internal static BatchLocalization sebatchloc = new BatchLocalization(directorySource, typeof(StatusEffectTemplate), "SE");
@@ -157,8 +204,10 @@ namespace lvalonmima
 
             harmony.PatchAll();
 
-            if (BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey(AddWatermark.API.GUID))
-                WatermarkWrapper.ActivateWatermark();
+            //if (BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey(AddWatermark.API.GUID))
+            //   WatermarkWrapper.ActivateWatermark();
+
+            (new mimaplayerdata()).RegisterSelf(LBoLEntitySideloader.PluginInfo.GUID);
         }
 
         private void OnDestroy()
@@ -167,23 +216,115 @@ namespace lvalonmima
                 harmony.UnpatchSelf();
         }
 
-        //debut exhibit losable check
-        [HarmonyPatch(typeof(Debut), nameof(Debut.ExchangeExhibit))]
-        class Debut_ExchangeExhibit_Patch
+        //the funny starts here
+        private void Update()
         {
-            static bool Prefix(Debut __instance)
+            if (TestTab.IsDown())
             {
-                if (GameMaster.Instance.CurrentGameRun != null && GameMaster.Instance.CurrentGameRun.Player.Exhibits[0].LosableType == ExhibitLosableType.CantLose)
+                if (GameMaster.Instance?.CurrentGameRun != null)
                 {
-                    GameMaster.Instance.CurrentGameRun.GainExhibitRunner(__instance._exhibit, true, new VisualSourceData
-                    {
-                        SourceType = VisualSourceType.Vn,
-                        Index = -1
-                    });
-                    return false;
+                    GameMaster.Instance.StartCoroutine(tabber());
                 }
-                return true;
+                else
+                {
+                    log.LogInfo("run needs to be started");
+                }
             }
+        }
+        //MIMAA REMOVE BASE MANA
+        class CoroutineExtender : IEnumerable
+        {
+            public IEnumerator target_enumerator;
+            public List<IEnumerator> preItems = new List<IEnumerator>();
+            public List<IEnumerator> postItems = new List<IEnumerator>();
+            public List<IEnumerator> midItems = new List<IEnumerator>();
+
+
+            public CoroutineExtender() { }
+
+            public CoroutineExtender(IEnumerator target_enumerator) { this.target_enumerator = target_enumerator; }
+
+            public IEnumerator GetEnumerator()
+            {
+                foreach (var e in preItems) yield return e;
+                int i = 0;
+                while (target_enumerator.MoveNext())
+                {
+                    yield return target_enumerator.Current;
+                    i++;
+                }
+                foreach (var e in postItems) yield return e;
+            }
+        }
+
+        [HarmonyPatch(typeof(Exhibit), "TriggerGain")]
+        [HarmonyDebug]
+        class Exhibit_Patch
+        {
+            static void Postfix(ref IEnumerator __result)
+            {
+                var extendedRez = new CoroutineExtender(__result);
+
+                extendedRez.postItems.Add(mimaArmrf());
+
+                __result = extendedRez.GetEnumerator();
+            }
+
+            static IEnumerator mimaArmrf()
+            {
+                if ((GameMaster.Instance != null) && (GameMaster.Instance.CurrentGameRun != null))
+                {
+                    var run = GameMaster.Instance.CurrentGameRun;
+                    Exhibit exhibit = run.Player.GetExhibit<mimaa>();
+                    if (run.CurrentStation != null && run.CurrentStation.Type == StationType.Boss && exhibit != null && run.BaseMana.Colorless > 0)
+                    {
+                        run.LoseBaseMana(ManaGroup.Colorlesses(1), false);
+                        yield break;
+                    }
+                }
+                yield break;
+            }
+        }
+
+        //PERSISTENT VALUES
+        public class mimaplayerdata : CustomGameRunSaveData
+        {
+            public override void Restore(GameRunController gameRun)
+            {
+                var player = gameRun.Player;
+                Exhibit exhibit = player.GetExhibit<mimapassives>();
+                if (exhibit != null && exhibit is mimapassives mimapassive)
+                {
+                    mimapassive.passivegold = passivegold;
+                }
+            }
+
+            public override void Save(GameRunController gameRun)
+            {
+                var player = gameRun.Player;
+                Exhibit exhibit = player.GetExhibit<mimapassives>();
+                if (exhibit != null && exhibit is mimapassives mimapassive)
+                {
+                    passivegold = mimapassive.passivegold;
+                }
+            }
+
+            public int passivegold;
+        }
+
+        private IEnumerator tabber()
+        {
+            //initcardpool();
+            //ShowCardsPayload payload = new ShowCardsPayload
+            //{
+            //    Name = "Game.Deck".Localize(true),
+            //    Description = "Cards.Show".Localize(true),
+            //    Cards = extradeck,
+            //    InteractionType = InteractionType.None,
+            //    CardZone = ShowCardZone.None
+            //};
+            //UiManager.GetPanel<ShowCardsPanel>().Show(payload);
+            yield break;
         }
     }
 }

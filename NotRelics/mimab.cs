@@ -29,6 +29,9 @@ using LBoL.Core.Randoms;
 using System.Collections;
 using LBoL.Core.Stations;
 using LBoL.Presentation;
+using LBoLEntitySideloader.PersistentValues;
+using LBoL.EntityLib.EnemyUnits.Lore;
+using static lvalonmima.playermima;
 
 namespace lvalonmima.NotRelics
 {
@@ -83,7 +86,7 @@ namespace lvalonmima.NotRelics
         }
 
         [EntityLogic(typeof(mimabdef))]
-        public sealed class mimab : ShiningExhibit
+        public sealed class mimab : mimaextensions.mimasexhibit
         {
             private int oghp;
             private int ogmax;
@@ -112,7 +115,7 @@ namespace lvalonmima.NotRelics
             }
             private IEnumerator Draft()
             {
-                Card[] array1 = base.GameRun.RollCards(base.GameRun.CardRng, new CardWeightTable(RarityWeightTable.EnemyCard, OwnerWeightTable.OnlyPlayer, CardTypeWeightTable.CanBeLoot), 3, false, (CardConfig config) => config.Rarity != Rarity.Rare);
+                Card[] array1 = base.GameRun.RollCards(base.GameRun.CardRng, new CardWeightTable(RarityWeightTable.EnemyCard, OwnerWeightTable.OnlyPlayer, CardTypeWeightTable.CanBeLoot), 3, false, false, (CardConfig config) => config.Rarity != Rarity.Rare);
                 base.GameRun.UpgradeNewDeckCardOnFlags(array1);
                 MiniSelectCardInteraction interaction1 = new MiniSelectCardInteraction(array1, false, false, false)
                 {
@@ -121,7 +124,7 @@ namespace lvalonmima.NotRelics
                 };
                 yield return base.GameRun.InteractionViewer.View(interaction1);
                 base.GameRun.AddDeckCards(new Card[] { interaction1.SelectedCard }, false, null);
-                Card[] array2 = base.GameRun.RollCards(base.GameRun.CardRng, new CardWeightTable(RarityWeightTable.EnemyCard, OwnerWeightTable.OnlyPlayer, CardTypeWeightTable.CanBeLoot), 3, false, (CardConfig config) => config.Rarity != Rarity.Rare);
+                Card[] array2 = base.GameRun.RollCards(base.GameRun.CardRng, new CardWeightTable(RarityWeightTable.EnemyCard, OwnerWeightTable.OnlyPlayer, CardTypeWeightTable.CanBeLoot), 3, false, false, (CardConfig config) => config.Rarity != Rarity.Rare);
                 base.GameRun.UpgradeNewDeckCardOnFlags(array2);
                 MiniSelectCardInteraction interaction2 = new MiniSelectCardInteraction(array2, false, false, false)
                 {
@@ -130,7 +133,7 @@ namespace lvalonmima.NotRelics
                 };
                 yield return base.GameRun.InteractionViewer.View(interaction2);
                 base.GameRun.AddDeckCards(new Card[] { interaction2.SelectedCard }, false, null);
-                Card[] array3 = base.GameRun.RollCards(base.GameRun.CardRng, new CardWeightTable(RarityWeightTable.EnemyCard, OwnerWeightTable.OnlyPlayer, CardTypeWeightTable.CanBeLoot), 3, false, (CardConfig config) => config.Rarity != Rarity.Rare);
+                Card[] array3 = base.GameRun.RollCards(base.GameRun.CardRng, new CardWeightTable(RarityWeightTable.EnemyCard, OwnerWeightTable.OnlyPlayer, CardTypeWeightTable.CanBeLoot), 3, false, false, (CardConfig config) => config.Rarity != Rarity.Rare);
                 base.GameRun.UpgradeNewDeckCardOnFlags(array3);
                 MiniSelectCardInteraction interaction3 = new MiniSelectCardInteraction(array3, false, false, false)
                 {
@@ -139,7 +142,7 @@ namespace lvalonmima.NotRelics
                 };
                 yield return base.GameRun.InteractionViewer.View(interaction3);
                 base.GameRun.AddDeckCards(new Card[] { interaction3.SelectedCard }, false, null);
-                Card[] array4 = base.GameRun.RollCards(base.GameRun.CardRng, new CardWeightTable(RarityWeightTable.EnemyCard, OwnerWeightTable.OnlyPlayer, CardTypeWeightTable.CanBeLoot), 3, false, (CardConfig config) => config.Rarity != Rarity.Rare);
+                Card[] array4 = base.GameRun.RollCards(base.GameRun.CardRng, new CardWeightTable(RarityWeightTable.EnemyCard, OwnerWeightTable.OnlyPlayer, CardTypeWeightTable.CanBeLoot), 3, false, false, (CardConfig config) => config.Rarity != Rarity.Rare);
                 base.GameRun.UpgradeNewDeckCardOnFlags(array4);
                 MiniSelectCardInteraction interaction4 = new MiniSelectCardInteraction(array4, false, false, false)
                 {
@@ -148,7 +151,7 @@ namespace lvalonmima.NotRelics
                 };
                 yield return base.GameRun.InteractionViewer.View(interaction4);
                 base.GameRun.AddDeckCards(new Card[] { interaction4.SelectedCard }, false, null);
-                Card[] array5 = base.GameRun.RollCards(base.GameRun.CardRng, new CardWeightTable(RarityWeightTable.EnemyCard, OwnerWeightTable.OnlyPlayer, CardTypeWeightTable.CanBeLoot), 3, false, (CardConfig config) => config.Rarity != Rarity.Rare);
+                Card[] array5 = base.GameRun.RollCards(base.GameRun.CardRng, new CardWeightTable(RarityWeightTable.EnemyCard, OwnerWeightTable.OnlyPlayer, CardTypeWeightTable.CanBeLoot), 3, false, false, (CardConfig config) => config.Rarity != Rarity.Rare);
                 base.GameRun.UpgradeNewDeckCardOnFlags(array5);
                 MiniSelectCardInteraction interaction5 = new MiniSelectCardInteraction(array5, false, false, false)
                 {
@@ -157,7 +160,7 @@ namespace lvalonmima.NotRelics
                 };
                 yield return base.GameRun.InteractionViewer.View(interaction5);
                 base.GameRun.AddDeckCards(new Card[] { interaction5.SelectedCard }, false, null);
-                Card[] array6 = base.GameRun.RollCards(base.GameRun.CardRng, new CardWeightTable(RarityWeightTable.EnemyCard, OwnerWeightTable.OnlyPlayer, CardTypeWeightTable.CanBeLoot), 3, false, (CardConfig config) => config.Rarity != Rarity.Rare);
+                Card[] array6 = base.GameRun.RollCards(base.GameRun.CardRng, new CardWeightTable(RarityWeightTable.EnemyCard, OwnerWeightTable.OnlyPlayer, CardTypeWeightTable.CanBeLoot), 3, false, false, (CardConfig config) => config.Rarity != Rarity.Rare);
                 base.GameRun.UpgradeNewDeckCardOnFlags(array6);
                 MiniSelectCardInteraction interaction6 = new MiniSelectCardInteraction(array6, false, false, false)
                 {

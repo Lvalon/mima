@@ -17,6 +17,13 @@ using LBoL.EntityLib.EnemyUnits.Normal;
 using LBoL.EntityLib.StatusEffects.Basic;
 using System.Xml.Linq;
 using UnityEngine.InputSystem.HID;
+using LBoL.Base;
+using HarmonyLib;
+using LBoL.EntityLib.EnemyUnits.Lore;
+using LBoL.Core.Battle.BattleActions;
+using LBoL.Core.Battle;
+using LBoL.Core.StatusEffects;
+using static lvalonmima.NotRelics.mimabdef;
 
 namespace lvalonmima
 {
@@ -71,7 +78,38 @@ namespace lvalonmima
         }
 
         [EntityLogic(typeof(playermima))]
-        public sealed class Mima : PlayerUnit { }
+        public sealed class Mima : PlayerUnit {
+            //public int passivegold = 2;
+            //public ulong rngState;
+            //public RandomGen rng;
+
+            //[HarmonyPatch(typeof(GameRunController), nameof(GameRunController.Create))]
+            //class GameRunController_Create_Patch
+            //{
+            //    static void Postfix(GameRunController __result)
+            //    {
+            //        if (__result.Player is Mima mima)
+            //            mima.rng = new RandomGen(__result.RootRng.NextULong());
+            //    }
+            //}
+
+            //protected override void OnEnterBattle(BattleController battle)
+            //{
+            //    ReactBattleEvent(battle.BattleStarting, OnBattleStarting);
+            //    HandleBattleEvent(battle.BattleEnded, OnBattleEnding);
+            //}
+
+            //private void OnBattleEnding(GameEventArgs args)
+            //{
+            //    passivegold += 2;
+            //}
+
+            //IEnumerable<BattleAction> OnBattleStarting(GameEventArgs gameEventArgs)
+            //{
+            //    if (passivegold > 0)
+            //        yield return new GainMoneyAction(passivegold, SpecialSourceType.None);
+            //}
+        }
     }
 
     public sealed class mimamodel : UnitModelTemplate
@@ -80,10 +118,7 @@ namespace lvalonmima
 
         public override IdContainer GetId() => new playermima().UniqueId;
 
-        public override LocalizationOption LoadLocalization()
-        {
-            return toolbox.locmodel();
-        }
+        public override LocalizationOption LoadLocalization() => modelbatchloc.AddEntity(this);
 
         public override ModelOption LoadModelOptions()
         {
