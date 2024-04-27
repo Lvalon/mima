@@ -13,7 +13,6 @@
           "BepInEx.Core": "5.4.21",
           "HarmonyX": "2.9.0",
           "Krafs.Publicizer": "2.2.1",
-          "LBoL-AddWatermark": "1.0.0.0",
           "LBoL-Entity-Sideloader": "1.0.0.0",
           "spine-csharp": "0.0.0.0",
           "spine-unity": "0.0.0.0",
@@ -372,14 +371,6 @@
           "Microsoft.NETCore.Platforms": "1.1.0",
           "Microsoft.NETCore.Targets": "1.1.0",
           "System.Runtime": "4.3.0"
-        }
-      },
-      "LBoL-AddWatermark/1.0.0.0": {
-        "runtime": {
-          "LBoL-AddWatermark.dll": {
-            "assemblyVersion": "1.0.0.0",
-            "fileVersion": "1.0.0.0"
-          }
         }
       },
       "LBoL-Entity-Sideloader/1.0.0.0": {
@@ -1400,11 +1391,6 @@
       "sha512": "sha512-LbSxKEdOUhVe8BezB/9uOGGppt+nZf6e1VFyw6v3DN6lqitm0OSn2uXMOdtP0M3W4iMcqcivm2J6UgqiwwnXiA==",
       "path": "system.threading.tasks/4.3.0",
       "hashPath": "system.threading.tasks.4.3.0.nupkg.sha512"
-    },
-    "LBoL-AddWatermark/1.0.0.0": {
-      "type": "reference",
-      "serviceable": false,
-      "sha512": ""
     },
     "LBoL-Entity-Sideloader/1.0.0.0": {
       "type": "reference",

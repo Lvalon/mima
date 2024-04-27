@@ -100,7 +100,7 @@ cardnineplus:
   Name: "9+10"
   FlavorText: "21"
 cardutmost:
-  Description: "For each enemy, |Magical Burst| deals |Accurate| damage to a random enemy {Value1} time{Value1:plural one='' other='s'} instead."
+  Description: "For each enemy, |Magical Burst| deals |Accurate| damage to a random enemy {Value1} time{Value1:plural one='' other='s'} instead.\nGain {Value2} |Magical Burst|."
   Name: Utmost Concentration
   FlavorText: "Everything unnecessary for combat is removed from perception."
   DetailText: "This effect is stackable with itself and |Burst Wave Function|."
@@ -121,22 +121,22 @@ cardrivalry:
 cardtpartner:
   Description: "Add 1 random card with |Time Limit| to the hand.\nIt |temporarily costs| {Mana} and has |Exile| and |Ethereal|."
   Name: Partners in Time
-  FlavorText: "Sweet Dreams in the time of the Alpha."
+  FlavorText: "Sweet Dreams at the end of the Alpha."
   DetailText: "These |e:alternate cards| ignore total mana, mana color and character restrictions.\n{SelfName} cannot be produced by this effect."
 cardexistp:
   Description: "Choose {Value2} of {Value1} card{Value1:plural one='' other='s'} that mention{Value2:plural one='s' other=''} |Instinct| to add to the hand.\n{Value2:plural one='It has' other='They have'} |Exile| and |Ethereal|."
   Name: Existence and Perseverance
   DetailText: "These |e:alternate cards| ignore character restrictions.\n{SelfName} cannot be produced by this effect."
 cardperlereino:
-  Description: "Remove all status effects except |Evil Spirit| from each enemy.\nGain |Permanant Flawless|.\nGain |Evil Spirit| for each status effect removed by this effect.\n{SelfName}s lose all effect for the rest of this combat."
-  exDescription1: "|d:Remove all status effects except Evil Spirit from each enemy.|\n|d:Gain Permanant Flawless.|\n|d:Gain Evil Spirit for each status effect removed by this effect.|\n{SelfName}s lose all effect for the rest of this combat."
+  Description: "Remove all status effects except |Evil Spirit| from each enemy.\nGain |Permanant Flawless|.\nGain |Evil Spirit| for each status effect removed by this effect.\nOnly the first {SelfName} will take effect each combat."
+  exDescription1: "|d:Remove all status effects except Evil Spirit from each enemy.|\n|d:Gain Permanant Flawless.|\n|d:Gain Evil Spirit for each status effect removed by this effect.|\nOnly the first {SelfName} will take effect each combat."
   Name: Transmigrating to Perlereino
   FlavorText: "She dreams of a certain world where absolute power resides."
   DetailText: There are a few |e:unconventional exceptions| to ensure that the game could run properly.
 cardwraitsoth:
-  Description: "Lose all |Magical Burst|.\nGain {gainred}% less |Magical Burst|.\n|Magical Burst| is no longer consumed.\n|Magical Burst|'s activation can no longer be delayed."
+  Description: "Lose all |Magical Burst|.\n{PlayerName} gains {gainred}% of supposed |Magical Burst|.\n|Magical Burst| is no longer consumed.\n|Magical Burst|'s activation can no longer be delayed."
   Name: Unleashing of Wraitsoth
-  DetailText: "The \"Gain less |Magical Burst|\" effect is stackable."
+  DetailText: "The \"Gain % of supposed |Magical Burst|\" effect is stackable, it cannot exceed 100%."
   FlavorText: "Holding the axe of wraith, she banished anyone who dare stood in her way."
 cardalgophobia:
   Description: "Whenever an enemy takes unblocked damage from |Magical Burst|'s attack, they lose life equal to damage dealt by |Magical Burst|."
@@ -150,13 +150,13 @@ cardrpolarity:
 cardcardtable:
   Description: "Add random skill cards to the hand until the hand is full.\nThey |temporarily cost| {Value1} random mana less."
   Name: Cards On The Table
-  FlavorText: '"THIS, is all there is from me."'
+  FlavorText: "\"Nah. I'd win.\""
 cardmicrocosmos:
   Description: "End {PlayerName}'s turn, then take an extra turn.\nGain {Value1} |EX Temporary Firepower| whenever a skill card is played that turn.\n|Time Limit| {Mana}."
   Name: Micro Cosmos
   FlavorText: "Must be the cause of global warming..."
 carddawntime:
-  Description: "End {PlayerName} turn, then take an extra turn.\n{PlayerName} cannot cause any life loss, cards cost {Mana}, cannot gain mana or draw cards that turn.\nAt the start of that extra turn, remove all hands in hand from combat, add {Value1} random {PlayerName} cards to the hand, they have |Exile| and |Ethereal|."
+  Description: "End {PlayerName} turn, then take an extra turn.\n{PlayerName} cannot cause any life loss, cards cost {Mana}, cannot gain mana or draw cards that turn.\nAt the start of that extra turn, remove all cards in hand from combat, add {Value1} random {PlayerName} cards to the hand, they have |Exile| and |Ethereal|."
   Name: At The Dawn of Time
   FlavorText: "Witness the beginning of everything."
   DetailText: "These |e:alternate cards| ignore total mana and mana color restrictions.\n{SelfName} cannot be produced by this effect."

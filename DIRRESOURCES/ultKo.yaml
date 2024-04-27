@@ -1,0 +1,10 @@
+ulta:
+  Title: '마부'
+  Content: '만화경 난무'
+  Description: '체력을 {hplosing} 잃습니다. 무작위 적에게 피해를 {Damage} {Value2}번 줍니다.
+
+  |명중|'
+ultb:
+  Title: '원부'
+  Content: '뒤덮는 사역'
+  Description: '체력을 {hplosing} 잃습니다.'

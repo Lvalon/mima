@@ -6,8 +6,8 @@
     </PropertyGroup>
 
     <PropertyGroup>
-        <GameFolder>W:\LBoL.app</GameFolder>
-        <BepInExFolder>W:\BepInEx</BepInExFolder>
+        <GameFolder>X:\LBoL.app</GameFolder>
+        <BepInExFolder>X:\BepInEx</BepInExFolder>
     </PropertyGroup>
 
     <ItemGroup>
@@ -372,6 +372,7 @@
       <None Remove="Resources\cardwheresleep.png" />
       <None Remove="Resources\cardwraitsoth.png" />
       <None Remove="Resources\mimab.png" />
+      <None Remove="Resources\mimapassives.png" />
       <None Remove="Resources\seaccumulation.png" />
       <None Remove="Resources\seconcentratedburst.png" />
       <None Remove="Resources\sedamageadder.png" />

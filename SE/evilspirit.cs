@@ -71,14 +71,14 @@ namespace lvalonmima.SE
         [EntityLogic(typeof(evilspiritdef))]
         public sealed class evilspirit : StatusEffect
         {
-            bool thisturn = false;
+            bool thisround = false;
             //set up triggers to give a fuck on
             //also vfx/sfx
             //they worked
             protected override void OnAdded(Unit unit)
             {
                 Count = 1;
-                if (unit.Name == "Mima")
+                if (unit.Id == "Mima")
                 {
                     if (unit.Hp > 66) { GameRun.SetHpAndMaxHp(66, 66, false); }
                     else { GameRun.SetHpAndMaxHp(unit.Hp, 66, false); }
@@ -87,7 +87,7 @@ namespace lvalonmima.SE
                 ReactOwnerEvent<StatusEffectApplyEventArgs>(base.Battle.Player.StatusEffectAdded, new EventSequencedReactor<StatusEffectApplyEventArgs>(this.OnStatusEffectAdded));
                 //base.HandleOwnerEvent<DamageEventArgs>(unit.DamageReceiving, new GameEventHandler<DamageEventArgs>(this.OnDamageReceiving));
                 base.HandleOwnerEvent<DamageDealingEventArgs>(base.Owner.DamageDealing, new GameEventHandler<DamageDealingEventArgs>(this.OnDamageDealing));
-                if (unit.Name != "Mima") { React(new ForceKillAction(Owner, Owner)); }
+                if (unit.Id != "Mima") { React(new ForceKillAction(Owner, Owner)); }
                 else
                 {
                     HandleOwnerEvent(Owner.Dying, new GameEventHandler<DieEventArgs>(OnDying));
@@ -119,11 +119,11 @@ namespace lvalonmima.SE
                         args.CancelBy(this);
                         //React(new ApplyStatusEffectAction<DroneBlock>(Owner, 3));
                     }
-                    if (GameRun.Battle != null && thisturn == false)
+                    if (GameRun.Battle != null) { React(new ApplyStatusEffectAction<karmanation>(base.Owner, 1, null, null, null, 0f, true)); }
+                    if (GameRun.Battle != null && thisround == false)
                     {
                         Level++;
-                        React(new ApplyStatusEffectAction<karmanation>(base.Owner, 1, null, null, null, 0f, true));
-                        thisturn = true;
+                        thisround = true;
                         Count = 0;
                     }
                 }
@@ -134,7 +134,7 @@ namespace lvalonmima.SE
             //it works
             private IEnumerable<BattleAction> OnRoundEnding(GameEventArgs args)
             {
-                thisturn = false;
+                thisround = false;
                 Count = 1;
                 int num = Level - 1;
                 Level = num;

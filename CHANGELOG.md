@@ -1,3 +1,15 @@
+v0.0.40: huge balancing change by flattening mimaA base mana, minor typo fix, mimaB started being worked on
+
+v0.0.39: v1.4.2 compatible, not backwards compatible rip
+
+v0.0.38: fixed korean mima imploding...
+
+v0.0.37: adds support to korean, huge thanks to raspberry caffeine monster for providing translation! also minor changes that i forgor what i even did
+
+v0.0.36: evil spirit once per round instead, art update for most status effects
+
+v0.0.35: card art for all rare cards and mountain of pure diamond, nerfed utmost, buffed channelling, wraitsoth wording update
+
 v0.0.34: transitioned into batch loc, dawn of time wont generate itself now, implosion will not trigger effect when damage blocked/0 dmg
 
 v0.0.33: dawn of time card art! also removes hand when that turn starting and card gen now actually ignores mana limit

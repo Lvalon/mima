@@ -55,6 +55,7 @@ namespace lvalonmima.NotImages.Rare
                DebugLevel: 0,
                Revealable: false,
                IsPooled: true,
+               FindInBattle: true,
                HideMesuem: false,
                IsUpgradable: true,
                Rarity: Rarity.Rare,
@@ -103,7 +104,7 @@ namespace lvalonmima.NotImages.Rare
                ImageId: "",
                UpgradeImageId: "",
                Unfinished: false,
-               Illustrator: "Dairi",
+               Illustrator: "Lvalon",
                SubIllustrator: new List<string>() { }
             );
             return cardConfig;
@@ -112,7 +113,8 @@ namespace lvalonmima.NotImages.Rare
         [EntityLogic(typeof(cardwraitsothdef))]
         public sealed class cardwraitsoth : mimaextensions.mimacard
         {
-            public int gainred { get { return (100 - (Value1 * 20)); } }
+            //public int gainred { get { return (100 - (Value1 * 20)); } }
+            public int gainred { get { return (Value1 * 20); } }
             protected override IEnumerable<BattleAction> Actions(UnitSelector selector, ManaGroup consumingMana, Interaction precondition)
             {
                 if (Battle.Player.TryGetStatusEffect<magicalburst>(out var tmp) && tmp is mimaextensions.mimase magicalburst)

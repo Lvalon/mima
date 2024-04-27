@@ -1,0 +1,8 @@
+mimaa:
+  Description: "|p:교환불가|\n{PlayerName}의 턴 시작시, 무작위 마나를 하나 얻습니다.\n|미마|의 전용 카드가 카드 풀에 추가됩니다.\n첫 턴 시작시 |악령|을 {Value1} 얻습니다.\n{PlayerName}가 스킬 카드를 사용할시, |마력 폭발|을 {Value3} 얻습니다.\n{PlayerName}가 패배하면 |초월|합니다.\n{PlayerName}가 보스 전투 보상으로 |환상급 전시품|을 얻을 때마다 마나풀에서 {losemana}를 제거합니다."
+  Name: 환생
+  FlavorText: 죽음과 함께 죽고. 죽음과 함께 태어난다!
+mimab:
+  Description: "|p:교환불가|\n마나 풀에 {BaseMana}가 추가됩니다.\n|미마|의 전용 카드가 카드 풀에 추가됩니다.\n첫 턴 시작시 |악령|을 {Value1} 얻습니다.\n{PlayerName}가 패배하면 |심연|으로 들어갑니다."
+  Name: 심연으로의 내리막
+  FlavorText: "그것이 뒤에서 응시한다. 아무리 강한 존재도 견딜 수 없도록."

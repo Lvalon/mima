@@ -82,7 +82,8 @@ namespace lvalonmima.SE.mburstmodifiers
                 get
                 {
                     if (GameRun == null) { return 80; }
-                    else { return (Level >= 5) ? 0 : Convert.ToInt32(100 - (Level * 20)); }
+                    //else { return (Level >= 5) ? 0 : Convert.ToInt32(100 - (Level * 20)); }
+                    else { return (Level > 5) ? 100 : Convert.ToInt32(Level * 20); }
                 }
             }
             protected override void OnAdded(Unit unit)

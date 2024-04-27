@@ -55,6 +55,7 @@ namespace lvalonmima.NotImages.Rare
                DebugLevel: 0,
                Revealable: false,
                IsPooled: true,
+               FindInBattle: true,
                HideMesuem: false,
                IsUpgradable: true,
                Rarity: Rarity.Rare,
@@ -95,15 +96,15 @@ namespace lvalonmima.NotImages.Rare
                RelativeKeyword: Keyword.None,
                UpgradedRelativeKeyword: Keyword.None,
 
-               RelativeEffects: new List<string>() { "ExtraTurn", "exfireonskill", "TimeIsLimited" },
-               UpgradedRelativeEffects: new List<string>() { "ExtraTurn", "exfireonskill", "TimeIsLimited" },
+               RelativeEffects: new List<string>() { "ExtraTurn", nameof(exfireonskill), "TimeIsLimited" },
+               UpgradedRelativeEffects: new List<string>() { "ExtraTurn", nameof(exfireonskill), "TimeIsLimited" },
                RelativeCards: new List<string>() { },
                UpgradedRelativeCards: new List<string>() { },
                Owner: "Mima",
                ImageId: "",
                UpgradeImageId: "",
                Unfinished: false,
-               Illustrator: "Dairi",
+               Illustrator: "Lvalon",
                SubIllustrator: new List<string>() { }
             );
             return cardConfig;

@@ -3,8 +3,8 @@ karmanation:
   Brief: "Deal 2 times the attack damage.\nEach extra Level doubles |Karmanation|'s effect."
   Name: Karmanation
 evilspirit:
-  Description: "|p:Only the evilest of beings can embrace the intrusive power of an evil spirit.|\nDeal |l:25%| attack damage. Whenever {OwnerName} is defeated, heal to maximum life, then gain |Karmanation| and once per turn, |Evil Spirit|.\nAt the end of each round, lose 1 |Evil Spirit|.\nIf {OwnerName} loses all |Evil Spirit|, they lose the game.\nFully heal after each combat."
-  Brief: "Deal |l:25%| attack damage. When defeated, heal to maximum life, then gain |Karmanation| and once per turn, |Evil Spirit|.\nAt the end of each round, lose 1 |Evil Spirit|.\nLose the game on losing all levels.\nFully heal after each combat."
+  Description: "|p:Only the evilest of beings can embrace the intrusive power of an evil spirit.|\nDeal |l:25%| attack damage. Whenever {OwnerName} is defeated, heal to maximum life, then gain |Karmanation| and once per round, |Evil Spirit|.\nAt the end of each round, lose 1 |Evil Spirit|.\nIf {OwnerName} loses all |Evil Spirit|, they lose the game.\nFully heal after each combat."
+  Brief: "Deal |l:25%| attack damage. When defeated, heal to maximum life, then gain |Karmanation| and once per round, |Evil Spirit|.\nAt the end of each round, lose 1 |Evil Spirit|.\nLose the game on losing all levels.\nFully heal after each combat."
   Name: Evil Spirit
 transcended:
   Description: "Whenever a skill card is played, gain {Mana}.\nAt the end of each round in which at least 1 skill card is played after |Transcended| is present, lose 1 |Transcended|."
@@ -43,8 +43,8 @@ implosion:
   Brief: "Whenever an enemy takes unblocked damage from |Magical Burst|, they lose life equal to damage dealt by |Magical Burst|."
   Name: Implosion
 everlastingmagic:
-  Description: "Gain {showeverlasting}% less |Magical Burst|.\n|Magical Burst| is no longer consumed.\n|Magical Burst|'s activation can no longer be delayed."
-  Brief: "Gain less |Magical Burst|.\n|Magical Burst| is no longer consumed.\n|Magical Burst|'s activation can no longer be delayed."
+  Description: "{OwnerName} Gains {showeverlasting}% of supposed |Magical Burst|.\n|Magical Burst| is no longer consumed.\n|Magical Burst|'s activation can no longer be delayed."
+  Brief: "Gain % of supposed |Magical Burst|.\n|Magical Burst| is no longer consumed.\n|Magical Burst|'s activation can no longer be delayed."
   Name: Everlasting Magic
 damageadder:
   Description: "It's impossible."
