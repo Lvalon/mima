@@ -6,8 +6,8 @@
     </PropertyGroup>
 
     <PropertyGroup>
-        <GameFolder>X:\LBoL.app</GameFolder>
-        <BepInExFolder>X:\BepInEx</BepInExFolder>
+        <GameFolder>/Users/e/Library/Application Support/Steam/steamapps/common/LBoL/LBoL.app</GameFolder>
+        <BepInExFolder>/Users/e/Library/Application Support/Steam/steamapps/common/LBoL/BepInEx</BepInExFolder>
     </PropertyGroup>
 
     <ItemGroup>
@@ -25,7 +25,7 @@
 
     <PropertyGroup>
         <PublicizerClearCacheOnClean>true</PublicizerClearCacheOnClean>
-        <PublicizerLogFilePath>.\Krafs.publicizer.log</PublicizerLogFilePath>
+        <PublicizerLogFilePath>./Krafs.publicizer.log</PublicizerLogFilePath>
         <PublicizerRuntimeStrategies>IgnoresAccessChecksTo</PublicizerRuntimeStrategies>
     </PropertyGroup>
     
@@ -246,166 +246,171 @@
 
     <ItemGroup>
         <Reference Include="LBoL.Base">
-            <HintPath>$(GameFolder)\Contents\Resources\Data\Managed\LBoL.Base.dll</HintPath>
+            <HintPath>$(GameFolder)/Contents/Resources/Data/Managed/LBoL.Base.dll</HintPath>
         </Reference>
         <Reference Include="LBoL.ConfigData">
-            <HintPath>$(GameFolder)\Contents\Resources\Data\Managed\LBoL.ConfigData.dll</HintPath>
+            <HintPath>$(GameFolder)/Contents/Resources/Data/Managed/LBoL.ConfigData.dll</HintPath>
         </Reference>
         <Reference Include="LBoL.Core">
-            <HintPath>$(GameFolder)\Contents\Resources\Data\Managed\LBoL.Core.dll</HintPath>
+            <HintPath>$(GameFolder)/Contents/Resources/Data/Managed/LBoL.Core.dll</HintPath>
         </Reference>
         <Reference Include="LBoL.EntityLib">
-            <HintPath>$(GameFolder)\Contents\Resources\Data\Managed\LBoL.EntityLib.dll</HintPath>
+            <HintPath>$(GameFolder)/Contents/Resources/Data/Managed/LBoL.EntityLib.dll</HintPath>
         </Reference>
         <Reference Include="LBoL.Presentation">
-            <HintPath>$(GameFolder)\Contents\Resources\Data\Managed\LBoL.Presentation.dll</HintPath>
+            <HintPath>$(GameFolder)/Contents/Resources/Data/Managed/LBoL.Presentation.dll</HintPath>
+        </Reference>
+        <Reference Include="Unity.TextMeshPro">
+          <HintPath>$(GameFolder)/Contents/Resources/Data/Managed/Unity.TextMeshPro.dll</HintPath>
         </Reference>
         <Reference Include="Untitled.ConfigDataBuilder.Base">
-            <HintPath>$(GameFolder)\Contents\Resources\Data\Managed\Untitled.ConfigDataBuilder.Base.dll</HintPath>
+            <HintPath>$(GameFolder)/Contents/Resources/Data/Managed/Untitled.ConfigDataBuilder.Base.dll</HintPath>
         </Reference>
         <Reference Include="Unity.Addressables">
-            <HintPath>$(GameFolder)\Contents\Resources\Data\Managed\Unity.Addressables.dll</HintPath>
+            <HintPath>$(GameFolder)/Contents/Resources/Data/Managed/Unity.Addressables.dll</HintPath>
         </Reference>
         <Reference Include="Unity.InputSystem">
-            <HintPath>$(GameFolder)\Contents\Resources\Data\Managed\Unity.InputSystem.dll</HintPath>
+            <HintPath>$(GameFolder)/Contents/Resources/Data/Managed/Unity.InputSystem.dll</HintPath>
         </Reference>
         <Reference Include="UnityEngine">
-            <HintPath>$(GameFolder)\Contents\Resources\Data\Managed\UnityEngine.dll</HintPath>
+            <HintPath>$(GameFolder)/Contents/Resources/Data/Managed/UnityEngine.dll</HintPath>
         </Reference>
         <Reference Include="UnityEngine.CoreModule">
-            <HintPath>$(GameFolder)\Contents\Resources\Data\Managed\UnityEngine.CoreModule.dll</HintPath>
+            <HintPath>$(GameFolder)/Contents/Resources/Data/Managed/UnityEngine.CoreModule.dll</HintPath>
         </Reference>
         <Reference Include="UnityEngine.UI">
-            <HintPath>$(GameFolder)\Contents\Resources\Data\Managed\UnityEngine.UI.dll</HintPath>
+            <HintPath>$(GameFolder)/Contents/Resources/Data/Managed/UnityEngine.UI.dll</HintPath>
         </Reference>
         <Reference Include="UnityEngine.UIModule">
-            <HintPath>$(GameFolder)\Contents\Resources\Data\Managed\UnityEngine.UIModule.dll</HintPath>
+            <HintPath>$(GameFolder)/Contents/Resources/Data/Managed/UnityEngine.UIModule.dll</HintPath>
         </Reference>
         <Reference Include="LBoL-Entity-Sideloader">
-            <HintPath>$(BepInExFolder)\plugins\LBoL-Entity-Sideloader.dll</HintPath>
+            <HintPath>$(BepInExFolder)/plugins/LBoL-Entity-Sideloader.dll</HintPath>
         </Reference>
         <Reference Include="LBoL-AddWatermark">
-            <HintPath>$(BepInExFolder)\plugins\LBoL-AddWatermark.dll</HintPath>
+            <HintPath>$(BepInExFolder)/plugins/LBoL-AddWatermark.dll</HintPath>
         </Reference>
         <Reference Include="UnityEngine.AudioModule">
-            <HintPath>$(GameFolder)\Contents\Resources\Data\Managed\UnityEngine.AudioModule.dll</HintPath>
+            <HintPath>$(GameFolder)/Contents/Resources/Data/Managed/UnityEngine.AudioModule.dll</HintPath>
         </Reference>
         <Reference Include="UnityEngine.UnityWebRequestModule">
-            <HintPath>$(GameFolder)\Contents\Resources\Data\Managed\UnityEngine.UnityWebRequestModule.dll</HintPath>
+            <HintPath>$(GameFolder)/Contents/Resources/Data/Managed/UnityEngine.UnityWebRequestModule.dll</HintPath>
         </Reference>
         <Reference Include="UnityEngine.UnityEngine.UnityWebRequestAudioModule">
-            <HintPath>$(GameFolder)\Contents\Resources\Data\Managed\UnityEngine.UnityWebRequestAudioModule.dll</HintPath>
+            <HintPath>$(GameFolder)/Contents/Resources/Data/Managed/UnityEngine.UnityWebRequestAudioModule.dll</HintPath>
         </Reference>
         <Reference Include="UniTask">
-            <HintPath>$(GameFolder)\Contents\Resources\Data\Managed\UniTask.dll</HintPath>
+            <HintPath>$(GameFolder)/Contents/Resources/Data/Managed/UniTask.dll</HintPath>
         </Reference>        
 		<Reference Include="spine-csharp">
-            <HintPath>$(GameFolder)\Contents\Resources\Data\Managed\spine-csharp.dll</HintPath>
+            <HintPath>$(GameFolder)/Contents/Resources/Data/Managed/spine-csharp.dll</HintPath>
         </Reference>
         <Reference Include="spine-unity">
-            <HintPath>$(GameFolder)\Contents\Resources\Data\Managed\spine-unity.dll</HintPath>
+            <HintPath>$(GameFolder)/Contents/Resources/Data/Managed/spine-unity.dll</HintPath>
         </Reference>
         <Reference Include="UnityEngine.UnityEngine.AssetBundleModule">
-            <HintPath>$(GameFolder)\Contents\Resources\Data\Managed\UnityEngine.AssetBundleModule.dll</HintPath>
+            <HintPath>$(GameFolder)/Contents/Resources/Data/Managed/UnityEngine.AssetBundleModule.dll</HintPath>
         </Reference>
         <Reference Include="UnityEngine.UnityEngine.ParticleSystemModule">
-            <HintPath>$(GameFolder)\Contents\Resources\Data\Managed\UnityEngine.ParticleSystemModule.dll</HintPath>
+            <HintPath>$(GameFolder)/Contents/Resources/Data/Managed/UnityEngine.ParticleSystemModule.dll</HintPath>
         </Reference>
         <Reference Include="YarnSpinner">
-          <HintPath>C:\Users\e\Downloads\dlls\YarnSpinner.dll</HintPath>
+          <HintPath>$(GameFolder)/Contents/Resources/Data/Managed/YarnSpinner.dll</HintPath>
         </Reference>	
     </ItemGroup>
 
 
     <ItemGroup>
-      <EmbeddedResource Include="Resources\*" />
+      <EmbeddedResource Include="Resources/*" />
     </ItemGroup>
 
 
     <ItemGroup>
-      <EmbeddedResource Remove="Resources\playermimabomb.png" />
+      <EmbeddedResource Remove="Resources/playermimabomb.png" />
     </ItemGroup>
 
 
     <ItemGroup>
-      <None Remove="DIRRESOURCES\cardEn.yaml" />
-      <None Remove="DIRRESOURCES\exEn.yaml" />
-      <None Remove="DIRRESOURCES\exZhHans.yaml" />
-      <None Remove="DIRRESOURCES\modelEn.yaml" />
-      <None Remove="DIRRESOURCES\playerEn.yaml" />
-      <None Remove="DIRRESOURCES\SEEn.yaml" />
-      <None Remove="DIRRESOURCES\ultEn.yaml" />
-      <None Remove="Resources\cardalgophobia.png" />
-      <None Remove="Resources\cardbirdq.png" />
-      <None Remove="Resources\cardburstwave.png" />
-      <None Remove="Resources\cardcardtable.png" />
-      <None Remove="Resources\cardchannelling.png" />
-      <None Remove="Resources\carddawntime.png" />
-      <None Remove="Resources\cardendlesswalk.png" />
-      <None Remove="Resources\cardenterzone.png" />
-      <None Remove="Resources\carderosion.png" />
-      <None Remove="Resources\cardexistp.png" />
-      <None Remove="Resources\cardextratick.png" />
-      <None Remove="Resources\cardextrav.png" />
-      <None Remove="Resources\cardfromhell.png" />
-      <None Remove="Resources\cardgrasp.png" />
-      <None Remove="Resources\cardmarisaskill.png" />
-      <None Remove="Resources\cardmexploit.png" />
-      <None Remove="Resources\cardmicrocosmos.png" />
-      <None Remove="Resources\cardmimaalib.png" />
-      <None Remove="Resources\cardmimablib.png" />
-      <None Remove="Resources\cardmountain.png" />
-      <None Remove="Resources\cardnineplus.png" />
-      <None Remove="Resources\cardoncetime.png" />
-      <None Remove="Resources\cardpurediamond.png" />
-      <None Remove="Resources\cardremini.png" />
-      <None Remove="Resources\cardrewind.png" />
-      <None Remove="Resources\cardrivalry.png" />
-      <None Remove="Resources\cardrpolarity.png" />
-      <None Remove="Resources\cardsharppeak.png" />
-      <None Remove="Resources\cardshepherdg.png" />
-      <None Remove="Resources\cardstake.png" />
-      <None Remove="Resources\cardstarliege.png" />
-      <None Remove="Resources\cardtpartner.png" />
-      <None Remove="Resources\cardtwelve.png" />
-      <None Remove="Resources\cardutmost.png" />
-      <None Remove="Resources\cardwheresleep.png" />
-      <None Remove="Resources\cardwraitsoth.png" />
-      <None Remove="Resources\mimab.png" />
-      <None Remove="Resources\mimapassives.png" />
-      <None Remove="Resources\seaccumulation.png" />
-      <None Remove="Resources\seconcentratedburst.png" />
-      <None Remove="Resources\sedamageadder.png" />
-      <None Remove="Resources\sedamagemultiplier.png" />
-      <None Remove="Resources\sedawntime.png" />
-      <None Remove="Resources\seeverlastingmagic.png" />
-      <None Remove="Resources\seexfireonskill.png" />
-      <None Remove="Resources\sefastburst.png" />
-      <None Remove="Resources\seimplosion.png" />
-      <None Remove="Resources\sekarmanation.png" />
-      <None Remove="Resources\semagicalburst.png" />
-      <None Remove="Resources\seretribution.png" />
-      <None Remove="Resources\seshepherdg.png" />
-      <None Remove="Resources\sesplitburst.png" />
-      <None Remove="Resources\sestartturnloselife.png" />
-      <None Remove="Resources\setheabyss.png" />
+      <None Remove="DIRRESOURCES/cardEn.yaml" />
+      <None Remove="DIRRESOURCES/exEn.yaml" />
+      <None Remove="DIRRESOURCES/exZhHans.yaml" />
+      <None Remove="DIRRESOURCES/modelEn.yaml" />
+      <None Remove="DIRRESOURCES/playerEn.yaml" />
+      <None Remove="DIRRESOURCES/SEEn.yaml" />
+      <None Remove="DIRRESOURCES/ultEn.yaml" />
+      <None Remove="Resources/cardalgophobia.png" />
+      <None Remove="Resources/cardbirdq.png" />
+      <None Remove="Resources/cardburstwave.png" />
+      <None Remove="Resources/cardcardtable.png" />
+      <None Remove="Resources/cardchannelling.png" />
+      <None Remove="Resources/carddawntime.png" />
+      <None Remove="Resources/cardendlesswalk.png" />
+      <None Remove="Resources/cardenterzone.png" />
+      <None Remove="Resources/carderosion.png" />
+      <None Remove="Resources/cardexistp.png" />
+      <None Remove="Resources/cardextratick.png" />
+      <None Remove="Resources/cardextrav.png" />
+      <None Remove="Resources/cardfromhell.png" />
+      <None Remove="Resources/cardgrasp.png" />
+      <None Remove="Resources/cardmarisaskill.png" />
+      <None Remove="Resources/cardmexploit.png" />
+      <None Remove="Resources/cardmicrocosmos.png" />
+      <None Remove="Resources/cardmimaalib.png" />
+      <None Remove="Resources/cardmimablib.png" />
+      <None Remove="Resources/cardmountain.png" />
+      <None Remove="Resources/cardnineplus.png" />
+      <None Remove="Resources/cardoncetime.png" />
+      <None Remove="Resources/cardpassivegold.png" />
+      <None Remove="Resources/cardpurediamond.png" />
+      <None Remove="Resources/cardremini.png" />
+      <None Remove="Resources/cardrewind.png" />
+      <None Remove="Resources/cardrivalry.png" />
+      <None Remove="Resources/cardrpolarity.png" />
+      <None Remove="Resources/cardsharppeak.png" />
+      <None Remove="Resources/cardshepherdg.png" />
+      <None Remove="Resources/cardstake.png" />
+      <None Remove="Resources/cardstarliege.png" />
+      <None Remove="Resources/cardtpartner.png" />
+      <None Remove="Resources/cardtwelve.png" />
+      <None Remove="Resources/cardutmost.png" />
+      <None Remove="Resources/cardwheresleep.png" />
+      <None Remove="Resources/cardwraitsoth.png" />
+      <None Remove="Resources/mimab.png" />
+      <None Remove="Resources/mimapassives.png" />
+      <None Remove="Resources/seaccumulation.png" />
+      <None Remove="Resources/seconcentratedburst.png" />
+      <None Remove="Resources/sedamageadder.png" />
+      <None Remove="Resources/sedamagemultiplier.png" />
+      <None Remove="Resources/sedawntime.png" />
+      <None Remove="Resources/seeverlastingmagic.png" />
+      <None Remove="Resources/seexfireonskill.png" />
+      <None Remove="Resources/sefastburst.png" />
+      <None Remove="Resources/seimplosion.png" />
+      <None Remove="Resources/sekarmanation.png" />
+      <None Remove="Resources/semagicalburst.png" />
+      <None Remove="Resources/seretribution.png" />
+      <None Remove="Resources/seshepherdg.png" />
+      <None Remove="Resources/sesplitburst.png" />
+      <None Remove="Resources/sestartturnloselife.png" />
+      <None Remove="Resources/setheabyss.png" />
     </ItemGroup>
 
 
     <ItemGroup>
-      <EmbeddedResource Include="DIRRESOURCES\cardEn.yaml" />
-      <EmbeddedResource Include="DIRRESOURCES\exZhHans.yaml" />
-      <EmbeddedResource Include="DIRRESOURCES\exEn.yaml" />
-      <EmbeddedResource Include="DIRRESOURCES\modelEn.yaml" />
-      <EmbeddedResource Include="DIRRESOURCES\playerEn.yaml" />
-      <EmbeddedResource Include="DIRRESOURCES\SEEn.yaml" />
-      <EmbeddedResource Include="DIRRESOURCES\ultEn.yaml" />
+      <EmbeddedResource Include="DIRRESOURCES/cardEn.yaml" />
+      <EmbeddedResource Include="DIRRESOURCES/exZhHans.yaml" />
+      <EmbeddedResource Include="DIRRESOURCES/exEn.yaml" />
+      <EmbeddedResource Include="DIRRESOURCES/modelEn.yaml" />
+      <EmbeddedResource Include="DIRRESOURCES/playerEn.yaml" />
+      <EmbeddedResource Include="DIRRESOURCES/SEEn.yaml" />
+      <EmbeddedResource Include="DIRRESOURCES/ultEn.yaml" />
     </ItemGroup>
 
 
-    <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-        <Exec Command="copy /Y &quot;$(TargetPath)&quot; &quot;$(ProjectDir)&quot;&#xD;&#xA;IF exist &quot;$(BepInExFolder)\scripts\$(AssemblyName)&quot; goto skipDir&#xD;&#xA;mkdir &quot;$(BepInExFolder)\scripts\$(AssemblyName)&quot;&#xD;&#xA;:skipDir&#xD;&#xA;copy /Y &quot;$(TargetPath)&quot; &quot;$(BepInExFolder)\scripts\$(AssemblyName)&quot;&#xD;&#xA;xcopy /Y /E &quot;$(ProjectDir)DirResources\*&quot; &quot;$(BepInExFolder)\scripts\$(AssemblyName)&quot; 1&gt; NUL&#xD;&#xA;powershell -command &quot;Compress-Archive -Path '$(TargetPath)', '$(ProjectDir)DirResources\*', '$(ProjectDir)manifest.json', '$(ProjectDir)icon.png', '$(ProjectDir)README.md', '$(ProjectDir)CHANGELOG.md'   -DestinationPath  '$(ProjectDir)$(AssemblyName)-thunderstore.zip' -Force&quot;" />
-    </Target>
+    <ItemGroup>
+      <Folder Include="NotImages/Monster/" />
+      <Folder Include="NotImages/Passive/Uncommon/" />
+    </ItemGroup>
 
 
 </Project>

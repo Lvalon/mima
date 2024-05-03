@@ -1,25 +1,17 @@
 ﻿using LBoL.Base;
-using LBoL.Base.Extensions;
 using LBoL.ConfigData;
 using LBoL.Core;
 using LBoL.Core.Battle;
 using LBoL.Core.Battle.BattleActions;
 using LBoL.Core.Battle.Interactions;
 using LBoL.Core.Cards;
-using LBoL.Core.StatusEffects;
 using LBoLEntitySideloader;
 using LBoLEntitySideloader.Attributes;
 using LBoLEntitySideloader.Entities;
 using LBoLEntitySideloader.Resource;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
 using static lvalonmima.BepinexPlugin;
-using LBoL.Core.Units;
-using System.Xml.Linq;
-using static lvalonmima.SE.evilspiritdef;
-using Unity.IO.LowLevel.Unsafe;
-using LBoL.EntityLib.StatusEffects.Cirno;
 using LBoL.Core.Randoms;
 
 namespace lvalonmima.NotImages.Uncommon
@@ -118,7 +110,7 @@ namespace lvalonmima.NotImages.Uncommon
                 //value2 is cards shown, value1 is cards selectable
                 //mana is temporary mana cost
                 List<Card> list = new List<Card>();
-
+                //toolbox.RollCardsCustom(GameRun.BattleCardRng, new CardWeightTable(RarityWeightTable.AllOnes, OwnerWeightTable.AllOnes, CardTypeWeightTable.AllOnes), 3, null, false, false, false, false, (Card card) => card is mimacard mimascard && mimaextensions.mimacard.passivecards.Contains(mimascard.Id)).ToList();
                 list = Battle.RollCardsWithoutManaLimit(new CardWeightTable(RarityWeightTable.BattleCard, OwnerWeightTable.AllOnes, CardTypeWeightTable.OnlySkill), Value2, (config) => config.Owner == "Marisa" && !config.Keywords.HasFlag(Keyword.Forbidden)).ToList();
                 SelectCardInteraction interaction = new SelectCardInteraction(0, Value1, list, SelectedCardHandling.DoNothing)
                 {

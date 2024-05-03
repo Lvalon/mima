@@ -1,6 +1,4 @@
-﻿using System.Runtime.CompilerServices;
-
-namespace lvalonmima
+﻿namespace lvalonmima
 {
     internal class WatermarkWrapper
     {

@@ -4,25 +4,14 @@ using LBoL.ConfigData;
 using LBoL.Core;
 using LBoL.Core.Battle;
 using LBoL.Core.Battle.BattleActions;
-using LBoL.Core.Battle.Interactions;
 using LBoL.Core.Cards;
-using LBoL.Core.StatusEffects;
 using LBoLEntitySideloader;
 using LBoLEntitySideloader.Attributes;
 using LBoLEntitySideloader.Entities;
 using LBoLEntitySideloader.Resource;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
 using static lvalonmima.BepinexPlugin;
-using LBoL.Core.Units;
-using System.Xml.Linq;
-using static lvalonmima.SE.evilspiritdef;
-using Unity.IO.LowLevel.Unsafe;
-using LBoL.EntityLib.StatusEffects.Cirno;
-using LBoL.Core.Randoms;
-using static lvalonmima.SE.magicalburstdef;
-using static lvalonmima.SE.extmpfiredef;
 using static lvalonmima.SE.mburstmodifiers.accumulationdef;
 
 namespace lvalonmima.NotImages.Uncommon

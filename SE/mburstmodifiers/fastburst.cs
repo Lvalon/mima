@@ -1,30 +1,16 @@
 ﻿using LBoL.Base;
 using LBoL.ConfigData;
 using LBoL.Core.Battle;
-using LBoL.Core.Cards;
 using LBoL.Core;
-using LBoL.Core.StatusEffects;
 using LBoLEntitySideloader;
 using LBoLEntitySideloader.Attributes;
 using LBoLEntitySideloader.Entities;
 using LBoLEntitySideloader.Resource;
-using Mono.Cecil;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using UnityEngine;
 using static lvalonmima.BepinexPlugin;
-using static lvalonmima.SE.karmanationdef;
-using static lvalonmima.SE.magicalburstdef;
-using LBoL.Core.Battle.BattleActions;
-using LBoL.Base.Extensions;
 using LBoL.Core.Units;
-using LBoL.EntityLib.StatusEffects.Enemy;
-using LBoL.EntityLib.StatusEffects.Koishi;
-using static UnityEngine.GraphicsBuffer;
-using System.Linq;
-using static lvalonmima.SE.mburstmodifiers.accumulationdef;
-using static MonoMod.Cil.RuntimeILReferenceBag.FastDelegateInvokers;
 
 namespace lvalonmima.SE.mburstmodifiers
 {
@@ -86,7 +72,6 @@ namespace lvalonmima.SE.mburstmodifiers
                     else { return (Level > 5) ? Convert.ToInt32(5 * 20) : Convert.ToInt32(Level * 20); }
                 }
             }
-            bool holup = false;
             //set up triggers to give a fuck on
             //also vfx/sfx
             //they worked

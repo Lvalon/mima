@@ -1,24 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using LBoL.ConfigData;
 using LBoLEntitySideloader;
 using LBoLEntitySideloader.Entities;
 using LBoLEntitySideloader.Resource;
 using LBoLEntitySideloader.Attributes;
 using static lvalonmima.BepinexPlugin;
-using Mono.Cecil;
 using UnityEngine;
 using LBoL.Base;
-using LBoL.EntityLib.Exhibits;
 using LBoL.Core.Battle.BattleActions;
 using LBoL.Core.Battle;
-using LBoL.Core.StatusEffects;
 using LBoL.Core;
 using LBoL.Core.Units;
 using static lvalonmima.SE.evilspiritdef;
 using LBoL.Base.Extensions;
-using LBoL.EntityLib.StatusEffects.Enemy;
 using System.Linq;
 using LBoL.Core.Randoms;
 using static lvalonmima.SE.transcendeddef;
@@ -26,18 +21,9 @@ using static lvalonmima.SE.magicalburstdef;
 using static lvalonmima.NotImages.Starter.cardchannellingdef;
 using LBoL.Core.Stations;
 using LBoL.Core.Cards;
-using LBoL.EntityLib.Cards.Neutral.NoColor;
-using LBoL.Presentation.UI.Panels;
 using static lvalonmima.NotImages.Starter.cardmountaindef;
 using static lvalonmima.NotImages.Starter.cardreminidef;
 using static lvalonmima.NotImages.Starter.carderosiondef;
-using LBoL.Core.Battle.Interactions;
-using LBoL.EntityLib.JadeBoxes;
-using LBoL.Presentation;
-using System.Collections;
-using HarmonyLib;
-using LBoLEntitySideloader.ExtraFunc;
-using static lvalonmima.NotRelics.mimapassivesdef;
 
 namespace lvalonmima.NotRelics
 {
@@ -122,7 +108,7 @@ namespace lvalonmima.NotRelics
                         base.GameRun.AddDeckCards(card1, false, null);
                         for (int i = 0; i < addcard; i++)
                         {
-                            Card[] cards = gameRun.RollCards(gameRun.CardRng, new CardWeightTable(RarityWeightTable.EnemyCard, OwnerWeightTable.OnlyPlayer, CardTypeWeightTable.OnlySkill), 1,false , true, (CardConfig config) => config.Rarity != Rarity.Rare);
+                            Card[] cards = gameRun.RollCards(gameRun.CardRng, new CardWeightTable(RarityWeightTable.EnemyCard, OwnerWeightTable.OnlyPlayer, CardTypeWeightTable.OnlySkill), 1, false, false, (CardConfig config) => config.Rarity != Rarity.Rare);
                             gameRun.AddDeckCards(cards, false, null);
                         }
                         //fallback to no rarity limit

@@ -3,21 +3,15 @@ using LBoL.ConfigData;
 using LBoL.Core.Battle;
 using LBoL.Core.Cards;
 using LBoL.Core;
-using LBoL.Core.StatusEffects;
 using LBoLEntitySideloader;
 using LBoLEntitySideloader.Attributes;
 using LBoLEntitySideloader.Entities;
 using LBoLEntitySideloader.Resource;
-using Mono.Cecil;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using UnityEngine;
 using static lvalonmima.BepinexPlugin;
 using LBoL.Core.Battle.BattleActions;
-using LBoL.Base.Extensions;
 using LBoL.Core.Units;
-using LBoL.EntityLib.StatusEffects.Enemy;
 
 namespace lvalonmima.SE
 {

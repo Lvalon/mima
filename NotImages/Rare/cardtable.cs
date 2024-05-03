@@ -4,25 +4,14 @@ using LBoL.ConfigData;
 using LBoL.Core;
 using LBoL.Core.Battle;
 using LBoL.Core.Battle.BattleActions;
-using LBoL.Core.Battle.Interactions;
 using LBoL.Core.Cards;
-using LBoL.Core.StatusEffects;
 using LBoLEntitySideloader;
 using LBoLEntitySideloader.Attributes;
 using LBoLEntitySideloader.Entities;
 using LBoLEntitySideloader.Resource;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
 using static lvalonmima.BepinexPlugin;
-using LBoL.Core.Units;
-using System.Xml.Linq;
-using static lvalonmima.SE.evilspiritdef;
-using static lvalonmima.SE.mburstmodifiers.implosiondef;
-using Unity.IO.LowLevel.Unsafe;
-using LBoL.EntityLib.StatusEffects.Cirno;
-using LBoL.EntityLib.Cards.Character.Sakuya;
-using static lvalonmima.SE.mburstmodifiers.everlastingmagicdef;
 using LBoL.Core.Randoms;
 
 namespace lvalonmima.NotImages.Rare
