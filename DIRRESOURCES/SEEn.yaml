@@ -80,3 +80,23 @@ sedawntime:
   ExtraDescription: "Skip the card drawing phase of turn starting.\nRemove all cards in hand from combat.\nAdd {Level} {OwnerName} card{Level:plural one='' other='s'} to hand that {Level:plural one='has' other='have'} |Exile| and |Ethereal| instead.\nUntil end of turn, {OwnerName} takes and deal no damage, cards cost {Mana}, cannot gain mana or draw cards.\n{SelfName} is inactive and will only be removed after the turn it resolves."
   Brief: "At the start the turn, remove the hand from combat, add some random {OwnerName} cards to the hand, they have |Exile| and |Ethereal|.\n{OwnerName} takes and deals no damage, cards cost {Mana}, cannot gain mana or draw cards until end of turn."
   Name: Dawn of Time
+sepassive:
+  Description: "When a |Passive| card is added to the library, it will apply its passive effects on the player, then removes itself from the library."
+  Brief: "When a |Passive| card is added to the library, it will apply its passive effects on the player, then removes itself from the library."
+  Name: Passive Card
+semonster:
+  Description: "Monster cards can be upgraded any number of times."
+  Brief: "Monster cards can be upgraded any number of times."
+  Name: Monster Card
+seblitz:
+  Description: "Blitz cards apply their effects, then remove themselves from the library."
+  Brief: "Blitz cards apply their effects, then remove themselves from the library."
+  Name: Blitz Card
+sepassiveshop:
+  Description: "Passive Shop sells different |Passive| and |Monster| cards."
+  Brief: "Passive Shop sells different |Passive| and |Monster| cards."
+  Name: Passive Shop
+seblitzshop:
+  Description: "Blitz Shop sells different |Blitz| cards."
+  Brief: "Blitz Shop sells different |Blitz| cards."
+  Name: Blitz Shop

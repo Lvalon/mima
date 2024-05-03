@@ -1,20 +1,9 @@
 ﻿using LBoL.Base;
-using LBoL.Base.Extensions;
 using LBoL.Core;
-using LBoL.Core.Battle;
-using LBoL.Core.Battle.BattleActions;
 using LBoL.Core.Cards;
 using LBoL.Core.Randoms;
 using LBoL.Presentation;
-using LBoLEntitySideloader.Resource;
-using Mono.Cecil;
 using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Xml.Serialization;
-using UnityEngine;
-using static lvalonmima.SE.transcendeddef;
-using static UnityEngine.UI.GridLayoutGroup;
 
 namespace lvalonmima
 {

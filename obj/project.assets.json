@@ -2417,27 +2417,25 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\e\\.nuget\\packages\\": {}
+    "/Users/e/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "Z:\\projects\\indev\\lvalonmima\\lvalonmima.csproj",
+      "projectUniqueName": "/Users/e/Desktop/tachyon transmigration/projects/indev/lvalonmima/lvalonmima.csproj",
       "projectName": "lvalonmima",
-      "projectPath": "Z:\\projects\\indev\\lvalonmima\\lvalonmima.csproj",
-      "packagesPath": "C:\\Users\\e\\.nuget\\packages\\",
-      "outputPath": "Z:\\projects\\indev\\lvalonmima\\obj\\",
+      "projectPath": "/Users/e/Desktop/tachyon transmigration/projects/indev/lvalonmima/lvalonmima.csproj",
+      "packagesPath": "/Users/e/.nuget/packages/",
+      "outputPath": "/Users/e/Desktop/tachyon transmigration/projects/indev/lvalonmima/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "Z:\\projects\\indev\\lvalonmima\\NuGet.Config",
-        "C:\\Users\\e\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        "/Users/e/Desktop/tachyon transmigration/projects/indev/lvalonmima/NuGet.Config",
+        "/Users/e/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "netstandard2.1"
       ],
       "sources": {
-        "https://api.nuget.org/v3/index.json": {},
         "https://nuget.bepinex.dev/v3/index.json": {}
       },
       "frameworks": {
@@ -2493,7 +2491,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.403\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.400/RuntimeIdentifierGraph.json"
       }
     }
   }

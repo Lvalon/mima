@@ -160,3 +160,19 @@ carddawntime:
   Name: At The Dawn of Time
   FlavorText: "Witness the beginning of everything."
   DetailText: "These |e:alternate cards| ignore total mana and mana color restrictions.\n{SelfName} cannot be produced by this effect."
+cardpassivegold:
+  Description: "|g:Passive Card|\n|At the start of combat|: Gain {Value1} <sprite=\"Point\" name=\"Gold\">."
+  Name: Accumulated Fortune
+  FlavorText: "Activate only after 4 or more cards are played this turn...?"
+cardpassivepower:
+  Description: "|g:Passive Card|\n|At the start of combat|: Gain {Value1} <sprite=\"Point\" name=\"Power\">."
+  Name: "Power of the Elements"
+  FlavorText: "Before people realised, the tides have been turned."
+cardpassivemb:
+  Description: "|g:Passive Card|\n|At the start of each turn|: Gain {Value1} |Magical Burst|."
+  Name: "Background Grudge"
+  FlavorText: "A candle that keeps bursting into flames."
+cardpassivembhand:
+  Description: "|g:Passive Card|\n|Whenever a card enters the hand|: Gain {Value1} |Magical Burst|."
+  Name: "Abyss Conversion Lab"
+  FlavorText: "Knowledge is power."

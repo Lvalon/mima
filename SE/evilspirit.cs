@@ -1,28 +1,18 @@
 ﻿using LBoL.Base;
 using LBoL.ConfigData;
 using LBoL.Core.Battle;
-using LBoL.Core.Cards;
 using LBoL.Core;
 using LBoL.Core.StatusEffects;
 using LBoLEntitySideloader;
 using LBoLEntitySideloader.Attributes;
 using LBoLEntitySideloader.Entities;
 using LBoLEntitySideloader.Resource;
-using Mono.Cecil;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using UnityEngine;
 using static lvalonmima.BepinexPlugin;
 using static lvalonmima.SE.karmanationdef;
 using LBoL.Core.Battle.BattleActions;
-using LBoL.Base.Extensions;
 using LBoL.Core.Units;
-using LBoL.EntityLib.StatusEffects.Enemy;
-using static lvalonmima.SE.magicalburstdef;
-using LBoL.EntityLib.StatusEffects.Neutral.TwoColor;
-using static lvalonmima.SE.transcendeddef;
-using static lvalonmima.SE.theabyssdef;
 
 namespace lvalonmima.SE
 {
@@ -87,9 +77,9 @@ namespace lvalonmima.SE
                 ReactOwnerEvent<StatusEffectApplyEventArgs>(base.Battle.Player.StatusEffectAdded, new EventSequencedReactor<StatusEffectApplyEventArgs>(this.OnStatusEffectAdded));
                 //base.HandleOwnerEvent<DamageEventArgs>(unit.DamageReceiving, new GameEventHandler<DamageEventArgs>(this.OnDamageReceiving));
                 base.HandleOwnerEvent<DamageDealingEventArgs>(base.Owner.DamageDealing, new GameEventHandler<DamageDealingEventArgs>(this.OnDamageDealing));
-                if (unit.Id != "Mima") { React(new ForceKillAction(Owner, Owner)); }
-                else
-                {
+                //if (unit.Id != "Mima") { React(new ForceKillAction(Owner, Owner)); }
+                //else
+                //{
                     HandleOwnerEvent(Owner.Dying, new GameEventHandler<DieEventArgs>(OnDying));
                     base.HandleOwnerEvent<UnitEventArgs>(base.Owner.TurnStarting, new GameEventHandler<UnitEventArgs>(this.OnOwnerTurnStarting));
                     ReactOwnerEvent(Battle.BattleEnding, new EventSequencedReactor<GameEventArgs>(OnBattleEnding));
@@ -97,7 +87,7 @@ namespace lvalonmima.SE
                     React(PerformAction.Effect(unit, "JunkoNightmare", 1f, "", 0f, PerformAction.EffectBehavior.PlayOneShot, 0f));
                     React(PerformAction.Effect(unit, "JunkoNightmare", 2f, "", 0f, PerformAction.EffectBehavior.PlayOneShot, 0f));
                     React(PerformAction.Effect(unit, "JinziMirror", 3f, "", 1f, PerformAction.EffectBehavior.Add, 0f));
-                }
+                //}
             }
             private void OnDying(DieEventArgs args)
             {

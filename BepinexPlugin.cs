@@ -4,104 +4,10 @@ using HarmonyLib;
 using LBoLEntitySideloader.Entities;
 using LBoL.Base;
 using LBoL.Base.Extensions;
-using LBoL.ConfigData;
 using LBoL.Core;
-using LBoL.Core.Adventures;
-using LBoL.Core.Attributes;
-using LBoL.Core.Battle;
-using LBoL.Core.Battle.BattleActionRecord;
-using LBoL.Core.Battle.BattleActions;
-using LBoL.Core.Battle.Interactions;
 using LBoL.Core.Cards;
-using LBoL.Core.Dialogs;
-using LBoL.Core.GapOptions;
-using LBoL.Core.Helpers;
-using LBoL.Core.Intentions;
-using LBoL.Core.JadeBoxes;
-using LBoL.Core.PlatformHandlers;
-using LBoL.Core.Randoms;
-using LBoL.Core.SaveData;
 using LBoL.Core.Stations;
-using LBoL.Core.Stats;
-using LBoL.Core.StatusEffects;
-using LBoL.Core.Units;
-using LBoL.EntityLib.Adventures;
-using LBoL.EntityLib.Adventures.Common;
-using LBoL.EntityLib.Adventures.FirstPlace;
-using LBoL.EntityLib.Adventures.Shared12;
-using LBoL.EntityLib.Adventures.Shared23;
-using LBoL.EntityLib.Adventures.Stage1;
-using LBoL.EntityLib.Adventures.Stage2;
-using LBoL.EntityLib.Adventures.Stage3;
-using LBoL.EntityLib.Cards.Character.Cirno;
-using LBoL.EntityLib.Cards.Character.Koishi;
-using LBoL.EntityLib.Cards.Character.Marisa;
-using LBoL.EntityLib.Cards.Character.Reimu;
-using LBoL.EntityLib.Cards.Character.Sakuya;
-using LBoL.EntityLib.Cards.Neutral;
-using LBoL.EntityLib.Cards.Neutral.Black;
-using LBoL.EntityLib.Cards.Neutral.Blue;
-using LBoL.EntityLib.Cards.Neutral.Green;
-using LBoL.EntityLib.Cards.Neutral.MultiColor;
-using LBoL.EntityLib.Cards.Neutral.NoColor;
-using LBoL.EntityLib.Cards.Neutral.Red;
-using LBoL.EntityLib.Cards.Neutral.TwoColor;
-using LBoL.EntityLib.Cards.Neutral.White;
-using LBoL.EntityLib.Cards.Adventure;
-using LBoL.EntityLib.Cards.Enemy;
-using LBoL.EntityLib.Cards.Misfortune;
-using LBoL.EntityLib.Cards.Tool;
-using LBoL.EntityLib.Dolls;
-using LBoL.EntityLib.EnemyUnits.Character;
-using LBoL.EntityLib.EnemyUnits.Character.DreamServants;
-using LBoL.EntityLib.EnemyUnits.Lore;
-using LBoL.EntityLib.EnemyUnits.Normal;
-using LBoL.EntityLib.EnemyUnits.Normal.Bats;
-using LBoL.EntityLib.EnemyUnits.Normal.Drones;
-using LBoL.EntityLib.EnemyUnits.Normal.Guihuos;
-using LBoL.EntityLib.EnemyUnits.Normal.Maoyus;
-using LBoL.EntityLib.EnemyUnits.Normal.Ravens;
-using LBoL.EntityLib.EnemyUnits.Opponent;
-using LBoL.EntityLib.Exhibits;
-using LBoL.EntityLib.Exhibits.Adventure;
-using LBoL.EntityLib.Exhibits.Common;
-using LBoL.EntityLib.Exhibits.Mythic;
-using LBoL.EntityLib.Exhibits.Seija;
-using LBoL.EntityLib.Exhibits.Shining;
-using LBoL.EntityLib.JadeBoxes;
-using LBoL.EntityLib.Mixins;
-using LBoL.EntityLib.PlayerUnits;
-using LBoL.EntityLib.Stages;
-using LBoL.EntityLib.Stages.NormalStages;
-using LBoL.EntityLib.StatusEffects.Basic;
-using LBoL.EntityLib.StatusEffects.Cirno;
-using LBoL.EntityLib.StatusEffects.Enemy;
-using LBoL.EntityLib.StatusEffects.Enemy.SeijaItems;
-using LBoL.EntityLib.StatusEffects.Marisa;
-using LBoL.EntityLib.StatusEffects.Neutral;
-using LBoL.EntityLib.StatusEffects.Neutral.Black;
-using LBoL.EntityLib.StatusEffects.Neutral.Blue;
-using LBoL.EntityLib.StatusEffects.Neutral.Green;
-using LBoL.EntityLib.StatusEffects.Neutral.Red;
-using LBoL.EntityLib.StatusEffects.Neutral.TwoColor;
-using LBoL.EntityLib.StatusEffects.Neutral.White;
-using LBoL.EntityLib.StatusEffects.Others;
-using LBoL.EntityLib.StatusEffects.Reimu;
-using LBoL.EntityLib.StatusEffects.Sakuya;
-using LBoL.EntityLib.UltimateSkills;
 using LBoL.Presentation;
-using static LBoL.Presentation.GameMaster;
-using LBoL.Presentation.Animations;
-using LBoL.Presentation.Bullet;
-using LBoL.Presentation.Effect;
-using LBoL.Presentation.I10N;
-using LBoL.Presentation.UI;
-using LBoL.Presentation.UI.Dialogs;
-using LBoL.Presentation.UI.ExtraWidgets;
-using LBoL.Presentation.UI.Panels;
-using LBoL.Presentation.UI.Transitions;
-using LBoL.Presentation.UI.Widgets;
-using LBoL.Presentation.Units;
 using LBoLEntitySideloader;
 using LBoLEntitySideloader.Resource;
 using System;
@@ -109,20 +15,13 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Reflection.Emit;
-using System.Runtime.CompilerServices;
 using UnityEngine;
-using Untitled;
-using Untitled.ConfigDataBuilder;
-using Untitled.ConfigDataBuilder.Base;
-using Debug = UnityEngine.Debug;
 using UnityEngine.UI;
-using static lvalonmima.NotRelics.mimabdef.mimab;
 using LBoLEntitySideloader.PersistentValues;
-using static lvalonmima.playermima;
 using static lvalonmima.NotRelics.mimapassivesdef;
 using static lvalonmima.NotRelics.mimaadef;
-using LBoLEntitySideloader.ExtraFunc;
+using static lvalonmima.mimaextensions;
+using static lvalonmima.NotRelics.mimabdef;
 
 namespace lvalonmima
 {
@@ -191,7 +90,7 @@ namespace lvalonmima
         internal static BatchLocalization playerbatchloc = new BatchLocalization(directorySource, typeof(PlayerUnitTemplate), "player");
         internal static BatchLocalization modelbatchloc = new BatchLocalization(directorySource, typeof(UnitModelTemplate), "model");
 
-
+        public static BepinexPlugin Instance;
         private void Awake()
         {
             log = Logger;
@@ -208,6 +107,7 @@ namespace lvalonmima
             //   WatermarkWrapper.ActivateWatermark();
 
             (new mimaplayerdata()).RegisterSelf(LBoLEntitySideloader.PluginInfo.GUID);
+            Instance = this;
         }
 
         private void OnDestroy()
@@ -216,21 +116,95 @@ namespace lvalonmima
                 harmony.UnpatchSelf();
         }
 
-        //the funny starts here
-        private void Update()
+        public class GameEventHandlerHolder
         {
-            if (TestTab.IsDown())
+            public readonly List<Action> _removeHandlerFunctions = new List<Action>();
+
+            public void HandleEvent<T>(GameEvent<T> e, GameEventHandler<T> action, GameEventPriority priority) where T : GameEventArgs
             {
-                if (GameMaster.Instance?.CurrentGameRun != null)
+                e.AddHandler(action, priority);
+                _removeHandlerFunctions.Add(delegate
                 {
-                    GameMaster.Instance.StartCoroutine(tabber());
-                }
-                else
+                    e.RemoveHandler(action, priority);
+                });
+            }
+
+            public void ClearEventHandlers()
+            {
+                foreach (Action removeHandlerFunction in _removeHandlerFunctions)
                 {
-                    log.LogInfo("run needs to be started");
+                    removeHandlerFunction();
                 }
             }
         }
+        public GameEventPriority DefaultEventPriority => (GameEventPriority)1;
+        public readonly GameEventHandlerHolder _gameRunHandlerHolder = new GameEventHandlerHolder();
+        public void HandleGameRunEvent<TEventArgs>(GameEvent<TEventArgs> @event, GameEventHandler<TEventArgs> handler, GameEventPriority priority) where TEventArgs : GameEventArgs
+        {
+            _gameRunHandlerHolder.HandleEvent(@event, handler, priority);
+        }
+
+        public void HandleGameRunEvent<TEventArgs>(GameEvent<TEventArgs> @event, GameEventHandler<TEventArgs> handler) where TEventArgs : GameEventArgs
+        {
+            HandleGameRunEvent(@event, handler, DefaultEventPriority);
+        }
+        //the funny starts here
+        private void Update()
+        {
+            var gamerun = GameMaster.Instance?.CurrentGameRun;
+            if (gamerun != null)
+            {
+                //HandleGameRunEvent<CardsEventArgs>(gamerun.DeckCardsAdding, new GameEventHandler<CardsEventArgs>(OnDeckCardsAdding));
+                if (TestTab.IsDown())
+                {
+                    var player = gamerun.Player;
+                    if (player.HasExhibit<mimab>() && gamerun.Money >= 10 && gamerun.CurrentStation.Level != 0 || gamerun.CurrentStation.Stage.Id != "BambooForest")
+                    {
+                        GameMaster.Instance.StartCoroutine(tabberbase());
+                    }
+                }
+            }
+        }
+        [HarmonyPatch(typeof(GameRunController), nameof(GameRunController.Create))]
+        class GameRunController_Create_Patch
+        {
+            static void OnDeckCardsAdding(CardsEventArgs args)
+            {
+                var gamerun = GameMaster.Instance?.CurrentGameRun;
+                int num = args.Cards.Count((Card card) => card is mimacard mimascard && mimascard.ispassive == true);
+                var player = gamerun.Player;
+                bool hasexhibit = player.HasExhibit<mimapassives>();
+                if (num > 0 && hasexhibit == false)
+                {
+                    GameMaster.Instance.StartCoroutine(GainExhibits(
+                             gameRun: gamerun,
+                             exhibits: new HashSet<Type>() { typeof(mimapassives) },
+                             triggerVisual: true,
+                             exhibitSource: new VisualSourceData()
+                             {
+                                 SourceType = VisualSourceType.Debug,
+                                 Source = null
+                             }));
+                }
+            }
+            static void Postfix(GameRunController __result)
+            {
+                Instance.HandleGameRunEvent<CardsEventArgs>(__result.DeckCardsAdding, new GameEventHandler<CardsEventArgs>(OnDeckCardsAdding));
+            }
+        }
+        static IEnumerator GainExhibits(GameRunController gameRun, HashSet<Type> exhibits, bool triggerVisual = false, VisualSourceData exhibitSource = null)
+        {
+            foreach (var et in exhibits)
+            {
+                var ex = Library.CreateExhibit(et);
+                ex.GameRun = gameRun;
+
+                yield return gameRun.GainExhibitRunner(ex, triggerVisual, exhibitSource);
+            }
+
+            gameRun.ExhibitPool.RemoveAll(e => exhibits.Contains(e));
+        }
+
         //MIMAA REMOVE BASE MANA
         class CoroutineExtender : IEnumerable
         {
@@ -296,6 +270,9 @@ namespace lvalonmima
                 if (exhibit != null && exhibit is mimapassives mimapassive)
                 {
                     mimapassive.passivegold = passivegold;
+                    mimapassive.passivepower = passivepower;
+                    mimapassive.passivemb = passivemb;
+                    mimapassive.passivembhand = passivembhand;
                 }
             }
 
@@ -306,24 +283,36 @@ namespace lvalonmima
                 if (exhibit != null && exhibit is mimapassives mimapassive)
                 {
                     passivegold = mimapassive.passivegold;
+                    passivepower = mimapassive.passivepower;
+                    passivemb = mimapassive.passivemb;
+                    passivembhand = mimapassive.passivembhand;
                 }
             }
-
             public int passivegold;
+            public int passivepower;
+            public int passivemb;
+            public int passivembhand;
         }
 
-        private IEnumerator tabber()
+        private IEnumerator tabberbase()
         {
-            //initcardpool();
-            //ShowCardsPayload payload = new ShowCardsPayload
-            //{
-            //    Name = "Game.Deck".Localize(true),
-            //    Description = "Cards.Show".Localize(true),
-            //    Cards = extradeck,
-            //    InteractionType = InteractionType.None,
-            //    CardZone = ShowCardZone.None
-            //};
-            //UiManager.GetPanel<ShowCardsPanel>().Show(payload);
+            var gamerun = GameMaster.Instance?.CurrentGameRun;
+            if (gamerun != null)
+            {
+                Exhibit exhibit = gamerun.Player.GetExhibit<mimab>();
+                if (exhibit != null)
+                {
+                    if (gamerun.Battle == null)
+                    {
+                        GameMaster.Instance.StartCoroutine(shopplugin.shopCoroutinePassive());
+                    }
+                    else
+                    {
+                        GameMaster.Instance.StartCoroutine(shopplugin.shopCoroutineBlitz());
+                    }
+                }
+            }
+            //GameMaster.Instance.StartCoroutine(tabber());
             yield break;
         }
     }

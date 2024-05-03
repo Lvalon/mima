@@ -8,26 +8,18 @@ using LBoLEntitySideloader;
 using LBoLEntitySideloader.Attributes;
 using LBoLEntitySideloader.Entities;
 using LBoLEntitySideloader.Resource;
-using Mono.Cecil;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using UnityEngine;
 using static lvalonmima.BepinexPlugin;
-using static lvalonmima.SE.karmanationdef;
 using static lvalonmima.SE.mburstmodifiers.accumulationdef;
 using static lvalonmima.SE.mburstmodifiers.fastburstdef;
-using static lvalonmima.SE.mburstmodifiers.retributiondef;
 using static lvalonmima.SE.mburstmodifiers.everlastingmagicdef;
 using static lvalonmima.SE.mburstmodifiers.concentratedburstdef;
 using static lvalonmima.SE.mburstmodifiers.splitburstdef;
 using LBoL.Core.Battle.BattleActions;
 using LBoL.Base.Extensions;
 using LBoL.Core.Units;
-using LBoL.EntityLib.StatusEffects.Enemy;
-using System.Linq;
-using LBoL.EntityLib.StatusEffects.Cirno;
-using static UnityEngine.TouchScreenKeyboard;
 using LBoL.EntityLib.StatusEffects.Neutral.TwoColor;
 using static lvalonmima.SE.extmpfiredef;
 
@@ -79,7 +71,6 @@ namespace lvalonmima.SE
         public sealed class magicalburst : mimaextensions.mimase
         {
             public int burstdmgshow { get { return (Battle == null) ? 0 : Convert.ToInt32(0); } }
-            bool accrealthisturn = false;
             bool dealdmgletsgo = false;
             int fireneeded = 0;
             int counterlost = 0;
@@ -191,7 +182,6 @@ namespace lvalonmima.SE
                 if (Owner.TryGetStatusEffect<accumulation>(out var accumulation))
                 {
                     accumulation.Level -= 1;
-                    accrealthisturn = true;
                     if (accumulation.Level == 0)
                     {
                         yield return new RemoveStatusEffectAction(accumulation, true);

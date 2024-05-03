@@ -1,30 +1,17 @@
 ﻿using LBoL.Base;
 using LBoL.ConfigData;
 using LBoL.Core.Battle;
-using LBoL.Core.Cards;
 using LBoL.Core;
-using LBoL.Core.StatusEffects;
 using LBoLEntitySideloader;
 using LBoLEntitySideloader.Attributes;
 using LBoLEntitySideloader.Entities;
 using LBoLEntitySideloader.Resource;
-using Mono.Cecil;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using UnityEngine;
 using static lvalonmima.BepinexPlugin;
-using static lvalonmima.SE.karmanationdef;
-using static lvalonmima.SE.magicalburstdef;
 using static lvalonmima.SE.mburstmodifiers.everlastingmagicdef;
 using LBoL.Core.Battle.BattleActions;
-using LBoL.Base.Extensions;
 using LBoL.Core.Units;
-using LBoL.EntityLib.StatusEffects.Enemy;
-using LBoL.EntityLib.StatusEffects.Koishi;
-using static UnityEngine.GraphicsBuffer;
-using System.Linq;
-using static lvalonmima.SE.mburstmodifiers.retributiondef;
 
 namespace lvalonmima.SE.mburstmodifiers
 {

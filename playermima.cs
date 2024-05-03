@@ -1,7 +1,5 @@
 ﻿using LBoLEntitySideloader.Entities;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using LBoLEntitySideloader;
 using static lvalonmima.BepinexPlugin;
 using LBoLEntitySideloader.Resource;
@@ -11,19 +9,6 @@ using LBoL.Core.Units;
 using LBoLEntitySideloader.Attributes;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
-using LBoL.Core;
-using LBoL.EntityLib.EnemyUnits.Character;
-using LBoL.EntityLib.EnemyUnits.Normal;
-using LBoL.EntityLib.StatusEffects.Basic;
-using System.Xml.Linq;
-using UnityEngine.InputSystem.HID;
-using LBoL.Base;
-using HarmonyLib;
-using LBoL.EntityLib.EnemyUnits.Lore;
-using LBoL.Core.Battle.BattleActions;
-using LBoL.Core.Battle;
-using LBoL.Core.StatusEffects;
-using static lvalonmima.NotRelics.mimabdef;
 
 namespace lvalonmima
 {

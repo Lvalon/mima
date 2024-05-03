@@ -9,15 +9,9 @@ using LBoL.Core.Battle.BattleActions;
 using LBoL.Core.Battle;
 using LBoL.Core.Cards;
 using LBoL.Core.Units;
-using Mono.Cecil;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using UnityEngine;
 using static lvalonmima.BepinexPlugin;
-using static lvalonmima.SE.evilspiritdef;
-using Unity.IO.LowLevel.Unsafe;
-using System.Collections;
 
 namespace lvalonmima
 {
