@@ -17,35 +17,7 @@ namespace lvalonmima
             public bool ispassive { get; set; } = false;
             public bool ismonster { get; set; } = false;
             public bool isblitz { get; set; } = false;
-            static mimacard()
-            {
-                List<string> passivelist = new List<string> {
-                    nameof(cardpassivegolddef.cardpassivegold),
-                    nameof(cardpassivepowerdef.cardpassivepower),
-                    nameof(cardpassivembdef.cardpassivemb),
-                    nameof(cardpassivembhanddef.cardpassivembhand)
-                };
-                mimacard.passivecards = passivelist;
-
-                List<string> monsterlist = new List<string> {
-                    "cardmonstercardo"
-                };
-                mimacard.monstercards = monsterlist;
-
-                List<string> blitzlist = new List<string> {
-                    "cardblitzcard"
-                };
-                mimacard.blitzcards = blitzlist;
-
-                List<String> bmlist = new List<string> {
-                    "cardbm"
-                };
-                mimacard.bmcards = bmlist;
-            }
-            public static readonly List<string> passivecards;
-            public static readonly List<string> monstercards;
-            public static readonly List<string> blitzcards;
-            public static readonly List<string> bmcards;
+            public bool isbm { get; set; } = false;
         }
         public abstract class mimaoptioncard : OptionCard
         {

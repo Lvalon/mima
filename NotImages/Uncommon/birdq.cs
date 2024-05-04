@@ -8,8 +8,6 @@ using LBoLEntitySideloader.Attributes;
 using LBoLEntitySideloader.Entities;
 using LBoLEntitySideloader.Resource;
 using System.Collections.Generic;
-using static lvalonmima.BepinexPlugin;
-using static lvalonmima.SE.mburstmodifiers.accumulationdef;
 
 namespace lvalonmima.NotImages.Uncommon
 {
@@ -22,17 +20,20 @@ namespace lvalonmima.NotImages.Uncommon
 
         public override CardImages LoadCardImages()
         {
-            var imgs = new CardImages(embeddedSource);
+            CardImages imgs = new CardImages(BepinexPlugin.embeddedSource);
             imgs.AutoLoad(this, extension: ".png");
             return imgs;
         }
 
-        public override LocalizationOption LoadLocalization() => cardbatchloc.AddEntity(this);
+        public override LocalizationOption LoadLocalization()
+        {
+            return BepinexPlugin.cardbatchloc.AddEntity(this);
+        }
 
         public override CardConfig MakeConfig()
         {
-            var cardConfig = new CardConfig(
-               Index: sequenceTable.Next(typeof(CardConfig)),
+            CardConfig cardConfig = new CardConfig(
+               Index: BepinexPlugin.sequenceTable.Next(typeof(CardConfig)),
                Id: "",
                Order: 10,
                AutoPerform: true,
@@ -83,8 +84,8 @@ namespace lvalonmima.NotImages.Uncommon
                RelativeKeyword: Keyword.None,
                UpgradedRelativeKeyword: Keyword.None,
 
-               RelativeEffects: new List<string>() { "accumulation" },
-               UpgradedRelativeEffects: new List<string>() { "accumulation" },
+               RelativeEffects: new List<string>() { nameof(SE.mburstmodifiers.accumulationdef.accumulation) },
+               UpgradedRelativeEffects: new List<string>() { nameof(SE.mburstmodifiers.accumulationdef.accumulation) },
                RelativeCards: new List<string>() { },
                UpgradedRelativeCards: new List<string>() { },
                Owner: "Mima",
@@ -100,48 +101,11 @@ namespace lvalonmima.NotImages.Uncommon
         [EntityLogic(typeof(cardbirdqdef))]
         public sealed class cardbirdq : mimaextensions.mimacard
         {
-            //public override bool DiscardCard
-            //{
-            //    get
-            //    {
-            //        return true;
-            //    }
-            //}
-            //public override Interaction Precondition()
-            //{
-            //    List<Card> list = (from hand in base.Battle.HandZone
-            //                       where hand != this
-            //                       select hand).ToList<Card>();
-            //    if (list.Count <= base.Value1)
-            //    {
-            //        this.allHand = list;
-            //    }
-            //    if (list.Count <= base.Value1)
-            //    {
-            //        return null;
-            //    }
-            //    return new SelectHandInteraction(base.Value1, base.Value1, list);
-            //}
             protected override IEnumerable<BattleAction> Actions(UnitSelector selector, ManaGroup consumingMana, Interaction precondition)
             {
-                //if (precondition != null)
-                //{
-                //    IReadOnlyList<Card> selectedCards = ((SelectHandInteraction)precondition).SelectedCards;
-                //    if (selectedCards != null)
-                //    {
-                //        yield return new DiscardManyAction(selectedCards);
-                //    }
-                //}
-                //else if (this.allHand.Count > 0)
-                //{
-                //    yield return new DiscardManyAction(this.allHand);
-                //    this.allHand = null;
-                //}
                 yield return new DrawManyCardAction(Value1);
-                //yield return new AddCardsToDrawZoneAction(Library.CreateCards<cardpurediamond>(Value2, false), DrawZoneTarget.Random, AddCardsType.Normal);
-                yield return BuffAction<accumulation>(Value2, 0, 0, 0, 0.2f);
+                yield return BuffAction<SE.mburstmodifiers.accumulationdef.accumulation>(Value2, 0, 0, 0, 0.2f);
             }
-            //private List<Card> allHand;
         }
     }
 }

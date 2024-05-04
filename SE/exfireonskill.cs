@@ -8,11 +8,9 @@ using LBoLEntitySideloader.Entities;
 using LBoLEntitySideloader.Resource;
 using System.Collections.Generic;
 using UnityEngine;
-using static lvalonmima.BepinexPlugin;
 using LBoL.Core.Battle.BattleActions;
 using LBoL.Core.Units;
 using LBoL.EntityLib.StatusEffects.ExtraTurn;
-using static lvalonmima.SE.extmpfiredef;
 
 namespace lvalonmima.SE
 {
@@ -23,17 +21,20 @@ namespace lvalonmima.SE
             return nameof(exfireonskill);
         }
 
-        public override LocalizationOption LoadLocalization() => sebatchloc.AddEntity(this);
+        public override LocalizationOption LoadLocalization()
+        {
+            return BepinexPlugin.sebatchloc.AddEntity(this);
+        }
 
         public override Sprite LoadSprite()
         {
-            return ResourceLoader.LoadSprite("seexfireonskill.png", embeddedSource);
+            return ResourceLoader.LoadSprite("seexfireonskill.png", BepinexPlugin.embeddedSource);
         }
 
         public override StatusEffectConfig MakeConfig()
         {
-            var statusEffectConfig = new StatusEffectConfig(
-                Index: sequenceTable.Next(typeof(CardConfig)),
+            StatusEffectConfig statusEffectConfig = new StatusEffectConfig(
+                Index: BepinexPlugin.sequenceTable.Next(typeof(CardConfig)),
                 Id: "",
                 Order: 1,
                 Type: StatusEffectType.Special,
@@ -50,7 +51,7 @@ namespace lvalonmima.SE
                 LimitStackType: StackType.Keep,
                 ShowPlusByLimit: false,
                 Keywords: Keyword.None,
-                RelativeEffects: new List<string>() { nameof(extmpfire) },
+                RelativeEffects: new List<string>() { nameof(extmpfiredef.extmpfire) },
                 VFX: "Default",
                 VFXloop: "Default",
                 SFX: "Default"
@@ -63,31 +64,31 @@ namespace lvalonmima.SE
         {
             protected override void OnAdded(Unit unit)
             {
-                base.ThisTurnActivating = false;
-                base.HandleOwnerEvent<UnitEventArgs>(base.Battle.Player.TurnStarting, delegate (UnitEventArgs _)
+                ThisTurnActivating = false;
+                HandleOwnerEvent(Battle.Player.TurnStarting, delegate (UnitEventArgs _)
                 {
-                    if (base.Battle.Player.IsExtraTurn && !base.Battle.Player.IsSuperExtraTurn && base.Battle.Player.GetStatusEffectExtend<ExtraTurnPartner>() == this)
+                    if (Battle.Player.IsExtraTurn && !Battle.Player.IsSuperExtraTurn && Battle.Player.GetStatusEffectExtend<ExtraTurnPartner>() == this)
                     {
-                        base.ThisTurnActivating = true;
+                        ThisTurnActivating = true;
                     }
                 });
-                base.ReactOwnerEvent<CardUsingEventArgs>(base.Battle.CardUsed, new EventSequencedReactor<CardUsingEventArgs>(this.OnCardUsed));
+                ReactOwnerEvent(Battle.CardUsed, new EventSequencedReactor<CardUsingEventArgs>(OnCardUsed));
                 ReactOwnerEvent(Battle.Player.TurnEnding, new EventSequencedReactor<GameEventArgs>(OnPlayerTurnEnding));
             }
 
             private IEnumerable<BattleAction> OnCardUsed(CardUsingEventArgs args)
             {
-                if (args.Card.CardType == CardType.Skill && base.ThisTurnActivating)
+                if (args.Card.CardType == CardType.Skill && ThisTurnActivating)
                 {
                     NotifyActivating();
-                    yield return new ApplyStatusEffectAction<extmpfire>(base.Owner, new int?(base.Level), null, null, null, 0.2f, true);
+                    yield return new ApplyStatusEffectAction<extmpfiredef.extmpfire>(Owner, new int?(Level), null, null, null, 0.2f, true);
                 }
                 yield break;
             }
 
             private IEnumerable<BattleAction> OnPlayerTurnEnding(GameEventArgs args)
             {
-                if (base.ThisTurnActivating)
+                if (ThisTurnActivating)
                 {
                     NotifyActivating();
                     yield return new RemoveStatusEffectAction(this, true);

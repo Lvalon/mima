@@ -11,7 +11,6 @@ using LBoLEntitySideloader.Entities;
 using LBoLEntitySideloader.Resource;
 using System.Collections.Generic;
 using System.Linq;
-using static lvalonmima.BepinexPlugin;
 using LBoL.Core.Randoms;
 
 namespace lvalonmima.NotImages.Uncommon
@@ -25,17 +24,20 @@ namespace lvalonmima.NotImages.Uncommon
 
         public override CardImages LoadCardImages()
         {
-            var imgs = new CardImages(embeddedSource);
+            CardImages imgs = new CardImages(BepinexPlugin.embeddedSource);
             imgs.AutoLoad(this, extension: ".png");
             return imgs;
         }
 
-        public override LocalizationOption LoadLocalization() => cardbatchloc.AddEntity(this);
+        public override LocalizationOption LoadLocalization()
+        {
+            return BepinexPlugin.cardbatchloc.AddEntity(this);
+        }
 
         public override CardConfig MakeConfig()
         {
-            var cardConfig = new CardConfig(
-               Index: sequenceTable.Next(typeof(CardConfig)),
+            CardConfig cardConfig = new CardConfig(
+               Index: BepinexPlugin.sequenceTable.Next(typeof(CardConfig)),
                Id: "",
                Order: 10,
                AutoPerform: true,
@@ -106,15 +108,7 @@ namespace lvalonmima.NotImages.Uncommon
             protected override IEnumerable<BattleAction> Actions(UnitSelector selector, ManaGroup consumingMana, Interaction precondition)
             {
                 List<Card> list = new List<Card>();
-                //List<Card> list = Battle.RollCards(new CardWeightTable(RarityWeightTable.AllOnes, OwnerWeightTable.AllOnes, CardTypeWeightTable.CanBeLoot), Value1, (CardConfig config) => config.Id != base.Id && (config.RelativeKeyword.HasFlag(Keyword.Instinct) || config.UpgradedRelativeKeyword.HasFlag(Keyword.Instinct) || config.Keywords.HasFlag(Keyword.Instinct) || config.UpgradedKeywords.HasFlag(Keyword.Instinct))).ToList();
-                //foreach (Card card in list)
-                //{
-                //    card.IsEthereal = true;
-                //    card.IsExile = true;
-                //}
-                //yield return new AddCardsToHandAction(list);
-                //yield return new GainManaAction(Mana);
-                list = Battle.RollCards(new CardWeightTable(RarityWeightTable.AllOnes, OwnerWeightTable.AllOnes, CardTypeWeightTable.CanBeLoot), Value1, (CardConfig config) => config.Id != base.Id && (config.RelativeKeyword.HasFlag(Keyword.Instinct) || config.UpgradedRelativeKeyword.HasFlag(Keyword.Instinct) || config.Keywords.HasFlag(Keyword.Instinct) || config.UpgradedKeywords.HasFlag(Keyword.Instinct))).ToList();
+                list = Battle.RollCards(new CardWeightTable(RarityWeightTable.AllOnes, OwnerWeightTable.AllOnes, CardTypeWeightTable.CanBeLoot), Value1, (CardConfig config) => config.Id != Id && (config.RelativeKeyword.HasFlag(Keyword.Instinct) || config.UpgradedRelativeKeyword.HasFlag(Keyword.Instinct) || config.Keywords.HasFlag(Keyword.Instinct) || config.UpgradedKeywords.HasFlag(Keyword.Instinct))).ToList();
                 SelectCardInteraction interaction = new SelectCardInteraction(Value2, Value2, list, SelectedCardHandling.DoNothing)
                 {
                     Source = this
@@ -128,7 +122,6 @@ namespace lvalonmima.NotImages.Uncommon
                     {
                         card.IsEthereal = true;
                         card.IsExile = true;
-                        //yield return new AddCardsToHandAction(card);
                     }
                     yield return new AddCardsToHandAction(selectedCards);
                 }

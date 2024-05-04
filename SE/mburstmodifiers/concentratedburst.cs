@@ -8,7 +8,6 @@ using LBoLEntitySideloader.Entities;
 using LBoLEntitySideloader.Resource;
 using System.Collections.Generic;
 using UnityEngine;
-using static lvalonmima.BepinexPlugin;
 using LBoL.Core.Units;
 
 namespace lvalonmima.SE.mburstmodifiers
@@ -20,17 +19,20 @@ namespace lvalonmima.SE.mburstmodifiers
             return nameof(concentratedburst);
         }
 
-        public override LocalizationOption LoadLocalization() => sebatchloc.AddEntity(this);
+        public override LocalizationOption LoadLocalization()
+        {
+            return BepinexPlugin.sebatchloc.AddEntity(this);
+        }
 
         public override Sprite LoadSprite()
         {
-            return ResourceLoader.LoadSprite("seconcentratedburst.png", embeddedSource);
+            return ResourceLoader.LoadSprite("seconcentratedburst.png", BepinexPlugin.embeddedSource);
         }
 
         public override StatusEffectConfig MakeConfig()
         {
-            var statusEffectConfig = new StatusEffectConfig(
-                Index: sequenceTable.Next(typeof(CardConfig)),
+            StatusEffectConfig statusEffectConfig = new StatusEffectConfig(
+                Index: BepinexPlugin.sequenceTable.Next(typeof(CardConfig)),
                 Id: "",
                 Order: 1,
                 Type: StatusEffectType.Special,
@@ -47,7 +49,7 @@ namespace lvalonmima.SE.mburstmodifiers
                 LimitStackType: StackType.Keep,
                 ShowPlusByLimit: false,
                 Keywords: Keyword.None,
-                RelativeEffects: new List<string>() { "magicalburst" },
+                RelativeEffects: new List<string>() { nameof(magicalburstdef.magicalburst) },
                 VFX: "Default",
                 VFXloop: "Default",
                 SFX: "Default"
@@ -63,31 +65,25 @@ namespace lvalonmima.SE.mburstmodifiers
                 isMBmod = true;
                 truecounter = 0;
             }
-            int enemycount = 0;
+
+            private int enemycount = 0;
             //set up triggers to give a fuck on
             //also vfx/sfx
             //they worked
             protected override void OnAdded(Unit unit)
             {
-                foreach (Unit target in base.Battle.AllAliveEnemies)
+                foreach (Unit target in Battle.AllAliveEnemies)
                 {
-                        enemycount++;
+                    enemycount++;
                 }
-                ReactOwnerEvent(base.Battle.EnemyDied, new EventSequencedReactor<DieEventArgs>(this.OnEnemyDied));
+                ReactOwnerEvent(Battle.EnemyDied, new EventSequencedReactor<DieEventArgs>(OnEnemyDied));
             }
-            public int showenemycount
-            {
-                get
-                {
-                    if (base.Battle == null) { return 1; }
-                    else { return enemycount; }
-                }
-            }
+            public int showenemycount => Battle == null ? 1 : enemycount;
             private IEnumerable<BattleAction> OnEnemyDied(DieEventArgs arg)
             {
-                base.NotifyChanged();
+                NotifyChanged();
                 enemycount = 0;
-                foreach (Unit target in base.Battle.AllAliveEnemies)
+                foreach (Unit target in Battle.AllAliveEnemies)
                 {
                     enemycount++;
                 }

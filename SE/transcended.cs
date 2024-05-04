@@ -8,7 +8,6 @@ using LBoLEntitySideloader.Entities;
 using LBoLEntitySideloader.Resource;
 using System.Collections.Generic;
 using UnityEngine;
-using static lvalonmima.BepinexPlugin;
 using LBoL.Core.Battle.BattleActions;
 using LBoL.Core.Units;
 
@@ -21,17 +20,20 @@ namespace lvalonmima.SE
             return nameof(transcended);
         }
 
-        public override LocalizationOption LoadLocalization() => sebatchloc.AddEntity(this);
+        public override LocalizationOption LoadLocalization()
+        {
+            return BepinexPlugin.sebatchloc.AddEntity(this);
+        }
 
         public override Sprite LoadSprite()
         {
-            return ResourceLoader.LoadSprite("setranscended.png", embeddedSource);
+            return ResourceLoader.LoadSprite("setranscended.png", BepinexPlugin.embeddedSource);
         }
 
         public override StatusEffectConfig MakeConfig()
         {
-            var statusEffectConfig = new StatusEffectConfig(
-                Index: sequenceTable.Next(typeof(CardConfig)),
+            StatusEffectConfig statusEffectConfig = new StatusEffectConfig(
+                Index: BepinexPlugin.sequenceTable.Next(typeof(CardConfig)),
                 Id: "",
                 Order: 1,
                 Type: StatusEffectType.Special,
@@ -59,19 +61,14 @@ namespace lvalonmima.SE
         [EntityLogic(typeof(transcendeddef))]
         public sealed class transcended : mimaextensions.mimase
         {
-            public ManaGroup Mana
-            {
-                get
-                {
-                    return ManaGroup.Philosophies(1);
-                }
-            }
-            int cardused = 0;
+            public ManaGroup Mana => ManaGroup.Philosophies(1);
+
+            private int cardused = 0;
             //set up triggers to give a fuck on
             //they worked
             protected override void OnAdded(Unit unit)
             {
-                base.ReactOwnerEvent<CardUsingEventArgs>(base.Battle.CardUsed, new EventSequencedReactor<CardUsingEventArgs>(this.OnCardUsed));
+                ReactOwnerEvent(Battle.CardUsed, new EventSequencedReactor<CardUsingEventArgs>(OnCardUsed));
                 ReactOwnerEvent(Battle.RoundEnding, new EventSequencedReactor<GameEventArgs>(OnRoundEnding));
 
                 React(PerformAction.Effect(unit, "JingHua", 0f, "", 0f, PerformAction.EffectBehavior.PlayOneShot, 0f));

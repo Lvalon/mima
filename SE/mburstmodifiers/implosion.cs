@@ -8,7 +8,6 @@ using LBoLEntitySideloader.Entities;
 using LBoLEntitySideloader.Resource;
 using System.Collections.Generic;
 using UnityEngine;
-using static lvalonmima.BepinexPlugin;
 using LBoL.Core.Battle.BattleActions;
 using LBoL.Core.Units;
 
@@ -21,17 +20,20 @@ namespace lvalonmima.SE.mburstmodifiers
             return nameof(implosion);
         }
 
-        public override LocalizationOption LoadLocalization() => sebatchloc.AddEntity(this);
+        public override LocalizationOption LoadLocalization()
+        {
+            return BepinexPlugin.sebatchloc.AddEntity(this);
+        }
 
         public override Sprite LoadSprite()
         {
-            return ResourceLoader.LoadSprite("seimplosion.png", embeddedSource);
+            return ResourceLoader.LoadSprite("seimplosion.png", BepinexPlugin.embeddedSource);
         }
 
         public override StatusEffectConfig MakeConfig()
         {
-            var statusEffectConfig = new StatusEffectConfig(
-                Index: sequenceTable.Next(typeof(CardConfig)),
+            StatusEffectConfig statusEffectConfig = new StatusEffectConfig(
+                Index: BepinexPlugin.sequenceTable.Next(typeof(CardConfig)),
                 Id: "",
                 Order: 1,
                 Type: StatusEffectType.Special,
@@ -48,7 +50,7 @@ namespace lvalonmima.SE.mburstmodifiers
                 LimitStackType: StackType.Keep,
                 ShowPlusByLimit: false,
                 Keywords: Keyword.None,
-                RelativeEffects: new List<string>() { "magicalburst" },
+                RelativeEffects: new List<string>() { nameof(magicalburstdef.magicalburst) },
                 VFX: "Default",
                 VFXloop: "Default",
                 SFX: "Default"
@@ -65,11 +67,11 @@ namespace lvalonmima.SE.mburstmodifiers
             }
             protected override void OnAdded(Unit unit)
             {
-                ReactOwnerEvent(Owner.DamageDealt, new EventSequencedReactor<DamageEventArgs>(this.OnDamageDealt));
+                ReactOwnerEvent(Owner.DamageDealt, new EventSequencedReactor<DamageEventArgs>(OnDamageDealt));
             }
             private IEnumerable<BattleAction> OnDamageDealt(DamageEventArgs args)
             {
-                if (base.Battle.BattleShouldEnd)
+                if (Battle.BattleShouldEnd)
                 {
                     yield break;
                 }
@@ -78,7 +80,7 @@ namespace lvalonmima.SE.mburstmodifiers
                     DamageInfo damageInfo = args.DamageInfo;
                     if (args.ActionSource.Id == "magicalburst" && damageInfo.Damage > 0f)
                     {
-                        base.NotifyActivating();
+                        NotifyActivating();
                         yield return DamageAction.LoseLife(args.Target, (int)(args.DamageInfo.Damage * Level), "Cold2");
                     }
                 }

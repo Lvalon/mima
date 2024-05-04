@@ -8,9 +8,6 @@ using LBoLEntitySideloader.Attributes;
 using LBoLEntitySideloader.Entities;
 using LBoLEntitySideloader.Resource;
 using System.Collections.Generic;
-using static lvalonmima.BepinexPlugin;
-using static lvalonmima.NotImages.Rare.cardpurediamonddef;
-using static lvalonmima.SE.magicalburstdef;
 
 namespace lvalonmima.NotImages.Starter
 {
@@ -23,17 +20,20 @@ namespace lvalonmima.NotImages.Starter
 
         public override CardImages LoadCardImages()
         {
-            var imgs = new CardImages(embeddedSource);
+            CardImages imgs = new CardImages(BepinexPlugin.embeddedSource);
             imgs.AutoLoad(this, extension: ".png");
             return imgs;
         }
 
-        public override LocalizationOption LoadLocalization() => cardbatchloc.AddEntity(this);
+        public override LocalizationOption LoadLocalization()
+        {
+            return BepinexPlugin.cardbatchloc.AddEntity(this);
+        }
 
         public override CardConfig MakeConfig()
         {
-            var cardConfig = new CardConfig(
-               Index: sequenceTable.Next(typeof(CardConfig)),
+            CardConfig cardConfig = new CardConfig(
+               Index: BepinexPlugin.sequenceTable.Next(typeof(CardConfig)),
                Id: "",
                Order: 10,
                AutoPerform: true,
@@ -84,10 +84,10 @@ namespace lvalonmima.NotImages.Starter
                RelativeKeyword: Keyword.None,
                UpgradedRelativeKeyword: Keyword.None,
 
-               RelativeEffects: new List<string>() { nameof(magicalburst) },
-               UpgradedRelativeEffects: new List<string>() { nameof(magicalburst) },
-               RelativeCards: new List<string>() { "cardpurediamond" },
-               UpgradedRelativeCards: new List<string>() { "cardpurediamond" },
+               RelativeEffects: new List<string>() { nameof(SE.magicalburstdef.magicalburst) },
+               UpgradedRelativeEffects: new List<string>() { nameof(SE.magicalburstdef.magicalburst) },
+               RelativeCards: new List<string>() { nameof(Rare.cardpurediamonddef.cardpurediamond) },
+               UpgradedRelativeCards: new List<string>() { nameof(Rare.cardpurediamonddef.cardpurediamond) },
                Owner: "Mima",
                ImageId: "",
                UpgradeImageId: "",
@@ -103,8 +103,8 @@ namespace lvalonmima.NotImages.Starter
         {
             protected override IEnumerable<BattleAction> Actions(UnitSelector selector, ManaGroup consumingMana, Interaction precondition)
             {
-                yield return new AddCardsToDrawZoneAction(Library.CreateCards<cardpurediamond>(Value1, false), DrawZoneTarget.Random, AddCardsType.Normal);
-                yield return BuffAction<magicalburst>(Value2, 0, 0, 0, 0.2f);
+                yield return new AddCardsToDrawZoneAction(Library.CreateCards<NotImages.Rare.cardpurediamonddef.cardpurediamond>(Value1, false), DrawZoneTarget.Random, AddCardsType.Normal);
+                yield return BuffAction<SE.magicalburstdef.magicalburst>(Value2, 0, 0, 0, 0.2f);
             }
         }
     }

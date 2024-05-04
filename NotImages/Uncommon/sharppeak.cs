@@ -11,8 +11,6 @@ using LBoLEntitySideloader.Entities;
 using LBoLEntitySideloader.Resource;
 using System.Collections.Generic;
 using System.Linq;
-using static lvalonmima.BepinexPlugin;
-using static lvalonmima.SE.magicalburstdef;
 
 namespace lvalonmima.NotImages.Uncommon
 {
@@ -25,17 +23,20 @@ namespace lvalonmima.NotImages.Uncommon
 
         public override CardImages LoadCardImages()
         {
-            var imgs = new CardImages(embeddedSource);
+            CardImages imgs = new CardImages(BepinexPlugin.embeddedSource);
             imgs.AutoLoad(this, extension: ".png");
             return imgs;
         }
 
-        public override LocalizationOption LoadLocalization() => cardbatchloc.AddEntity(this);
+        public override LocalizationOption LoadLocalization()
+        {
+            return BepinexPlugin.cardbatchloc.AddEntity(this);
+        }
 
         public override CardConfig MakeConfig()
         {
-            var cardConfig = new CardConfig(
-               Index: sequenceTable.Next(typeof(CardConfig)),
+            CardConfig cardConfig = new CardConfig(
+               Index: BepinexPlugin.sequenceTable.Next(typeof(CardConfig)),
                Id: "",
                Order: 10,
                AutoPerform: true,
@@ -103,15 +104,6 @@ namespace lvalonmima.NotImages.Uncommon
         [EntityLogic(typeof(cardsharppeakdef))]
         public sealed class cardsharppeak : mimaextensions.mimacard
         {
-            //public int Value3
-            //{
-            //    get
-            //    {
-            //        return 1;
-            //    }
-            //}
-            //public int Value3pct
-            //{ get { return 20; } }
             public override ManaGroup GetXCostFromPooled(ManaGroup pooledMana)
             {
                 return new ManaGroup
@@ -124,16 +116,15 @@ namespace lvalonmima.NotImages.Uncommon
             protected override IEnumerable<BattleAction> Actions(UnitSelector selector, ManaGroup consumingMana, Interaction precondition)
             {
                 ManaGroup manaGroup = ManaGroup.Empty;
-                yield return base.BuffAction<magicalburst>(base.SynergyAmount(consumingMana, ManaColor.Red, 1) * Value1, 0, 0, 0, 0.2f);
-                List<Card> list = (from card in base.Battle.HandZone
+                yield return BuffAction<SE.magicalburstdef.magicalburst>(SynergyAmount(consumingMana, ManaColor.Red, 1) * Value1, 0, 0, 0, 0.2f);
+                List<Card> list = (from card in Battle.HandZone
                                    where card.CanUpgradeAndPositive
-                                   select card).ToList<Card>().SampleManyOrAll(base.SynergyAmount(consumingMana, ManaColor.White, !IsUpgraded ? 2 : 1) * Value2, base.GameRun.BattleRng).ToList<Card>();
+                                   select card).ToList<Card>().SampleManyOrAll(SynergyAmount(consumingMana, ManaColor.White, !IsUpgraded ? 2 : 1) * Value2, GameRun.BattleRng).ToList<Card>();
                 if (list.Count > 0)
                 {
-                    base.NotifyActivating();
+                    NotifyActivating();
                     yield return new UpgradeCardsAction(list);
                 }
-                //yield return BuffAction<fastburst>(Value3, 0, 0, 0, 0.2f);
                 yield break;
             }
         }

@@ -7,9 +7,6 @@ using LBoLEntitySideloader.Attributes;
 using LBoLEntitySideloader.Entities;
 using LBoLEntitySideloader.Resource;
 using System.Collections.Generic;
-using static lvalonmima.BepinexPlugin;
-using static lvalonmima.SE.magicalburstdef;
-using static lvalonmima.SE.mburstmodifiers.everlastingmagicdef;
 
 namespace lvalonmima.NotImages.Rare
 {
@@ -22,17 +19,20 @@ namespace lvalonmima.NotImages.Rare
 
         public override CardImages LoadCardImages()
         {
-            var imgs = new CardImages(embeddedSource);
+            CardImages imgs = new CardImages(BepinexPlugin.embeddedSource);
             imgs.AutoLoad(this, extension: ".png");
             return imgs;
         }
 
-        public override LocalizationOption LoadLocalization() => cardbatchloc.AddEntity(this);
+        public override LocalizationOption LoadLocalization()
+        {
+            return BepinexPlugin.cardbatchloc.AddEntity(this);
+        }
 
         public override CardConfig MakeConfig()
         {
-            var cardConfig = new CardConfig(
-               Index: sequenceTable.Next(typeof(CardConfig)),
+            CardConfig cardConfig = new CardConfig(
+               Index: BepinexPlugin.sequenceTable.Next(typeof(CardConfig)),
                Id: "",
                Order: 10,
                AutoPerform: true,
@@ -83,8 +83,8 @@ namespace lvalonmima.NotImages.Rare
                RelativeKeyword: Keyword.None,
                UpgradedRelativeKeyword: Keyword.None,
 
-               RelativeEffects: new List<string>() { nameof(everlastingmagic) },
-               UpgradedRelativeEffects: new List<string>() { nameof(everlastingmagic) },
+               RelativeEffects: new List<string>() { nameof(SE.mburstmodifiers.everlastingmagicdef.everlastingmagic) },
+               UpgradedRelativeEffects: new List<string>() { nameof(SE.mburstmodifiers.everlastingmagicdef.everlastingmagic) },
                RelativeCards: new List<string>() { },
                UpgradedRelativeCards: new List<string>() { },
                Owner: "Mima",
@@ -100,17 +100,15 @@ namespace lvalonmima.NotImages.Rare
         [EntityLogic(typeof(cardwraitsothdef))]
         public sealed class cardwraitsoth : mimaextensions.mimacard
         {
-            //public int gainred { get { return (100 - (Value1 * 20)); } }
-            public int gainred { get { return (Value1 * 20); } }
+            public int gainred => (Value1 * 20);
             protected override IEnumerable<BattleAction> Actions(UnitSelector selector, ManaGroup consumingMana, Interaction precondition)
             {
-                if (Battle.Player.TryGetStatusEffect<magicalburst>(out var tmp) && tmp is mimaextensions.mimase magicalburst)
+                if (Battle.Player.TryGetStatusEffect<SE.magicalburstdef.magicalburst>(out SE.magicalburstdef.magicalburst tmp) && tmp is mimaextensions.mimase magicalburst)
                 {
                     magicalburst.truecounter = 0;
-                    yield return BuffAction<magicalburst>(0, 1, 0, 0, 0.2f);
+                    yield return BuffAction<SE.magicalburstdef.magicalburst>(0, 1, 0, 0, 0.2f);
                 }
-                yield return BuffAction<everlastingmagic>(Value1, 0, 0, 0, 0.2f);
-                //yield return BuffAction<evilspirit>(Value2, 0, 0, 0, 0.2f);
+                yield return BuffAction<SE.mburstmodifiers.everlastingmagicdef.everlastingmagic>(Value1, 0, 0, 0, 0.2f);
                 yield break;
             }
 

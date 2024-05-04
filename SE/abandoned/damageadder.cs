@@ -7,7 +7,6 @@ using LBoLEntitySideloader.Entities;
 using LBoLEntitySideloader.Resource;
 using System.Collections.Generic;
 using UnityEngine;
-using static lvalonmima.BepinexPlugin;
 using LBoL.Core.Units;
 
 namespace lvalonmima.SE.abandoned
@@ -19,17 +18,20 @@ namespace lvalonmima.SE.abandoned
             return nameof(damageadder);
         }
 
-        public override LocalizationOption LoadLocalization() => sebatchloc.AddEntity(this);
+        public override LocalizationOption LoadLocalization()
+        {
+            return BepinexPlugin.sebatchloc.AddEntity(this);
+        }
 
         public override Sprite LoadSprite()
         {
-            return ResourceLoader.LoadSprite("sedamageadder.png", embeddedSource);
+            return ResourceLoader.LoadSprite("sedamageadder.png", BepinexPlugin.embeddedSource);
         }
 
         public override StatusEffectConfig MakeConfig()
         {
-            var statusEffectConfig = new StatusEffectConfig(
-                Index: 0,
+            StatusEffectConfig statusEffectConfig = new StatusEffectConfig(
+                Index: BepinexPlugin.sequenceTable.Next(typeof(CardConfig)),
                 Id: "",
                 Order: 1,
                 Type: StatusEffectType.Special,
@@ -57,13 +59,7 @@ namespace lvalonmima.SE.abandoned
         [EntityLogic(typeof(damageadderdef))]
         public sealed class damageadder : StatusEffect
         {
-            public override bool ForceNotShowNumber
-            {
-                get
-                {
-                    return true;
-                }
-            }
+            public override bool ForceNotShowNumber => true;
             //set up triggers to give a fuck on
             //they worked
             protected override void OnAdded(Unit unit)

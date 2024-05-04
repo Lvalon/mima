@@ -7,9 +7,6 @@ using LBoLEntitySideloader.Attributes;
 using LBoLEntitySideloader.Entities;
 using LBoLEntitySideloader.Resource;
 using System.Collections.Generic;
-using static lvalonmima.BepinexPlugin;
-using static lvalonmima.SE.magicalburstdef;
-using static lvalonmima.SE.seshepherdgdef;
 
 namespace lvalonmima.NotImages.Uncommon
 {
@@ -22,17 +19,20 @@ namespace lvalonmima.NotImages.Uncommon
 
         public override CardImages LoadCardImages()
         {
-            var imgs = new CardImages(embeddedSource);
+            CardImages imgs = new CardImages(BepinexPlugin.embeddedSource);
             imgs.AutoLoad(this, extension: ".png");
             return imgs;
         }
 
-        public override LocalizationOption LoadLocalization() => cardbatchloc.AddEntity(this);
+        public override LocalizationOption LoadLocalization()
+        {
+            return BepinexPlugin.cardbatchloc.AddEntity(this);
+        }
 
         public override CardConfig MakeConfig()
         {
-            var cardConfig = new CardConfig(
-               Index: sequenceTable.Next(typeof(CardConfig)),
+            CardConfig cardConfig = new CardConfig(
+               Index: BepinexPlugin.sequenceTable.Next(typeof(CardConfig)),
                Id: "",
                Order: 10,
                AutoPerform: true,
@@ -83,8 +83,8 @@ namespace lvalonmima.NotImages.Uncommon
                RelativeKeyword: Keyword.Philosophy,
                UpgradedRelativeKeyword: Keyword.Philosophy,
 
-               RelativeEffects: new List<string>() { "magicalburst" },
-               UpgradedRelativeEffects: new List<string>() { "magicalburst" },
+               RelativeEffects: new List<string>() { nameof(SE.magicalburstdef.magicalburst) },
+               UpgradedRelativeEffects: new List<string>() { nameof(SE.magicalburstdef.magicalburst) },
                RelativeCards: new List<string>() { },
                UpgradedRelativeCards: new List<string>() { },
                Owner: "Mima",
@@ -102,9 +102,9 @@ namespace lvalonmima.NotImages.Uncommon
         {
             protected override IEnumerable<BattleAction> Actions(UnitSelector selector, ManaGroup consumingMana, Interaction precondition)
             {
-                yield return base.SacrificeAction(base.Value1);
-                yield return base.BuffAction<magicalburst>(Value2, 0, 0, 0, 0.2f);
-                yield return base.BuffAction<seshepherdg>(Value1, 0, 0, 0, 0.2f);
+                yield return SacrificeAction(Value1);
+                yield return BuffAction<SE.magicalburstdef.magicalburst>(Value2, 0, 0, 0, 0.2f);
+                yield return BuffAction<SE.seshepherdgdef.seshepherdg>(Value1, 0, 0, 0, 0.2f);
             }
         }
     }

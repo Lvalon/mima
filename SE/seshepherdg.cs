@@ -8,10 +8,8 @@ using LBoLEntitySideloader.Entities;
 using LBoLEntitySideloader.Resource;
 using System.Collections.Generic;
 using UnityEngine;
-using static lvalonmima.BepinexPlugin;
 using LBoL.Core.Battle.BattleActions;
 using LBoL.Core.Units;
-using static lvalonmima.SE.magicalburstdef;
 
 namespace lvalonmima.SE
 {
@@ -22,17 +20,20 @@ namespace lvalonmima.SE
             return nameof(seshepherdg);
         }
 
-        public override LocalizationOption LoadLocalization() => sebatchloc.AddEntity(this);
+        public override LocalizationOption LoadLocalization()
+        {
+            return BepinexPlugin.sebatchloc.AddEntity(this);
+        }
 
         public override Sprite LoadSprite()
         {
-            return ResourceLoader.LoadSprite("seshepherdg.png", embeddedSource);
+            return ResourceLoader.LoadSprite("seshepherdg.png", BepinexPlugin.embeddedSource);
         }
 
         public override StatusEffectConfig MakeConfig()
         {
-            var statusEffectConfig = new StatusEffectConfig(
-                Index: sequenceTable.Next(typeof(CardConfig)),
+            StatusEffectConfig statusEffectConfig = new StatusEffectConfig(
+                Index: BepinexPlugin.sequenceTable.Next(typeof(CardConfig)),
                 Id: "",
                 Order: 1,
                 Type: StatusEffectType.Positive,
@@ -49,7 +50,7 @@ namespace lvalonmima.SE
                 LimitStackType: StackType.Keep,
                 ShowPlusByLimit: false,
                 Keywords: Keyword.None,
-                RelativeEffects: new List<string>() { "magicalburst" },
+                RelativeEffects: new List<string>() { nameof(magicalburstdef.magicalburst) },
                 VFX: "Default",
                 VFXloop: "Default",
                 SFX: "Default"
@@ -62,17 +63,17 @@ namespace lvalonmima.SE
         {
             protected override void OnAdded(Unit unit)
             {
-                base.ReactOwnerEvent<UnitEventArgs>(base.Owner.TurnStarted, new EventSequencedReactor<UnitEventArgs>(this.OnTurnStarted));
+                ReactOwnerEvent(Owner.TurnStarted, new EventSequencedReactor<UnitEventArgs>(OnTurnStarted));
             }
             private IEnumerable<BattleAction> OnTurnStarted(UnitEventArgs args)
             {
-                if (base.Owner == null || base.Battle.BattleShouldEnd)
+                if (Owner == null || Battle.BattleShouldEnd)
                 {
                     yield break;
                 }
-                base.NotifyActivating();
-                yield return DamageAction.LoseLife(base.Owner, base.Level, "Poison");
-                yield return new ApplyStatusEffectAction<magicalburst>(base.Owner, new int?(base.Level), null, null, null, 0f, true);
+                NotifyActivating();
+                yield return DamageAction.LoseLife(Owner, Level, "Poison");
+                yield return new ApplyStatusEffectAction<magicalburstdef.magicalburst>(Owner, new int?(Level), null, null, null, 0f, true);
                 yield break;
             }
         }

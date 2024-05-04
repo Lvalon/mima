@@ -3,7 +3,7 @@ karmanation:
   Brief: "Deal 2 times the attack damage.\nEach extra Level doubles |Karmanation|'s effect."
   Name: Karmanation
 evilspirit:
-  Description: "|p:Only the evilest of beings can embrace the intrusive power of an evil spirit.|\nDeal |l:25%| attack damage. Whenever {OwnerName} is defeated, heal to maximum life, then gain |Karmanation| and once per round, |Evil Spirit|.\nAt the end of each round, lose 1 |Evil Spirit|.\nIf {OwnerName} loses all |Evil Spirit|, they lose the game.\nFully heal after each combat."
+  Description: "|p:Only the evilest of beings can embrace the intrusive power of an evil spirit.|\nDeal |l:25%| attack damage. Whenever {OwnerName} is defeated, heal to maximum life, then gain |Karmanation|, |Grudge Tolerance| and once per round, |Evil Spirit|.\nAt the end of each round, lose 1 |Evil Spirit|.\nIf {OwnerName} loses all |Evil Spirit|, they lose the game.\nFully heal after each combat."
   Brief: "Deal |l:25%| attack damage. When defeated, heal to maximum life, then gain |Karmanation| and once per round, |Evil Spirit|.\nAt the end of each round, lose 1 |Evil Spirit|.\nLose the game on losing all levels.\nFully heal after each combat."
   Name: Evil Spirit
 transcended:
@@ -80,6 +80,10 @@ sedawntime:
   ExtraDescription: "Skip the card drawing phase of turn starting.\nRemove all cards in hand from combat.\nAdd {Level} {OwnerName} card{Level:plural one='' other='s'} to hand that {Level:plural one='has' other='have'} |Exile| and |Ethereal| instead.\nUntil end of turn, {OwnerName} takes and deal no damage, cards cost {Mana}, cannot gain mana or draw cards.\n{SelfName} is inactive and will only be removed after the turn it resolves."
   Brief: "At the start the turn, remove the hand from combat, add some random {OwnerName} cards to the hand, they have |Exile| and |Ethereal|.\n{OwnerName} takes and deals no damage, cards cost {Mana}, cannot gain mana or draw cards until end of turn."
   Name: Dawn of Time
+grudgetol:
+  Description: "Only lose |n:1/{loselife}| of original life.\nEach extra level doubles Grudge Tolerance's effect.\nAt the end of each round in which {OwnerName} did not gain |Karmanation| while having {SelfName}, lose 1 |Grudge Tolerance|.\n|d:Stops doubling effect after 27 levels.|"
+  Brief: "Only lose |n:1/2| of original life.\nEach extra level doubles Grudge Tolerance's effect.\nAt the end of each round in which {OwnerName} did not gain |Karmanation| while having {SelfName}, lose 1 |Grudge Tolerance|."
+  Name: Grudge Tolerance
 sepassive:
   Description: "When a |Passive| card is added to the library, it will apply its passive effects on the player, then removes itself from the library."
   Brief: "When a |Passive| card is added to the library, it will apply its passive effects on the player, then removes itself from the library."

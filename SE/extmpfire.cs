@@ -9,7 +9,6 @@ using LBoLEntitySideloader.Entities;
 using LBoLEntitySideloader.Resource;
 using System.Collections.Generic;
 using UnityEngine;
-using static lvalonmima.BepinexPlugin;
 using LBoL.Core.Battle.BattleActions;
 using LBoL.Core.Units;
 
@@ -22,17 +21,20 @@ namespace lvalonmima.SE
             return nameof(extmpfire);
         }
 
-        public override LocalizationOption LoadLocalization() => sebatchloc.AddEntity(this);
+        public override LocalizationOption LoadLocalization()
+        {
+            return BepinexPlugin.sebatchloc.AddEntity(this);
+        }
 
         public override Sprite LoadSprite()
         {
-            return ResourceLoader.LoadSprite("seextmpfire.png", embeddedSource);
+            return ResourceLoader.LoadSprite("seextmpfire.png", BepinexPlugin.embeddedSource);
         }
 
         public override StatusEffectConfig MakeConfig()
         {
-            var statusEffectConfig = new StatusEffectConfig(
-                Index: 0,
+            StatusEffectConfig statusEffectConfig = new StatusEffectConfig(
+                Index: BepinexPlugin.sequenceTable.Next(typeof(CardConfig)),
                 Id: "",
                 Order: 3,
                 Type: StatusEffectType.Positive,
@@ -64,14 +66,14 @@ namespace lvalonmima.SE
             //they worked
             protected override void OnAdded(Unit unit)
             {
-                base.HandleOwnerEvent<DamageDealingEventArgs>(unit.DamageDealing, new GameEventHandler<DamageDealingEventArgs>(this.OnDamageDealing));
+                HandleOwnerEvent(unit.DamageDealing, new GameEventHandler<DamageDealingEventArgs>(OnDamageDealing));
                 ReactOwnerEvent(Battle.RoundEnded, new EventSequencedReactor<GameEventArgs>(OnRoundEnded));
             }
             private void OnDamageDealing(DamageDealingEventArgs args)
             {
                 if (args.DamageInfo.DamageType == DamageType.Attack)
                 {
-                    args.DamageInfo = args.DamageInfo.IncreaseBy(base.Level);
+                    args.DamageInfo = args.DamageInfo.IncreaseBy(Level);
                     args.AddModifier(this);
                 }
             }

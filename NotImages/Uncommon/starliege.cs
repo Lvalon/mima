@@ -10,8 +10,6 @@ using LBoLEntitySideloader.Entities;
 using LBoLEntitySideloader.Resource;
 using System.Collections.Generic;
 using System.Linq;
-using static lvalonmima.BepinexPlugin;
-using static lvalonmima.SE.extmpfiredef;
 
 namespace lvalonmima.NotImages.Uncommon
 {
@@ -24,17 +22,20 @@ namespace lvalonmima.NotImages.Uncommon
 
         public override CardImages LoadCardImages()
         {
-            var imgs = new CardImages(embeddedSource);
+            CardImages imgs = new CardImages(BepinexPlugin.embeddedSource);
             imgs.AutoLoad(this, extension: ".png");
             return imgs;
         }
 
-        public override LocalizationOption LoadLocalization() => cardbatchloc.AddEntity(this);
+        public override LocalizationOption LoadLocalization()
+        {
+            return BepinexPlugin.cardbatchloc.AddEntity(this);
+        }
 
         public override CardConfig MakeConfig()
         {
-            var cardConfig = new CardConfig(
-               Index: sequenceTable.Next(typeof(CardConfig)),
+            CardConfig cardConfig = new CardConfig(
+               Index: BepinexPlugin.sequenceTable.Next(typeof(CardConfig)),
                Id: "",
                Order: 10,
                AutoPerform: true,
@@ -85,8 +86,8 @@ namespace lvalonmima.NotImages.Uncommon
                RelativeKeyword: Keyword.Echo,
                UpgradedRelativeKeyword: Keyword.Echo,
 
-               RelativeEffects: new List<string>() { "extmpfire" },
-               UpgradedRelativeEffects: new List<string>() { "extmpfire" },
+               RelativeEffects: new List<string>() { nameof(SE.extmpfiredef.extmpfire) },
+               UpgradedRelativeEffects: new List<string>() { nameof(SE.extmpfiredef.extmpfire) },
                RelativeCards: new List<string>() { },
                UpgradedRelativeCards: new List<string>() { },
                Owner: "Mima",
@@ -104,32 +105,19 @@ namespace lvalonmima.NotImages.Uncommon
         {
             protected override IEnumerable<BattleAction> Actions(UnitSelector selector, ManaGroup consumingMana, Interaction precondition)
             {
-                yield return base.BuffAction<extmpfire>(base.Value1, 0, 0, 0, 0.2f);
-                List<Card> list = (from card in base.Battle.HandZone
+                yield return BuffAction<SE.extmpfiredef.extmpfire>(Value1, 0, 0, 0, 0.2f);
+                List<Card> list = (from card in Battle.HandZone
                                    where !card.IsEcho && !card.IsCopy && !card.IsForbidden && card.CardType != CardType.Tool && card.CardType != CardType.Status && card.CardType != CardType.Misfortune
                                    select card).ToList<Card>();
                 if (list.Count > 0)
                 {
-                    foreach (Card card2 in list.SampleManyOrAll(base.Value2, base.BattleRng))
+                    foreach (Card card2 in list.SampleManyOrAll(Value2, BattleRng))
                     {
                         card2.NotifyActivating();
                         card2.IsEcho = true;
                     }
                 }
                 yield break;
-
-                //using (IEnumerator<Card> enumerator = (from card in base.Battle.HandZone
-                //                                       where !card.IsEcho && !card.IsCopy
-                //                                       select card).GetEnumerator())
-                //{
-                //    while (enumerator.MoveNext())
-                //    {
-                //        Card card2 = enumerator.Current;
-                //        card2.NotifyActivating();
-                //        card2.IsEcho = true;
-                //    }
-                //    yield break;
-                //}
             }
         }
     }

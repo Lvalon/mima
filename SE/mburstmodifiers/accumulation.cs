@@ -8,8 +8,6 @@ using LBoLEntitySideloader.Entities;
 using LBoLEntitySideloader.Resource;
 using System.Collections.Generic;
 using UnityEngine;
-using static lvalonmima.BepinexPlugin;
-using static lvalonmima.SE.mburstmodifiers.everlastingmagicdef;
 using LBoL.Core.Battle.BattleActions;
 using LBoL.Core.Units;
 
@@ -22,17 +20,20 @@ namespace lvalonmima.SE.mburstmodifiers
             return nameof(accumulation);
         }
 
-        public override LocalizationOption LoadLocalization() => sebatchloc.AddEntity(this);
+        public override LocalizationOption LoadLocalization()
+        {
+            return BepinexPlugin.sebatchloc.AddEntity(this);
+        }
 
         public override Sprite LoadSprite()
         {
-            return ResourceLoader.LoadSprite("seaccumulation.png", embeddedSource);
+            return ResourceLoader.LoadSprite("seaccumulation.png", BepinexPlugin.embeddedSource);
         }
 
         public override StatusEffectConfig MakeConfig()
         {
-            var statusEffectConfig = new StatusEffectConfig(
-                Index: sequenceTable.Next(typeof(CardConfig)),
+            StatusEffectConfig statusEffectConfig = new StatusEffectConfig(
+                Index: BepinexPlugin.sequenceTable.Next(typeof(CardConfig)),
                 Id: "",
                 Order: 1,
                 Type: StatusEffectType.Special,
@@ -49,7 +50,7 @@ namespace lvalonmima.SE.mburstmodifiers
                 LimitStackType: StackType.Keep,
                 ShowPlusByLimit: false,
                 Keywords: Keyword.None,
-                RelativeEffects: new List<string>() { "magicalburst" },
+                RelativeEffects: new List<string>() { nameof(magicalburstdef.magicalburst) },
                 VFX: "Default",
                 VFXloop: "Default",
                 SFX: "Default"
@@ -70,15 +71,15 @@ namespace lvalonmima.SE.mburstmodifiers
             //they worked
             protected override void OnAdded(Unit unit)
             {
-                if (Owner.TryGetStatusEffect<everlastingmagic>(out var everlastingmagic))
+                if (Owner.TryGetStatusEffect<everlastingmagicdef.everlastingmagic>(out everlastingmagicdef.everlastingmagic everlastingmagic))
                 { React(new RemoveStatusEffectAction(this, true, 0.1f)); }
-                ReactOwnerEvent(base.Owner.StatusEffectAdded, new EventSequencedReactor<StatusEffectApplyEventArgs>(this.OnStatusEffectAdded));
+                ReactOwnerEvent(Owner.StatusEffectAdded, new EventSequencedReactor<StatusEffectApplyEventArgs>(OnStatusEffectAdded));
             }
             private IEnumerable<BattleAction> OnStatusEffectAdded(StatusEffectApplyEventArgs args)
             {
-                if (args.Effect is everlastingmagic)
+                if (args.Effect is everlastingmagicdef.everlastingmagic)
                 {
-                    this.NotifyChanged();
+                    NotifyChanged();
                     yield return new RemoveStatusEffectAction(this, true, 0.1f);
                 }
                 yield break;

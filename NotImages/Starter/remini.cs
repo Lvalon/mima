@@ -11,9 +11,7 @@ using LBoLEntitySideloader.Entities;
 using LBoLEntitySideloader.Resource;
 using System.Collections.Generic;
 using System.Linq;
-using static lvalonmima.BepinexPlugin;
 using LBoL.Core.Randoms;
-using static lvalonmima.SE.magicalburstdef;
 
 namespace lvalonmima.NotImages.Starter
 {
@@ -26,17 +24,20 @@ namespace lvalonmima.NotImages.Starter
 
         public override CardImages LoadCardImages()
         {
-            var imgs = new CardImages(embeddedSource);
+            CardImages imgs = new CardImages(BepinexPlugin.embeddedSource);
             imgs.AutoLoad(this, extension: ".png");
             return imgs;
         }
 
-        public override LocalizationOption LoadLocalization() => cardbatchloc.AddEntity(this);
+        public override LocalizationOption LoadLocalization()
+        {
+            return BepinexPlugin.cardbatchloc.AddEntity(this);
+        }
 
         public override CardConfig MakeConfig()
         {
-            var cardConfig = new CardConfig(
-               Index: sequenceTable.Next(typeof(CardConfig)),
+            CardConfig cardConfig = new CardConfig(
+               Index: BepinexPlugin.sequenceTable.Next(typeof(CardConfig)),
                Id: "",
                Order: 10,
                AutoPerform: true,
@@ -87,7 +88,7 @@ namespace lvalonmima.NotImages.Starter
                RelativeKeyword: Keyword.None,
                UpgradedRelativeKeyword: Keyword.None,
 
-               RelativeEffects: new List<string>() { nameof(magicalburst) },
+               RelativeEffects: new List<string>() { nameof(SE.magicalburstdef.magicalburst) },
                UpgradedRelativeEffects: new List<string>() { },
                RelativeCards: new List<string>() { },
                UpgradedRelativeCards: new List<string>() { },
@@ -104,19 +105,19 @@ namespace lvalonmima.NotImages.Starter
         [EntityLogic(typeof(cardreminidef))]
         public sealed class cardremini : mimaextensions.mimacard
         {
-            public int Value3 { get { return 2; } }
+            public int Value3 => 2;
             protected override IEnumerable<BattleAction> Actions(UnitSelector selector, ManaGroup consumingMana, Interaction precondition)
             {
-                if (Battle.Player.TryGetStatusEffect<magicalburst>(out var tmp) && tmp is mimaextensions.mimase magicalburst && !IsUpgraded)
+                if (Battle.Player.TryGetStatusEffect<SE.magicalburstdef.magicalburst>(out SE.magicalburstdef.magicalburst tmp) && tmp is mimaextensions.mimase magicalburst && !IsUpgraded)
                 {
                     int counttmp = magicalburst.truecounter - Value3;
 
                     if (counttmp >= 0)
                     {
                         magicalburst.truecounter -= Value3;
-                        yield return BuffAction<magicalburst>(0, 1, 0, 0, 0.2f);
+                        yield return BuffAction<SE.magicalburstdef.magicalburst>(0, 1, 0, 0, 0.2f);
                     }
-                    else { magicalburst.truecounter = 0; yield return BuffAction<magicalburst>(0, 1, 0, 0, 0.2f); }
+                    else { magicalburst.truecounter = 0; yield return BuffAction<SE.magicalburstdef.magicalburst>(0, 1, 0, 0, 0.2f); }
                 }
                 List<Card> list = Battle.RollCards(new CardWeightTable(RarityWeightTable.NoneRare, OwnerWeightTable.OnlyPlayer, CardTypeWeightTable.OnlySkill), Value2, (config) => !config.Keywords.HasFlag(Keyword.Forbidden) && config.Id != Id).ToList();
                 if (list.Count > 0)

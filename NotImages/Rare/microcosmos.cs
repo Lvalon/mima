@@ -9,8 +9,6 @@ using LBoLEntitySideloader.Attributes;
 using LBoLEntitySideloader.Entities;
 using LBoLEntitySideloader.Resource;
 using System.Collections.Generic;
-using static lvalonmima.BepinexPlugin;
-using static lvalonmima.SE.exfireonskilldef;
 using LBoL.EntityLib.StatusEffects.ExtraTurn;
 
 namespace lvalonmima.NotImages.Rare
@@ -24,17 +22,20 @@ namespace lvalonmima.NotImages.Rare
 
         public override CardImages LoadCardImages()
         {
-            var imgs = new CardImages(embeddedSource);
+            CardImages imgs = new CardImages(BepinexPlugin.embeddedSource);
             imgs.AutoLoad(this, extension: ".png");
             return imgs;
         }
 
-        public override LocalizationOption LoadLocalization() => cardbatchloc.AddEntity(this);
+        public override LocalizationOption LoadLocalization()
+        {
+            return BepinexPlugin.cardbatchloc.AddEntity(this);
+        }
 
         public override CardConfig MakeConfig()
         {
-            var cardConfig = new CardConfig(
-               Index: sequenceTable.Next(typeof(CardConfig)),
+            CardConfig cardConfig = new CardConfig(
+               Index: BepinexPlugin.sequenceTable.Next(typeof(CardConfig)),
                Id: "",
                Order: 10,
                AutoPerform: true,
@@ -85,8 +86,8 @@ namespace lvalonmima.NotImages.Rare
                RelativeKeyword: Keyword.None,
                UpgradedRelativeKeyword: Keyword.None,
 
-               RelativeEffects: new List<string>() { "ExtraTurn", nameof(exfireonskill), "TimeIsLimited" },
-               UpgradedRelativeEffects: new List<string>() { "ExtraTurn", nameof(exfireonskill), "TimeIsLimited" },
+               RelativeEffects: new List<string>() { nameof(ExtraTurn), nameof(SE.exfireonskilldef.exfireonskill), nameof(TimeIsLimited) },
+               UpgradedRelativeEffects: new List<string>() { nameof(ExtraTurn), nameof(SE.exfireonskilldef.exfireonskill), nameof(TimeIsLimited) },
                RelativeCards: new List<string>() { },
                UpgradedRelativeCards: new List<string>() { },
                Owner: "Mima",
@@ -104,12 +105,12 @@ namespace lvalonmima.NotImages.Rare
         {
             protected override IEnumerable<BattleAction> Actions(UnitSelector selector, ManaGroup consumingMana, Interaction precondition)
             {
-                yield return PerformAction.Effect(base.Battle.Player, "ExtraTime", 0f, null, 0f, PerformAction.EffectBehavior.PlayOneShot, 0f);
+                yield return PerformAction.Effect(Battle.Player, "ExtraTime", 0f, null, 0f, PerformAction.EffectBehavior.PlayOneShot, 0f);
                 yield return PerformAction.Sfx("ExtraTurnLaunch", 0f);
-                yield return PerformAction.Animation(base.Battle.Player, "spell", 1.6f, null, 0f, -1);
-                yield return base.BuffAction<ExtraTurn>(1, 0, 0, 0, 0.2f);
-                yield return base.BuffAction<exfireonskill>(Value1, 0, 0, 0, 0.2f);
-                yield return base.DebuffAction<TimeIsLimited>(base.Battle.Player, 1, 0, 0, 0, true, 0.2f);
+                yield return PerformAction.Animation(Battle.Player, "spell", 1.6f, null, 0f, -1);
+                yield return BuffAction<ExtraTurn>(1, 0, 0, 0, 0.2f);
+                yield return BuffAction<SE.exfireonskilldef.exfireonskill>(Value1, 0, 0, 0, 0.2f);
+                yield return DebuffAction<TimeIsLimited>(Battle.Player, 1, 0, 0, 0, true, 0.2f);
                 yield return new RequestEndPlayerTurnAction();
                 yield break;
             }

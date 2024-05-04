@@ -11,9 +11,7 @@ using LBoLEntitySideloader.Entities;
 using LBoLEntitySideloader.Resource;
 using System.Collections.Generic;
 using System.Linq;
-using static lvalonmima.BepinexPlugin;
 using LBoL.Core.Units;
-using static lvalonmima.SE.evilspiritdef;
 
 namespace lvalonmima.NotImages.Rare
 {
@@ -26,17 +24,20 @@ namespace lvalonmima.NotImages.Rare
 
         public override CardImages LoadCardImages()
         {
-            var imgs = new CardImages(embeddedSource);
+            CardImages imgs = new CardImages(BepinexPlugin.embeddedSource);
             imgs.AutoLoad(this, extension: ".png");
             return imgs;
         }
 
-        public override LocalizationOption LoadLocalization() => cardbatchloc.AddEntity(this);
+        public override LocalizationOption LoadLocalization()
+        {
+            return BepinexPlugin.cardbatchloc.AddEntity(this);
+        }
 
         public override CardConfig MakeConfig()
         {
-            var cardConfig = new CardConfig(
-               Index: sequenceTable.Next(typeof(CardConfig)),
+            CardConfig cardConfig = new CardConfig(
+               Index: BepinexPlugin.sequenceTable.Next(typeof(CardConfig)),
                Id: "",
                Order: 10,
                AutoPerform: true,
@@ -87,8 +88,8 @@ namespace lvalonmima.NotImages.Rare
                RelativeKeyword: Keyword.None,
                UpgradedRelativeKeyword: Keyword.None,
 
-               RelativeEffects: new List<string>() { nameof(evilspirit), nameof(InvincibleEternal) },
-               UpgradedRelativeEffects: new List<string>() { nameof(evilspirit), nameof(InvincibleEternal) },
+               RelativeEffects: new List<string>() { nameof(SE.evilspiritdef.evilspirit), nameof(InvincibleEternal) },
+               UpgradedRelativeEffects: new List<string>() { nameof(SE.evilspiritdef.evilspirit), nameof(InvincibleEternal) },
                RelativeCards: new List<string>() { },
                UpgradedRelativeCards: new List<string>() { },
                Owner: "Mima",
@@ -104,54 +105,21 @@ namespace lvalonmima.NotImages.Rare
         [EntityLogic(typeof(cardperlereinodef))]
         public sealed class cardperlereino : mimaextensions.mimacard
         {
-            private string exDescription1
-            {
-                get
-                {
-                    return this.LocalizeProperty("exDescription1", true, true);
-                }
-            }
+            private string exDescription1 => LocalizeProperty("exDescription1", true, true);
             protected override string GetBaseDescription()
             {
-                if (!this.Active)
-                {
-                    return this.exDescription1;
-                }
-                return base.GetBaseDescription();
+                return !Active ? exDescription1 : base.GetBaseDescription();
             }
-            private bool Active
-            {
-                get
-                {
-                    if (base.Battle != null)
-                    {
-                        return !base.Battle.BattleCardUsageHistory.Any((Card card) => card is cardperlereino);
-                    }
-                    return true;
-                }
-            }
+            private bool Active => Battle != null ? !Battle.BattleCardUsageHistory.Any((Card card) => card is cardperlereino) : true;
             protected override IEnumerable<BattleAction> Actions(UnitSelector selector, ManaGroup consumingMana, Interaction precondition)
             {
-                if (this.Active)
+                if (Active)
                 {
                     int buff = 0;
                     foreach (Unit target in selector.GetUnits(Battle))
                     {
-                        //backup for anti-levelling
-
-                        //foreach (StatusEffect status in (from se in target.StatusEffects
-                        //                                 where se.Id != "evilspirit" && se.HasLevel
-                        //                                 select se).ToList())
-                        //{
-                        //    yield return new ApplyStatusEffectAction(status.GetType() ,target, new int?(-status.Level), null, null, null, 0f, true);
-                        //}
-
-                        //if (!seExceptions.Contains(status.Id))
-                        //{
-                        //}
-
                         foreach (StatusEffect status in (from se in target.StatusEffects
-                                                         where se.Id != "evilspirit" && se.Id != "SijiZui" && target != base.Battle.Player
+                                                         where se.Id != "evilspirit" && se.Id != "SijiZui" && target != Battle.Player
                                                          select se).ToList())
                         {
                             yield return new RemoveStatusEffectAction(status, true, 0.1f);
@@ -161,7 +129,7 @@ namespace lvalonmima.NotImages.Rare
                     if (buff > 0)
                     {
                         yield return BuffAction<InvincibleEternal>(1, 0, 0, 0, 0.2f);
-                        yield return BuffAction<evilspirit>(buff, 0, 0, 0, 0.2f);
+                        yield return BuffAction<SE.evilspiritdef.evilspirit>(buff, 0, 0, 0, 0.2f);
                     }
                     yield break;
                 }

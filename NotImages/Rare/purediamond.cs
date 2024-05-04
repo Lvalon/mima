@@ -11,7 +11,6 @@ using LBoLEntitySideloader.Entities;
 using LBoLEntitySideloader.Resource;
 using System.Collections.Generic;
 using UnityEngine;
-using static lvalonmima.BepinexPlugin;
 
 namespace lvalonmima.NotImages.Rare
 {
@@ -24,17 +23,20 @@ namespace lvalonmima.NotImages.Rare
 
         public override CardImages LoadCardImages()
         {
-            var imgs = new CardImages(embeddedSource);
+            CardImages imgs = new CardImages(BepinexPlugin.embeddedSource);
             imgs.AutoLoad(this, extension: ".png");
             return imgs;
         }
 
-        public override LocalizationOption LoadLocalization() => cardbatchloc.AddEntity(this);
+        public override LocalizationOption LoadLocalization()
+        {
+            return BepinexPlugin.cardbatchloc.AddEntity(this);
+        }
 
         public override CardConfig MakeConfig()
         {
-            var cardConfig = new CardConfig(
-               Index: sequenceTable.Next(typeof(CardConfig)),
+            CardConfig cardConfig = new CardConfig(
+               Index: BepinexPlugin.sequenceTable.Next(typeof(CardConfig)),
                Id: "",
                Order: 10,
                AutoPerform: true,
@@ -50,7 +52,7 @@ namespace lvalonmima.NotImages.Rare
                Rarity: Rarity.Rare,
                Type: CardType.Status,
                TargetType: TargetType.All,
-               Colors: new List<ManaColor>() {},
+               Colors: new List<ManaColor>() { },
                IsXCost: false,
                Cost: new ManaGroup() { Any = 0 },
                UpgradedCost: null,
@@ -109,11 +111,7 @@ namespace lvalonmima.NotImages.Rare
 
             public override IEnumerable<BattleAction> OnMove(CardZone srcZone, CardZone dstZone)
             {
-                if (dstZone != CardZone.Hand)
-                {
-                    return null;
-                }
-                return EnterHandReactor();
+                return dstZone != CardZone.Hand ? null : EnterHandReactor();
             }
 
             protected override void OnEnterBattle(BattleController battle)
@@ -135,7 +133,6 @@ namespace lvalonmima.NotImages.Rare
                     {
                         list.Add(damageAction);
                     }
-                    //action = null;
                 }
                 if (list.NotEmpty())
                 {
@@ -155,15 +152,8 @@ namespace lvalonmima.NotImages.Rare
                     yield break;
                 }
                 yield return new GainManaAction(Mana);
-                //yield return base.DamageSelfAction(Value1);
-                //yield return DamageAction.Reaction((Unit)Battle.AllAliveUnits, Value1, "星落");
                 yield return new DamageAction(Battle.Player, Battle.AllAliveUnits, DamageInfo.Reaction(Value1, false), "星落", GunType.Single);
                 yield return new ExileCardAction(this);
-                //yield return DamageAction.Reaction(base.Owner, base.Level, (base.Level >= 15) ? "溺水BuffB" : "溺水BuffA");
-
-                //foreach (Unit in battle)
-                //{
-                //}
                 yield break;
             }
         }

@@ -9,7 +9,6 @@ using LBoLEntitySideloader.Entities;
 using LBoLEntitySideloader.Resource;
 using System.Collections.Generic;
 using UnityEngine;
-using static lvalonmima.BepinexPlugin;
 using LBoL.Core.Battle.BattleActions;
 using LBoL.Core.Units;
 
@@ -22,17 +21,20 @@ namespace lvalonmima.SE
             return nameof(startturnloselife);
         }
 
-        public override LocalizationOption LoadLocalization() => sebatchloc.AddEntity(this);
+        public override LocalizationOption LoadLocalization()
+        {
+            return BepinexPlugin.sebatchloc.AddEntity(this);
+        }
 
         public override Sprite LoadSprite()
         {
-            return ResourceLoader.LoadSprite("sestartturnloselife.png", embeddedSource);
+            return ResourceLoader.LoadSprite("sestartturnloselife.png", BepinexPlugin.embeddedSource);
         }
 
         public override StatusEffectConfig MakeConfig()
         {
-            var statusEffectConfig = new StatusEffectConfig(
-                Index: sequenceTable.Next(typeof(CardConfig)),
+            StatusEffectConfig statusEffectConfig = new StatusEffectConfig(
+                Index: BepinexPlugin.sequenceTable.Next(typeof(CardConfig)),
                 Id: "",
                 Order: 1,
                 Type: StatusEffectType.Special,
@@ -62,18 +64,16 @@ namespace lvalonmima.SE
         {
             protected override void OnAdded(Unit unit)
             {
-                base.ReactOwnerEvent<UnitEventArgs>(base.Owner.TurnStarted, new EventSequencedReactor<UnitEventArgs>(this.OnTurnStarted));
+                ReactOwnerEvent(Owner.TurnStarted, new EventSequencedReactor<UnitEventArgs>(OnTurnStarted));
             }
-
-            // Token: 0x060000AE RID: 174 RVA: 0x00003441 File Offset: 0x00001641
             private IEnumerable<BattleAction> OnTurnStarted(UnitEventArgs args)
             {
-                if (base.Battle.BattleShouldEnd)
+                if (Battle.BattleShouldEnd)
                 {
                     yield break;
                 }
-                base.NotifyActivating();
-                yield return new DamageAction(base.Owner, base.Owner, DamageInfo.HpLose((float)base.Level, false), "Instant", GunType.Single);
+                NotifyActivating();
+                yield return new DamageAction(Owner, Owner, DamageInfo.HpLose((float)Level, false), "Instant", GunType.Single);
                 yield break;
             }
         }

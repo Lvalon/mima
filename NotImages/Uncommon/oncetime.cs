@@ -12,8 +12,6 @@ using LBoLEntitySideloader.Entities;
 using LBoLEntitySideloader.Resource;
 using System.Collections.Generic;
 using System.Linq;
-using static lvalonmima.BepinexPlugin;
-using static lvalonmima.NotImages.Rare.cardpurediamonddef;
 
 namespace lvalonmima.NotImages.Uncommon
 {
@@ -26,17 +24,20 @@ namespace lvalonmima.NotImages.Uncommon
 
         public override CardImages LoadCardImages()
         {
-            var imgs = new CardImages(embeddedSource);
+            CardImages imgs = new CardImages(BepinexPlugin.embeddedSource);
             imgs.AutoLoad(this, extension: ".png");
             return imgs;
         }
 
-        public override LocalizationOption LoadLocalization() => cardbatchloc.AddEntity(this);
+        public override LocalizationOption LoadLocalization()
+        {
+            return BepinexPlugin.cardbatchloc.AddEntity(this);
+        }
 
         public override CardConfig MakeConfig()
         {
-            var cardConfig = new CardConfig(
-               Index: sequenceTable.Next(typeof(CardConfig)),
+            CardConfig cardConfig = new CardConfig(
+               Index: BepinexPlugin.sequenceTable.Next(typeof(CardConfig)),
                Id: "",
                Order: 10,
                AutoPerform: true,
@@ -89,8 +90,8 @@ namespace lvalonmima.NotImages.Uncommon
 
                RelativeEffects: new List<string>() { },
                UpgradedRelativeEffects: new List<string>() { },
-               RelativeCards: new List<string>() { nameof(cardpurediamond)},
-               UpgradedRelativeCards: new List<string>() { nameof(cardpurediamond) },
+               RelativeCards: new List<string>() { nameof(Rare.cardpurediamonddef.cardpurediamond) },
+               UpgradedRelativeCards: new List<string>() { nameof(Rare.cardpurediamonddef.cardpurediamond) },
                Owner: "Mima",
                ImageId: "",
                UpgradeImageId: "",
@@ -106,35 +107,13 @@ namespace lvalonmima.NotImages.Uncommon
         {
             protected override IEnumerable<BattleAction> Actions(UnitSelector selector, ManaGroup consumingMana, Interaction precondition)
             {
-                //yield return base.SacrificeAction(base.Value1);
-                //yield return new GainManaAction(base.Mana);
-                //if (IsUpgraded)
-                //{
-                //    List<Card> upgraded = null;
-                //    DrawManyCardAction drawAction = new DrawManyCardAction(base.Value2);
-                //    yield return drawAction;
-                //    IReadOnlyList<Card> drawnCards = drawAction.DrawnCards;
-                //    if (drawnCards != null && drawnCards.Count > 0)
-                //    {
-                //        upgraded = (from card in drawnCards
-                //                    where card.IsUpgraded
-                //                    select card).ToList<Card>();
-                //        List<Card> list = (from card in drawnCards
-                //                           where card.CanUpgradeAndPositive
-                //                           select card).ToList<Card>();
-                //        if (list.Count > 0)
-                //        {
-                //            yield return new UpgradeCardsAction(list);
-                //        }
-                //    }
-                //}
-                List<cardoncetime> list = Library.CreateCards<cardoncetime>(2, this.IsUpgraded).ToList<cardoncetime>();
+                List<cardoncetime> list = Library.CreateCards<cardoncetime>(2, IsUpgraded).ToList<cardoncetime>();
                 cardoncetime first = list[0];
                 cardoncetime cardoncetime = list[1];
                 first.ShowWhichDescription = 2;
                 cardoncetime.ShowWhichDescription = 1;
-                first.SetBattle(base.Battle);
-                cardoncetime.SetBattle(base.Battle);
+                first.SetBattle(Battle);
+                cardoncetime.SetBattle(Battle);
                 MiniSelectCardInteraction interaction = new MiniSelectCardInteraction(list, false, false, false)
                 {
                     Source = this
@@ -142,40 +121,40 @@ namespace lvalonmima.NotImages.Uncommon
                 yield return new InteractionAction(interaction, false);
                 if (interaction.SelectedCard == first)
                 {
-                    yield return new AddCardsToDrawZoneAction(Library.CreateCards<cardpurediamond>(Value1, false), DrawZoneTarget.Random, AddCardsType.Normal);
+                    yield return new AddCardsToDrawZoneAction(Library.CreateCards<Rare.cardpurediamonddef.cardpurediamond>(Value1, false), DrawZoneTarget.Random, AddCardsType.Normal);
                 }
                 else
                 {
                     bool flag = false;
-                    List<Card> list4 = (from card in base.Battle.HandZone
-                                       where !card.IsPurified && card.Cost.HasTrivial
-                                       select card).ToList<Card>();
+                    List<Card> list4 = (from card in Battle.HandZone
+                                        where !card.IsPurified && card.Cost.HasTrivial
+                                        select card).ToList<Card>();
                     if (list4.Count > 0)
                     {
-                        Card card3 = list4.Sample(base.GameRun.BattleRng);
+                        Card card3 = list4.Sample(GameRun.BattleRng);
                         card3.NotifyActivating();
                         card3.IsPurified = true;
                         if (!flag)
                         {
-                            base.NotifyActivating();
+                            NotifyActivating();
                             flag = true;
                         }
                     }
                     else
                     {
-                        List<Card> list2 = (from card in base.Battle.HandZone
+                        List<Card> list2 = (from card in Battle.HandZone
                                             where !card.IsPurified
                                             select card).ToList<Card>();
                         if (list2.Count <= 0)
                         {
                             yield break;
                         }
-                        Card card2 = list2.Sample(base.GameRun.BattleRng);
+                        Card card2 = list2.Sample(GameRun.BattleRng);
                         card2.NotifyActivating();
                         card2.IsPurified = true;
                         if (!flag)
                         {
-                            base.NotifyActivating();
+                            NotifyActivating();
                             flag = true;
                         }
                     }

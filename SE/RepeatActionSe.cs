@@ -9,7 +9,6 @@ using LBoLEntitySideloader.Entities;
 using LBoLEntitySideloader.Resource;
 using System.Collections.Generic;
 using UnityEngine;
-using static lvalonmima.BepinexPlugin;
 using LBoL.Core.Battle.BattleActions;
 using LBoL.Base.Extensions;
 using LBoL.Core.Units;
@@ -23,16 +22,19 @@ namespace lvalonmima.SE
             return nameof(RepeatActionSe);
         }
 
-        public override LocalizationOption LoadLocalization() => sebatchloc.AddEntity(this);
+        public override LocalizationOption LoadLocalization()
+        {
+            return BepinexPlugin.sebatchloc.AddEntity(this);
+        }
 
         public override Sprite LoadSprite()
         {
-            return ResourceLoader.LoadSprite("RepeatActionSe.png", embeddedSource);
+            return ResourceLoader.LoadSprite("RepeatActionSe.png", BepinexPlugin.embeddedSource);
         }
         public override StatusEffectConfig MakeConfig()
         {
-            var statusEffectConfig = new StatusEffectConfig(
-                Index: sequenceTable.Next(typeof(StatusEffectConfig)),
+            StatusEffectConfig statusEffectConfig = new StatusEffectConfig(
+                Index: BepinexPlugin.sequenceTable.Next(typeof(StatusEffectConfig)),
                 Id: "",
                 Order: 10,
                 Type: StatusEffectType.Positive,

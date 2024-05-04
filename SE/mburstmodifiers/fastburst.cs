@@ -9,7 +9,6 @@ using LBoLEntitySideloader.Resource;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using static lvalonmima.BepinexPlugin;
 using LBoL.Core.Units;
 
 namespace lvalonmima.SE.mburstmodifiers
@@ -21,17 +20,20 @@ namespace lvalonmima.SE.mburstmodifiers
             return nameof(fastburst);
         }
 
-        public override LocalizationOption LoadLocalization() => sebatchloc.AddEntity(this);
+        public override LocalizationOption LoadLocalization()
+        {
+            return BepinexPlugin.sebatchloc.AddEntity(this);
+        }
 
         public override Sprite LoadSprite()
         {
-            return ResourceLoader.LoadSprite("sefastburst.png", embeddedSource);
+            return ResourceLoader.LoadSprite("sefastburst.png", BepinexPlugin.embeddedSource);
         }
 
         public override StatusEffectConfig MakeConfig()
         {
-            var statusEffectConfig = new StatusEffectConfig(
-                Index: sequenceTable.Next(typeof(CardConfig)),
+            StatusEffectConfig statusEffectConfig = new StatusEffectConfig(
+                Index: BepinexPlugin.sequenceTable.Next(typeof(CardConfig)),
                 Id: "",
                 Order: 1,
                 Type: StatusEffectType.Special,
@@ -48,7 +50,7 @@ namespace lvalonmima.SE.mburstmodifiers
                 LimitStackType: StackType.Keep,
                 ShowPlusByLimit: false,
                 Keywords: Keyword.None,
-                RelativeEffects: new List<string>() { "magicalburst" },
+                RelativeEffects: new List<string>() { nameof(magicalburstdef.magicalburst) },
                 VFX: "Default",
                 VFXloop: "Default",
                 SFX: "Default"
@@ -64,39 +66,20 @@ namespace lvalonmima.SE.mburstmodifiers
                 isMBmod = true;
                 truecounter = 0;
             }
-            public int showfastburst
-            {
-                get
-                {
-                    if (GameRun == null) { return 20; }
-                    else { return (Level > 5) ? Convert.ToInt32(5 * 20) : Convert.ToInt32(Level * 20); }
-                }
-            }
+            public int showfastburst => GameRun == null ? 20 : (Level > 5) ? Convert.ToInt32(5 * 20) : Convert.ToInt32(Level * 20);
             //set up triggers to give a fuck on
             //also vfx/sfx
             //they worked
             protected override void OnAdded(Unit unit)
             {
-                //ReactOwnerEvent(base.Battle.CardUsed, new EventSequencedReactor<CardUsingEventArgs>(this.OnCardUsed));
-                ReactOwnerEvent<StatusEffectApplyEventArgs>(base.Owner.StatusEffectAdded, new EventSequencedReactor<StatusEffectApplyEventArgs>(this.OnStatusEffectAdded));
-                if (Level > 5) { base.NotifyChanged(); Level = 5; }
+                ReactOwnerEvent<StatusEffectApplyEventArgs>(Owner.StatusEffectAdded, new EventSequencedReactor<StatusEffectApplyEventArgs>(OnStatusEffectAdded));
+                if (Level > 5) { NotifyChanged(); Level = 5; }
             }
-
-            //private IEnumerable<BattleAction> OnCardUsed(GameEventArgs args)
-            //{
-            //    if (Owner.TryGetStatusEffect<magicalburst>(out var effect))
-            //    {
-            //        NotifyActivating();
-            //        yield return new RemoveStatusEffectAction(this, true);
-            //    }
-            //    yield break;
-            //}
-
             private IEnumerable<BattleAction> OnStatusEffectAdded(StatusEffectApplyEventArgs args)
             {
                 if (Level > 5)
                 {
-                    base.NotifyChanged();
+                    NotifyChanged();
                     Level = 5;
                 }
                 yield break;
