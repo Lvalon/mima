@@ -7,9 +7,6 @@ using LBoLEntitySideloader.Attributes;
 using LBoLEntitySideloader.Entities;
 using LBoLEntitySideloader.Resource;
 using System.Collections.Generic;
-using static lvalonmima.BepinexPlugin;
-using static lvalonmima.SE.magicalburstdef;
-using static lvalonmima.SE.extmpfiredef;
 
 namespace lvalonmima.NotImages.Uncommon
 {
@@ -22,17 +19,20 @@ namespace lvalonmima.NotImages.Uncommon
 
         public override CardImages LoadCardImages()
         {
-            var imgs = new CardImages(embeddedSource);
+            CardImages imgs = new CardImages(BepinexPlugin.embeddedSource);
             imgs.AutoLoad(this, extension: ".png");
             return imgs;
         }
 
-        public override LocalizationOption LoadLocalization() => cardbatchloc.AddEntity(this);
+        public override LocalizationOption LoadLocalization()
+        {
+            return BepinexPlugin.cardbatchloc.AddEntity(this);
+        }
 
         public override CardConfig MakeConfig()
         {
-            var cardConfig = new CardConfig(
-               Index: sequenceTable.Next(typeof(CardConfig)),
+            CardConfig cardConfig = new CardConfig(
+               Index: BepinexPlugin.sequenceTable.Next(typeof(CardConfig)),
                Id: "",
                Order: 10,
                AutoPerform: true,
@@ -83,8 +83,8 @@ namespace lvalonmima.NotImages.Uncommon
                RelativeKeyword: Keyword.None,
                UpgradedRelativeKeyword: Keyword.None,
 
-               RelativeEffects: new List<string>() { "extmpfire", "magicalburst" },
-               UpgradedRelativeEffects: new List<string>() { "extmpfire", "magicalburst" },
+               RelativeEffects: new List<string>() { nameof(SE.extmpfiredef.extmpfire), nameof(SE.magicalburstdef.magicalburst) },
+               UpgradedRelativeEffects: new List<string>() { nameof(SE.extmpfiredef.extmpfire), nameof(SE.magicalburstdef.magicalburst) },
                RelativeCards: new List<string>() { },
                UpgradedRelativeCards: new List<string>() { },
                Owner: "Mima",
@@ -102,8 +102,8 @@ namespace lvalonmima.NotImages.Uncommon
         {
             protected override IEnumerable<BattleAction> Actions(UnitSelector selector, ManaGroup consumingMana, Interaction precondition)
             {
-                yield return BuffAction<extmpfire>(Value1, 0, 0, 0, 0.2f);
-                yield return BuffAction<magicalburst>(Value1, 0, 0, 0, 0.2f);
+                yield return BuffAction<SE.extmpfiredef.extmpfire>(Value1, 0, 0, 0, 0.2f);
+                yield return BuffAction<SE.magicalburstdef.magicalburst>(Value1, 0, 0, 0, 0.2f);
             }
         }
     }

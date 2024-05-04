@@ -11,7 +11,6 @@ using LBoLEntitySideloader.Entities;
 using LBoLEntitySideloader.Resource;
 using System.Collections.Generic;
 using System.Linq;
-using static lvalonmima.BepinexPlugin;
 using LBoL.Core.Randoms;
 
 namespace lvalonmima.NotImages.Uncommon
@@ -25,17 +24,20 @@ namespace lvalonmima.NotImages.Uncommon
 
         public override CardImages LoadCardImages()
         {
-            var imgs = new CardImages(embeddedSource);
+            CardImages imgs = new CardImages(BepinexPlugin.embeddedSource);
             imgs.AutoLoad(this, extension: ".png");
             return imgs;
         }
 
-        public override LocalizationOption LoadLocalization() => cardbatchloc.AddEntity(this);
+        public override LocalizationOption LoadLocalization()
+        {
+            return BepinexPlugin.cardbatchloc.AddEntity(this);
+        }
 
         public override CardConfig MakeConfig()
         {
-            var cardConfig = new CardConfig(
-               Index: sequenceTable.Next(typeof(CardConfig)),
+            CardConfig cardConfig = new CardConfig(
+               Index: BepinexPlugin.sequenceTable.Next(typeof(CardConfig)),
                Id: "",
                Order: 10,
                AutoPerform: true,
@@ -105,16 +107,6 @@ namespace lvalonmima.NotImages.Uncommon
         {
             protected override IEnumerable<BattleAction> Actions(UnitSelector selector, ManaGroup consumingMana, Interaction precondition)
             {
-                //List<Card> list = base.Battle.RollCards(new CardWeightTable(RarityWeightTable.NoneRare, OwnerWeightTable.OnlyPlayer, CardTypeWeightTable.CanBeLoot), Value1, (CardConfig config) => config.Type == CardType.Ability).ToList<Card>();
-                //if (list.Count > 0)
-                //{
-                //    foreach (Card card in list)
-                //    {
-                //        card.SetTurnCost(this.Mana);
-                //        card.IsEthereal = true;
-                //    }
-                //    yield return new AddCardsToHandAction(list);
-                //}
                 List<Card> list = new List<Card>();
 
                 list = Battle.RollCards(new CardWeightTable(RarityWeightTable.OnlyUncommon, OwnerWeightTable.OnlyPlayer, CardTypeWeightTable.CanBeLoot), Value1, (CardConfig config) => config.Type == CardType.Ability).ToList<Card>();
@@ -129,7 +121,7 @@ namespace lvalonmima.NotImages.Uncommon
                 {
                     foreach (Card card in selectedCards)
                     {
-                        card.SetTurnCost(this.Mana);
+                        card.SetTurnCost(Mana);
                         card.IsEthereal = true;
                     }
                     yield return new AddCardsToHandAction(selectedCards);

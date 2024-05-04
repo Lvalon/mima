@@ -8,8 +8,6 @@ using LBoLEntitySideloader.Attributes;
 using LBoLEntitySideloader.Entities;
 using LBoLEntitySideloader.Resource;
 using System.Collections.Generic;
-using static lvalonmima.BepinexPlugin;
-using static lvalonmima.NotImages.Rare.cardpurediamonddef;
 
 namespace lvalonmima.NotImages.Uncommon
 {
@@ -22,17 +20,20 @@ namespace lvalonmima.NotImages.Uncommon
 
         public override CardImages LoadCardImages()
         {
-            var imgs = new CardImages(embeddedSource);
+            CardImages imgs = new CardImages(BepinexPlugin.embeddedSource);
             imgs.AutoLoad(this, extension: ".png");
             return imgs;
         }
 
-        public override LocalizationOption LoadLocalization() => cardbatchloc.AddEntity(this);
+        public override LocalizationOption LoadLocalization()
+        {
+            return BepinexPlugin.cardbatchloc.AddEntity(this);
+        }
 
         public override CardConfig MakeConfig()
         {
-            var cardConfig = new CardConfig(
-               Index: sequenceTable.Next(typeof(CardConfig)),
+            CardConfig cardConfig = new CardConfig(
+               Index: BepinexPlugin.sequenceTable.Next(typeof(CardConfig)),
                Id: "",
                Order: 10,
                AutoPerform: true,
@@ -85,8 +86,8 @@ namespace lvalonmima.NotImages.Uncommon
 
                RelativeEffects: new List<string>() { },
                UpgradedRelativeEffects: new List<string>() { },
-               RelativeCards: new List<string>() { "cardpurediamond" },
-               UpgradedRelativeCards: new List<string>() { "cardpurediamond" },
+               RelativeCards: new List<string>() { nameof(Rare.cardpurediamonddef.cardpurediamond) },
+               UpgradedRelativeCards: new List<string>() { nameof(Rare.cardpurediamonddef.cardpurediamond) },
                Owner: "Mima",
                ImageId: "",
                UpgradeImageId: "",
@@ -102,8 +103,7 @@ namespace lvalonmima.NotImages.Uncommon
         {
             protected override IEnumerable<BattleAction> Actions(UnitSelector selector, ManaGroup consumingMana, Interaction precondition)
             {
-                yield return new AddCardsToDrawZoneAction(Library.CreateCards<cardpurediamond>(Value1, false), DrawZoneTarget.Random, AddCardsType.Normal);
-                //if (IsUpgraded) { yield return new DrawManyCardAction(Value2); }
+                yield return new AddCardsToDrawZoneAction(Library.CreateCards<NotImages.Rare.cardpurediamonddef.cardpurediamond>(Value1, false), DrawZoneTarget.Random, AddCardsType.Normal);
                 yield return new DrawManyCardAction(Value2);
             }
         }

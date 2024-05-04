@@ -11,7 +11,6 @@ using LBoLEntitySideloader.Entities;
 using LBoLEntitySideloader.Resource;
 using System.Collections.Generic;
 using System.Linq;
-using static lvalonmima.BepinexPlugin;
 using LBoL.Core.Randoms;
 
 namespace lvalonmima.NotImages.Rare
@@ -25,17 +24,20 @@ namespace lvalonmima.NotImages.Rare
 
         public override CardImages LoadCardImages()
         {
-            var imgs = new CardImages(embeddedSource);
+            CardImages imgs = new CardImages(BepinexPlugin.embeddedSource);
             imgs.AutoLoad(this, extension: ".png");
             return imgs;
         }
 
-        public override LocalizationOption LoadLocalization() => cardbatchloc.AddEntity(this);
+        public override LocalizationOption LoadLocalization()
+        {
+            return BepinexPlugin.cardbatchloc.AddEntity(this);
+        }
 
         public override CardConfig MakeConfig()
         {
-            var cardConfig = new CardConfig(
-               Index: sequenceTable.Next(typeof(CardConfig)),
+            CardConfig cardConfig = new CardConfig(
+               Index: BepinexPlugin.sequenceTable.Next(typeof(CardConfig)),
                Id: "",
                Order: 10,
                AutoPerform: true,
@@ -105,13 +107,13 @@ namespace lvalonmima.NotImages.Rare
         {
             protected override IEnumerable<BattleAction> Actions(UnitSelector selector, ManaGroup consumingMana, Interaction precondition)
             {
-                int num = base.Battle.MaxHand - base.Battle.HandZone.Count;
-                List<Card> list = base.Battle.RollCards(new CardWeightTable(RarityWeightTable.BattleCard, OwnerWeightTable.Valid, CardTypeWeightTable.OnlySkill), num, (CardConfig config) => !config.Keywords.HasFlag(Keyword.Forbidden)).ToList<Card>();
+                int num = Battle.MaxHand - Battle.HandZone.Count;
+                List<Card> list = Battle.RollCards(new CardWeightTable(RarityWeightTable.BattleCard, OwnerWeightTable.Valid, CardTypeWeightTable.OnlySkill), num, (CardConfig config) => !config.Keywords.HasFlag(Keyword.Forbidden)).ToList<Card>();
                 if (list.Count > 0)
                 {
                     foreach (Card card in list)
                     {
-                        ManaColor[] components = card.Cost.EnumerateComponents().SampleManyOrAll(1, base.GameRun.BattleRng);
+                        ManaColor[] components = card.Cost.EnumerateComponents().SampleManyOrAll(1, GameRun.BattleRng);
                         card.DecreaseTurnCost(ManaGroup.FromComponents(components));
                     }
                     yield return new AddCardsToHandAction(list);

@@ -11,8 +11,6 @@ using LBoLEntitySideloader.Entities;
 using LBoLEntitySideloader.Resource;
 using System.Collections.Generic;
 using System.Linq;
-using static lvalonmima.BepinexPlugin;
-using static lvalonmima.SE.mburstmodifiers.accumulationdef;
 
 namespace lvalonmima.NotImages.Uncommon
 {
@@ -25,17 +23,20 @@ namespace lvalonmima.NotImages.Uncommon
 
         public override CardImages LoadCardImages()
         {
-            var imgs = new CardImages(embeddedSource);
+            CardImages imgs = new CardImages(BepinexPlugin.embeddedSource);
             imgs.AutoLoad(this, extension: ".png");
             return imgs;
         }
 
-        public override LocalizationOption LoadLocalization() => cardbatchloc.AddEntity(this);
+        public override LocalizationOption LoadLocalization()
+        {
+            return BepinexPlugin.cardbatchloc.AddEntity(this);
+        }
 
         public override CardConfig MakeConfig()
         {
-            var cardConfig = new CardConfig(
-               Index: sequenceTable.Next(typeof(CardConfig)),
+            CardConfig cardConfig = new CardConfig(
+               Index: BepinexPlugin.sequenceTable.Next(typeof(CardConfig)),
                Id: "",
                Order: 10,
                AutoPerform: true,
@@ -103,18 +104,18 @@ namespace lvalonmima.NotImages.Uncommon
         [EntityLogic(typeof(cardrewinddef))]
         public sealed class cardrewind : mimaextensions.mimacard
         {
-            public int Value3 { get { return 1; } }
+            public int Value3 => 1;
             protected override IEnumerable<BattleAction> Actions(UnitSelector selector, ManaGroup consumingMana, Interaction precondition)
             {
-                List<Card> hand = (from card in base.Battle.HandZone
+                List<Card> hand = (from card in Battle.HandZone
                                    where card != this
                                    select card).ToList<Card>();
                 if (hand.Count > 0)
                 {
                     yield return new DiscardManyAction(hand);
                 }
-                List<Card> list = base.Battle.DrawZone.Reverse<Card>().ToList<Card>();
-                List<Card> oriDiscard = base.Battle.DiscardZone.ToList<Card>();
+                List<Card> list = Battle.DrawZone.Reverse<Card>().ToList<Card>();
+                List<Card> oriDiscard = Battle.DiscardZone.ToList<Card>();
                 foreach (Card card in list)
                 {
                     if (card.Zone == CardZone.Draw)
@@ -130,14 +131,14 @@ namespace lvalonmima.NotImages.Uncommon
                     }
                 }
                 ManaGroup manaGroup = ManaGroup.Empty;
-                for (int i = 0; i < base.Value1; i++)
+                for (int i = 0; i < Value1; i++)
                 {
-                    manaGroup += ManaGroup.Single(ManaColors.Colors.Sample(base.GameRun.BattleRng));
+                    manaGroup += ManaGroup.Single(ManaColors.Colors.Sample(GameRun.BattleRng));
                 }
                 yield return new GainManaAction(manaGroup);
-                yield return new ScryAction(base.Scry);
-                yield return new DrawManyCardAction(base.Value2);
-                yield return BuffAction<accumulation>(Value3, 0, 0, 0, 0.2f);
+                yield return new ScryAction(Scry);
+                yield return new DrawManyCardAction(Value2);
+                yield return BuffAction<SE.mburstmodifiers.accumulationdef.accumulation>(Value3, 0, 0, 0, 0.2f);
                 yield break;
             }
         }

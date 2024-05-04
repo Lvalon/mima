@@ -5,14 +5,12 @@ using LBoLEntitySideloader;
 using LBoLEntitySideloader.Entities;
 using LBoLEntitySideloader.Resource;
 using LBoLEntitySideloader.Attributes;
-using static lvalonmima.BepinexPlugin;
 using UnityEngine;
 using LBoL.Base;
 using LBoL.Core.Battle.BattleActions;
 using LBoL.Core.Battle;
 using LBoL.Core;
 using LBoL.Core.Units;
-using static lvalonmima.SE.evilspiritdef;
 using LBoL.Base.Extensions;
 using System.Linq;
 using LBoL.Core.Cards;
@@ -21,8 +19,6 @@ using LBoL.Core.Randoms;
 using System.Collections;
 using LBoL.Core.Stations;
 using LBoL.Presentation;
-using static lvalonmima.SE.sepassiveshopdef;
-using static lvalonmima.SE.seblitzshopdef;
 
 namespace lvalonmima.NotRelics
 {
@@ -33,31 +29,34 @@ namespace lvalonmima.NotRelics
             return nameof(mimab);
         }
 
-        public override LocalizationOption LoadLocalization() => exbatchloc.AddEntity(this);
+        public override LocalizationOption LoadLocalization()
+        {
+            return BepinexPlugin.exbatchloc.AddEntity(this);
+        }
 
         public override ExhibitSprites LoadSprite()
         {
             // embedded resource folders are separated by a dot
             // this means exhibit image name must be exhibitid.png
-            var folder = "Resources.";
-            var exhibitSprites = new ExhibitSprites();
-            Func<string, Sprite> wrap = (s) => ResourceLoader.LoadSprite(folder + GetId() + s + ".png", embeddedSource);
+            string folder = "Resources.";
+            ExhibitSprites exhibitSprites = new ExhibitSprites();
+            Func<string, Sprite> wrap = (s) => ResourceLoader.LoadSprite(folder + GetId() + s + ".png", BepinexPlugin.embeddedSource);
             exhibitSprites.main = wrap("");
             return exhibitSprites;
         }
 
         public override ExhibitConfig MakeConfig()
         {
-            var exhibitConfig = new ExhibitConfig(
-                Index: sequenceTable.Next(typeof(CardConfig)),
+            ExhibitConfig exhibitConfig = new ExhibitConfig(
+                Index: BepinexPlugin.sequenceTable.Next(typeof(CardConfig)),
                 Id: "",
-                Order: 10,
+                Order: 1000,
                 IsDebug: false,
                 IsPooled: false,
                 IsSentinel: false,
                 Revealable: false,
                 Appearance: AppearanceType.Nowhere,
-                Owner: "Mima", //"Mima"
+                Owner: "Mima",
                 LosableType: ExhibitLosableType.CantLose,
                 Rarity: Rarity.Mythic,
                 Value1: 3,
@@ -70,7 +69,7 @@ namespace lvalonmima.NotRelics
                 HasCounter: false,
                 InitialCounter: null,
                 Keywords: Keyword.None,
-                RelativeEffects: new List<string>() { nameof(evilspirit), nameof(sepassiveshop), nameof(seblitzshop) },
+                RelativeEffects: new List<string>() { nameof(SE.evilspiritdef.evilspirit), nameof(SE.sepassiveshopdef.sepassiveshop), nameof(SE.seblitzshopdef.seblitzshop) },
                 RelativeCards: new List<string>() { }
             );
             return exhibitConfig;
@@ -83,100 +82,96 @@ namespace lvalonmima.NotRelics
             private int ogmax;
             private int ogdmg;
 
-            public int Value4 { get { return 10; } }
+            public int Value4 => 10;
 
             protected override void OnAdded(PlayerUnit player)
             {
-                GameRunController gameRun = base.GameRun;
+                GameRunController gameRun = GameRun;
                 int rewardAndShopCardColorLimitFlag = gameRun.RewardAndShopCardColorLimitFlag + 1;
                 gameRun.RewardAndShopCardColorLimitFlag = rewardAndShopCardColorLimitFlag;
-                //base.GameRun.AdditionalRewardCardCount += base.Value3;
                 HandleGameRunEvent(GameRun.StationEntered, new GameEventHandler<StationEventArgs>(OnGamerunStationEntered));
             }
             private void OnGamerunStationEntered(StationEventArgs args)
             {
-                //if (args.Station.Type == StationType.Entry && args.Station.Stage.Level == 1)
-                //{
-                //    GameMaster.Instance.StartCoroutine(Draft());
-                //}
                 EntryStation entryStation = args.Station as EntryStation;
-                if (entryStation != null && base.GameRun.Stages.IndexOf(entryStation.Stage) == 0)
+                if (entryStation != null && GameRun.Stages.IndexOf(entryStation.Stage) == 0)
                 {
-                    GameRunController gameRun = base.GameRun;
+                    GameRunController gameRun = GameRun;
                     gameRun.RemoveDeckCards(from card in GameRun.BaseDeck select card, false);
                     GameMaster.Instance.StartCoroutine(Draft());
                 }
             }
             private IEnumerator Draft()
             {
-                var draftamount = 2;
-                Card[] array1 = base.GameRun.RollCards(base.GameRun.CardRng, new CardWeightTable(RarityWeightTable.EnemyCard, OwnerWeightTable.OnlyPlayer, CardTypeWeightTable.CanBeLoot), draftamount, false, true, (CardConfig config) => config.Rarity != Rarity.Rare);
-                base.GameRun.UpgradeNewDeckCardOnFlags(array1);
+                int draftamount = 2;
+                Card[] array1 = GameRun.RollCards(GameRun.CardRng, new CardWeightTable(RarityWeightTable.EnemyCard, OwnerWeightTable.OnlyPlayer, CardTypeWeightTable.CanBeLoot), draftamount, false, true, (CardConfig config) => config.Rarity != Rarity.Rare);
+                GameRun.UpgradeNewDeckCardOnFlags(array1);
                 MiniSelectCardInteraction interaction1 = new MiniSelectCardInteraction(array1, false, false, false)
                 {
                     Source = this,
                     CanCancel = false
                 };
-                yield return base.GameRun.InteractionViewer.View(interaction1);
-                base.GameRun.AddDeckCards(new Card[] { interaction1.SelectedCard }, false, null);
-                Card[] array2 = base.GameRun.RollCards(base.GameRun.CardRng, new CardWeightTable(RarityWeightTable.EnemyCard, OwnerWeightTable.OnlyPlayer, CardTypeWeightTable.CanBeLoot), draftamount, false, true, (CardConfig config) => config.Rarity != Rarity.Rare);
-                base.GameRun.UpgradeNewDeckCardOnFlags(array2);
+                yield return GameRun.InteractionViewer.View(interaction1);
+                GameRun.AddDeckCards(new Card[] { interaction1.SelectedCard }, false, null);
+                Card[] array2 = GameRun.RollCards(GameRun.CardRng, new CardWeightTable(RarityWeightTable.EnemyCard, OwnerWeightTable.OnlyPlayer, CardTypeWeightTable.CanBeLoot), draftamount, false, true, (CardConfig config) => config.Rarity != Rarity.Rare);
+                GameRun.UpgradeNewDeckCardOnFlags(array2);
                 MiniSelectCardInteraction interaction2 = new MiniSelectCardInteraction(array2, false, false, false)
                 {
                     Source = this,
                     CanCancel = false
                 };
-                yield return base.GameRun.InteractionViewer.View(interaction2);
-                base.GameRun.AddDeckCards(new Card[] { interaction2.SelectedCard }, false, null);
-                Card[] array3 = base.GameRun.RollCards(base.GameRun.CardRng, new CardWeightTable(RarityWeightTable.EnemyCard, OwnerWeightTable.OnlyPlayer, CardTypeWeightTable.CanBeLoot), draftamount, false, true, (CardConfig config) => config.Rarity != Rarity.Rare);
-                base.GameRun.UpgradeNewDeckCardOnFlags(array3);
+                yield return GameRun.InteractionViewer.View(interaction2);
+                GameRun.AddDeckCards(new Card[] { interaction2.SelectedCard }, false, null);
+                Card[] array3 = GameRun.RollCards(GameRun.CardRng, new CardWeightTable(RarityWeightTable.EnemyCard, OwnerWeightTable.OnlyPlayer, CardTypeWeightTable.CanBeLoot), draftamount, false, true, (CardConfig config) => config.Rarity != Rarity.Rare);
+                GameRun.UpgradeNewDeckCardOnFlags(array3);
                 MiniSelectCardInteraction interaction3 = new MiniSelectCardInteraction(array3, false, false, false)
                 {
                     Source = this,
                     CanCancel = false
                 };
-                yield return base.GameRun.InteractionViewer.View(interaction3);
-                base.GameRun.AddDeckCards(new Card[] { interaction3.SelectedCard }, false, null);
-                Card[] array4 = base.GameRun.RollCards(base.GameRun.CardRng, new CardWeightTable(RarityWeightTable.EnemyCard, OwnerWeightTable.OnlyPlayer, CardTypeWeightTable.CanBeLoot), draftamount, false, true, (CardConfig config) => config.Rarity != Rarity.Rare);
-                base.GameRun.UpgradeNewDeckCardOnFlags(array4);
+                yield return GameRun.InteractionViewer.View(interaction3);
+                GameRun.AddDeckCards(new Card[] { interaction3.SelectedCard }, false, null);
+                Card[] array4 = GameRun.RollCards(GameRun.CardRng, new CardWeightTable(RarityWeightTable.EnemyCard, OwnerWeightTable.OnlyPlayer, CardTypeWeightTable.CanBeLoot), draftamount, false, true, (CardConfig config) => config.Rarity != Rarity.Rare);
+                GameRun.UpgradeNewDeckCardOnFlags(array4);
                 MiniSelectCardInteraction interaction4 = new MiniSelectCardInteraction(array4, false, false, false)
                 {
                     Source = this,
                     CanCancel = false
                 };
-                yield return base.GameRun.InteractionViewer.View(interaction4);
-                base.GameRun.AddDeckCards(new Card[] { interaction4.SelectedCard }, false, null);
-                Card[] array5 = base.GameRun.RollCards(base.GameRun.CardRng, new CardWeightTable(RarityWeightTable.EnemyCard, OwnerWeightTable.OnlyPlayer, CardTypeWeightTable.CanBeLoot), draftamount, false, true, (CardConfig config) => config.Rarity != Rarity.Rare);
-                base.GameRun.UpgradeNewDeckCardOnFlags(array5);
+                yield return GameRun.InteractionViewer.View(interaction4);
+                GameRun.AddDeckCards(new Card[] { interaction4.SelectedCard }, false, null);
+                Card[] array5 = GameRun.RollCards(GameRun.CardRng, new CardWeightTable(RarityWeightTable.EnemyCard, OwnerWeightTable.OnlyPlayer, CardTypeWeightTable.CanBeLoot), draftamount, false, true, (CardConfig config) => config.Rarity != Rarity.Rare);
+                GameRun.UpgradeNewDeckCardOnFlags(array5);
                 MiniSelectCardInteraction interaction5 = new MiniSelectCardInteraction(array5, false, false, false)
                 {
                     Source = this,
                     CanCancel = false
                 };
-                yield return base.GameRun.InteractionViewer.View(interaction5);
-                base.GameRun.AddDeckCards(new Card[] { interaction5.SelectedCard }, false, null);
-                Card[] array6 = toolbox.RollCardsCustom(GameRun.BattleCardRng, new CardWeightTable(RarityWeightTable.AllOnes, OwnerWeightTable.AllOnes, CardTypeWeightTable.AllOnes), 4, null, false, false, false, false, (Card card) => card is mimaextensions.mimacard mimascard && mimaextensions.mimacard.passivecards.Contains(mimascard.Id));
-                base.GameRun.UpgradeNewDeckCardOnFlags(array6);
+                yield return GameRun.InteractionViewer.View(interaction5);
+                GameRun.AddDeckCards(new Card[] { interaction5.SelectedCard }, false, null);
+                Card[] array6 = GameRun.RollCards(GameRun.CardRng, new CardWeightTable(RarityWeightTable.EnemyCard, OwnerWeightTable.OnlyPlayer, CardTypeWeightTable.CanBeLoot), draftamount, false, true, (CardConfig config) => config.Rarity != Rarity.Rare);
+                //Card[] array6 = toolbox.RollCardsCustom(GameRun.BattleCardRng, new CardWeightTable(RarityWeightTable.AllOnes, OwnerWeightTable.AllOnes, CardTypeWeightTable.AllOnes), 4, null, false, false, false, false, (Card card) => card is mimaextensions.mimacard mimacard && mimacard.ispassive  && !mimacard.isblitz);
+                GameRun.UpgradeNewDeckCardOnFlags(array6);
                 MiniSelectCardInteraction interaction6 = new MiniSelectCardInteraction(array6, false, false, false)
                 {
                     Source = this,
                     CanCancel = false
                 };
-                yield return base.GameRun.InteractionViewer.View(interaction6);
-                base.GameRun.AddDeckCards(new Card[] { interaction6.SelectedCard }, false, null);
+                yield return GameRun.InteractionViewer.View(interaction6);
+                GameRun.AddDeckCards(new Card[] { interaction6.SelectedCard }, false, null);
                 yield break;
             }
             protected override void OnEnterBattle()
             {
-                base.ReactBattleEvent<GameEventArgs>(base.Battle.BattleStarted, new EventSequencedReactor<GameEventArgs>(this.OnBattleStarted));
-                base.HandleBattleEvent<DamageEventArgs>(base.Battle.Player.DamageTaking, new GameEventHandler<DamageEventArgs>(this.OnPlayerDamageTaking));
-                base.HandleBattleEvent<DamageEventArgs>(base.Battle.Player.DamageReceived, new GameEventHandler<DamageEventArgs>(this.OnPlayerDamageReceived));
+                ReactBattleEvent(Battle.BattleStarted, new EventSequencedReactor<GameEventArgs>(OnBattleStarted));
+                HandleBattleEvent(Battle.Player.DamageTaking, new GameEventHandler<DamageEventArgs>(OnPlayerDamageTaking));
+                HandleBattleEvent(Battle.Player.DamageReceived, new GameEventHandler<DamageEventArgs>(OnPlayerDamageReceived));
             }
 
             private IEnumerable<BattleAction> OnBattleStarted(GameEventArgs args)
             {
-                base.NotifyActivating();
-                yield return new ApplyStatusEffectAction<evilspirit>(base.Owner, new int?(base.Value1), null, null, null, 0f, true);
+                NotifyActivating();
+                yield return new ApplyStatusEffectAction<SE.evilspiritdef.evilspirit>(Owner, new int?(Value1), null, null, null, 0f, true);
                 yield break;
             }
 
@@ -191,8 +186,7 @@ namespace lvalonmima.NotRelics
             {
                 if (Owner.Hp == Owner.MaxHp && ogdmg > 0 && ((oghp - ogdmg != Owner.Hp - ogdmg) || ogdmg >= ogmax))
                 {
-                    base.NotifyActivating();
-                    //React(new ApplyStatusEffectAction<theabyss>(base.Owner, new int?(base.Value2), null, null, null, 0f, true));
+                    NotifyActivating();
                 }
             }
         }

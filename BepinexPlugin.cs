@@ -18,21 +18,17 @@ using System.Reflection;
 using UnityEngine;
 using UnityEngine.UI;
 using LBoLEntitySideloader.PersistentValues;
-using static lvalonmima.NotRelics.mimapassivesdef;
-using static lvalonmima.NotRelics.mimaadef;
-using static lvalonmima.mimaextensions;
-using static lvalonmima.NotRelics.mimabdef;
 
 namespace lvalonmima
 {
-    [BepInPlugin(lvalonmima.PInfo.GUID, lvalonmima.PInfo.Name, lvalonmima.PInfo.version)]
+    [BepInPlugin(PInfo.GUID, PInfo.Name, PInfo.version)]
     [BepInDependency(LBoLEntitySideloader.PluginInfo.GUID, BepInDependency.DependencyFlags.HardDependency)]
     //[BepInDependency(AddWatermark.API.GUID, BepInDependency.DependencyFlags.SoftDependency)]
     [BepInProcess("LBoL.exe")]
     public class BepinexPlugin : BaseUnityPlugin
     {
 
-        private static readonly Harmony harmony = lvalonmima.PInfo.harmony;
+        private static readonly Harmony harmony = PInfo.harmony;
 
         internal static BepInEx.Logging.ManualLogSource log;
 
@@ -41,16 +37,15 @@ namespace lvalonmima
         internal static IResourceSource embeddedSource = new EmbeddedSource(Assembly.GetExecutingAssembly());
 
         // add this for audio loading
-        internal static DirectorySource directorySource = new DirectorySource(lvalonmima.PInfo.GUID, "");
-
-        static KeyboardShortcut TestTab = new KeyboardShortcut(KeyCode.Tab);
+        internal static DirectorySource directorySource = new DirectorySource(PInfo.GUID, "");
+        private static KeyboardShortcut TestTab = new KeyboardShortcut(KeyCode.Tab);
 
         public readonly Dictionary<string, Toggle> _characterFilterList = new Dictionary<string, Toggle>();
         public IEnumerable<Type> FilterCardByCharacter()
         {
             List<Type> list = new List<Type>();
             string[] array = { "Mima" };
-            foreach (var (item, cardConfig) in Library.EnumerateCardTypes())
+            foreach ((Type item, LBoL.ConfigData.CardConfig cardConfig) in Library.EnumerateCardTypes())
             {
                 if (array.Length == 0)
                 {
@@ -148,17 +143,15 @@ namespace lvalonmima
         {
             HandleGameRunEvent(@event, handler, DefaultEventPriority);
         }
-        //the funny starts here
         private void Update()
         {
-            var gamerun = GameMaster.Instance?.CurrentGameRun;
+            GameRunController gamerun = GameMaster.Instance?.CurrentGameRun;
             if (gamerun != null)
             {
-                //HandleGameRunEvent<CardsEventArgs>(gamerun.DeckCardsAdding, new GameEventHandler<CardsEventArgs>(OnDeckCardsAdding));
                 if (TestTab.IsDown())
                 {
-                    var player = gamerun.Player;
-                    if (player.HasExhibit<mimab>() && gamerun.Money >= 10 && gamerun.CurrentStation.Level != 0 || gamerun.CurrentStation.Stage.Id != "BambooForest")
+                    LBoL.Core.Units.PlayerUnit player = gamerun.Player;
+                    if (player.HasExhibit<NotRelics.mimabdef.mimab>() && gamerun.Money >= 10 && gamerun.CurrentStation.Level != 0 || gamerun.CurrentStation.Stage.Id != "BambooForest")
                     {
                         GameMaster.Instance.StartCoroutine(tabberbase());
                     }
@@ -166,19 +159,19 @@ namespace lvalonmima
             }
         }
         [HarmonyPatch(typeof(GameRunController), nameof(GameRunController.Create))]
-        class GameRunController_Create_Patch
+        private class GameRunController_Create_Patch
         {
-            static void OnDeckCardsAdding(CardsEventArgs args)
+            private static void OnDeckCardsAdding(CardsEventArgs args)
             {
-                var gamerun = GameMaster.Instance?.CurrentGameRun;
-                int num = args.Cards.Count((Card card) => card is mimacard mimascard && mimascard.ispassive == true);
-                var player = gamerun.Player;
-                bool hasexhibit = player.HasExhibit<mimapassives>();
+                GameRunController gamerun = GameMaster.Instance?.CurrentGameRun;
+                int num = args.Cards.Count((Card card) => card is mimaextensions.mimacard mimascard && mimascard.ispassive == true);
+                LBoL.Core.Units.PlayerUnit player = gamerun.Player;
+                bool hasexhibit = player.HasExhibit<NotRelics.mimapassivesdef.mimapassives>();
                 if (num > 0 && hasexhibit == false)
                 {
                     GameMaster.Instance.StartCoroutine(GainExhibits(
                              gameRun: gamerun,
-                             exhibits: new HashSet<Type>() { typeof(mimapassives) },
+                             exhibits: new HashSet<Type>() { typeof(NotRelics.mimapassivesdef.mimapassives) },
                              triggerVisual: true,
                              exhibitSource: new VisualSourceData()
                              {
@@ -187,16 +180,18 @@ namespace lvalonmima
                              }));
                 }
             }
-            static void Postfix(GameRunController __result)
+
+            private static void Postfix(GameRunController __result)
             {
                 Instance.HandleGameRunEvent<CardsEventArgs>(__result.DeckCardsAdding, new GameEventHandler<CardsEventArgs>(OnDeckCardsAdding));
             }
         }
-        static IEnumerator GainExhibits(GameRunController gameRun, HashSet<Type> exhibits, bool triggerVisual = false, VisualSourceData exhibitSource = null)
+
+        private static IEnumerator GainExhibits(GameRunController gameRun, HashSet<Type> exhibits, bool triggerVisual = false, VisualSourceData exhibitSource = null)
         {
-            foreach (var et in exhibits)
+            foreach (Type et in exhibits)
             {
-                var ex = Library.CreateExhibit(et);
+                Exhibit ex = Library.CreateExhibit(et);
                 ex.GameRun = gameRun;
 
                 yield return gameRun.GainExhibitRunner(ex, triggerVisual, exhibitSource);
@@ -206,7 +201,7 @@ namespace lvalonmima
         }
 
         //MIMAA REMOVE BASE MANA
-        class CoroutineExtender : IEnumerable
+        private class CoroutineExtender : IEnumerable
         {
             public IEnumerator target_enumerator;
             public List<IEnumerator> preItems = new List<IEnumerator>();
@@ -220,36 +215,36 @@ namespace lvalonmima
 
             public IEnumerator GetEnumerator()
             {
-                foreach (var e in preItems) yield return e;
+                foreach (IEnumerator e in preItems) yield return e;
                 int i = 0;
                 while (target_enumerator.MoveNext())
                 {
                     yield return target_enumerator.Current;
                     i++;
                 }
-                foreach (var e in postItems) yield return e;
+                foreach (IEnumerator e in postItems) yield return e;
             }
         }
 
         [HarmonyPatch(typeof(Exhibit), "TriggerGain")]
         [HarmonyDebug]
-        class Exhibit_Patch
+        private class Exhibit_Patch
         {
-            static void Postfix(ref IEnumerator __result)
+            private static void Postfix(ref IEnumerator __result)
             {
-                var extendedRez = new CoroutineExtender(__result);
+                CoroutineExtender extendedRez = new CoroutineExtender(__result);
 
                 extendedRez.postItems.Add(mimaArmrf());
 
                 __result = extendedRez.GetEnumerator();
             }
 
-            static IEnumerator mimaArmrf()
+            private static IEnumerator mimaArmrf()
             {
                 if ((GameMaster.Instance != null) && (GameMaster.Instance.CurrentGameRun != null))
                 {
-                    var run = GameMaster.Instance.CurrentGameRun;
-                    Exhibit exhibit = run.Player.GetExhibit<mimaa>();
+                    GameRunController run = GameMaster.Instance.CurrentGameRun;
+                    Exhibit exhibit = run.Player.GetExhibit<NotRelics.mimaadef.mimaa>();
                     if (run.CurrentStation != null && run.CurrentStation.Type == StationType.Boss && exhibit != null && run.BaseMana.Colorless > 0)
                     {
                         run.LoseBaseMana(ManaGroup.Colorlesses(1), false);
@@ -265,9 +260,9 @@ namespace lvalonmima
         {
             public override void Restore(GameRunController gameRun)
             {
-                var player = gameRun.Player;
-                Exhibit exhibit = player.GetExhibit<mimapassives>();
-                if (exhibit != null && exhibit is mimapassives mimapassive)
+                LBoL.Core.Units.PlayerUnit player = gameRun.Player;
+                Exhibit exhibit = player.GetExhibit<NotRelics.mimapassivesdef.mimapassives>();
+                if (exhibit != null && exhibit is NotRelics.mimapassivesdef.mimapassives mimapassive)
                 {
                     mimapassive.passivegold = passivegold;
                     mimapassive.passivepower = passivepower;
@@ -278,9 +273,9 @@ namespace lvalonmima
 
             public override void Save(GameRunController gameRun)
             {
-                var player = gameRun.Player;
-                Exhibit exhibit = player.GetExhibit<mimapassives>();
-                if (exhibit != null && exhibit is mimapassives mimapassive)
+                LBoL.Core.Units.PlayerUnit player = gameRun.Player;
+                Exhibit exhibit = player.GetExhibit<NotRelics.mimapassivesdef.mimapassives>();
+                if (exhibit != null && exhibit is NotRelics.mimapassivesdef.mimapassives mimapassive)
                 {
                     passivegold = mimapassive.passivegold;
                     passivepower = mimapassive.passivepower;
@@ -296,10 +291,10 @@ namespace lvalonmima
 
         private IEnumerator tabberbase()
         {
-            var gamerun = GameMaster.Instance?.CurrentGameRun;
+            GameRunController gamerun = GameMaster.Instance?.CurrentGameRun;
             if (gamerun != null)
             {
-                Exhibit exhibit = gamerun.Player.GetExhibit<mimab>();
+                Exhibit exhibit = gamerun.Player.GetExhibit<NotRelics.mimabdef.mimab>();
                 if (exhibit != null)
                 {
                     if (gamerun.Battle == null)
@@ -312,7 +307,6 @@ namespace lvalonmima
                     }
                 }
             }
-            //GameMaster.Instance.StartCoroutine(tabber());
             yield break;
         }
     }

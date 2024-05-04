@@ -2,6 +2,7 @@ cardmimaalib:
   Description: "|When Mima enters The Bamboo Forest|:\nRemove {SelfName} from the |library|, add {Value1} non-Rare |Mima| skill cards to the library."
   Name: The Phoenix Archive
   FlavorText: "Experience accumulates."
+  DetailText:  Cards added to the library by this effect ignore total mana and mana color restrictions.
 cardmimablib:
   Description: "|p:mimab cards are not made yet.|\n|When Mima enters The Bamboo Forest|:\nRemove {SelfName} from the |library|, draft {Value1} non-Rare |Mima| cards to the library."
   Name: Abyssal Reconstruction
@@ -72,7 +73,7 @@ cardremini:
   FlavorText: "Even spirits have a limit on how many things they can remember?"
   DetailText: "{SelfName} cannot be produced by this effect."
 cardrewind:
-  Description: "Discard the hand.\nSwap the draw and discard piles.\nGain {Value1} random mana, |Scry| {Scry} and draw {Value2}.\nDelay |Magical Burst|'s natural activation by {Value3} turn{Value3:plural one='' other='s'}."
+  Description: "Discard the hand.\nSwap the draw and discard piles.\nGain {Value1} random mana, |Scry| {Scry} and draw {Value2} card{Value2:plural one='' other='s'}.\nDelay |Magical Burst|'s natural activation by {Value3} turn{Value3:plural one='' other='s'}."
   Name: It's Rewind Time
   FlavorText: "\"It's Rewind Time.\""
 cardgrasp:

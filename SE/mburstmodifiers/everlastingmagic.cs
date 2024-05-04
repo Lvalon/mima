@@ -9,7 +9,6 @@ using LBoLEntitySideloader.Resource;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using static lvalonmima.BepinexPlugin;
 using LBoL.Core.Units;
 
 namespace lvalonmima.SE.mburstmodifiers
@@ -21,17 +20,20 @@ namespace lvalonmima.SE.mburstmodifiers
             return nameof(everlastingmagic);
         }
 
-        public override LocalizationOption LoadLocalization() => sebatchloc.AddEntity(this);
+        public override LocalizationOption LoadLocalization()
+        {
+            return BepinexPlugin.sebatchloc.AddEntity(this);
+        }
 
         public override Sprite LoadSprite()
         {
-            return ResourceLoader.LoadSprite("seeverlastingmagic.png", embeddedSource);
+            return ResourceLoader.LoadSprite("seeverlastingmagic.png", BepinexPlugin.embeddedSource);
         }
 
         public override StatusEffectConfig MakeConfig()
         {
-            var statusEffectConfig = new StatusEffectConfig(
-                Index: sequenceTable.Next(typeof(CardConfig)),
+            StatusEffectConfig statusEffectConfig = new StatusEffectConfig(
+                Index: BepinexPlugin.sequenceTable.Next(typeof(CardConfig)),
                 Id: "",
                 Order: 1,
                 Type: StatusEffectType.Special,
@@ -48,7 +50,7 @@ namespace lvalonmima.SE.mburstmodifiers
                 LimitStackType: StackType.Keep,
                 ShowPlusByLimit: false,
                 Keywords: Keyword.None,
-                RelativeEffects: new List<string>() { "magicalburst" },
+                RelativeEffects: new List<string>() { nameof(magicalburstdef.magicalburst) },
                 VFX: "Default",
                 VFXloop: "Default",
                 SFX: "Default"
@@ -64,25 +66,17 @@ namespace lvalonmima.SE.mburstmodifiers
                 isMBmod = true;
                 truecounter = 0;
             }
-            public int showeverlasting
-            {
-                get
-                {
-                    if (GameRun == null) { return 80; }
-                    //else { return (Level >= 5) ? 0 : Convert.ToInt32(100 - (Level * 20)); }
-                    else { return (Level > 5) ? 100 : Convert.ToInt32(Level * 20); }
-                }
-            }
+            public int showeverlasting => GameRun == null ? 80 : (Level > 5) ? 100 : Convert.ToInt32(Level * 20);
             protected override void OnAdded(Unit unit)
             {
-                ReactOwnerEvent<StatusEffectApplyEventArgs>(base.Owner.StatusEffectAdded, new EventSequencedReactor<StatusEffectApplyEventArgs>(this.OnStatusEffectAdded));
-                if (Level > 5) { base.NotifyChanged(); Level = 5; }
+                ReactOwnerEvent<StatusEffectApplyEventArgs>(Owner.StatusEffectAdded, new EventSequencedReactor<StatusEffectApplyEventArgs>(OnStatusEffectAdded));
+                if (Level > 5) { NotifyChanged(); Level = 5; }
             }
             private IEnumerable<BattleAction> OnStatusEffectAdded(StatusEffectApplyEventArgs args)
             {
                 if (Level > 5)
                 {
-                    base.NotifyChanged();
+                    NotifyChanged();
                     Level = 5;
                 }
                 yield break;

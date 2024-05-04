@@ -11,17 +11,11 @@ using LBoLEntitySideloader.Resource;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using static lvalonmima.BepinexPlugin;
-using static lvalonmima.SE.mburstmodifiers.accumulationdef;
-using static lvalonmima.SE.mburstmodifiers.fastburstdef;
-using static lvalonmima.SE.mburstmodifiers.everlastingmagicdef;
-using static lvalonmima.SE.mburstmodifiers.concentratedburstdef;
-using static lvalonmima.SE.mburstmodifiers.splitburstdef;
+using lvalonmima.SE.mburstmodifiers;
 using LBoL.Core.Battle.BattleActions;
 using LBoL.Base.Extensions;
 using LBoL.Core.Units;
 using LBoL.EntityLib.StatusEffects.Neutral.TwoColor;
-using static lvalonmima.SE.extmpfiredef;
 
 namespace lvalonmima.SE
 {
@@ -32,17 +26,20 @@ namespace lvalonmima.SE
             return nameof(magicalburst);
         }
 
-        public override LocalizationOption LoadLocalization() => sebatchloc.AddEntity(this);
+        public override LocalizationOption LoadLocalization()
+        {
+            return BepinexPlugin.sebatchloc.AddEntity(this);
+        }
 
         public override Sprite LoadSprite()
         {
-            return ResourceLoader.LoadSprite("semagicalburst.png", embeddedSource);
+            return ResourceLoader.LoadSprite("semagicalburst.png", BepinexPlugin.embeddedSource);
         }
 
         public override StatusEffectConfig MakeConfig()
         {
-            var statusEffectConfig = new StatusEffectConfig(
-                Index: sequenceTable.Next(typeof(CardConfig)),
+            StatusEffectConfig statusEffectConfig = new StatusEffectConfig(
+                Index: BepinexPlugin.sequenceTable.Next(typeof(CardConfig)),
                 Id: "",
                 Order: 1,
                 Type: StatusEffectType.Special,
@@ -59,7 +56,7 @@ namespace lvalonmima.SE
                 LimitStackType: StackType.Keep,
                 ShowPlusByLimit: false,
                 Keywords: Keyword.None,
-                RelativeEffects: new List<string>() { nameof(extmpfire) },
+                RelativeEffects: new List<string>() { nameof(extmpfiredef.extmpfire) },
                 VFX: "Default",
                 VFXloop: "Default",
                 SFX: "Default"
@@ -70,32 +67,27 @@ namespace lvalonmima.SE
         [EntityLogic(typeof(magicalburstdef))]
         public sealed class magicalburst : mimaextensions.mimase
         {
-            public int burstdmgshow { get { return (Battle == null) ? 0 : Convert.ToInt32(0); } }
-            bool dealdmgletsgo = false;
-            int fireneeded = 0;
-            int counterlost = 0;
-            int otcounter = 0;
-            float actualdmg = 0;
+            public int burstdmgshow => (Battle == null) ? 0 : Convert.ToInt32(0);
+
+            private bool dealdmgletsgo = false;
+            private int fireneeded = 0;
+            private int counterlost = 0;
+            private int otcounter = 0;
+            private float actualdmg = 0;
             public magicalburst() : base()
             {
                 truecounter = 0;
             }
-            public override bool ForceNotShowNumber
-            {
-                get
-                {
-                    return true;
-                }
-            }
+            public override bool ForceNotShowNumber => true;
             protected override void OnAdded(Unit unit)
             {
-                base.HandleOwnerEvent<StatusEffectApplyEventArgs>(base.Owner.StatusEffectAdding, new GameEventHandler<StatusEffectApplyEventArgs>(this.OnStatusEffectAdding));
-                ReactOwnerEvent(Owner.StatusEffectAdded, new EventSequencedReactor<StatusEffectApplyEventArgs>(this.OnStatusEffectAdded));
-                ReactOwnerEvent(Owner.StatusEffectRemoved, new EventSequencedReactor<StatusEffectEventArgs>(this.OnStatusEffectRemoved));
-                HandleOwnerEvent(Battle.CardUsing, new GameEventHandler<CardUsingEventArgs>(this.OnCardUsing));
-                ReactOwnerEvent(Battle.CardUsed, new EventSequencedReactor<CardUsingEventArgs>(this.OnCardUsed));
+                HandleOwnerEvent(Owner.StatusEffectAdding, new GameEventHandler<StatusEffectApplyEventArgs>(OnStatusEffectAdding));
+                ReactOwnerEvent(Owner.StatusEffectAdded, new EventSequencedReactor<StatusEffectApplyEventArgs>(OnStatusEffectAdded));
+                ReactOwnerEvent(Owner.StatusEffectRemoved, new EventSequencedReactor<StatusEffectEventArgs>(OnStatusEffectRemoved));
+                HandleOwnerEvent(Battle.CardUsing, new GameEventHandler<CardUsingEventArgs>(OnCardUsing));
+                ReactOwnerEvent(Battle.CardUsed, new EventSequencedReactor<CardUsingEventArgs>(OnCardUsed));
                 ReactOwnerEvent(Battle.AllEnemyTurnStarting, new EventSequencedReactor<GameEventArgs>(OnAllEnemyTurnStarting1));
-                ReactOwnerEvent(Battle.AllEnemyTurnStarting, new EventSequencedReactor<GameEventArgs>(this.OnAllEnemyTurnStarting2));
+                ReactOwnerEvent(Battle.AllEnemyTurnStarting, new EventSequencedReactor<GameEventArgs>(OnAllEnemyTurnStarting2));
             }
             private void OnStatusEffectAdding(StatusEffectApplyEventArgs args)
             {
@@ -103,12 +95,12 @@ namespace lvalonmima.SE
                 if (effect is TempFirepower)
                 {
                     fireneeded = effect.Level;
-                    if (Owner.TryGetStatusEffect<MeilingAbilitySe>(out var tmp))
+                    if (Owner.TryGetStatusEffect<MeilingAbilitySe>(out MeilingAbilitySe tmp))
                     {
                         fireneeded *= 2;
                     }
-                    base.NotifyActivating();
-                    React(new ApplyStatusEffectAction<extmpfire>(base.Owner, new int?(fireneeded), null, null, null, 0f, true));
+                    NotifyActivating();
+                    React(new ApplyStatusEffectAction<extmpfiredef.extmpfire>(Owner, new int?(fireneeded), null, null, null, 0f, true));
                     args.CancelBy(this);
                 }
             }
@@ -117,15 +109,15 @@ namespace lvalonmima.SE
                 //check if effect isMBmod == true
                 if (args.Effect is mimaextensions.mimase mimase && mimase.isMBmod == true)
                 {
-                    this.NotifyChanged();
+                    NotifyChanged();
                     dmgcalc();
                 }
                 if (args.Effect.Id == "magicalburst")
                 {
-                    this.NotifyChanged();
+                    NotifyChanged();
                     dmgcalc();
                 }
-                if (Owner.TryGetStatusEffect<fastburst>(out var tmp) && tmp is mimaextensions.mimase fastburst)
+                if (Owner.TryGetStatusEffect<fastburstdef.fastburst>(out fastburstdef.fastburst tmp) && tmp is mimaextensions.mimase fastburst)
                 {
                     dealdmg(fastburst.Level * 20);
                 }
@@ -135,17 +127,13 @@ namespace lvalonmima.SE
             {
                 if (args.Effect is mimaextensions.mimase mimase && mimase.isMBmod == true)
                 {
-                    this.NotifyChanged();
+                    NotifyChanged();
                     dmgcalc();
                 }
                 yield break;
             }
             private void OnCardUsing(CardUsingEventArgs args)
             {
-                //if (Owner.TryGetStatusEffect<fastburst>(out var tmp) && tmp is mimaextensions.mimase fastburst)
-                //{
-                //    dealdmg(fastburst.Level * 20);
-                //}
             }
             private void dealdmg(int consume100)
             {
@@ -159,7 +147,7 @@ namespace lvalonmima.SE
             private void dmgcalc()
             {
                 //everlasting reduction
-                if (Owner.TryGetStatusEffect<everlastingmagic>(out var everlastingmagic) && everlastingmagic.Level < 5)
+                if (Owner.TryGetStatusEffect<everlastingmagicdef.everlastingmagic>(out everlastingmagicdef.everlastingmagic everlastingmagic) && everlastingmagic.Level < 5)
                 {
                     truecounter += Convert.ToInt32(Level * everlastingmagic.Level / 5);
                 }
@@ -175,11 +163,10 @@ namespace lvalonmima.SE
                 else { Count = truecounter; }
                 otcounter = truecounter;
                 Level = 0;
-                //truecounter = burstdmg;
             }
             private IEnumerable<BattleAction> OnAllEnemyTurnStarting1(GameEventArgs args)
             {
-                if (Owner.TryGetStatusEffect<accumulation>(out var accumulation))
+                if (Owner.TryGetStatusEffect<accumulationdef.accumulation>(out accumulationdef.accumulation accumulation))
                 {
                     accumulation.Level -= 1;
                     if (accumulation.Level == 0)
@@ -197,35 +184,35 @@ namespace lvalonmima.SE
             }
             private IEnumerable<BattleAction> OnAllEnemyTurnStarting2(GameEventArgs args)
             {
-                if (base.Owner == null || base.Battle.BattleShouldEnd)
+                if (Owner == null || Battle.BattleShouldEnd)
                 {
                     yield break;
                 }
                 if (dealdmgletsgo == true)
                 {
-                    if (Owner.TryGetStatusEffect<splitburst>(out var splitburstfirst))
+                    if (Owner.TryGetStatusEffect<splitburstdef.splitburst>(out splitburstdef.splitburst splitburstfirst))
                     {
-                        if (Owner.TryGetStatusEffect<concentratedburst>(out var concentratedfirst)) { }
+                        if (Owner.TryGetStatusEffect<concentratedburstdef.concentratedburst>(out concentratedburstdef.concentratedburst concentratedfirst)) { }
                         else
                         {
                             for (int i = splitburstfirst.Level; i >= 0; i--)
                             {
                                 if (!Battle.BattleShouldEnd)
                                 {
-                                    yield return new DamageAction(base.Owner, Battle.EnemyGroup.Alives, DamageInfo.Attack(Convert.ToInt32(actualdmg / (splitburstfirst.Level + 1)), true), "JunkoLunatic", GunType.Single);
+                                    yield return new DamageAction(Owner, Battle.EnemyGroup.Alives, DamageInfo.Attack(Convert.ToInt32(actualdmg / (splitburstfirst.Level + 1)), true), "JunkoLunatic", GunType.Single);
                                 }
                             }
                         }
                     }
-                    if (Owner.TryGetStatusEffect<concentratedburst>(out var concentratedburst))
+                    if (Owner.TryGetStatusEffect<concentratedburstdef.concentratedburst>(out concentratedburstdef.concentratedburst concentratedburst))
                     {
                         int enemycount = 0;
-                        foreach (Unit target in base.Battle.AllAliveEnemies)
+                        foreach (Unit target in Battle.AllAliveEnemies)
                         {
                             enemycount++;
                         }
                         int conmultiplied = enemycount * concentratedburst.Level;
-                        if (Owner.TryGetStatusEffect<splitburst>(out var splitburst))
+                        if (Owner.TryGetStatusEffect<splitburstdef.splitburst>(out splitburstdef.splitburst splitburst))
                         {
                             int consplit = conmultiplied * (1 + splitburst.Level);
                             //idk why i did this static one, will remain here just in case
@@ -234,7 +221,7 @@ namespace lvalonmima.SE
                             {
                                 if (!Battle.BattleShouldEnd)
                                 {
-                                    yield return new DamageAction(base.Owner, Battle.EnemyGroup.Alives.SampleOrDefault(base.Battle.GameRun.BattleRng), DamageInfo.Attack(Convert.ToInt32(actualdmg / (splitburst.Level + 1)), true), "JunkoLunaticHit", GunType.Single);
+                                    yield return new DamageAction(Owner, Battle.EnemyGroup.Alives.SampleOrDefault(Battle.GameRun.BattleRng), DamageInfo.Attack(Convert.ToInt32(actualdmg / (splitburst.Level + 1)), true), "JunkoLunaticHit", GunType.Single);
                                 }
                             }
 
@@ -245,18 +232,18 @@ namespace lvalonmima.SE
                             {
                                 if (!Battle.BattleShouldEnd)
                                 {
-                                    yield return new DamageAction(base.Owner, Battle.EnemyGroup.Alives.SampleOrDefault(base.Battle.GameRun.BattleRng), DamageInfo.Attack(actualdmg, true), "JunkoLunaticHit", GunType.Single);
+                                    yield return new DamageAction(Owner, Battle.EnemyGroup.Alives.SampleOrDefault(Battle.GameRun.BattleRng), DamageInfo.Attack(actualdmg, true), "JunkoLunaticHit", GunType.Single);
                                 }
                             }
                         }
                     }
-                    else if (Owner.TryGetStatusEffect<splitburst>(out var _)) { }
+                    else if (Owner.TryGetStatusEffect<splitburstdef.splitburst>(out splitburstdef.splitburst _)) { }
                     else
                     {
                         if (!Battle.BattleShouldEnd)
-                        { yield return new DamageAction(base.Owner, Battle.EnemyGroup.Alives, DamageInfo.Attack(actualdmg, true), "JunkoLunatic", GunType.Single); }
+                        { yield return new DamageAction(Owner, Battle.EnemyGroup.Alives, DamageInfo.Attack(actualdmg, true), "JunkoLunatic", GunType.Single); }
                     }
-                    if (Owner.TryGetStatusEffect<everlastingmagic>(out var tmp)) { }
+                    if (Owner.TryGetStatusEffect<everlastingmagicdef.everlastingmagic>(out everlastingmagicdef.everlastingmagic tmp)) { }
                     else
                     {
                         truecounter -= (int)actualdmg;
@@ -270,35 +257,35 @@ namespace lvalonmima.SE
             }
             private IEnumerable<BattleAction> OnCardUsed(GameEventArgs args)
             {
-                if (base.Owner == null || base.Battle.BattleShouldEnd)
+                if (Owner == null || Battle.BattleShouldEnd)
                 {
                     yield break;
                 }
                 if (dealdmgletsgo == true)
                 {
-                    if (Owner.TryGetStatusEffect<splitburst>(out var splitburstfirst))
+                    if (Owner.TryGetStatusEffect<splitburstdef.splitburst>(out splitburstdef.splitburst splitburstfirst))
                     {
-                        if (Owner.TryGetStatusEffect<concentratedburst>(out var concentratedfirst)) { }
+                        if (Owner.TryGetStatusEffect<concentratedburstdef.concentratedburst>(out concentratedburstdef.concentratedburst concentratedfirst)) { }
                         else
                         {
                             for (int i = splitburstfirst.Level; i >= 0; i--)
                             {
                                 if (!Battle.BattleShouldEnd)
                                 {
-                                    yield return new DamageAction(base.Owner, Battle.EnemyGroup.Alives, DamageInfo.Attack(Convert.ToInt32(actualdmg / (splitburstfirst.Level + 1)), true), "JunkoLunatic", GunType.Single);
+                                    yield return new DamageAction(Owner, Battle.EnemyGroup.Alives, DamageInfo.Attack(Convert.ToInt32(actualdmg / (splitburstfirst.Level + 1)), true), "JunkoLunatic", GunType.Single);
                                 }
                             }
                         }
                     }
-                    if (Owner.TryGetStatusEffect<concentratedburst>(out var concentratedburst))
+                    if (Owner.TryGetStatusEffect<concentratedburstdef.concentratedburst>(out concentratedburstdef.concentratedburst concentratedburst))
                     {
                         int enemycount = 0;
-                        foreach (Unit target in base.Battle.AllAliveEnemies)
+                        foreach (Unit target in Battle.AllAliveEnemies)
                         {
                             enemycount++;
                         }
                         int conmultiplied = enemycount * concentratedburst.Level;
-                        if (Owner.TryGetStatusEffect<splitburst>(out var splitburst))
+                        if (Owner.TryGetStatusEffect<splitburstdef.splitburst>(out splitburstdef.splitburst splitburst))
                         {
                             int consplit = conmultiplied * (1 + splitburst.Level);
                             //idk why i did this static one, will remain here just in case
@@ -307,7 +294,7 @@ namespace lvalonmima.SE
                             {
                                 if (!Battle.BattleShouldEnd)
                                 {
-                                    yield return new DamageAction(base.Owner, Battle.EnemyGroup.Alives.SampleOrDefault(base.Battle.GameRun.BattleRng), DamageInfo.Attack(Convert.ToInt32(actualdmg / (splitburst.Level + 1)), true), "JunkoLunaticHit", GunType.Single);
+                                    yield return new DamageAction(Owner, Battle.EnemyGroup.Alives.SampleOrDefault(Battle.GameRun.BattleRng), DamageInfo.Attack(Convert.ToInt32(actualdmg / (splitburst.Level + 1)), true), "JunkoLunaticHit", GunType.Single);
                                 }
                             }
 
@@ -318,18 +305,18 @@ namespace lvalonmima.SE
                             {
                                 if (!Battle.BattleShouldEnd)
                                 {
-                                    yield return new DamageAction(base.Owner, Battle.EnemyGroup.Alives.SampleOrDefault(base.Battle.GameRun.BattleRng), DamageInfo.Attack(actualdmg, true), "JunkoLunaticHit", GunType.Single);
+                                    yield return new DamageAction(Owner, Battle.EnemyGroup.Alives.SampleOrDefault(Battle.GameRun.BattleRng), DamageInfo.Attack(actualdmg, true), "JunkoLunaticHit", GunType.Single);
                                 }
                             }
                         }
                     }
-                    else if (Owner.TryGetStatusEffect<splitburst>(out var _)) { }
+                    else if (Owner.TryGetStatusEffect<splitburstdef.splitburst>(out splitburstdef.splitburst _)) { }
                     else
                     {
                         if (!Battle.BattleShouldEnd)
-                        { yield return new DamageAction(base.Owner, Battle.EnemyGroup.Alives, DamageInfo.Attack(actualdmg, true), "JunkoLunatic", GunType.Single); }
+                        { yield return new DamageAction(Owner, Battle.EnemyGroup.Alives, DamageInfo.Attack(actualdmg, true), "JunkoLunatic", GunType.Single); }
                     }
-                    if (Owner.TryGetStatusEffect<everlastingmagic>(out var tmp2)) { }
+                    if (Owner.TryGetStatusEffect<everlastingmagicdef.everlastingmagic>(out everlastingmagicdef.everlastingmagic tmp2)) { }
                     else
                     {
                         truecounter -= (int)actualdmg;
@@ -337,7 +324,7 @@ namespace lvalonmima.SE
                         yield return new ApplyStatusEffectAction<magicalburst>(Owner, 0, null, null, null, 0f, false);
                     }
                     dealdmgletsgo = false;
-                    if (Owner.TryGetStatusEffect<fastburst>(out var effect))
+                    if (Owner.TryGetStatusEffect<fastburstdef.fastburst>(out fastburstdef.fastburst effect))
                     {
                         yield return new RemoveStatusEffectAction(effect, true);
                     }

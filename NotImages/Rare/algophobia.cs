@@ -7,8 +7,6 @@ using LBoLEntitySideloader.Attributes;
 using LBoLEntitySideloader.Entities;
 using LBoLEntitySideloader.Resource;
 using System.Collections.Generic;
-using static lvalonmima.BepinexPlugin;
-using static lvalonmima.SE.mburstmodifiers.implosiondef;
 
 namespace lvalonmima.NotImages.Rare
 {
@@ -21,17 +19,20 @@ namespace lvalonmima.NotImages.Rare
 
         public override CardImages LoadCardImages()
         {
-            var imgs = new CardImages(embeddedSource);
+            CardImages imgs = new CardImages(BepinexPlugin.embeddedSource);
             imgs.AutoLoad(this, extension: ".png");
             return imgs;
         }
 
-        public override LocalizationOption LoadLocalization() => cardbatchloc.AddEntity(this);
+        public override LocalizationOption LoadLocalization()
+        {
+            return BepinexPlugin.cardbatchloc.AddEntity(this);
+        }
 
         public override CardConfig MakeConfig()
         {
-            var cardConfig = new CardConfig(
-               Index: sequenceTable.Next(typeof(CardConfig)),
+            CardConfig cardConfig = new CardConfig(
+               Index: BepinexPlugin.sequenceTable.Next(typeof(CardConfig)),
                Id: "",
                Order: 10,
                AutoPerform: true,
@@ -82,8 +83,8 @@ namespace lvalonmima.NotImages.Rare
                RelativeKeyword: Keyword.None,
                UpgradedRelativeKeyword: Keyword.None,
 
-               RelativeEffects: new List<string>() { nameof(implosion) },
-               UpgradedRelativeEffects: new List<string>() { nameof(implosion) },
+               RelativeEffects: new List<string>() { nameof(SE.mburstmodifiers.implosiondef.implosion) },
+               UpgradedRelativeEffects: new List<string>() { nameof(SE.mburstmodifiers.implosiondef.implosion) },
                RelativeCards: new List<string>() { },
                UpgradedRelativeCards: new List<string>() { },
                Owner: "Mima",
@@ -101,7 +102,7 @@ namespace lvalonmima.NotImages.Rare
         {
             protected override IEnumerable<BattleAction> Actions(UnitSelector selector, ManaGroup consumingMana, Interaction precondition)
             {
-                yield return BuffAction<implosion>(Value1, 0, 0, 0, 0.2f);
+                yield return BuffAction<SE.mburstmodifiers.implosiondef.implosion>(Value1, 0, 0, 0, 0.2f);
                 yield break;
             }
 

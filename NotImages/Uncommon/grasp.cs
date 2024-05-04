@@ -10,7 +10,6 @@ using LBoLEntitySideloader.Entities;
 using LBoLEntitySideloader.Resource;
 using System.Collections.Generic;
 using System.Linq;
-using static lvalonmima.BepinexPlugin;
 
 namespace lvalonmima.NotImages.Uncommon
 {
@@ -23,17 +22,20 @@ namespace lvalonmima.NotImages.Uncommon
 
         public override CardImages LoadCardImages()
         {
-            var imgs = new CardImages(embeddedSource);
+            CardImages imgs = new CardImages(BepinexPlugin.embeddedSource);
             imgs.AutoLoad(this, extension: ".png");
             return imgs;
         }
 
-        public override LocalizationOption LoadLocalization() => cardbatchloc.AddEntity(this);
+        public override LocalizationOption LoadLocalization()
+        {
+            return BepinexPlugin.cardbatchloc.AddEntity(this);
+        }
 
         public override CardConfig MakeConfig()
         {
-            var cardConfig = new CardConfig(
-               Index: sequenceTable.Next(typeof(CardConfig)),
+            CardConfig cardConfig = new CardConfig(
+               Index: BepinexPlugin.sequenceTable.Next(typeof(CardConfig)),
                Id: "",
                Order: 10,
                AutoPerform: true,
@@ -103,17 +105,17 @@ namespace lvalonmima.NotImages.Uncommon
         {
             protected override IEnumerable<BattleAction> Actions(UnitSelector selector, ManaGroup consumingMana, Interaction precondition)
             {
-                yield return base.SacrificeAction(base.Value1);
-                IEnumerable<Card> enumerable = (from c in base.Battle.DrawZone
+                yield return SacrificeAction(Value1);
+                IEnumerable<Card> enumerable = (from c in Battle.DrawZone
                                                 where c.CardType == CardType.Skill
-                                                select c).Take(base.Value2);
+                                                select c).Take(Value2);
                 foreach (Card card in enumerable)
                 {
                     yield return new MoveCardAction(card, CardZone.Hand);
                 }
-                IEnumerable<Card> enumerable2 = (from c in base.Battle.DiscardZone
-                                                where c.CardType == CardType.Skill
-                                                select c).Take(base.Value2);
+                IEnumerable<Card> enumerable2 = (from c in Battle.DiscardZone
+                                                 where c.CardType == CardType.Skill
+                                                 select c).Take(Value2);
                 foreach (Card card2 in enumerable2)
                 {
                     yield return new MoveCardAction(card2, CardZone.Hand);

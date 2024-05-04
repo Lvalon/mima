@@ -5,16 +5,13 @@ using LBoLEntitySideloader;
 using LBoLEntitySideloader.Entities;
 using LBoLEntitySideloader.Resource;
 using LBoLEntitySideloader.Attributes;
-using static lvalonmima.BepinexPlugin;
 using UnityEngine;
 using LBoL.Base;
 using LBoL.Core.Battle.BattleActions;
 using LBoL.Core.Battle;
 using LBoL.Core;
 using LBoL.Core.Units;
-using static lvalonmima.SE.magicalburstdef;
 using LBoL.Core.Cards;
-using static lvalonmima.mimaextensions;
 
 namespace lvalonmima.NotRelics
 {
@@ -25,23 +22,26 @@ namespace lvalonmima.NotRelics
             return nameof(mimapassives);
         }
 
-        public override LocalizationOption LoadLocalization() => exbatchloc.AddEntity(this);
+        public override LocalizationOption LoadLocalization()
+        {
+            return BepinexPlugin.exbatchloc.AddEntity(this);
+        }
 
         public override ExhibitSprites LoadSprite()
         {
             // embedded resource folders are separated by a dot
             // this means exhibit image name must be exhibitid.png
-            var folder = "Resources.";
-            var exhibitSprites = new ExhibitSprites();
-            Func<string, Sprite> wrap = (s) => ResourceLoader.LoadSprite(folder + GetId() + s + ".png", embeddedSource);
+            string folder = "Resources.";
+            ExhibitSprites exhibitSprites = new ExhibitSprites();
+            Func<string, Sprite> wrap = (s) => ResourceLoader.LoadSprite(folder + GetId() + s + ".png", BepinexPlugin.embeddedSource);
             exhibitSprites.main = wrap("");
             return exhibitSprites;
         }
 
         public override ExhibitConfig MakeConfig()
         {
-            var exhibitConfig = new ExhibitConfig(
-                Index: sequenceTable.Next(typeof(CardConfig)),
+            ExhibitConfig exhibitConfig = new ExhibitConfig(
+                Index: BepinexPlugin.sequenceTable.Next(typeof(CardConfig)),
                 Id: "",
                 Order: 10,
                 IsDebug: false,
@@ -49,7 +49,7 @@ namespace lvalonmima.NotRelics
                 IsSentinel: false,
                 Revealable: false,
                 Appearance: AppearanceType.Nowhere,
-                Owner: "Mima", //"Mima"
+                Owner: "Mima",
                 LosableType: ExhibitLosableType.CantLose,
                 Rarity: Rarity.Mythic,
                 Value1: 0,
@@ -84,51 +84,13 @@ namespace lvalonmima.NotRelics
                 return TypeFactory<Exhibit>.LocalizeProperty(Id, key, decorated, required);
             }
             //playername for future use
-            public string theplayername
-            {
-                get
-                {
-                    if (GameRun == null) { return "The Player"; }
-                    else
-                    {
-                        return "<color=" + GameRun.Player.Config.NarrativeColor + ">" + GameRun.Player.Name + "</color>";
-                    }
-                }
-            }
+            public string theplayername => GameRun == null ? "The Player" : "<color=" + GameRun.Player.Config.NarrativeColor + ">" + GameRun.Player.Name + "</color>";
 
             //START OF PASSIVES
-            public string goldyaml
-            {
-                get
-                {
-                    if (passivegold > 0) { return Convert.ToString(passivegold); } //StringDecorator.Decorate(Convert.ToString("|k:" + passivegold + "|") + "<sprite=\"Point\" name=\"Gold\">");
-                    else return "";
-                }
-            }
-            public string poweryaml
-            {
-                get
-                {
-                    if (passivepower > 0) { return Convert.ToString(passivepower); } //StringDecorator.Decorate(Convert.ToString("|k:" + passivegold + "|") + "<sprite=\"Point\" name=\"Gold\">");
-                    else return "";
-                }
-            }
-            public string mbyaml
-            {
-                get
-                {
-                    if (passivemb > 0) { return Convert.ToString(passivemb); } //StringDecorator.Decorate(Convert.ToString("|k:" + passivegold + "|") + "<sprite=\"Point\" name=\"Gold\">");
-                    else return "";
-                }
-            }
-            public string mbhandyaml
-            {
-                get
-                {
-                    if (passivembhand > 0) { return Convert.ToString(passivembhand); } //StringDecorator.Decorate(Convert.ToString("|k:" + passivegold + "|") + "<sprite=\"Point\" name=\"Gold\">");
-                    else return "";
-                }
-            }
+            public string goldyaml => passivegold > 0 ? Convert.ToString(passivegold) : "";
+            public string poweryaml => passivepower > 0 ? Convert.ToString(passivepower) : "";
+            public string mbyaml => passivemb > 0 ? Convert.ToString(passivemb) : "";
+            public string mbhandyaml => passivembhand > 0 ? Convert.ToString(passivembhand) : "";
 
             public string passivegoldyaml
             {
@@ -209,24 +171,24 @@ namespace lvalonmima.NotRelics
 
             protected override void OnEnterBattle()
             {
-                base.ReactBattleEvent<GameEventArgs>(base.Battle.BattleStarting, new EventSequencedReactor<GameEventArgs>(this.OnBattleStarting));
-                HandleBattleEvent(base.Battle.BattleEnded, OnBattleEnding);
-                ReactBattleEvent<UnitEventArgs>(base.Owner.TurnStarting, new EventSequencedReactor<UnitEventArgs>(this.OnTurnStarting));
-                ReactBattleEvent<CardMovingEventArgs>(base.Battle.CardMoved, new EventSequencedReactor<CardMovingEventArgs>(this.OnCardMoved));
-                ReactBattleEvent<CardEventArgs>(base.Battle.CardDrawn, new EventSequencedReactor<CardEventArgs>(this.OnCardDrawn));
-                ReactBattleEvent<CardsEventArgs>(base.Battle.CardsAddedToHand, new EventSequencedReactor<CardsEventArgs>(this.OnCardsAddedToHand));
+                ReactBattleEvent(Battle.BattleStarting, new EventSequencedReactor<GameEventArgs>(OnBattleStarting));
+                HandleBattleEvent(Battle.BattleEnded, OnBattleEnding);
+                ReactBattleEvent<UnitEventArgs>(Owner.TurnStarting, new EventSequencedReactor<UnitEventArgs>(OnTurnStarting));
+                ReactBattleEvent<CardMovingEventArgs>(Battle.CardMoved, new EventSequencedReactor<CardMovingEventArgs>(OnCardMoved));
+                ReactBattleEvent<CardEventArgs>(Battle.CardDrawn, new EventSequencedReactor<CardEventArgs>(OnCardDrawn));
+                ReactBattleEvent<CardsEventArgs>(Battle.CardsAddedToHand, new EventSequencedReactor<CardsEventArgs>(OnCardsAddedToHand));
             }
 
-            IEnumerable<BattleAction> OnBattleStarting(GameEventArgs gameEventArgs)
+            private IEnumerable<BattleAction> OnBattleStarting(GameEventArgs gameEventArgs)
             {
                 if (passivegold > 0)
                 {
-                    base.NotifyActivating();
+                    NotifyActivating();
                     yield return new GainMoneyAction(passivegold, SpecialSourceType.None);
                 }
                 if (passivepower > 0)
                 {
-                    base.NotifyActivating();
+                    NotifyActivating();
                     yield return new GainPowerAction(passivepower);
                 }
                 yield break;
@@ -235,8 +197,8 @@ namespace lvalonmima.NotRelics
             {
                 if (passivemb > 0)
                 {
-                    base.NotifyActivating();
-                    yield return new ApplyStatusEffectAction<magicalburst>(base.Owner, new int?(passivemb), null, null, null, 0f, true);
+                    NotifyActivating();
+                    yield return new ApplyStatusEffectAction<SE.magicalburstdef.magicalburst>(Owner, new int?(passivemb), null, null, null, 0f, true);
                 }
                 yield break;
             }
@@ -246,14 +208,14 @@ namespace lvalonmima.NotRelics
 
             protected override void OnAdded(PlayerUnit player)
             {
-                HandleGameRunEvent<CardsEventArgs>(GameRun.DeckCardsAdded, new GameEventHandler<CardsEventArgs>(this.OnDeckCardsAdded));
+                HandleGameRunEvent<CardsEventArgs>(GameRun.DeckCardsAdded, new GameEventHandler<CardsEventArgs>(OnDeckCardsAdded));
             }
             private IEnumerable<BattleAction> OnCardMoved(CardMovingEventArgs args)
             {
                 if (args.DestinationZone == CardZone.Hand && passivembhand > 0)
                 {
-                    base.NotifyActivating();
-                    yield return new ApplyStatusEffectAction<magicalburst>(base.Owner, new int?(passivembhand), null, null, null, 0f, true);
+                    NotifyActivating();
+                    yield return new ApplyStatusEffectAction<SE.magicalburstdef.magicalburst>(Owner, new int?(passivembhand), null, null, null, 0f, true);
                 }
                 yield break;
             }
@@ -261,8 +223,8 @@ namespace lvalonmima.NotRelics
             {
                 if (passivembhand > 0)
                 {
-                    base.NotifyActivating();
-                    yield return new ApplyStatusEffectAction<magicalburst>(base.Owner, new int?(passivembhand), null, null, null, 0f, true);
+                    NotifyActivating();
+                    yield return new ApplyStatusEffectAction<SE.magicalburstdef.magicalburst>(Owner, new int?(passivembhand), null, null, null, 0f, true);
                 }
                 yield break;
             }
@@ -270,8 +232,8 @@ namespace lvalonmima.NotRelics
             {
                 if (passivembhand > 0)
                 {
-                    base.NotifyActivating();
-                    yield return new ApplyStatusEffectAction<magicalburst>(base.Owner, new int?(passivembhand), null, null, null, 0f, true);
+                    NotifyActivating();
+                    yield return new ApplyStatusEffectAction<SE.magicalburstdef.magicalburst>(Owner, new int?(passivembhand), null, null, null, 0f, true);
                 }
                 yield break;
             }
@@ -279,7 +241,7 @@ namespace lvalonmima.NotRelics
             {
                 foreach (Card card in args.Cards)
                 {
-                    if (card is mimacard mimascard && mimascard.ispassive)
+                    if (card is mimaextensions.mimacard mimascard && mimascard.ispassive)
                     {
                         switch (card.Id)
                         {

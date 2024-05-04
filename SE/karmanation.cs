@@ -10,7 +10,6 @@ using LBoLEntitySideloader.Resource;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using static lvalonmima.BepinexPlugin;
 using LBoL.Core.Battle.BattleActions;
 using LBoL.Core.Units;
 
@@ -23,17 +22,20 @@ namespace lvalonmima.SE
             return nameof(karmanation);
         }
 
-        public override LocalizationOption LoadLocalization() => sebatchloc.AddEntity(this);
+        public override LocalizationOption LoadLocalization()
+        {
+            return BepinexPlugin.sebatchloc.AddEntity(this);
+        }
 
         public override Sprite LoadSprite()
         {
-            return ResourceLoader.LoadSprite("sekarmanation.png", embeddedSource);
+            return ResourceLoader.LoadSprite("sekarmanation.png", BepinexPlugin.embeddedSource);
         }
 
         public override StatusEffectConfig MakeConfig()
         {
-            var statusEffectConfig = new StatusEffectConfig(
-                Index: sequenceTable.Next(typeof(CardConfig)),
+            StatusEffectConfig statusEffectConfig = new StatusEffectConfig(
+                Index: BepinexPlugin.sequenceTable.Next(typeof(CardConfig)),
                 Id: "",
                 Order: 20,
                 Type: StatusEffectType.Special,
@@ -67,29 +69,22 @@ namespace lvalonmima.SE
             //they worked
             protected override void OnAdded(Unit unit)
             {
-                base.HandleOwnerEvent<DamageDealingEventArgs>(base.Owner.DamageDealing, new GameEventHandler<DamageDealingEventArgs>(this.OnDamageDealing));
+                HandleOwnerEvent(Owner.DamageDealing, new GameEventHandler<DamageDealingEventArgs>(OnDamageDealing));
                 React(PerformAction.Effect(unit, "JunkoNightmare", 0f, "JunkoNightmare", 0f, PerformAction.EffectBehavior.PlayOneShot, 0f));
                 React(PerformAction.Effect(unit, "JunkoNightmare", 1f, "", 0f, PerformAction.EffectBehavior.PlayOneShot, 0f));
                 React(PerformAction.Effect(unit, "JunkoNightmare", 2f, "", 0f, PerformAction.EffectBehavior.PlayOneShot, 0f));
             }
-            public int dmgscale
-            {
-                get
-                {
-                    if (GameRun == null) { return 2; }
-                    else { return (Level >= 27) ? Convert.ToInt32(Math.Pow(2, 27)) : Convert.ToInt32(Math.Pow(2, Level)); }
-                }
-            }
+            public int dmgscale => GameRun == null ? 2 : (Level >= 27) ? Convert.ToInt32(Math.Pow(2, 27)) : Convert.ToInt32(Math.Pow(2, Level));
 
             private void OnDamageDealing(DamageDealingEventArgs args)
             {
                 if (args.DamageInfo.DamageType == DamageType.Attack)
                 {
-                    args.DamageInfo = args.DamageInfo.MultiplyBy((Level >= 27) ? Convert.ToInt32(Math.Pow(2, 27)) : Convert.ToInt32(Math.Pow(2, Level)));//Convert.ToInt32(Math.Pow(2, Level)));
+                    args.DamageInfo = args.DamageInfo.MultiplyBy((Level >= 27) ? Convert.ToInt32(Math.Pow(2, 27)) : Convert.ToInt32(Math.Pow(2, Level)));
                     args.AddModifier(this);
                     if (args.Cause != ActionCause.OnlyCalculate)
                     {
-                        base.NotifyActivating();
+                        NotifyActivating();
                     }
                 }
             }

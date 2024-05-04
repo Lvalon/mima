@@ -5,9 +5,6 @@ using LBoLEntitySideloader.Attributes;
 using LBoLEntitySideloader.Entities;
 using LBoLEntitySideloader.Resource;
 using System.Collections.Generic;
-using static lvalonmima.BepinexPlugin;
-using static lvalonmima.SE.sepassivedef;
-using lvalonmima.SE;
 
 namespace lvalonmima.NotImages.Passive.Uncommon
 {
@@ -20,17 +17,20 @@ namespace lvalonmima.NotImages.Passive.Uncommon
 
         public override CardImages LoadCardImages()
         {
-            var imgs = new CardImages(embeddedSource);
+            CardImages imgs = new CardImages(BepinexPlugin.embeddedSource);
             imgs.AutoLoad(this, extension: ".png");
             return imgs;
         }
 
-        public override LocalizationOption LoadLocalization() => cardbatchloc.AddEntity(this);
+        public override LocalizationOption LoadLocalization()
+        {
+            return BepinexPlugin.cardbatchloc.AddEntity(this);
+        }
 
         public override CardConfig MakeConfig()
         {
-            var cardConfig = new CardConfig(
-               Index: sequenceTable.Next(typeof(CardConfig)),
+            CardConfig cardConfig = new CardConfig(
+               Index: BepinexPlugin.sequenceTable.Next(typeof(CardConfig)),
                Id: "",
                Order: 10,
                AutoPerform: true,
@@ -44,7 +44,7 @@ namespace lvalonmima.NotImages.Passive.Uncommon
                HideMesuem: false,
                IsUpgradable: false,
                Rarity: Rarity.Uncommon,
-               Type: CardType.Skill,
+               Type: CardType.Ability,
                TargetType: TargetType.All,
                Colors: new List<ManaColor>() { ManaColor.Red, ManaColor.Blue },
                IsXCost: false,
@@ -81,7 +81,7 @@ namespace lvalonmima.NotImages.Passive.Uncommon
                RelativeKeyword: Keyword.None,
                UpgradedRelativeKeyword: Keyword.None,
 
-               RelativeEffects: new List<string>() { nameof(sepassive), nameof(magicalburstdef.magicalburst) },
+               RelativeEffects: new List<string>() { nameof(SE.sepassivedef.sepassive), nameof(SE.magicalburstdef.magicalburst) },
                UpgradedRelativeEffects: new List<string>() { },
                RelativeCards: new List<string>() { },
                UpgradedRelativeCards: new List<string>() { },

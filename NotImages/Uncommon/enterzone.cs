@@ -11,7 +11,6 @@ using LBoLEntitySideloader.Entities;
 using LBoLEntitySideloader.Resource;
 using System.Collections.Generic;
 using System.Linq;
-using static lvalonmima.BepinexPlugin;
 
 namespace lvalonmima.NotImages.Uncommon
 {
@@ -24,17 +23,20 @@ namespace lvalonmima.NotImages.Uncommon
 
         public override CardImages LoadCardImages()
         {
-            var imgs = new CardImages(embeddedSource);
+            CardImages imgs = new CardImages(BepinexPlugin.embeddedSource);
             imgs.AutoLoad(this, extension: ".png");
             return imgs;
         }
 
-        public override LocalizationOption LoadLocalization() => cardbatchloc.AddEntity(this);
+        public override LocalizationOption LoadLocalization()
+        {
+            return BepinexPlugin.cardbatchloc.AddEntity(this);
+        }
 
         public override CardConfig MakeConfig()
         {
-            var cardConfig = new CardConfig(
-               Index: sequenceTable.Next(typeof(CardConfig)),
+            CardConfig cardConfig = new CardConfig(
+               Index: BepinexPlugin.sequenceTable.Next(typeof(CardConfig)),
                Id: "",
                Order: 10,
                AutoPerform: true,
@@ -104,7 +106,7 @@ namespace lvalonmima.NotImages.Uncommon
         {
             protected override IEnumerable<BattleAction> Actions(UnitSelector selector, ManaGroup consumingMana, Interaction precondition)
             {
-                using (IEnumerator<Card> enumerator = (from card in base.Battle.HandZone select card).GetEnumerator())
+                using (IEnumerator<Card> enumerator = (from card in Battle.HandZone select card).GetEnumerator())
                 {
                     while (enumerator.MoveNext())
                     {
@@ -112,12 +114,12 @@ namespace lvalonmima.NotImages.Uncommon
                         if (card2.Cost.Amount > 0)
                         {
                             card2.NotifyActivating();
-                            ManaColor[] components = card2.Cost.EnumerateComponents().SampleManyOrAll(Value1, base.GameRun.BattleRng);
+                            ManaColor[] components = card2.Cost.EnumerateComponents().SampleManyOrAll(Value1, GameRun.BattleRng);
                             card2.DecreaseTurnCost(ManaGroup.FromComponents(components));
                         }
                     }
                 }
-                yield return new LockRandomTurnManaAction(base.Value2);
+                yield return new LockRandomTurnManaAction(Value2);
                 yield break;
             }
         }

@@ -7,7 +7,6 @@ using LBoLEntitySideloader.Attributes;
 using LBoLEntitySideloader.Entities;
 using LBoLEntitySideloader.Resource;
 using System.Collections.Generic;
-using static lvalonmima.BepinexPlugin;
 using LBoL.EntityLib.StatusEffects.Sakuya;
 
 namespace lvalonmima.NotImages.Starter
@@ -21,17 +20,20 @@ namespace lvalonmima.NotImages.Starter
 
         public override CardImages LoadCardImages()
         {
-            var imgs = new CardImages(embeddedSource);
+            CardImages imgs = new CardImages(BepinexPlugin.embeddedSource);
             imgs.AutoLoad(this, extension: ".png");
             return imgs;
         }
 
-        public override LocalizationOption LoadLocalization() => cardbatchloc.AddEntity(this);
+        public override LocalizationOption LoadLocalization()
+        {
+            return BepinexPlugin.cardbatchloc.AddEntity(this);
+        }
 
         public override CardConfig MakeConfig()
         {
-            var cardConfig = new CardConfig(
-               Index: sequenceTable.Next(typeof(CardConfig)),
+            CardConfig cardConfig = new CardConfig(
+               Index: BepinexPlugin.sequenceTable.Next(typeof(CardConfig)),
                Id: "",
                Order: 10,
                AutoPerform: true,
@@ -82,8 +84,8 @@ namespace lvalonmima.NotImages.Starter
                RelativeKeyword: Keyword.None,
                UpgradedRelativeKeyword: Keyword.None,
 
-               RelativeEffects: new List<string>() { "magicalburst", "TimeAuraSe" },
-               UpgradedRelativeEffects: new List<string>() { "magicalburst", "TimeAuraSe" },
+               RelativeEffects: new List<string>() { nameof(SE.magicalburstdef.magicalburst), nameof(TimeAuraSe) },
+               UpgradedRelativeEffects: new List<string>() { nameof(SE.magicalburstdef.magicalburst), nameof(TimeAuraSe) },
                RelativeCards: new List<string>() { },
                UpgradedRelativeCards: new List<string>() { },
                Owner: "Mima",
@@ -103,16 +105,6 @@ namespace lvalonmima.NotImages.Starter
             {
                 yield return SacrificeAction(Value1);
                 yield return BuffAction<TimeAuraSe>(Value2, 0, 0, 0, 0.2f);
-                //if (Battle.Player.TryGetStatusEffect<magicalburst>(out var tmp) && tmp is mimaextensions.mimase magicalburst)
-                //{
-                //    int countfr = magicalburst.truecounter;
-                //    magicalburst.truecounter = 0;
-                //    if (countfr > 0)
-                //    {
-                //        yield return base.BuffAction<TimeAuraSe>(countfr, 0, 0, 0, 0.2f);
-                //        yield return base.BuffAction<magicalburst>(0, 1, 0, 0, 0.2f);
-                //    }
-                //}
             }
         }
     }

@@ -11,24 +11,29 @@ using LBoL.Core.Cards;
 using LBoL.Core.Units;
 using System.Collections.Generic;
 using UnityEngine;
-using static lvalonmima.BepinexPlugin;
 
 namespace lvalonmima
 {
     public sealed class ultadef : UltimateSkillTemplate
     {
-        public override IdContainer GetId() => nameof(ulta);
+        public override IdContainer GetId()
+        {
+            return nameof(ulta);
+        }
 
-        public override LocalizationOption LoadLocalization() => ultbatchloc.AddEntity(this);
+        public override LocalizationOption LoadLocalization()
+        {
+            return BepinexPlugin.ultbatchloc.AddEntity(this);
+        }
 
         public override Sprite LoadSprite()
         {
-            return ResourceLoader.LoadSprite("ulta.png", embeddedSource);
+            return ResourceLoader.LoadSprite("ulta.png", BepinexPlugin.embeddedSource);
         }
 
         public override UltimateSkillConfig MakeConfig()
         {
-            var config = new UltimateSkillConfig(
+            UltimateSkillConfig config = new UltimateSkillConfig(
                 Id: "",
                 Order: 10,
                 PowerCost: 100,
@@ -51,26 +56,20 @@ namespace lvalonmima
         {
             public ulta()
             {
-                base.TargetType = TargetType.RandomEnemy;
-                base.GunName = "Butterfly1";
+                TargetType = TargetType.RandomEnemy;
+                GunName = "Butterfly1";
             }
-            public int hplosing
-            {
-                get
-                {
-                    return Value1;
-                }
-            }
+            public int hplosing => Value1;
 
             protected override IEnumerable<BattleAction> Actions(UnitSelector selector)
             {
                 yield return PerformAction.Spell(Battle.Player, "ulta");
-                yield return new DamageAction(base.Owner, base.Owner, DamageInfo.HpLose(hplosing, true), "Instant", GunType.Single);
+                yield return new DamageAction(Owner, Owner, DamageInfo.HpLose(hplosing, true), "Instant", GunType.Single);
                 int atktimeleft = Value2;
-                while (atktimeleft > 0 && !base.Battle.BattleShouldEnd)
+                while (atktimeleft > 0 && !Battle.BattleShouldEnd)
                 {
                     atktimeleft--;
-                    yield return new DamageAction(base.Owner, selector.GetEnemy(base.Battle), this.Damage, base.GunName, GunType.Single);
+                    yield return new DamageAction(Owner, selector.GetEnemy(Battle), Damage, GunName, GunType.Single);
                 }
                 yield break;
             }
@@ -79,18 +78,24 @@ namespace lvalonmima
 
     public sealed class ultbdef : UltimateSkillTemplate
     {
-        public override IdContainer GetId() => nameof(ultb);
+        public override IdContainer GetId()
+        {
+            return nameof(ultb);
+        }
 
-        public override LocalizationOption LoadLocalization() => ultbatchloc.AddEntity(this);
+        public override LocalizationOption LoadLocalization()
+        {
+            return BepinexPlugin.ultbatchloc.AddEntity(this);
+        }
 
         public override Sprite LoadSprite()
         {
-            return ResourceLoader.LoadSprite("ultb.png", embeddedSource);
+            return ResourceLoader.LoadSprite("ultb.png", BepinexPlugin.embeddedSource);
         }
 
         public override UltimateSkillConfig MakeConfig()
         {
-            var config = new UltimateSkillConfig(
+            UltimateSkillConfig config = new UltimateSkillConfig(
                 Id: "",
                 Order: 10,
                 PowerCost: 120,
@@ -113,19 +118,13 @@ namespace lvalonmima
         {
             public ultb()
             {
-                base.TargetType = TargetType.Self;
+                TargetType = TargetType.Self;
             }
-            public int hplosing
-            {
-                get
-                {
-                    return Value1;
-                }
-            }
+            public int hplosing => Value1;
             protected override IEnumerable<BattleAction> Actions(UnitSelector selector)
             {
                 yield return PerformAction.Spell(Battle.Player, "ultb");
-                yield return new DamageAction(base.Owner, base.Owner, DamageInfo.HpLose(hplosing, true), "Instant", GunType.Single);
+                yield return new DamageAction(Owner, Owner, DamageInfo.HpLose(hplosing, true), "Instant", GunType.Single);
                 yield break;
             }
         }

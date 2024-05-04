@@ -7,7 +7,6 @@ using LBoLEntitySideloader.Attributes;
 using LBoLEntitySideloader.Entities;
 using LBoLEntitySideloader.Resource;
 using System.Collections.Generic;
-using static lvalonmima.BepinexPlugin;
 using LBoL.EntityLib.StatusEffects.Others;
 
 namespace lvalonmima.NotImages.Starter
@@ -21,17 +20,20 @@ namespace lvalonmima.NotImages.Starter
 
         public override CardImages LoadCardImages()
         {
-            var imgs = new CardImages(embeddedSource);
+            CardImages imgs = new CardImages(BepinexPlugin.embeddedSource);
             imgs.AutoLoad(this, extension: ".png");
             return imgs;
         }
 
-        public override LocalizationOption LoadLocalization() => cardbatchloc.AddEntity(this);
+        public override LocalizationOption LoadLocalization()
+        {
+            return BepinexPlugin.cardbatchloc.AddEntity(this);
+        }
 
         public override CardConfig MakeConfig()
         {
-            var cardConfig = new CardConfig(
-               Index: sequenceTable.Next(typeof(CardConfig)),
+            CardConfig cardConfig = new CardConfig(
+               Index: BepinexPlugin.sequenceTable.Next(typeof(CardConfig)),
                Id: "",
                Order: 10,
                AutoPerform: true,
@@ -99,7 +101,7 @@ namespace lvalonmima.NotImages.Starter
         [EntityLogic(typeof(carderosiondef))]
         public sealed class carderosion : mimaextensions.mimacard
         {
-            public int Value3 { get { if (!IsUpgraded) { return 2; } else { return 1; } } }
+            public int Value3 => !IsUpgraded ? 2 : 1;
             protected override IEnumerable<BattleAction> Actions(UnitSelector selector, ManaGroup consumingMana, Interaction precondition)
             {
                 yield return SacrificeAction(Value2);
@@ -107,7 +109,6 @@ namespace lvalonmima.NotImages.Starter
                 {
                     yield return battleAction;
                 }
-                //yield return BuffAction<Weak>(0, Value3, 0, 0, 0.2f);
             }
         }
     }

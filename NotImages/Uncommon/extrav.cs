@@ -8,8 +8,6 @@ using LBoLEntitySideloader.Attributes;
 using LBoLEntitySideloader.Entities;
 using LBoLEntitySideloader.Resource;
 using System.Collections.Generic;
-using static lvalonmima.BepinexPlugin;
-using static lvalonmima.SE.magicalburstdef;
 
 namespace lvalonmima.NotImages.Uncommon
 {
@@ -22,17 +20,20 @@ namespace lvalonmima.NotImages.Uncommon
 
         public override CardImages LoadCardImages()
         {
-            var imgs = new CardImages(embeddedSource);
+            CardImages imgs = new CardImages(BepinexPlugin.embeddedSource);
             imgs.AutoLoad(this, extension: ".png");
             return imgs;
         }
 
-        public override LocalizationOption LoadLocalization() => cardbatchloc.AddEntity(this);
+        public override LocalizationOption LoadLocalization()
+        {
+            return BepinexPlugin.cardbatchloc.AddEntity(this);
+        }
 
         public override CardConfig MakeConfig()
         {
-            var cardConfig = new CardConfig(
-               Index: sequenceTable.Next(typeof(CardConfig)),
+            CardConfig cardConfig = new CardConfig(
+               Index: BepinexPlugin.sequenceTable.Next(typeof(CardConfig)),
                Id: "",
                Order: 10,
                AutoPerform: true,
@@ -83,8 +84,8 @@ namespace lvalonmima.NotImages.Uncommon
                RelativeKeyword: Keyword.None,
                UpgradedRelativeKeyword: Keyword.None,
 
-               RelativeEffects: new List<string>() { nameof(magicalburst) },
-               UpgradedRelativeEffects: new List<string>() { nameof(magicalburst) },
+               RelativeEffects: new List<string>() { nameof(SE.magicalburstdef.magicalburst) },
+               UpgradedRelativeEffects: new List<string>() { nameof(SE.magicalburstdef.magicalburst) },
                RelativeCards: new List<string>() { },
                UpgradedRelativeCards: new List<string>() { },
                Owner: "Mima",
@@ -102,14 +103,14 @@ namespace lvalonmima.NotImages.Uncommon
         {
             protected override IEnumerable<BattleAction> Actions(UnitSelector selector, ManaGroup consumingMana, Interaction precondition)
             {
-                if (Battle.Player.TryGetStatusEffect<magicalburst>(out var tmp) && tmp is mimaextensions.mimase magicalburst)
-                {   
+                if (Battle.Player.TryGetStatusEffect<SE.magicalburstdef.magicalburst>(out SE.magicalburstdef.magicalburst tmp) && tmp is mimaextensions.mimase magicalburst)
+                {
                     if (magicalburst.truecounter - Value1 >= 0)
                     {
                         magicalburst.truecounter -= Value1;
-                        yield return base.BuffAction<magicalburst>(0, 1, 0, 0, 0.2f);
+                        yield return BuffAction<SE.magicalburstdef.magicalburst>(0, 1, 0, 0, 0.2f);
                     }
-                    else { magicalburst.truecounter = 0; yield return base.BuffAction<magicalburst>(0, 1, 0, 0, 0.2f); }
+                    else { magicalburst.truecounter = 0; yield return BuffAction<SE.magicalburstdef.magicalburst>(0, 1, 0, 0, 0.2f); }
                 }
                 yield return new DrawManyCardAction(Value1);
             }

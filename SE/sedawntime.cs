@@ -9,14 +9,12 @@ using LBoLEntitySideloader.Entities;
 using LBoLEntitySideloader.Resource;
 using System.Collections.Generic;
 using UnityEngine;
-using static lvalonmima.BepinexPlugin;
 using LBoL.Core.Battle.BattleActions;
 using LBoL.Base.Extensions;
 using LBoL.Core.Units;
 using System.Linq;
 using LBoL.EntityLib.StatusEffects.ExtraTurn;
 using LBoL.Core.Randoms;
-using static lvalonmima.mimaextensions;
 
 namespace lvalonmima.SE
 {
@@ -27,17 +25,20 @@ namespace lvalonmima.SE
             return nameof(sedawntime);
         }
 
-        public override LocalizationOption LoadLocalization() => sebatchloc.AddEntity(this);
+        public override LocalizationOption LoadLocalization()
+        {
+            return BepinexPlugin.sebatchloc.AddEntity(this);
+        }
 
         public override Sprite LoadSprite()
         {
-            return ResourceLoader.LoadSprite("sedawntime.png", embeddedSource);
+            return ResourceLoader.LoadSprite("sedawntime.png", BepinexPlugin.embeddedSource);
         }
 
         public override StatusEffectConfig MakeConfig()
         {
-            var statusEffectConfig = new StatusEffectConfig(
-                Index: sequenceTable.Next(typeof(CardConfig)),
+            StatusEffectConfig statusEffectConfig = new StatusEffectConfig(
+                Index: BepinexPlugin.sequenceTable.Next(typeof(CardConfig)),
                 Id: "",
                 Order: 420,
                 Type: StatusEffectType.Special,
@@ -67,35 +68,35 @@ namespace lvalonmima.SE
         {
             protected override void OnAdded(Unit unit)
             {
-                base.ThisTurnActivating = false;
-                base.HandleOwnerEvent<UnitEventArgs>(base.Battle.Player.TurnStarting, delegate (UnitEventArgs _)
+                ThisTurnActivating = false;
+                HandleOwnerEvent(Battle.Player.TurnStarting, delegate (UnitEventArgs _)
                 {
-                    if (base.Battle.Player.IsExtraTurn && !base.Battle.Player.IsSuperExtraTurn && base.Battle.Player.GetStatusEffectExtend<ExtraTurnPartner>() == this)
+                    if (Battle.Player.IsExtraTurn && !Battle.Player.IsSuperExtraTurn && Battle.Player.GetStatusEffectExtend<ExtraTurnPartner>() == this)
                     {
-                        base.ThisTurnActivating = true;
+                        ThisTurnActivating = true;
                     }
                 });
-                base.HandleOwnerEvent<DamageEventArgs>(Owner.DamageTaking, new GameEventHandler<DamageEventArgs>(this.OnDamageTaking));
-                base.HandleOwnerEvent<DamageDealingEventArgs>(base.Owner.DamageDealing, new GameEventHandler<DamageDealingEventArgs>(this.OnDamageDealing));
-                base.HandleOwnerEvent<CardEventArgs>(base.Battle.Predraw, new GameEventHandler<CardEventArgs>(this.OnPredraw));
-                base.ReactOwnerEvent<UnitEventArgs>(base.Owner.TurnStarted, new EventSequencedReactor<UnitEventArgs>(this.OnOwnerTurnStarted));
+                HandleOwnerEvent(Owner.DamageTaking, new GameEventHandler<DamageEventArgs>(OnDamageTaking));
+                HandleOwnerEvent(Owner.DamageDealing, new GameEventHandler<DamageDealingEventArgs>(OnDamageDealing));
+                HandleOwnerEvent(Battle.Predraw, new GameEventHandler<CardEventArgs>(OnPredraw));
+                ReactOwnerEvent(Owner.TurnStarted, new EventSequencedReactor<UnitEventArgs>(OnOwnerTurnStarted));
                 ReactOwnerEvent(Battle.Player.TurnEnding, new EventSequencedReactor<GameEventArgs>(OnPlayerTurnEnding));
-                base.HandleOwnerEvent<ManaEventArgs>(base.Battle.ManaGaining, new GameEventHandler<ManaEventArgs>(this.OnManaGaining));
-                this.CardToFree(base.Battle.EnumerateAllCards());
-                base.HandleOwnerEvent<CardsEventArgs>(base.Battle.CardsAddedToDiscard, new GameEventHandler<CardsEventArgs>(this.OnAddCard));
-                base.HandleOwnerEvent<CardsEventArgs>(base.Battle.CardsAddedToHand, new GameEventHandler<CardsEventArgs>(this.OnAddCard));
-                base.HandleOwnerEvent<CardsEventArgs>(base.Battle.CardsAddedToExile, new GameEventHandler<CardsEventArgs>(this.OnAddCard));
-                base.ReactOwnerEvent<CardMovingEventArgs>(base.Battle.CardMoved, new EventSequencedReactor<CardMovingEventArgs>(this.OnCardMoved));
-                base.HandleOwnerEvent<CardsAddingToDrawZoneEventArgs>(base.Battle.CardsAddedToDrawZone, new GameEventHandler<CardsAddingToDrawZoneEventArgs>(this.OnAddCardToDraw));
+                HandleOwnerEvent(Battle.ManaGaining, new GameEventHandler<ManaEventArgs>(OnManaGaining));
+                CardToFree(Battle.EnumerateAllCards());
+                HandleOwnerEvent(Battle.CardsAddedToDiscard, new GameEventHandler<CardsEventArgs>(OnAddCard));
+                HandleOwnerEvent(Battle.CardsAddedToHand, new GameEventHandler<CardsEventArgs>(OnAddCard));
+                HandleOwnerEvent(Battle.CardsAddedToExile, new GameEventHandler<CardsEventArgs>(OnAddCard));
+                ReactOwnerEvent(Battle.CardMoved, new EventSequencedReactor<CardMovingEventArgs>(OnCardMoved));
+                HandleOwnerEvent(Battle.CardsAddedToDrawZone, new GameEventHandler<CardsAddingToDrawZoneEventArgs>(OnAddCardToDraw));
             }
             private void OnDamageTaking(DamageEventArgs args)
             {
-                if (base.ThisTurnActivating)
+                if (ThisTurnActivating)
                 {
                     int num = args.DamageInfo.Damage.RoundToInt();
                     if (num > 0)
                     {
-                        base.NotifyActivating();
+                        NotifyActivating();
                         args.DamageInfo = args.DamageInfo.ReduceActualDamageBy(num);
                         args.AddModifier(this);
                     }
@@ -103,7 +104,7 @@ namespace lvalonmima.SE
             }
             private void OnDamageDealing(DamageDealingEventArgs args)
             {
-                if (base.ThisTurnActivating)
+                if (ThisTurnActivating)
                 {
                     DamageInfo damageInfo = args.DamageInfo;
                     damageInfo.Damage = damageInfo.Amount * (0);
@@ -113,28 +114,22 @@ namespace lvalonmima.SE
             }
             private void OnManaGaining(ManaEventArgs args)
             {
-                if (base.ThisTurnActivating)
+                if (ThisTurnActivating)
                 {
-                    //if (base.Battle.ExtraTurnMana.IsEmpty)
-                    //{
                     args.CancelBy(this);
-                    //    return;
-                    //}
-                    //args.Value = base.Battle.ExtraTurnMana;
-                    //args.AddModifier(this);
                 }
             }
             private void OnAddCardToDraw(CardsAddingToDrawZoneEventArgs args)
             {
-                if (base.ThisTurnActivating) { this.CardToFree(args.Cards); }
+                if (ThisTurnActivating) { CardToFree(args.Cards); }
             }
             private void OnAddCard(CardsEventArgs args)
             {
-                if (base.ThisTurnActivating) { this.CardToFree(args.Cards); }
+                if (ThisTurnActivating) { CardToFree(args.Cards); }
             }
             private IEnumerable<BattleAction> OnCardMoved(CardMovingEventArgs args)
             {
-                if (base.ThisTurnActivating)
+                if (ThisTurnActivating)
                 {
                     Card card = args.Card;
                     if (card.Config.IsXCost == false) { card.FreeCost = true; }
@@ -143,7 +138,7 @@ namespace lvalonmima.SE
             }
             private void CardToFree(IEnumerable<Card> cards)
             {
-                if (base.ThisTurnActivating)
+                if (ThisTurnActivating)
                 {
                     foreach (Card card in cards)
                     {
@@ -153,16 +148,16 @@ namespace lvalonmima.SE
             }
             protected override void OnRemoved(Unit unit)
             {
-                foreach (Card card in base.Battle.EnumerateAllCards())
+                foreach (Card card in Battle.EnumerateAllCards())
                 {
                     card.FreeCost = false;
                 }
             }
             private IEnumerable<BattleAction> OnOwnerTurnStarted(UnitEventArgs args)
             {
-                if (base.ThisTurnActivating)
+                if (ThisTurnActivating)
                 {
-                    List<Card> hand = (from card in base.Battle.HandZone select card).ToList<Card>();
+                    List<Card> hand = (from card in Battle.HandZone select card).ToList<Card>();
                     if (hand.Count > 0)
                     {
                         foreach (Card card2 in hand)
@@ -170,8 +165,7 @@ namespace lvalonmima.SE
                             yield return new RemoveCardAction(card2);
                         }
                     }
-                    //List<Card> list = base.Battle.RollCardsWithoutManaLimit(new CardWeightTable(RarityWeightTable.BattleCard, OwnerWeightTable.OnlyPlayer, CardTypeWeightTable.CanBeLoot), base.Level, (Card card) => card is mimacard && card.Keywords.HasFlag(Keyword.Forbidden) && card.Config.Id != "carddawntime").ToList<Card>(); //(CardConfig config) => !config.Keywords.HasFlag(Keyword.Forbidden) && config.Id != "carddawntime"
-                    List<Card> list = toolbox.RollCardsCustom(GameRun.BattleCardRng, new CardWeightTable(RarityWeightTable.BattleCard, OwnerWeightTable.OnlyPlayer, CardTypeWeightTable.CanBeLoot), base.Level, null, false, false, false, false, (Card card) => card is mimacard && !card.Keywords.HasFlag(Keyword.Forbidden) && card.Config.Id != "carddawntime").ToList<Card>(); //(CardConfig config) => !config.Keywords.HasFlag(Keyword.Forbidden) && config.Id != "carddawntime"
+                    List<Card> list = toolbox.RollCardsCustom(GameRun.BattleCardRng, new CardWeightTable(RarityWeightTable.BattleCard, OwnerWeightTable.OnlyPlayer, CardTypeWeightTable.CanBeLoot), Level, null, false, false, false, false, (Card card) => card is mimaextensions.mimacard && !card.Keywords.HasFlag(Keyword.Forbidden) && card.Config.Id != "carddawntime").ToList<Card>();
                     if (list.Count > 0)
                     {
                         foreach (Card card in list)
@@ -187,14 +181,14 @@ namespace lvalonmima.SE
             }
             private void OnPredraw(CardEventArgs args)
             {
-                if (base.ThisTurnActivating)
+                if (ThisTurnActivating)
                 {
                     args.CancelBy(this);
                 }
             }
             private IEnumerable<BattleAction> OnPlayerTurnEnding(GameEventArgs args)
             {
-                if (base.ThisTurnActivating)
+                if (ThisTurnActivating)
                 {
                     NotifyActivating();
                     yield return new RemoveStatusEffectAction(this, true);

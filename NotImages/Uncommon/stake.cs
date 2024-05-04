@@ -9,7 +9,6 @@ using LBoLEntitySideloader.Attributes;
 using LBoLEntitySideloader.Entities;
 using LBoLEntitySideloader.Resource;
 using System.Collections.Generic;
-using static lvalonmima.BepinexPlugin;
 
 namespace lvalonmima.NotImages.Uncommon
 {
@@ -22,17 +21,20 @@ namespace lvalonmima.NotImages.Uncommon
 
         public override CardImages LoadCardImages()
         {
-            var imgs = new CardImages(embeddedSource);
+            CardImages imgs = new CardImages(BepinexPlugin.embeddedSource);
             imgs.AutoLoad(this, extension: ".png");
             return imgs;
         }
 
-        public override LocalizationOption LoadLocalization() => cardbatchloc.AddEntity(this);
+        public override LocalizationOption LoadLocalization()
+        {
+            return BepinexPlugin.cardbatchloc.AddEntity(this);
+        }
 
         public override CardConfig MakeConfig()
         {
-            var cardConfig = new CardConfig(
-               Index: sequenceTable.Next(typeof(CardConfig)),
+            CardConfig cardConfig = new CardConfig(
+               Index: BepinexPlugin.sequenceTable.Next(typeof(CardConfig)),
                Id: "",
                Order: 10,
                AutoPerform: true,
@@ -83,8 +85,8 @@ namespace lvalonmima.NotImages.Uncommon
                RelativeKeyword: Keyword.Philosophy,
                UpgradedRelativeKeyword: Keyword.Philosophy,
 
-               RelativeEffects: new List<string>() { "Invincible" },
-               UpgradedRelativeEffects: new List<string>() { "Invincible" },
+               RelativeEffects: new List<string>() { nameof(Invincible) },
+               UpgradedRelativeEffects: new List<string>() { nameof(Invincible) },
                RelativeCards: new List<string>() { },
                UpgradedRelativeCards: new List<string>() { },
                Owner: "Mima",
@@ -103,8 +105,8 @@ namespace lvalonmima.NotImages.Uncommon
             protected override IEnumerable<BattleAction> Actions(UnitSelector selector, ManaGroup consumingMana, Interaction precondition)
             {
                 yield return BuffAction<Invincible>(0, Value1, 0, 0, 0.2f);
-                yield return new GainManaAction(this.Mana);
-                yield return base.UpgradeAllHandsAction();
+                yield return new GainManaAction(Mana);
+                yield return UpgradeAllHandsAction();
             }
         }
     }
