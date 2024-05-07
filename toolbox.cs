@@ -10,7 +10,7 @@ namespace lvalonmima
     public abstract class toolbox
     {
 
-        static public Card[] RollCardsCustom(RandomGen rng, CardWeightTable weightTable, int count, ManaGroup? manaLimit = null, bool colorLimit = false, bool applyFactors = false, bool battleRolling = false, bool ensureCount = false, Predicate<Card> filter = null)
+        static public Card[] RollCardsCustomIgnore(RandomGen rng, CardWeightTable weightTable, int count, ManaGroup? manaLimit = null, bool colorLimit = false, bool applyFactors = false, bool battleRolling = false, bool ensureCount = false, Predicate<Card> filter = null)
         {
             GameRunController gr = GameMaster.Instance?.CurrentGameRun;
             if (gr == null)
@@ -24,6 +24,28 @@ namespace lvalonmima
             {
                 Card card = Library.CreateCard(e.Elem);
                 if (filter(card))
+                {
+                    card.GameRun = gr;
+                    filteredPool.Add(card, e.Weight);
+                }
+            }
+
+            return filteredPool.SampleMany(rng, count, ensureCount);
+        }
+        static public Card[] RollCardsCustom(RandomGen rng, CardWeightTable weightTable, int count, ManaGroup? manaLimit = null, bool colorLimit = false, bool applyFactors = false, bool battleRolling = false, bool ensureCount = false, Predicate<Card> filter = null)
+        {
+            GameRunController gr = GameMaster.Instance?.CurrentGameRun;
+            if (gr == null)
+                throw new InvalidOperationException("Rolling cards when run is not started.");
+
+            UniqueRandomPool<Type> innitialPool = gr.CreateValidCardsPool(weightTable, manaLimit, colorLimit, applyFactors, battleRolling, null);
+
+            UniqueRandomPool<Card> filteredPool = new UniqueRandomPool<Card>();
+
+            foreach (RandomPoolEntry<Type> e in innitialPool)
+            {
+                Card card = Library.CreateCard(e.Elem);
+                if (filter(card) && gr.BaseMana.CanAfford(card.Cost))
                 {
                     card.GameRun = gr;
                     filteredPool.Add(card, e.Weight);

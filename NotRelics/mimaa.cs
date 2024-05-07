@@ -110,7 +110,7 @@ namespace lvalonmima.NotRelics
                         //fallback to no rarity limit
                         if (GameRun.BaseDeck.Count < addcard + 4)
                         {
-                            int j = (addcard + 4 - GameRun.BaseDeck.Count);
+                            int j = addcard + 4 - GameRun.BaseDeck.Count;
                             for (int i = 0; i < j; i++)
                             {
                                 Card[] card2 = toolbox.RollCardsCustom(gameRun.CardRng, new CardWeightTable(RarityWeightTable.EnemyCard, OwnerWeightTable.OnlyPlayer, CardTypeWeightTable.OnlySkill), 1, null, false, false, false, false, (Card card) => card is mimaextensions.mimacard mimacard && !mimacard.ispassive && !mimacard.isblitz);
@@ -121,7 +121,7 @@ namespace lvalonmima.NotRelics
                         //fallback to no rarity and type limit
                         if (GameRun.BaseDeck.Count < addcard + 4)
                         {
-                            int k = (addcard + 4 - GameRun.BaseDeck.Count);
+                            int k = addcard + 4 - GameRun.BaseDeck.Count;
                             for (int i = 0; i < k; i++)
                             {
                                 Card[] card3 = toolbox.RollCardsCustom(gameRun.CardRng, new CardWeightTable(RarityWeightTable.EnemyCard, OwnerWeightTable.OnlyPlayer, CardTypeWeightTable.CanBeLoot), 1, null, false, false, false, false, (Card card) => card is mimaextensions.mimacard mimacard && !mimacard.ispassive && !mimacard.isblitz);

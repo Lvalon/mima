@@ -8,13 +8,13 @@ using LBoLEntitySideloader.Entities;
 using LBoLEntitySideloader.Resource;
 using System.Collections.Generic;
 
-namespace lvalonmima.NotImages.Rare
+namespace lvalonmima.NotImages.Passive.Rare
 {
-    public sealed class cardwraitsothdef : CardTemplate
+    public sealed class cardpassivewraitsothdef : CardTemplate
     {
         public override IdContainer GetId()
         {
-            return nameof(cardwraitsoth);
+            return nameof(cardpassivewraitsoth);
         }
 
         public override CardImages LoadCardImages()
@@ -42,16 +42,16 @@ namespace lvalonmima.NotImages.Rare
                DebugLevel: 0,
                Revealable: false,
                IsPooled: true,
-               FindInBattle: true,
+               FindInBattle: false,
                HideMesuem: false,
-               IsUpgradable: true,
+               IsUpgradable: false,
                Rarity: Rarity.Rare,
                Type: CardType.Ability,
                TargetType: TargetType.All,
                Colors: new List<ManaColor>() { ManaColor.Red, ManaColor.Green },
                IsXCost: false,
-               Cost: new ManaGroup() { Any = 1, Red = 2, Green = 2 },
-               UpgradedCost: new ManaGroup() { Any = 1, Red = 1, Green = 1 },
+               Cost: new ManaGroup() { },
+               UpgradedCost: new ManaGroup() { },
                MoneyCost: null,
                Damage: null,
                UpgradedDamage: null,
@@ -59,7 +59,7 @@ namespace lvalonmima.NotImages.Rare
                UpgradedBlock: null,
                Shield: null,
                UpgradedShield: null,
-               Value1: 3,
+               Value1: 1,
                UpgradedValue1: null,
                Value2: 1,
                UpgradedValue2: null,
@@ -77,14 +77,14 @@ namespace lvalonmima.NotImages.Rare
                UltimateCost: null,
                UpgradedUltimateCost: null,
 
-               Keywords: Keyword.None,
+               Keywords: Keyword.Forbidden,
                UpgradedKeywords: Keyword.None,
                EmptyDescription: false,
                RelativeKeyword: Keyword.None,
                UpgradedRelativeKeyword: Keyword.None,
 
-               RelativeEffects: new List<string>() { nameof(SE.mburstmodifiers.everlastingmagicdef.everlastingmagic) },
-               UpgradedRelativeEffects: new List<string>() { nameof(SE.mburstmodifiers.everlastingmagicdef.everlastingmagic) },
+               RelativeEffects: new List<string>() { nameof(SE.sepassivedef.sepassive), nameof(SE.mburstmodifiers.everlastingmagicdef.everlastingmagic) },
+               UpgradedRelativeEffects: new List<string>() { nameof(SE.sepassivedef.sepassive), nameof(SE.mburstmodifiers.everlastingmagicdef.everlastingmagic) },
                RelativeCards: new List<string>() { },
                UpgradedRelativeCards: new List<string>() { },
                Owner: "Mima",
@@ -97,10 +97,14 @@ namespace lvalonmima.NotImages.Rare
             return cardConfig;
         }
 
-        [EntityLogic(typeof(cardwraitsothdef))]
-        public sealed class cardwraitsoth : mimaextensions.mimacard
+        [EntityLogic(typeof(cardpassivewraitsothdef))]
+        public sealed class cardpassivewraitsoth : mimaextensions.mimacard
         {
-            public int gainred => (Value1 * 20);
+            public cardpassivewraitsoth() : base()
+            {
+                ispassive = true;
+            }
+            public int gainred => Value1 * 50;
             protected override IEnumerable<BattleAction> Actions(UnitSelector selector, ManaGroup consumingMana, Interaction precondition)
             {
                 if (Battle.Player.TryGetStatusEffect<SE.magicalburstdef.magicalburst>(out SE.magicalburstdef.magicalburst tmp) && tmp is mimaextensions.mimase magicalburst)

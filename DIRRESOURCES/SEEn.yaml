@@ -67,8 +67,8 @@ startturnloselife:
   Brief: "At the start of {OwnerName}'s turn, lose {Level} life."
   Name: Lose Life Per Turn
 extmpfire:
-  Description: "Until end of round, gain {Level} |Firepower|.\n|Firepower| increases damage dealt with attacks."
-  Brief: "|Firepower| increased until end of round.\n|Firepower| increases damage dealt with attacks."
+  Description: "Until end of round (instead of turn), gain {Level} |Firepower|.\n|Firepower| increases damage dealt with attacks."
+  Brief: "|Firepower| increased until end of round (instead of turn).\n|Firepower| increases damage dealt with attacks."
   Name: EX Temporary Firepower
 exfireonskill:
   Description: "Until end of turn, whenever a skill card is played, gain {Level} |EX Temporary Firepower|."

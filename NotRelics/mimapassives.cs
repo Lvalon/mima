@@ -71,10 +71,14 @@ namespace lvalonmima.NotRelics
         [EntityLogic(typeof(mimapassivesdef))]
         public sealed class mimapassives : mimaextensions.mimasexhibit
         {
+            public bool haspassive = false;
             public int passivegold = 0;
             public int passivepower = 0;
             public int passivemb = 0;
             public int passivembhand = 0;
+            public int passiveimplosion = 0;
+            public int passiveretribution = 0;
+            public int passiveeverlast = 0;
             public mimapassives() : base()
             {
             }
@@ -91,7 +95,29 @@ namespace lvalonmima.NotRelics
             public string poweryaml => passivepower > 0 ? Convert.ToString(passivepower) : "";
             public string mbyaml => passivemb > 0 ? Convert.ToString(passivemb) : "";
             public string mbhandyaml => passivembhand > 0 ? Convert.ToString(passivembhand) : "";
+            public string implosionyaml => passiveimplosion > 0 ? Convert.ToString(passiveimplosion) : "";
+            public string retributionyaml => passiveretribution > 0 ? Convert.ToString(passiveretribution) : "";
+            public string everlastyaml => passiveeverlast > 0 ? (passiveeverlast > 2 ? "100" : Convert.ToString(passiveeverlast*50)) : "";
 
+            public string spaceyaml
+            {
+                get
+                {
+                    string res = "";
+                    if (haspassive)
+                    {
+                        try
+                        {
+                            res = LocalizeProperty(key: "spacedes", decorated: true, required: true).RuntimeFormat(FormatWrapper);
+                        }
+                        catch (Exception)
+                        {
+                            res = "<Error>";
+                        }
+                    }
+                    return res;
+                }
+            }
             public string passivegoldyaml
             {
                 get
@@ -168,6 +194,63 @@ namespace lvalonmima.NotRelics
                     return res;
                 }
             }
+            public string passiveimplosionyaml
+            {
+                get
+                {
+                    string res = "";
+                    if (passiveimplosion > 0)
+                    {
+                        try
+                        {
+                            res = LocalizeProperty(key: "passiveimplosiondes", decorated: true, required: true).RuntimeFormat(FormatWrapper);
+                        }
+                        catch (Exception)
+                        {
+                            res = "<Error>";
+                        }
+                    }
+                    return res;
+                }
+            }
+            public string passiveretributionyaml
+            {
+                get
+                {
+                    string res = "";
+                    if (passiveretribution > 0)
+                    {
+                        try
+                        {
+                            res = LocalizeProperty(key: "passiveretributiondes", decorated: true, required: true).RuntimeFormat(FormatWrapper);
+                        }
+                        catch (Exception)
+                        {
+                            res = "<Error>";
+                        }
+                    }
+                    return res;
+                }
+            }
+            public string passiveeverlastyaml
+            {
+                get
+                {
+                    string res = "";
+                    if (passiveeverlast > 0)
+                    {
+                        try
+                        {
+                            res = LocalizeProperty(key: "passiveeverlastdes", decorated: true, required: true).RuntimeFormat(FormatWrapper);
+                        }
+                        catch (Exception)
+                        {
+                            res = "<Error>";
+                        }
+                    }
+                    return res;
+                }
+            }
 
             protected override void OnEnterBattle()
             {
@@ -190,6 +273,18 @@ namespace lvalonmima.NotRelics
                 {
                     NotifyActivating();
                     yield return new GainPowerAction(passivepower);
+                }
+                if (passiveimplosion > 0) {
+                    NotifyActivating();
+                    yield return new ApplyStatusEffectAction<SE.mburstmodifiers.implosiondef.implosion>(Owner, new int?(passiveimplosion), null, null, null, 0f, true);
+                }
+                if (passiveretribution > 0) {
+                    NotifyActivating();
+                    yield return new ApplyStatusEffectAction<SE.mburstmodifiers.retributiondef.retribution>(Owner, new int?(passiveretribution), null, null, null, 0f, true);
+                }
+                if (passiveeverlast > 0) {
+                    NotifyActivating();
+                    yield return new ApplyStatusEffectAction<SE.mburstmodifiers.everlastingmagicdef.everlastingmagic>(Owner, new int?(passiveeverlast), null, null, null, 0f, true);
                 }
                 yield break;
             }
@@ -243,19 +338,29 @@ namespace lvalonmima.NotRelics
                 {
                     if (card is mimaextensions.mimacard mimascard && mimascard.ispassive)
                     {
+                        haspassive = true;
                         switch (card.Id)
                         {
-                            case "cardpassivegold":
+                            case nameof(NotImages.Passive.Uncommon.cardpassivegolddef.cardpassivegold):
                                 passivegold += card.Value1;
                                 break;
-                            case "cardpassivepower":
+                            case nameof(NotImages.Passive.Uncommon.cardpassivepowerdef.cardpassivepower):
                                 passivepower += card.Value1;
                                 break;
-                            case "cardpassivemb":
+                            case nameof(NotImages.Passive.Uncommon.cardpassivembdef.cardpassivemb):
                                 passivemb += card.Value1;
                                 break;
-                            case "cardpassivembhand":
+                            case nameof(NotImages.Passive.Uncommon.cardpassivembhanddef.cardpassivembhand):
                                 passivembhand += card.Value1;
+                                break;
+                            case nameof(NotImages.Passive.Rare.cardpassivealgophobiadef.cardpassivealgophobia):
+                                passiveimplosion += card.Value1;
+                                break;
+                            case nameof(NotImages.Passive.Rare.cardpassiverpolaritydef.cardpassiverpolarity):
+                                passiveretribution += card.Value1;
+                                break;
+                            case nameof(NotImages.Passive.Rare.cardpassivewraitsothdef.cardpassivewraitsoth):
+                                passiveeverlast += card.Value1;
                                 break;
                         }
                         GameRun.RemoveDeckCard(card, false);

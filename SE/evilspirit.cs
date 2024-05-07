@@ -160,7 +160,7 @@ namespace lvalonmima.SE
                 DamageInfo damageInfo = args.DamageInfo;
                 if (damageInfo.DamageType == DamageType.Attack)
                 {
-                    damageInfo.Damage = damageInfo.Amount * (0.25f);
+                    damageInfo.Damage = damageInfo.Amount * 0.25f;
                     args.DamageInfo = damageInfo;
                     args.AddModifier(this);
                 }
