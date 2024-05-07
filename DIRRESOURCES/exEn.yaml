@@ -10,14 +10,22 @@ mimab:
   FlavorText: "It stares back. Not even the strongest of beings can withstand it."
 mimapassives:
   Description:
-    "{PlayerName} has manifested the power of the abyss. Passive effects are gained.{passivegoldyaml}{passivepoweryaml}{passivembyaml}{passivembhandyaml}"
+    "{PlayerName} has manifested the power of the abyss. Passive effects are gained.{spaceyaml}{passivegoldyaml}{passivepoweryaml}{passivembyaml}{passivembhandyaml}{passiveimplosionyaml}{passiveretributionyaml}{passiveeverlastyaml}"
+  spacedes:
+    "\n"
   passivegolddes:
-    "\n|At the start of combat|: Gain |n:{goldyaml}| <sprite=\"Point\" name=\"Gold\">."
+    "\n|At the start of combat|: Gain |n:{goldyaml}| <sprite=\"Point\" name=\"Gold\">.\n"
   passivepowerdes:
-    "\n|At the start of combat|: Gain |n:{poweryaml}| <sprite=\"Point\" name=\"Power\">."
+    "\n|At the start of combat|: Gain |n:{poweryaml}| <sprite=\"Point\" name=\"Power\">.\n"
   passivembdes:
-    "\n|At the start of each turn|: Gain |n:{mbyaml}| |Magical Burst|."
+    "\n|At the start of each turn|: Gain |n:{mbyaml}| |Magical Burst|.\n"
   passivembhanddes:
-    "\n|Whenever a card enters the hand|: Gain |n:{mbhandyaml}| |Magical Burst|."
+    "\n|Whenever a card enters the hand|: Gain |n:{mbhandyaml}| |Magical Burst|.\n"
+  passiveimplosiondes:
+    "\n|During combat|: Whenever an enemy takes unblocked damage from |Magical Burst|'s attack, they lose life equal to |n:{implosionyaml}| time{implosionyaml:plural one='' other='s'} the damage dealt by |Magical Burst|.\n"
+  passiveretributiondes:
+    "\n|During combat|: Whenever |Magical Burst| causes an enemy to lose life, {PlayerName} loses {retributionyaml} life.\n"
+  passiveeverlastdes:
+    "\n|During combat|: {PlayerName} gains {everlastyaml}% of supposed |Magical Burst|. |Magical Burst| is no longer consumed. |Magical Burst|'s activation can no longer be delayed.\n"
   Name: Void Manifestation
   FlavorText: ""

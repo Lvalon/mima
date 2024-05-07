@@ -134,20 +134,6 @@ cardperlereino:
   Name: Transmigrating to Perlereino
   FlavorText: "She dreams of a certain world where absolute power resides."
   DetailText: There are a few |e:unconventional exceptions| to ensure that the game could run properly.
-cardwraitsoth:
-  Description: "Lose all |Magical Burst|.\n{PlayerName} gains {gainred}% of supposed |Magical Burst|.\n|Magical Burst| is no longer consumed.\n|Magical Burst|'s activation can no longer be delayed."
-  Name: Unleashing of Wraitsoth
-  DetailText: "The \"Gain % of supposed |Magical Burst|\" effect is stackable, it cannot exceed 100%."
-  FlavorText: "Holding the axe of wraith, she banished anyone who dare stood in her way."
-cardalgophobia:
-  Description: "Whenever an enemy takes unblocked damage from |Magical Burst|'s attack, they lose life equal to damage dealt by |Magical Burst|."
-  Name: Algophobia
-  FlavorText: "The more afraid you are to be hurt, the more you would be hurt."
-  DetailText: "This effect is stackable."
-cardrpolarity:
-  Description: "Whenever |Magical Burst| causes an enemy to lose life, {PlayerName} loses {Value1} life."
-  Name: Reversing the Polarity
-  FlavorText: "The polarity is a bit confused, but it got the spirit."
 cardcardtable:
   Description: "Add random skill cards to the hand until the hand is full.\nThey |temporarily cost| {Value1} random mana less."
   Name: Cards On The Table
@@ -177,3 +163,17 @@ cardpassivembhand:
   Description: "|g:Passive Card|\n|Whenever a card enters the hand|: Gain {Value1} |Magical Burst|."
   Name: "Abyss Conversion Lab"
   FlavorText: "Knowledge is power."
+cardpassivealgophobia:
+  Description: "|g:Passive Card|\nWhenever an enemy takes unblocked damage from |Magical Burst|'s attack, they lose life equal to damage dealt by |Magical Burst|."
+  Name: Algophobia
+  FlavorText: "The more afraid you are to be hurt, the more you would be hurt."
+  DetailText: "This effect is stackable."
+cardpassiverpolarity:
+  Description: "|g:Passive Card|\nWhenever |Magical Burst| causes an enemy to lose life, {PlayerName} loses {Value1} life."
+  Name: Reversing the Polarity
+  FlavorText: "The polarity is a bit confused, but it got the spirit."
+cardpassivewraitsoth:
+  Description: "|g:Passive Card|\nLose all |Magical Burst|.\n{PlayerName} gains {gainred}% of supposed |Magical Burst|.\n|Magical Burst| is no longer consumed.\n|Magical Burst|'s activation can no longer be delayed."
+  Name: Unleashing of Wraitsoth
+  DetailText: "The \"Gain % of supposed |Magical Burst|\" effect is stackable, it cannot exceed 100%."
+  FlavorText: "Wielding the axe of wraith, she banishes anyone who dare to stand in her way."

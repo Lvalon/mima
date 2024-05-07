@@ -101,7 +101,7 @@ namespace lvalonmima
             //if (BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey(AddWatermark.API.GUID))
             //   WatermarkWrapper.ActivateWatermark();
 
-            (new mimaplayerdata()).RegisterSelf(LBoLEntitySideloader.PluginInfo.GUID);
+            new mimaplayerdata().RegisterSelf(LBoLEntitySideloader.PluginInfo.GUID);
             Instance = this;
         }
 
@@ -143,14 +143,15 @@ namespace lvalonmima
         {
             HandleGameRunEvent(@event, handler, DefaultEventPriority);
         }
+        public bool haspassive;
         private void Update()
         {
             GameRunController gamerun = GameMaster.Instance?.CurrentGameRun;
+            LBoL.Core.Units.PlayerUnit player = gamerun.Player;
             if (gamerun != null)
             {
                 if (TestTab.IsDown())
                 {
-                    LBoL.Core.Units.PlayerUnit player = gamerun.Player;
                     if (player.HasExhibit<NotRelics.mimabdef.mimab>() && gamerun.Money >= 10 && gamerun.CurrentStation.Level != 0 || gamerun.CurrentStation.Stage.Id != "BambooForest")
                     {
                         GameMaster.Instance.StartCoroutine(tabberbase());
@@ -163,12 +164,15 @@ namespace lvalonmima
         {
             private static void OnDeckCardsAdding(CardsEventArgs args)
             {
+                log.LogDebug("deck card add detected");
                 GameRunController gamerun = GameMaster.Instance?.CurrentGameRun;
                 int num = args.Cards.Count((Card card) => card is mimaextensions.mimacard mimascard && mimascard.ispassive == true);
                 LBoL.Core.Units.PlayerUnit player = gamerun.Player;
                 bool hasexhibit = player.HasExhibit<NotRelics.mimapassivesdef.mimapassives>();
+                log.LogDebug("does player have passive exhibit? " + hasexhibit);
                 if (num > 0 && hasexhibit == false)
                 {
+                    log.LogDebug("passive exhibit not found, adding exhibit");
                     GameMaster.Instance.StartCoroutine(GainExhibits(
                              gameRun: gamerun,
                              exhibits: new HashSet<Type>() { typeof(NotRelics.mimapassivesdef.mimapassives) },
@@ -260,33 +264,53 @@ namespace lvalonmima
         {
             public override void Restore(GameRunController gameRun)
             {
+                log.LogDebug("bepinex restoring");
                 LBoL.Core.Units.PlayerUnit player = gameRun.Player;
                 Exhibit exhibit = player.GetExhibit<NotRelics.mimapassivesdef.mimapassives>();
+
                 if (exhibit != null && exhibit is NotRelics.mimapassivesdef.mimapassives mimapassive)
                 {
+                    log.LogDebug("restoring passives");
+                    mimapassive.haspassive = Instance.haspassive;
                     mimapassive.passivegold = passivegold;
                     mimapassive.passivepower = passivepower;
                     mimapassive.passivemb = passivemb;
                     mimapassive.passivembhand = passivembhand;
+                    mimapassive.passiveimplosion = passiveimplosion;
+                    mimapassive.passiveretribution = passiveretribution;
+                    mimapassive.passiveeverlast = passiveeverlast;
                 }
+                else { Instance.haspassive = false; }
             }
 
             public override void Save(GameRunController gameRun)
             {
+                log.LogDebug("bepinex saving");
                 LBoL.Core.Units.PlayerUnit player = gameRun.Player;
                 Exhibit exhibit = player.GetExhibit<NotRelics.mimapassivesdef.mimapassives>();
+                
                 if (exhibit != null && exhibit is NotRelics.mimapassivesdef.mimapassives mimapassive)
                 {
+                    log.LogDebug("saving passives");
+                    Instance.haspassive = mimapassive.haspassive;
                     passivegold = mimapassive.passivegold;
                     passivepower = mimapassive.passivepower;
                     passivemb = mimapassive.passivemb;
                     passivembhand = mimapassive.passivembhand;
+                    passiveimplosion = mimapassive.passiveimplosion;
+                    passiveretribution = mimapassive.passiveretribution;
+                    passiveeverlast = mimapassive.passiveeverlast;
                 }
+                else { Instance.haspassive = false; }
             }
+            //public bool haspassive;
             public int passivegold;
             public int passivepower;
             public int passivemb;
             public int passivembhand;
+            public int passiveimplosion;
+            public int passiveretribution;
+            public int passiveeverlast;
         }
 
         private IEnumerator tabberbase()

@@ -64,8 +64,8 @@ namespace lvalonmima.SE
         public sealed class grudgetol : StatusEffect
         {
             private bool thisround = false;
-            public int loselife => GameRun == null ? 2 : (Level >= 27) ? Convert.ToInt32(Math.Pow(2, 27)) : Convert.ToInt32(Math.Pow(2, Level));
-            private float loselifeinternal => GameRun == null
+            public int loselife => GameRun.Battle == null ? 2 : (Level >= 27) ? Convert.ToInt32(Math.Pow(2, 27)) : Convert.ToInt32(Math.Pow(2, Level));
+            private float loselifeinternal => GameRun.Battle == null
                         ? 50
                         : (Level >= 27) ? 100 - (100 / Convert.ToInt32(Math.Pow(2, 27))) : 100 - (100 / Convert.ToInt32(Math.Pow(2, Level)));
             protected override void OnAdded(Unit unit)

@@ -69,7 +69,7 @@ namespace lvalonmima.SE.mburstmodifiers
             protected override void OnAdded(Unit unit)
             {
             }
-            public int splitdmg => (GameRun == null) ? 50 : Convert.ToInt32(100 / (Level + 1));
+            public int splitdmg => (GameRun.Battle == null) ? 50 : Convert.ToInt32(100 / (Level + 1));
         }
     }
 }

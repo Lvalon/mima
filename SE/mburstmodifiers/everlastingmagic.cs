@@ -66,18 +66,18 @@ namespace lvalonmima.SE.mburstmodifiers
                 isMBmod = true;
                 truecounter = 0;
             }
-            public int showeverlasting => GameRun == null ? 80 : (Level > 5) ? 100 : Convert.ToInt32(Level * 20);
+            public int showeverlasting => GameRun.Battle == null ? 50 : (Level > 2) ? 100 : Convert.ToInt32(Level * 50);
             protected override void OnAdded(Unit unit)
             {
                 ReactOwnerEvent<StatusEffectApplyEventArgs>(Owner.StatusEffectAdded, new EventSequencedReactor<StatusEffectApplyEventArgs>(OnStatusEffectAdded));
-                if (Level > 5) { NotifyChanged(); Level = 5; }
+                if (Level > 2) { NotifyChanged(); Level = 2; }
             }
             private IEnumerable<BattleAction> OnStatusEffectAdded(StatusEffectApplyEventArgs args)
             {
-                if (Level > 5)
+                if (Level > 2)
                 {
                     NotifyChanged();
-                    Level = 5;
+                    Level = 2;
                 }
                 yield break;
             }

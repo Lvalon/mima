@@ -8,13 +8,13 @@ using LBoLEntitySideloader.Entities;
 using LBoLEntitySideloader.Resource;
 using System.Collections.Generic;
 
-namespace lvalonmima.NotImages.Rare
+namespace lvalonmima.NotImages.Passive.Rare
 {
-    public sealed class cardrpolaritydef : CardTemplate
+    public sealed class cardpassiverpolaritydef : CardTemplate
     {
         public override IdContainer GetId()
         {
-            return nameof(cardrpolarity);
+            return nameof(cardpassiverpolarity);
         }
 
         public override CardImages LoadCardImages()
@@ -42,16 +42,16 @@ namespace lvalonmima.NotImages.Rare
                DebugLevel: 0,
                Revealable: false,
                IsPooled: true,
-               FindInBattle: true,
+               FindInBattle: false,
                HideMesuem: false,
-               IsUpgradable: true,
+               IsUpgradable: false,
                Rarity: Rarity.Rare,
                Type: CardType.Ability,
                TargetType: TargetType.All,
                Colors: new List<ManaColor>() { ManaColor.Black, ManaColor.Red },
                IsXCost: false,
-               Cost: new ManaGroup() { Any = 1, Black = 1, Red = 1 },
-               UpgradedCost: new ManaGroup() { Any = 1 },
+               Cost: new ManaGroup() { },
+               UpgradedCost: new ManaGroup() { },
                MoneyCost: null,
                Damage: null,
                UpgradedDamage: null,
@@ -77,14 +77,14 @@ namespace lvalonmima.NotImages.Rare
                UltimateCost: null,
                UpgradedUltimateCost: null,
 
-               Keywords: Keyword.None,
+               Keywords: Keyword.Forbidden,
                UpgradedKeywords: Keyword.None,
                EmptyDescription: false,
                RelativeKeyword: Keyword.None,
                UpgradedRelativeKeyword: Keyword.None,
 
-               RelativeEffects: new List<string>() { nameof(SE.mburstmodifiers.retributiondef.retribution) },
-               UpgradedRelativeEffects: new List<string>() { nameof(SE.mburstmodifiers.retributiondef.retribution) },
+               RelativeEffects: new List<string>() { nameof(SE.sepassivedef.sepassive), nameof(SE.mburstmodifiers.retributiondef.retribution) },
+               UpgradedRelativeEffects: new List<string>() { },
                RelativeCards: new List<string>() { },
                UpgradedRelativeCards: new List<string>() { },
                Owner: "Mima",
@@ -97,14 +97,18 @@ namespace lvalonmima.NotImages.Rare
             return cardConfig;
         }
 
-        [EntityLogic(typeof(cardrpolaritydef))]
-        public sealed class cardrpolarity : mimaextensions.mimacard
+        [EntityLogic(typeof(cardpassiverpolaritydef))]
+        public sealed class cardpassiverpolarity : mimaextensions.mimacard
         {
-            protected override IEnumerable<BattleAction> Actions(UnitSelector selector, ManaGroup consumingMana, Interaction precondition)
+            public cardpassiverpolarity() : base()
             {
-                yield return BuffAction<SE.mburstmodifiers.retributiondef.retribution>(Value1, 0, 0, 0, 0.2f);
-                yield break;
+                ispassive = true;
             }
+            // protected override IEnumerable<BattleAction> Actions(UnitSelector selector, ManaGroup consumingMana, Interaction precondition)
+            // {
+            //     yield return BuffAction<SE.mburstmodifiers.retributiondef.retribution>(Value1, 0, 0, 0, 0.2f);
+            //     yield break;
+            // }
 
         }
     }

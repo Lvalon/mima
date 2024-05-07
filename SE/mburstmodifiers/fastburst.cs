@@ -66,7 +66,7 @@ namespace lvalonmima.SE.mburstmodifiers
                 isMBmod = true;
                 truecounter = 0;
             }
-            public int showfastburst => GameRun == null ? 20 : (Level > 5) ? Convert.ToInt32(5 * 20) : Convert.ToInt32(Level * 20);
+            public int showfastburst => GameRun.Battle == null ? 20 : (Level > 5) ? Convert.ToInt32(5 * 20) : Convert.ToInt32(Level * 20);
             //set up triggers to give a fuck on
             //also vfx/sfx
             //they worked

@@ -149,7 +149,12 @@ namespace lvalonmima.SE
                 //everlasting reduction
                 if (Owner.TryGetStatusEffect<everlastingmagicdef.everlastingmagic>(out everlastingmagicdef.everlastingmagic everlastingmagic) && everlastingmagic.Level < 5)
                 {
-                    truecounter += Convert.ToInt32(Level * everlastingmagic.Level / 5);
+                    if (everlastingmagic.Level == 1) {
+                        truecounter += Convert.ToInt32(Math.Round(Level * 0.5, MidpointRounding.AwayFromZero)); //fucking round up if .5 fu
+                    }
+                    else {
+                        truecounter += Level;
+                    }
                 }
                 else { truecounter += Level; }
 
