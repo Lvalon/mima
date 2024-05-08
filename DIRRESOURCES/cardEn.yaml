@@ -4,7 +4,7 @@ cardmimaalib:
   FlavorText: "Experience accumulates."
   DetailText:  Cards added to the library by this effect ignore total mana and mana color restrictions.
 cardmimablib:
-  Description: "|p:mimab cards are not made yet.|\n|When Mima enters The Bamboo Forest|:\nRemove {SelfName} from the |library|, draft {Value1} non-Rare |Mima| cards to the library."
+  Description: "|p:mimab cards are being worked.|\n|When Mima enters The Bamboo Forest|:\nRemove {SelfName} from the |library|, choose |n:1| of |n:3| non-Rare |Mima| cards {Value1} times to add them to the library."
   Name: Abyssal Reconstruction
   FlavorText: "Harnessed the harness."
 cardoncetime:

@@ -24,8 +24,8 @@ mimapassives:
   passiveimplosiondes:
     "\n|During combat|: Whenever an enemy takes unblocked damage from |Magical Burst|'s attack, they lose life equal to |n:{implosionyaml}| time{implosionyaml:plural one='' other='s'} the damage dealt by |Magical Burst|.\n"
   passiveretributiondes:
-    "\n|During combat|: Whenever |Magical Burst| causes an enemy to lose life, {PlayerName} loses {retributionyaml} life.\n"
+    "\n|During combat|: Whenever |Magical Burst| causes an enemy to lose life, {PlayerName} loses |n:{retributionyaml}| life.\n"
   passiveeverlastdes:
-    "\n|During combat|: {PlayerName} gains {everlastyaml}% of supposed |Magical Burst|. |Magical Burst| is no longer consumed. |Magical Burst|'s activation can no longer be delayed.\n"
+    "\n|During combat|: {PlayerName} gains |n:{everlastyaml}%| of supposed |Magical Burst|. |Magical Burst| is no longer consumed. |Magical Burst|'s activation can no longer be delayed.\n"
   Name: Void Manifestation
   FlavorText: ""
