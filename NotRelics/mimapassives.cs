@@ -341,6 +341,7 @@ namespace lvalonmima.NotRelics
                         haspassive = true;
                         switch (card.Id)
                         {
+                            //start of uncommons
                             case nameof(NotImages.Passive.Uncommon.cardpassivegolddef.cardpassivegold):
                                 passivegold += card.Value1;
                                 break;
@@ -353,6 +354,7 @@ namespace lvalonmima.NotRelics
                             case nameof(NotImages.Passive.Uncommon.cardpassivembhanddef.cardpassivembhand):
                                 passivembhand += card.Value1;
                                 break;
+                            //start of rares
                             case nameof(NotImages.Passive.Rare.cardpassivealgophobiadef.cardpassivealgophobia):
                                 passiveimplosion += card.Value1;
                                 break;

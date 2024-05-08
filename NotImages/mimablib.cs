@@ -57,7 +57,7 @@ namespace lvalonmima.NotImages
                UpgradedBlock: null,
                Shield: null,
                UpgradedShield: null,
-               Value1: 6,
+               Value1: 10,
                UpgradedValue1: null,
                Value2: null,
                UpgradedValue2: null,

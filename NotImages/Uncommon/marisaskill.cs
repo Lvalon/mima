@@ -112,7 +112,6 @@ namespace lvalonmima.NotImages.Uncommon
                 //value2 is cards shown, value1 is cards selectable
                 //mana is temporary mana cost
                 List<Card> list = new List<Card>();
-                //toolbox.RollCardsCustom(GameRun.BattleCardRng, new CardWeightTable(RarityWeightTable.AllOnes, OwnerWeightTable.AllOnes, CardTypeWeightTable.AllOnes), 3, null, false, false, false, false, (Card card) => card is mimacard mimascard && mimaextensions.mimacard.passivecards.Contains(mimascard.Id)).ToList();
                 list = Battle.RollCardsWithoutManaLimit(new CardWeightTable(RarityWeightTable.BattleCard, OwnerWeightTable.AllOnes, CardTypeWeightTable.OnlySkill), Value2, (config) => config.Owner == "Marisa" && !config.Keywords.HasFlag(Keyword.Forbidden)).ToList();
                 SelectCardInteraction interaction = new SelectCardInteraction(0, Value1, list, SelectedCardHandling.DoNothing)
                 {

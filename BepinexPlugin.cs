@@ -17,6 +17,7 @@ using System.Linq;
 using System.Reflection;
 using UnityEngine;
 using UnityEngine.UI;
+using LBoL.Presentation.UI;
 using LBoLEntitySideloader.PersistentValues;
 
 namespace lvalonmima
@@ -143,13 +144,13 @@ namespace lvalonmima
         {
             HandleGameRunEvent(@event, handler, DefaultEventPriority);
         }
-        public bool haspassive;
         private void Update()
         {
             GameRunController gamerun = GameMaster.Instance?.CurrentGameRun;
-            LBoL.Core.Units.PlayerUnit player = gamerun.Player;
+            
             if (gamerun != null)
             {
+                LBoL.Core.Units.PlayerUnit player = gamerun.Player;
                 if (TestTab.IsDown())
                 {
                     if (player.HasExhibit<NotRelics.mimabdef.mimab>() && gamerun.Money >= 10 && gamerun.CurrentStation.Level != 0 || gamerun.CurrentStation.Stage.Id != "BambooForest")
@@ -159,8 +160,8 @@ namespace lvalonmima
                 }
             }
         }
-        [HarmonyPatch(typeof(GameRunController), nameof(GameRunController.Create))]
-        private class GameRunController_Create_Patch
+        [HarmonyPatch(typeof(UiManager), nameof(UiManager.EnterGameRun))]
+        private class UiManager_EnterGameRun_Patch
         {
             private static void OnDeckCardsAdding(CardsEventArgs args)
             {
@@ -185,9 +186,9 @@ namespace lvalonmima
                 }
             }
 
-            private static void Postfix(GameRunController __result)
+            private static void Postfix(UiManager __instance)
             {
-                Instance.HandleGameRunEvent<CardsEventArgs>(__result.DeckCardsAdding, new GameEventHandler<CardsEventArgs>(OnDeckCardsAdding));
+                Instance.HandleGameRunEvent<CardsEventArgs>(GameMaster.Instance?.CurrentGameRun.DeckCardsAdding, new GameEventHandler<CardsEventArgs>(OnDeckCardsAdding));
             }
         }
 
@@ -271,7 +272,7 @@ namespace lvalonmima
                 if (exhibit != null && exhibit is NotRelics.mimapassivesdef.mimapassives mimapassive)
                 {
                     log.LogDebug("restoring passives");
-                    mimapassive.haspassive = Instance.haspassive;
+                    mimapassive.haspassive = haspassive;
                     mimapassive.passivegold = passivegold;
                     mimapassive.passivepower = passivepower;
                     mimapassive.passivemb = passivemb;
@@ -280,7 +281,7 @@ namespace lvalonmima
                     mimapassive.passiveretribution = passiveretribution;
                     mimapassive.passiveeverlast = passiveeverlast;
                 }
-                else { Instance.haspassive = false; }
+                else { haspassive = false; }
             }
 
             public override void Save(GameRunController gameRun)
@@ -292,7 +293,7 @@ namespace lvalonmima
                 if (exhibit != null && exhibit is NotRelics.mimapassivesdef.mimapassives mimapassive)
                 {
                     log.LogDebug("saving passives");
-                    Instance.haspassive = mimapassive.haspassive;
+                    haspassive = mimapassive.haspassive;
                     passivegold = mimapassive.passivegold;
                     passivepower = mimapassive.passivepower;
                     passivemb = mimapassive.passivemb;
@@ -301,9 +302,9 @@ namespace lvalonmima
                     passiveretribution = mimapassive.passiveretribution;
                     passiveeverlast = mimapassive.passiveeverlast;
                 }
-                else { Instance.haspassive = false; }
+                else { haspassive = false; }
             }
-            //public bool haspassive;
+            public bool haspassive;
             public int passivegold;
             public int passivepower;
             public int passivemb;
