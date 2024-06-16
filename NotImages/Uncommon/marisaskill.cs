@@ -56,7 +56,7 @@ namespace lvalonmima.NotImages.Uncommon
                Colors: new List<ManaColor>() { ManaColor.Black, ManaColor.Red },
                IsXCost: false,
                Cost: new ManaGroup() { Black = 1, Red = 1 },
-               UpgradedCost: null,
+               UpgradedCost: new ManaGroup() { Any = 1, Hybrid = 1, HybridColor = 7 },
                MoneyCost: null,
                Damage: null,
                UpgradedDamage: null,

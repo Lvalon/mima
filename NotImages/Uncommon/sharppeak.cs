@@ -54,7 +54,7 @@ namespace lvalonmima.NotImages.Uncommon
                TargetType: TargetType.All,
                Colors: new List<ManaColor>() { ManaColor.White, ManaColor.Red },
                IsXCost: true,
-               Cost: new ManaGroup() { Red = 1, White = 1 },
+               Cost: new ManaGroup() { Hybrid = 1, HybridColor = 2 },
                UpgradedCost: null,
                MoneyCost: null,
                Damage: null,
@@ -119,7 +119,7 @@ namespace lvalonmima.NotImages.Uncommon
                 yield return BuffAction<SE.magicalburstdef.magicalburst>(SynergyAmount(consumingMana, ManaColor.Red, 1) * Value1, 0, 0, 0, 0.2f);
                 List<Card> list = (from card in Battle.HandZone
                                    where card.CanUpgradeAndPositive
-                                   select card).ToList<Card>().SampleManyOrAll(SynergyAmount(consumingMana, ManaColor.White, !IsUpgraded ? 2 : 1) * Value2, GameRun.BattleRng).ToList<Card>();
+                                   select card).ToList().SampleManyOrAll(SynergyAmount(consumingMana, ManaColor.White, !IsUpgraded ? 2 : 1) * Value2, GameRun.BattleRng).ToList();
                 if (list.Count > 0)
                 {
                     NotifyActivating();

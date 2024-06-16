@@ -107,7 +107,7 @@ namespace lvalonmima.NotImages.Passive.Rare
             public int gainred => Value1 * 50;
             protected override IEnumerable<BattleAction> Actions(UnitSelector selector, ManaGroup consumingMana, Interaction precondition)
             {
-                if (Battle.Player.TryGetStatusEffect<SE.magicalburstdef.magicalburst>(out SE.magicalburstdef.magicalburst tmp) && tmp is mimaextensions.mimase magicalburst)
+                if (Battle.Player.TryGetStatusEffect(out SE.magicalburstdef.magicalburst tmp) && tmp is mimaextensions.mimase magicalburst)
                 {
                     magicalburst.truecounter = 0;
                     yield return BuffAction<SE.magicalburstdef.magicalburst>(0, 1, 0, 0, 0.2f);

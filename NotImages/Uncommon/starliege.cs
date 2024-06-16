@@ -53,8 +53,8 @@ namespace lvalonmima.NotImages.Uncommon
                TargetType: TargetType.All,
                Colors: new List<ManaColor>() { ManaColor.Red, ManaColor.Green },
                IsXCost: false,
-               Cost: new ManaGroup() { Any = 1, Red = 1, Green = 1 },
-               UpgradedCost: new ManaGroup() { Red = 1, Green = 1 },
+               Cost: new ManaGroup() { Any = 2, Hybrid = 1, HybridColor = 9 },
+               UpgradedCost: new ManaGroup() { Any = 1, Hybrid = 1, HybridColor = 9 },
                MoneyCost: null,
                Damage: null,
                UpgradedDamage: null,
@@ -108,7 +108,7 @@ namespace lvalonmima.NotImages.Uncommon
                 yield return BuffAction<SE.extmpfiredef.extmpfire>(Value1, 0, 0, 0, 0.2f);
                 List<Card> list = (from card in Battle.HandZone
                                    where !card.IsEcho && !card.IsCopy && !card.IsForbidden && card.CardType != CardType.Tool && card.CardType != CardType.Status && card.CardType != CardType.Misfortune
-                                   select card).ToList<Card>();
+                                   select card).ToList();
                 if (list.Count > 0)
                 {
                     foreach (Card card2 in list.SampleManyOrAll(Value2, BattleRng))

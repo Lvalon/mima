@@ -12,6 +12,9 @@ using LBoL.Core.Battle;
 using LBoL.Core;
 using LBoL.Core.Units;
 using LBoL.Core.Cards;
+using System.Linq;
+using LBoL.Base.Extensions;
+using LBoL.Core.StatusEffects;
 
 namespace lvalonmima.NotRelics
 {
@@ -43,7 +46,7 @@ namespace lvalonmima.NotRelics
             ExhibitConfig exhibitConfig = new ExhibitConfig(
                 Index: BepinexPlugin.sequenceTable.Next(typeof(CardConfig)),
                 Id: "",
-                Order: 10,
+                Order: 20, //for dmg multiplier
                 IsDebug: false,
                 IsPooled: false,
                 IsSentinel: false,
@@ -71,14 +74,20 @@ namespace lvalonmima.NotRelics
         [EntityLogic(typeof(mimapassivesdef))]
         public sealed class mimapassives : mimaextensions.mimasexhibit
         {
+            //passive stuff
             public bool haspassive = false;
             public int passivegold = 0;
             public int passivepower = 0;
             public int passivemb = 0;
             public int passivembhand = 0;
+            public int passiveupgrade = 0;
+
             public int passiveimplosion = 0;
             public int passiveretribution = 0;
             public int passiveeverlast = 0;
+            public int passivecharge = 0; public int chargeleftinternal = 4;
+            //crit stuff below
+            public float critdmginternal = 100;
             public mimapassives() : base()
             {
             }
@@ -89,16 +98,18 @@ namespace lvalonmima.NotRelics
             }
             //playername for future use
             public string theplayername => GameRun == null ? "The Player" : "<color=" + GameRun.Player.Config.NarrativeColor + ">" + GameRun.Player.Name + "</color>";
-
             //START OF PASSIVES
             public string goldyaml => passivegold > 0 ? Convert.ToString(passivegold) : "";
             public string poweryaml => passivepower > 0 ? Convert.ToString(passivepower) : "";
             public string mbyaml => passivemb > 0 ? Convert.ToString(passivemb) : "";
             public string mbhandyaml => passivembhand > 0 ? Convert.ToString(passivembhand) : "";
+            public string upgradeyaml => passiveupgrade > 0 ? Convert.ToString(passiveupgrade) : "";
+            public string chargeyaml => passivecharge > 0 ? Convert.ToString(passivecharge) : "";
+
             public string implosionyaml => passiveimplosion > 0 ? Convert.ToString(passiveimplosion) : "";
             public string retributionyaml => passiveretribution > 0 ? Convert.ToString(passiveretribution) : "";
-            public string everlastyaml => passiveeverlast > 0 ? (passiveeverlast > 2 ? "100" : Convert.ToString(passiveeverlast*50)) : "";
-
+            public string everlastyaml => passiveeverlast > 0 ? (passiveeverlast > 2 ? "100" : Convert.ToString(passiveeverlast * 50)) : "";
+            //
             public string spaceyaml
             {
                 get
@@ -194,6 +205,45 @@ namespace lvalonmima.NotRelics
                     return res;
                 }
             }
+            public string passiveupgradeyaml
+            {
+                get
+                {
+                    string res = "";
+                    if (passiveupgrade > 0)
+                    {
+                        try
+                        {
+                            res = LocalizeProperty(key: "passiveupgradedes", decorated: true, required: true).RuntimeFormat(FormatWrapper);
+                        }
+                        catch (Exception)
+                        {
+                            res = "<Error>";
+                        }
+                    }
+                    return res;
+                }
+            }
+            public string passivechargeyaml
+            {
+                get
+                {
+                    string res = "";
+                    if (passivecharge > 0)
+                    {
+                        try
+                        {
+                            res = LocalizeProperty(key: "passivechargedes", decorated: true, required: true).RuntimeFormat(FormatWrapper);
+                        }
+                        catch (Exception)
+                        {
+                            res = "<Error>";
+                        }
+                    }
+                    return res;
+                }
+            }
+
             public string passiveimplosionyaml
             {
                 get
@@ -251,16 +301,33 @@ namespace lvalonmima.NotRelics
                     return res;
                 }
             }
+            //some more public getters for passives
+            public int chargeleft
+            {
+                get
+                {
+                    return chargeleftinternal;
+                }
+            }
 
             protected override void OnEnterBattle()
             {
                 ReactBattleEvent(Battle.BattleStarting, new EventSequencedReactor<GameEventArgs>(OnBattleStarting));
                 HandleBattleEvent(Battle.BattleEnded, OnBattleEnding);
-                ReactBattleEvent<UnitEventArgs>(Owner.TurnStarting, new EventSequencedReactor<UnitEventArgs>(OnTurnStarting));
-                ReactBattleEvent<CardMovingEventArgs>(Battle.CardMoved, new EventSequencedReactor<CardMovingEventArgs>(OnCardMoved));
-                ReactBattleEvent<CardEventArgs>(Battle.CardDrawn, new EventSequencedReactor<CardEventArgs>(OnCardDrawn));
-                ReactBattleEvent<CardsEventArgs>(Battle.CardsAddedToHand, new EventSequencedReactor<CardsEventArgs>(OnCardsAddedToHand));
+                ReactBattleEvent(Owner.TurnStarting, new EventSequencedReactor<UnitEventArgs>(OnTurnStarting));
+                ReactBattleEvent(Battle.CardMoved, new EventSequencedReactor<CardMovingEventArgs>(OnCardMoved));
+                ReactBattleEvent(Battle.CardUsed, new EventSequencedReactor<CardUsingEventArgs>(OnCardUsed));
+                ReactBattleEvent(Battle.CardDrawn, new EventSequencedReactor<CardEventArgs>(OnCardDrawn));
+                ReactBattleEvent(Battle.CardsAddedToHand, new EventSequencedReactor<CardsEventArgs>(OnCardsAddedToHand));
+                //ReactBattleEvent(Owner.DamageDealing, new EventSequencedReactor<DamageDealingEventArgs>(OnDamageDealing));
+                //HandleBattleEvent(Owner.DamageDealing, OnDamageDealing);
+                ReactBattleEvent(Battle.Player.TurnStarted, new EventSequencedReactor<UnitEventArgs>(OnPlayerTurnStarted));
             }
+            protected override void OnAdded(PlayerUnit player)
+            {
+                HandleGameRunEvent(GameRun.DeckCardsAdded, new GameEventHandler<CardsEventArgs>(OnDeckCardsAdded));
+            }
+            //one time start of battle eff
 
             private IEnumerable<BattleAction> OnBattleStarting(GameEventArgs gameEventArgs)
             {
@@ -274,20 +341,39 @@ namespace lvalonmima.NotRelics
                     NotifyActivating();
                     yield return new GainPowerAction(passivepower);
                 }
-                if (passiveimplosion > 0) {
+                if (passiveimplosion > 0)
+                {
                     NotifyActivating();
                     yield return new ApplyStatusEffectAction<SE.mburstmodifiers.implosiondef.implosion>(Owner, new int?(passiveimplosion), null, null, null, 0f, true);
                 }
-                if (passiveretribution > 0) {
+                if (passiveretribution > 0)
+                {
                     NotifyActivating();
                     yield return new ApplyStatusEffectAction<SE.mburstmodifiers.retributiondef.retribution>(Owner, new int?(passiveretribution), null, null, null, 0f, true);
                 }
-                if (passiveeverlast > 0) {
+                if (passiveeverlast > 0)
+                {
                     NotifyActivating();
                     yield return new ApplyStatusEffectAction<SE.mburstmodifiers.everlastingmagicdef.everlastingmagic>(Owner, new int?(passiveeverlast), null, null, null, 0f, true);
                 }
                 yield break;
             }
+            private IEnumerable<BattleAction> OnPlayerTurnStarted(UnitEventArgs args)
+            {
+                if (Battle.Player.TurnCounter == 1 && passiveupgrade > 0)
+                {
+                    NotifyActivating();
+                    for (int i = 1; i <= passiveupgrade; i++)
+                    {
+                        Card[] cards = (from c in Battle.HandZone
+                                        where c.CanUpgrade
+                                        select c).ToList().SampleManyOrAll(passiveupgrade, GameRun.BattleRng);
+                        yield return new UpgradeCardsAction(cards);
+                    }
+                }
+                yield break;
+            }
+            //per turn
             private IEnumerable<BattleAction> OnTurnStarting(UnitEventArgs args)
             {
                 if (passivemb > 0)
@@ -299,11 +385,7 @@ namespace lvalonmima.NotRelics
             }
             private void OnBattleEnding(GameEventArgs args)
             {
-            }
-
-            protected override void OnAdded(PlayerUnit player)
-            {
-                HandleGameRunEvent<CardsEventArgs>(GameRun.DeckCardsAdded, new GameEventHandler<CardsEventArgs>(OnDeckCardsAdded));
+                chargeleftinternal = 4;
             }
             private IEnumerable<BattleAction> OnCardMoved(CardMovingEventArgs args)
             {
@@ -332,6 +414,26 @@ namespace lvalonmima.NotRelics
                 }
                 yield break;
             }
+            //passive charge
+            private IEnumerable<BattleAction> OnCardUsed(CardUsingEventArgs args)
+            {
+                if (Battle.BattleShouldEnd)
+                {
+                    yield break;
+                }
+                if (passivecharge > 0)
+                {
+                    chargeleftinternal--;
+                    if (chargeleftinternal == 0)
+                    {
+                        NotifyActivating();
+                        chargeleftinternal += 4;
+                        yield return new ApplyStatusEffectAction<Charging>(Owner, new int?(passivecharge), null, null, null, 0f, true);
+                    }
+                }
+                yield break;
+            }
+            //register passives
             private void OnDeckCardsAdded(CardsEventArgs args)
             {
                 foreach (Card card in args.Cards)
@@ -353,6 +455,12 @@ namespace lvalonmima.NotRelics
                                 break;
                             case nameof(NotImages.Passive.Uncommon.cardpassivembhanddef.cardpassivembhand):
                                 passivembhand += card.Value1;
+                                break;
+                            case nameof(NotImages.Passive.Uncommon.cardpassiveupgradedef.cardpassiveupgrade):
+                                passiveupgrade += card.Value1;
+                                break;
+                            case nameof(NotImages.Passive.Uncommon.cardpassivechargedef.cardpassivecharge):
+                                passivecharge += card.Value1;
                                 break;
                             //start of rares
                             case nameof(NotImages.Passive.Rare.cardpassivealgophobiadef.cardpassivealgophobia):

@@ -71,7 +71,7 @@ namespace lvalonmima.SE.mburstmodifiers
             //they worked
             protected override void OnAdded(Unit unit)
             {
-                if (Owner.TryGetStatusEffect<everlastingmagicdef.everlastingmagic>(out everlastingmagicdef.everlastingmagic everlastingmagic))
+                if (Owner.TryGetStatusEffect(out everlastingmagicdef.everlastingmagic everlastingmagic))
                 { React(new RemoveStatusEffectAction(this, true, 0.1f)); }
                 ReactOwnerEvent(Owner.StatusEffectAdded, new EventSequencedReactor<StatusEffectApplyEventArgs>(OnStatusEffectAdded));
             }

@@ -51,7 +51,7 @@ namespace lvalonmima.NotImages.Starter
                TargetType: TargetType.All,
                Colors: new List<ManaColor>() { ManaColor.White, ManaColor.Red },
                IsXCost: false,
-               Cost: new ManaGroup() { Any = 2 },
+               Cost: new ManaGroup() { Colorless = 1, Hybrid = 1, HybridColor = 2 },
                UpgradedCost: null,
                MoneyCost: null,
                Damage: null,
@@ -103,7 +103,7 @@ namespace lvalonmima.NotImages.Starter
         {
             protected override IEnumerable<BattleAction> Actions(UnitSelector selector, ManaGroup consumingMana, Interaction precondition)
             {
-                yield return new AddCardsToDrawZoneAction(Library.CreateCards<NotImages.Rare.cardpurediamonddef.cardpurediamond>(Value1, false), DrawZoneTarget.Random, AddCardsType.Normal);
+                yield return new AddCardsToDrawZoneAction(Library.CreateCards<Rare.cardpurediamonddef.cardpurediamond>(Value1, false), DrawZoneTarget.Random, AddCardsType.Normal);
                 yield return BuffAction<SE.magicalburstdef.magicalburst>(Value2, 0, 0, 0, 0.2f);
             }
         }

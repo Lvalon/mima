@@ -52,7 +52,7 @@ namespace lvalonmima.NotImages.Starter
                Colors: new List<ManaColor>() { ManaColor.Black, ManaColor.Green },
                IsXCost: false,
                Cost: new ManaGroup() { Black = 1, Green = 1 },
-               UpgradedCost: new ManaGroup() { Any = 2 },
+               UpgradedCost: new ManaGroup() { Any = 1, Hybrid = 1, HybridColor = 8 },
                MoneyCost: null,
                Damage: null,
                UpgradedDamage: null,

@@ -187,7 +187,7 @@
         <DoNotPublicize Include="LBoL.Core:LBoL.Core.StatusEffects.StatusEffect.get_IconName" />
         <DoNotPublicize Include="LBoL.Core:LBoL.Core.StatusEffects.StatusEffect.get_OverrideIconName" />
         <DoNotPublicize Include="LBoL.Core:LBoL.Core.StatusEffects.StatusEffect.get_DefaultEventPriority" />
-        <DoNotPublicize Include="LBoL.Core:LBoL.Core.StatusEffects.StatusEffect.get_ForceNotShowNumber" />
+        <DoNotPublicize Include="LBoL.Core:LBoL.Core.StatusEffects.StatusEffect.get_ForceNotShowDownText" />
         <DoNotPublicize Include="LBoL.Core:LBoL.Core.StatusEffects.StatusEffect.Stack" />
         <DoNotPublicize Include="LBoL.Core:LBoL.Core.StatusEffects.StatusEffect.Initialize" />
         <DoNotPublicize Include="LBoL.Core:LBoL.Core.StatusEffects.StatusEffect.CreateFormatWrapper" />

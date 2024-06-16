@@ -50,7 +50,7 @@ namespace lvalonmima.NotImages.Uncommon
                TargetType: TargetType.All,
                Colors: new List<ManaColor>() { ManaColor.Blue, ManaColor.Red },
                IsXCost: false,
-               Cost: new ManaGroup() { Blue = 1, Red = 1 },
+               Cost: new ManaGroup() { Hybrid = 1, HybridColor = 5 },
                UpgradedCost: new ManaGroup() { Any = 1 },
                MoneyCost: null,
                Damage: null,

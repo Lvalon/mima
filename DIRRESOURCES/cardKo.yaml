@@ -72,7 +72,7 @@ cardremini:
   Name: 추억의 스펠북
   FlavorText: "영혼조차도 기억할 수 있는 것의 수에 제한이 있는걸까?"
 cardrewind:
-  Description: "손패를 버립니다.\n뽑을 카드 더미와 버릴 카드 더미를 교체합니다.\n무작위 마나 {Value1}를 얻고, |예지| {Scry} 한 뒤, 카드를 {Value2}장 뽑습니다.\n|마력 폭발|의 자연 활성화를 {Value3} 턴 지연시킵니다."
+  Description: "손패를 버립니다.\n뽑을 카드 더미와 버릴 카드 더미를 교체합니다.\n무작위 마나 {Value1}를 얻고, |예지| {Scry} 한 뒤, 카드를 {Value2}장 뽑습니다."
   Name: 되감을 시간이야
   FlavorText: '"되감을 시간이야"'
 cardgrasp:

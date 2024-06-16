@@ -94,6 +94,29 @@ namespace lvalonmima
            {
                base.NotifyActivating();
            }
-        } */
+        }
+        
+How to make an Hybrid color card:
+config.Cost = new ManaGroup() { ..., Hybrid = amount, HybridColor = (int) color_code };
+
+color_code: 
+0: Azorius (White/Blue)
+1: Orzhov (White/Black)
+2: Boros (White/Red)
+3: Selesnya (White/Green)
+4: Dimir (Blue/Black)
+5: Izzet (Blue/Red)
+6: Simic (Blue/Green)
+7: Rakdos (Black/Red)
+8: Golgari (Black/Green)
+9: Gruul (Red/Green)
+
+Notation:
+x: MtG Guild (Color 1/Color 2)
+x being the number that has to be selected for the HybridColor field.
+
+Notes:
+It seems that a card can only have one type of Hybrid mana.
+*/
     }
 }

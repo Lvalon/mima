@@ -59,7 +59,7 @@ namespace lvalonmima.SE.abandoned
         [EntityLogic(typeof(damagemultiplierdef))]
         public sealed class damagemultiplier : StatusEffect
         {
-            public override bool ForceNotShowNumber => true;
+            public override bool ForceNotShowDownText => true;
             //set up triggers to give a fuck on
             //they worked
             protected override void OnAdded(Unit unit)

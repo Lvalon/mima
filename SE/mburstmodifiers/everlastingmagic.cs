@@ -69,7 +69,7 @@ namespace lvalonmima.SE.mburstmodifiers
             public int showeverlasting => GameRun.Battle == null ? 50 : (Level > 2) ? 100 : Convert.ToInt32(Level * 50);
             protected override void OnAdded(Unit unit)
             {
-                ReactOwnerEvent<StatusEffectApplyEventArgs>(Owner.StatusEffectAdded, new EventSequencedReactor<StatusEffectApplyEventArgs>(OnStatusEffectAdded));
+                ReactOwnerEvent(Owner.StatusEffectAdded, new EventSequencedReactor<StatusEffectApplyEventArgs>(OnStatusEffectAdded));
                 if (Level > 2) { NotifyChanged(); Level = 2; }
             }
             private IEnumerable<BattleAction> OnStatusEffectAdded(StatusEffectApplyEventArgs args)
