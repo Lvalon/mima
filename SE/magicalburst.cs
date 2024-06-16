@@ -78,7 +78,7 @@ namespace lvalonmima.SE
             {
                 truecounter = 0;
             }
-            public override bool ForceNotShowNumber => true;
+            public override bool ForceNotShowDownText => true;
             protected override void OnAdded(Unit unit)
             {
                 HandleOwnerEvent(Owner.StatusEffectAdding, new GameEventHandler<StatusEffectApplyEventArgs>(OnStatusEffectAdding));
@@ -95,7 +95,7 @@ namespace lvalonmima.SE
                 if (effect is TempFirepower)
                 {
                     fireneeded = effect.Level;
-                    if (Owner.TryGetStatusEffect<MeilingAbilitySe>(out MeilingAbilitySe tmp))
+                    if (Owner.TryGetStatusEffect(out MeilingAbilitySe tmp))
                     {
                         fireneeded *= 2;
                     }
@@ -117,7 +117,7 @@ namespace lvalonmima.SE
                     NotifyChanged();
                     dmgcalc();
                 }
-                if (Owner.TryGetStatusEffect<fastburstdef.fastburst>(out fastburstdef.fastburst tmp) && tmp is mimaextensions.mimase fastburst)
+                if (Owner.TryGetStatusEffect(out fastburstdef.fastburst tmp) && tmp is mimaextensions.mimase fastburst)
                 {
                     dealdmg(fastburst.Level * 20);
                 }
@@ -147,7 +147,7 @@ namespace lvalonmima.SE
             private void dmgcalc()
             {
                 //everlasting reduction
-                if (Owner.TryGetStatusEffect<everlastingmagicdef.everlastingmagic>(out everlastingmagicdef.everlastingmagic everlastingmagic) && everlastingmagic.Level < 5)
+                if (Owner.TryGetStatusEffect(out everlastingmagicdef.everlastingmagic everlastingmagic) && everlastingmagic.Level < 5)
                 {
                     if (everlastingmagic.Level == 1) {
                         truecounter += Convert.ToInt32(Math.Round(Level * 0.5, MidpointRounding.AwayFromZero)); //fucking round up if .5 fu
@@ -171,7 +171,7 @@ namespace lvalonmima.SE
             }
             private IEnumerable<BattleAction> OnAllEnemyTurnStarting1(GameEventArgs args)
             {
-                if (Owner.TryGetStatusEffect<accumulationdef.accumulation>(out accumulationdef.accumulation accumulation))
+                if (Owner.TryGetStatusEffect(out accumulationdef.accumulation accumulation))
                 {
                     accumulation.Level -= 1;
                     if (accumulation.Level == 0)
@@ -195,9 +195,9 @@ namespace lvalonmima.SE
                 }
                 if (dealdmgletsgo == true)
                 {
-                    if (Owner.TryGetStatusEffect<splitburstdef.splitburst>(out splitburstdef.splitburst splitburstfirst))
+                    if (Owner.TryGetStatusEffect(out splitburstdef.splitburst splitburstfirst))
                     {
-                        if (Owner.TryGetStatusEffect<concentratedburstdef.concentratedburst>(out concentratedburstdef.concentratedburst concentratedfirst)) { }
+                        if (Owner.TryGetStatusEffect(out concentratedburstdef.concentratedburst concentratedfirst)) { }
                         else
                         {
                             for (int i = splitburstfirst.Level; i >= 0; i--)
@@ -209,7 +209,7 @@ namespace lvalonmima.SE
                             }
                         }
                     }
-                    if (Owner.TryGetStatusEffect<concentratedburstdef.concentratedburst>(out concentratedburstdef.concentratedburst concentratedburst))
+                    if (Owner.TryGetStatusEffect(out concentratedburstdef.concentratedburst concentratedburst))
                     {
                         int enemycount = 0;
                         foreach (Unit target in Battle.AllAliveEnemies)
@@ -217,7 +217,7 @@ namespace lvalonmima.SE
                             enemycount++;
                         }
                         int conmultiplied = enemycount * concentratedburst.Level;
-                        if (Owner.TryGetStatusEffect<splitburstdef.splitburst>(out splitburstdef.splitburst splitburst))
+                        if (Owner.TryGetStatusEffect(out splitburstdef.splitburst splitburst))
                         {
                             int consplit = conmultiplied * (1 + splitburst.Level);
                             //idk why i did this static one, will remain here just in case
@@ -242,13 +242,13 @@ namespace lvalonmima.SE
                             }
                         }
                     }
-                    else if (Owner.TryGetStatusEffect<splitburstdef.splitburst>(out splitburstdef.splitburst _)) { }
+                    else if (Owner.TryGetStatusEffect(out splitburstdef.splitburst _)) { }
                     else
                     {
                         if (!Battle.BattleShouldEnd)
                         { yield return new DamageAction(Owner, Battle.EnemyGroup.Alives, DamageInfo.Attack(actualdmg, true), "JunkoLunatic", GunType.Single); }
                     }
-                    if (Owner.TryGetStatusEffect<everlastingmagicdef.everlastingmagic>(out everlastingmagicdef.everlastingmagic tmp)) { }
+                    if (Owner.TryGetStatusEffect(out everlastingmagicdef.everlastingmagic tmp)) { }
                     else
                     {
                         truecounter -= (int)actualdmg;
@@ -268,9 +268,9 @@ namespace lvalonmima.SE
                 }
                 if (dealdmgletsgo == true)
                 {
-                    if (Owner.TryGetStatusEffect<splitburstdef.splitburst>(out splitburstdef.splitburst splitburstfirst))
+                    if (Owner.TryGetStatusEffect(out splitburstdef.splitburst splitburstfirst))
                     {
-                        if (Owner.TryGetStatusEffect<concentratedburstdef.concentratedburst>(out concentratedburstdef.concentratedburst concentratedfirst)) { }
+                        if (Owner.TryGetStatusEffect(out concentratedburstdef.concentratedburst concentratedfirst)) { }
                         else
                         {
                             for (int i = splitburstfirst.Level; i >= 0; i--)
@@ -282,7 +282,7 @@ namespace lvalonmima.SE
                             }
                         }
                     }
-                    if (Owner.TryGetStatusEffect<concentratedburstdef.concentratedburst>(out concentratedburstdef.concentratedburst concentratedburst))
+                    if (Owner.TryGetStatusEffect(out concentratedburstdef.concentratedburst concentratedburst))
                     {
                         int enemycount = 0;
                         foreach (Unit target in Battle.AllAliveEnemies)
@@ -290,7 +290,7 @@ namespace lvalonmima.SE
                             enemycount++;
                         }
                         int conmultiplied = enemycount * concentratedburst.Level;
-                        if (Owner.TryGetStatusEffect<splitburstdef.splitburst>(out splitburstdef.splitburst splitburst))
+                        if (Owner.TryGetStatusEffect(out splitburstdef.splitburst splitburst))
                         {
                             int consplit = conmultiplied * (1 + splitburst.Level);
                             //idk why i did this static one, will remain here just in case
@@ -315,13 +315,13 @@ namespace lvalonmima.SE
                             }
                         }
                     }
-                    else if (Owner.TryGetStatusEffect<splitburstdef.splitburst>(out splitburstdef.splitburst _)) { }
+                    else if (Owner.TryGetStatusEffect(out splitburstdef.splitburst _)) { }
                     else
                     {
                         if (!Battle.BattleShouldEnd)
                         { yield return new DamageAction(Owner, Battle.EnemyGroup.Alives, DamageInfo.Attack(actualdmg, true), "JunkoLunatic", GunType.Single); }
                     }
-                    if (Owner.TryGetStatusEffect<everlastingmagicdef.everlastingmagic>(out everlastingmagicdef.everlastingmagic tmp2)) { }
+                    if (Owner.TryGetStatusEffect(out everlastingmagicdef.everlastingmagic tmp2)) { }
                     else
                     {
                         truecounter -= (int)actualdmg;
@@ -329,7 +329,7 @@ namespace lvalonmima.SE
                         yield return new ApplyStatusEffectAction<magicalburst>(Owner, 0, null, null, null, 0f, false);
                     }
                     dealdmgletsgo = false;
-                    if (Owner.TryGetStatusEffect<fastburstdef.fastburst>(out fastburstdef.fastburst effect))
+                    if (Owner.TryGetStatusEffect(out fastburstdef.fastburst effect))
                     {
                         yield return new RemoveStatusEffectAction(effect, true);
                     }

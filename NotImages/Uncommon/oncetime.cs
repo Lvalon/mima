@@ -55,8 +55,8 @@ namespace lvalonmima.NotImages.Uncommon
                TargetType: TargetType.All,
                Colors: new List<ManaColor>() { ManaColor.White, ManaColor.Black },
                IsXCost: false,
-               Cost: new ManaGroup() { White = 1, Black = 1 },
-               UpgradedCost: new ManaGroup() { Any = 2 },
+               Cost: new ManaGroup() { Hybrid = 2, HybridColor = 1 },
+               UpgradedCost: new ManaGroup() { Any = 1, Hybrid = 1, HybridColor = 1 },
                MoneyCost: null,
                Damage: null,
                UpgradedDamage: null,
@@ -107,7 +107,7 @@ namespace lvalonmima.NotImages.Uncommon
         {
             protected override IEnumerable<BattleAction> Actions(UnitSelector selector, ManaGroup consumingMana, Interaction precondition)
             {
-                List<cardoncetime> list = Library.CreateCards<cardoncetime>(2, IsUpgraded).ToList<cardoncetime>();
+                List<cardoncetime> list = Library.CreateCards<cardoncetime>(2, IsUpgraded).ToList();
                 cardoncetime first = list[0];
                 cardoncetime cardoncetime = list[1];
                 first.ShowWhichDescription = 2;
@@ -128,7 +128,7 @@ namespace lvalonmima.NotImages.Uncommon
                     bool flag = false;
                     List<Card> list4 = (from card in Battle.HandZone
                                         where !card.IsPurified && card.Cost.HasTrivial
-                                        select card).ToList<Card>();
+                                        select card).ToList();
                     if (list4.Count > 0)
                     {
                         Card card3 = list4.Sample(GameRun.BattleRng);
@@ -144,7 +144,7 @@ namespace lvalonmima.NotImages.Uncommon
                     {
                         List<Card> list2 = (from card in Battle.HandZone
                                             where !card.IsPurified
-                                            select card).ToList<Card>();
+                                            select card).ToList();
                         if (list2.Count <= 0)
                         {
                             yield break;

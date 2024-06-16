@@ -103,7 +103,7 @@ namespace lvalonmima.NotImages.Uncommon
         {
             protected override IEnumerable<BattleAction> Actions(UnitSelector selector, ManaGroup consumingMana, Interaction precondition)
             {
-                yield return new AddCardsToDrawZoneAction(Library.CreateCards<NotImages.Rare.cardpurediamonddef.cardpurediamond>(Value1, false), DrawZoneTarget.Random, AddCardsType.Normal);
+                yield return new AddCardsToDrawZoneAction(Library.CreateCards<Rare.cardpurediamonddef.cardpurediamond>(Value1, false), DrawZoneTarget.Random, AddCardsType.Normal);
                 yield return new DrawManyCardAction(Value2);
             }
         }

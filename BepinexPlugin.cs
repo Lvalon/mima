@@ -188,7 +188,7 @@ namespace lvalonmima
 
             private static void Postfix(UiManager __instance)
             {
-                Instance.HandleGameRunEvent<CardsEventArgs>(GameMaster.Instance?.CurrentGameRun.DeckCardsAdding, new GameEventHandler<CardsEventArgs>(OnDeckCardsAdding));
+                Instance.HandleGameRunEvent(GameMaster.Instance?.CurrentGameRun.DeckCardsAdding, new GameEventHandler<CardsEventArgs>(OnDeckCardsAdding));
             }
         }
 
@@ -272,11 +272,15 @@ namespace lvalonmima
                 if (exhibit != null && exhibit is NotRelics.mimapassivesdef.mimapassives mimapassive)
                 {
                     log.LogDebug("restoring passives");
+                    //uncommons
                     mimapassive.haspassive = haspassive;
                     mimapassive.passivegold = passivegold;
                     mimapassive.passivepower = passivepower;
                     mimapassive.passivemb = passivemb;
                     mimapassive.passivembhand = passivembhand;
+                    mimapassive.passiveupgrade = passiveupgrade;
+                    mimapassive.passivecharge = passivecharge;
+                    //rares
                     mimapassive.passiveimplosion = passiveimplosion;
                     mimapassive.passiveretribution = passiveretribution;
                     mimapassive.passiveeverlast = passiveeverlast;
@@ -293,11 +297,15 @@ namespace lvalonmima
                 if (exhibit != null && exhibit is NotRelics.mimapassivesdef.mimapassives mimapassive)
                 {
                     log.LogDebug("saving passives");
+                    //uncommons
                     haspassive = mimapassive.haspassive;
                     passivegold = mimapassive.passivegold;
                     passivepower = mimapassive.passivepower;
                     passivemb = mimapassive.passivemb;
                     passivembhand = mimapassive.passivembhand;
+                    passiveupgrade = mimapassive.passiveupgrade;
+                    passivecharge = mimapassive.passivecharge;
+                    //rares
                     passiveimplosion = mimapassive.passiveimplosion;
                     passiveretribution = mimapassive.passiveretribution;
                     passiveeverlast = mimapassive.passiveeverlast;
@@ -309,9 +317,12 @@ namespace lvalonmima
             public int passivepower;
             public int passivemb;
             public int passivembhand;
+            public int passiveupgrade;
+
             public int passiveimplosion;
             public int passiveretribution;
             public int passiveeverlast;
+            public int passivecharge;
         }
 
         private IEnumerator tabberbase()

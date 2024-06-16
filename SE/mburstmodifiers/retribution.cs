@@ -77,7 +77,7 @@ namespace lvalonmima.SE.mburstmodifiers
                 {
                     yield break;
                 }
-                if (args.ActionSource is StatusEffect statusEffect && statusEffect is SE.magicalburstdef.magicalburst)
+                if (args.ActionSource is StatusEffect statusEffect && statusEffect is magicalburstdef.magicalburst)
                 {
                     DamageInfo damageInfo = args.DamageInfo;
                     if (damageInfo.Damage > 0f)

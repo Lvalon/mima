@@ -73,7 +73,7 @@ cardremini:
   FlavorText: "Even spirits have a limit on how many things they can remember?"
   DetailText: "{SelfName} cannot be produced by this effect."
 cardrewind:
-  Description: "Discard the hand.\nSwap the draw and discard piles.\nGain {Value1} random mana, |Scry| {Scry} and draw {Value2} card{Value2:plural one='' other='s'}.\nDelay |Magical Burst|'s natural activation by {Value3} turn{Value3:plural one='' other='s'}."
+  Description: "Discard the hand.\nSwap the draw and discard piles.\nGain {Value1} random mana, |Scry| {Scry} and draw {Value2} card{Value2:plural one='' other='s'}."
   Name: It's Rewind Time
   FlavorText: "\"It's Rewind Time.\""
 cardgrasp:
@@ -163,6 +163,14 @@ cardpassivembhand:
   Description: "|g:Passive Card|\n|Whenever a card enters the hand|: Gain {Value1} |Magical Burst|."
   Name: "Abyss Conversion Lab"
   FlavorText: "Knowledge is power."
+cardpassiveupgrade:
+  Description: "|g:Passive Card|\n|At the start of the first turn|: Upgrade a random card in the hand {Value1} time{Value1:plural one='' other='s'}."
+  Name: "Dramatic Entrance?"
+  FlavorText: "Yeah, no, maybe the evil spirit can come up with something better..."
+cardpassivecharge:
+  Description: "|g:Passive Card|\n|Whenever| {Value2} |cards are played|: Gain {Value1} |Charge|. Resets at the end of combat."
+  Name: "Sideloading Magic"
+  FlavorText: "Who only casts one spell at a time nowadays?"
 cardpassivealgophobia:
   Description: "|g:Passive Card|\nWhenever an enemy takes unblocked damage from |Magical Burst|'s attack, they lose life equal to damage dealt by |Magical Burst|."
   Name: Algophobia

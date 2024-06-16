@@ -103,7 +103,7 @@ namespace lvalonmima.NotImages.Uncommon
         {
             protected override IEnumerable<BattleAction> Actions(UnitSelector selector, ManaGroup consumingMana, Interaction precondition)
             {
-                if (Battle.Player.TryGetStatusEffect<SE.magicalburstdef.magicalburst>(out SE.magicalburstdef.magicalburst tmp) && tmp is mimaextensions.mimase magicalburst)
+                if (Battle.Player.TryGetStatusEffect(out SE.magicalburstdef.magicalburst tmp) && tmp is mimaextensions.mimase magicalburst)
                 {
                     if (magicalburst.truecounter - Value1 >= 0)
                     {

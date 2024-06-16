@@ -72,7 +72,7 @@ namespace lvalonmima.SE
                 if (unit.Hp > 66) { GameRun.SetHpAndMaxHp(66, 66, false); }
                 else { GameRun.SetHpAndMaxHp(unit.Hp, 66, false); }
                 ReactOwnerEvent(Battle.RoundEnding, new EventSequencedReactor<GameEventArgs>(OnRoundEnding));
-                ReactOwnerEvent<StatusEffectApplyEventArgs>(Battle.Player.StatusEffectAdded, new EventSequencedReactor<StatusEffectApplyEventArgs>(OnStatusEffectAdded));
+                ReactOwnerEvent(Battle.Player.StatusEffectAdded, new EventSequencedReactor<StatusEffectApplyEventArgs>(OnStatusEffectAdded));
                 HandleOwnerEvent(Owner.DamageDealing, new GameEventHandler<DamageDealingEventArgs>(OnDamageDealing));
                 HandleOwnerEvent(Owner.Dying, new GameEventHandler<DieEventArgs>(OnDying));
                 HandleOwnerEvent(Owner.TurnStarting, new GameEventHandler<UnitEventArgs>(OnOwnerTurnStarting));
@@ -81,7 +81,17 @@ namespace lvalonmima.SE
                 React(PerformAction.Effect(unit, "JunkoNightmare", 1f, "", 0f, PerformAction.EffectBehavior.PlayOneShot, 0f));
                 React(PerformAction.Effect(unit, "JunkoNightmare", 2f, "", 0f, PerformAction.EffectBehavior.PlayOneShot, 0f));
                 React(PerformAction.Effect(unit, "JinziMirror", 3f, "", 1f, PerformAction.EffectBehavior.Add, 0f));
-                //}
+                ReactOwnerEvent(Battle.Player.BlockShieldGained, new EventSequencedReactor<BlockShieldEventArgs>(OnBlockShieldGained));
+                if (Owner.Block > 0)
+                {
+                    React(new ApplyStatusEffectAction<magicalburstdef.magicalburst>(Owner, Owner.Block, null, null, null, 0f, true));
+                    React(new LoseBlockShieldAction(Owner, Owner.Block, 0, false));
+                }
+                if (Owner.Shield > 0)
+                {
+                    React(new ApplyStatusEffectAction<magicalburstdef.magicalburst>(Owner, Owner.Shield, null, null, null, 0f, true));
+                    React(new LoseBlockShieldAction(Owner, 0, Owner.Shield, false));
+                }
             }
             private void OnDying(DieEventArgs args)
             {
@@ -164,6 +174,23 @@ namespace lvalonmima.SE
                     args.DamageInfo = damageInfo;
                     args.AddModifier(this);
                 }
+            }
+            private IEnumerable<BattleAction> OnBlockShieldGained(BlockShieldEventArgs args)
+            {
+                if (args.HasBlock)
+                {
+                    yield return new ApplyStatusEffectAction<magicalburstdef.magicalburst>(Owner, new int?((int)args.Block), null, null, null, 0f, true);
+                    yield return new LoseBlockShieldAction(Owner, Owner.Block, 0, false);
+                    args.AddModifier(this);
+                }
+                if (args.HasShield)
+                {
+                    yield return new ApplyStatusEffectAction<magicalburstdef.magicalburst>(Owner, new int?((int)args.Shield), null, null, null, 0f, true);
+                    yield return new LoseBlockShieldAction(Owner, 0, Owner.Shield, false);
+                    args.AddModifier(this);
+                }
+                args.CancelBy(this);
+                yield break;
             }
         }
     }

@@ -5,12 +5,12 @@ mimaa:
   FlavorText: I die with the dying. I'm born with the dead!
 mimab:
   Description:
-    "|p:Unswappable|\nAdds {BaseMana} to the mana base.\nCards unique to |Mima| are added to the card pool.\n{PlayerName} can pay {Value4} <sprite=\"Point\" name=\"Gold\"> and press |Tab| to open the |Passive Shop| outside battle, and the |Blitz Shop| during battle.\nAt the start of combat, {PlayerName} gains {Value1} |Evil Spirit|.\n"
+    "|p:Unswappable|\nAdds {BaseMana} to the mana base.\nCards unique to |Mima| are added to the card pool.\nAfter going out, {PlayerName} can pay {Value4} <sprite=\"Point\" name=\"Gold\"> and press |Tab| to open the |Passive Shop| outside battle, and the |Blitz Shop| during battle.\nAt the start of combat, {PlayerName} gains {Value1} |Evil Spirit|.\n"
   Name: Down Abyssmal
   FlavorText: "It stares back. Not even the strongest of beings can withstand it."
 mimapassives:
   Description:
-    "{PlayerName} has manifested the power of the abyss. Passive effects are gained.{spaceyaml}{passivegoldyaml}{passivepoweryaml}{passivembyaml}{passivembhandyaml}{passiveimplosionyaml}{passiveretributionyaml}{passiveeverlastyaml}"
+    "{PlayerName} has manifested the power of the abyss. Passive effects are gained.{spaceyaml}{passivegoldyaml}{passivepoweryaml}{passivembyaml}{passivembhandyaml}{passiveupgradeyaml}{passivechargeyaml}{passiveimplosionyaml}{passiveretributionyaml}{passiveeverlastyaml}"
   spacedes:
     "\n"
   passivegolddes:
@@ -21,11 +21,15 @@ mimapassives:
     "\n|At the start of each turn|: Gain |n:{mbyaml}| |Magical Burst|.\n"
   passivembhanddes:
     "\n|Whenever a card enters the hand|: Gain |n:{mbhandyaml}| |Magical Burst|.\n"
+  passiveupgradedes:
+    "\n|At the start of the first turn|: Upgrade a random card in the hand |n:{upgradeyaml}| time{upgradeyaml:plural one='' other='s'}."
   passiveimplosiondes:
     "\n|During combat|: Whenever an enemy takes unblocked damage from |Magical Burst|'s attack, they lose life equal to |n:{implosionyaml}| time{implosionyaml:plural one='' other='s'} the damage dealt by |Magical Burst|.\n"
   passiveretributiondes:
     "\n|During combat|: Whenever |Magical Burst| causes an enemy to lose life, {PlayerName} loses |n:{retributionyaml}| life.\n"
   passiveeverlastdes:
     "\n|During combat|: {PlayerName} gains |n:{everlastyaml}%| of supposed |Magical Burst|. |Magical Burst| is no longer consumed. |Magical Burst|'s activation can no longer be delayed.\n"
+  passivechargedes:
+    "|Whenever| |n:4| |cards are played|: Gain |n:{chargeyaml}| |Charge|. Resets at the end of combat. |n:{chargeleft}| card{chargeleft:plural one='' other='s'} are played currently."
   Name: Void Manifestation
   FlavorText: ""

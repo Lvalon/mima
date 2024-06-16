@@ -55,7 +55,7 @@ namespace lvalonmima.NotImages.Rare
                TargetType: TargetType.All,
                Colors: new List<ManaColor>() { ManaColor.Blue, ManaColor.Green },
                IsXCost: false,
-               Cost: new ManaGroup() { Blue = 2, Green = 2 },
+               Cost: new ManaGroup() { Hybrid = 1, HybridColor = 6, Blue = 1, Green = 1 },
                UpgradedCost: new ManaGroup() { Any = 1, Blue = 1, Green = 1 },
                MoneyCost: null,
                Damage: null,
@@ -108,7 +108,7 @@ namespace lvalonmima.NotImages.Rare
             protected override IEnumerable<BattleAction> Actions(UnitSelector selector, ManaGroup consumingMana, Interaction precondition)
             {
                 int num = Battle.MaxHand - Battle.HandZone.Count;
-                List<Card> list = Battle.RollCards(new CardWeightTable(RarityWeightTable.BattleCard, OwnerWeightTable.Valid, CardTypeWeightTable.OnlySkill), num, (CardConfig config) => !config.Keywords.HasFlag(Keyword.Forbidden)).ToList<Card>();
+                List<Card> list = Battle.RollCards(new CardWeightTable(RarityWeightTable.BattleCard, OwnerWeightTable.Valid, CardTypeWeightTable.OnlySkill), num, (CardConfig config) => !config.Keywords.HasFlag(Keyword.Forbidden)).ToList();
                 if (list.Count > 0)
                 {
                     foreach (Card card in list)

@@ -72,7 +72,7 @@ namespace lvalonmima.SE.mburstmodifiers
             //they worked
             protected override void OnAdded(Unit unit)
             {
-                ReactOwnerEvent<StatusEffectApplyEventArgs>(Owner.StatusEffectAdded, new EventSequencedReactor<StatusEffectApplyEventArgs>(OnStatusEffectAdded));
+                ReactOwnerEvent(Owner.StatusEffectAdded, new EventSequencedReactor<StatusEffectApplyEventArgs>(OnStatusEffectAdded));
                 if (Level > 5) { NotifyChanged(); Level = 5; }
             }
             private IEnumerable<BattleAction> OnStatusEffectAdded(StatusEffectApplyEventArgs args)

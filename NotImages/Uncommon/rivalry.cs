@@ -55,8 +55,8 @@ namespace lvalonmima.NotImages.Uncommon
                TargetType: TargetType.All,
                Colors: new List<ManaColor>() { ManaColor.White, ManaColor.Red },
                IsXCost: false,
-               Cost: new ManaGroup() { Any = 1, White = 1, Red = 1 },
-               UpgradedCost: new ManaGroup() { Any = 2 },
+               Cost: new ManaGroup() { Any = 2, Hybrid = 1, HybridColor = 2 },
+               UpgradedCost: new ManaGroup() { Any = 1, Hybrid = 1, HybridColor = 2 },
                MoneyCost: null,
                Damage: null,
                UpgradedDamage: null,
@@ -109,7 +109,7 @@ namespace lvalonmima.NotImages.Uncommon
             {
                 List<Card> list = new List<Card>();
 
-                list = Battle.RollCards(new CardWeightTable(RarityWeightTable.OnlyUncommon, OwnerWeightTable.OnlyPlayer, CardTypeWeightTable.CanBeLoot), Value1, (CardConfig config) => config.Type == CardType.Ability).ToList<Card>();
+                list = Battle.RollCards(new CardWeightTable(RarityWeightTable.OnlyUncommon, OwnerWeightTable.OnlyPlayer, CardTypeWeightTable.CanBeLoot), Value1, (CardConfig config) => config.Type == CardType.Ability).ToList();
                 SelectCardInteraction interaction = new SelectCardInteraction(Value2, Value2, list, SelectedCardHandling.DoNothing)
                 {
                     Source = this

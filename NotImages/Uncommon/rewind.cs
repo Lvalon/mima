@@ -109,13 +109,13 @@ namespace lvalonmima.NotImages.Uncommon
             {
                 List<Card> hand = (from card in Battle.HandZone
                                    where card != this
-                                   select card).ToList<Card>();
+                                   select card).ToList();
                 if (hand.Count > 0)
                 {
                     yield return new DiscardManyAction(hand);
                 }
-                List<Card> list = Battle.DrawZone.Reverse<Card>().ToList<Card>();
-                List<Card> oriDiscard = Battle.DiscardZone.ToList<Card>();
+                List<Card> list = Battle.DrawZone.Reverse().ToList();
+                List<Card> oriDiscard = Battle.DiscardZone.ToList();
                 foreach (Card card in list)
                 {
                     if (card.Zone == CardZone.Draw)
@@ -138,7 +138,7 @@ namespace lvalonmima.NotImages.Uncommon
                 yield return new GainManaAction(manaGroup);
                 yield return new ScryAction(Scry);
                 yield return new DrawManyCardAction(Value2);
-                yield return BuffAction<SE.mburstmodifiers.accumulationdef.accumulation>(Value3, 0, 0, 0, 0.2f);
+                //yield return BuffAction<SE.mburstmodifiers.accumulationdef.accumulation>(Value3, 0, 0, 0, 0.2f);
                 yield break;
             }
         }
