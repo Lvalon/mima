@@ -438,38 +438,38 @@ namespace lvalonmima.NotRelics
             {
                 foreach (Card card in args.Cards)
                 {
-                    if (card is mimaextensions.mimacard mimascard && mimascard.ispassive)
+                    if (card is mimaextensions.mimacard mimascard && mimaextensions.mimacard.passivecards.Contains(mimascard.Id))
                     {
                         haspassive = true;
                         switch (card.Id)
                         {
                             //start of uncommons
-                            case nameof(NotImages.Passive.Uncommon.cardpassivegolddef.cardpassivegold):
+                            case nameof(NotImages.Passive.Uncommon.passivegolddef.passivegold):
                                 passivegold += card.Value1;
                                 break;
-                            case nameof(NotImages.Passive.Uncommon.cardpassivepowerdef.cardpassivepower):
+                            case nameof(NotImages.Passive.Uncommon.passivepowerdef.passivepower):
                                 passivepower += card.Value1;
                                 break;
-                            case nameof(NotImages.Passive.Uncommon.cardpassivembdef.cardpassivemb):
+                            case nameof(NotImages.Passive.Uncommon.passivembdef.passivemb):
                                 passivemb += card.Value1;
                                 break;
-                            case nameof(NotImages.Passive.Uncommon.cardpassivembhanddef.cardpassivembhand):
+                            case nameof(NotImages.Passive.Uncommon.passivembhanddef.passivembhand):
                                 passivembhand += card.Value1;
                                 break;
-                            case nameof(NotImages.Passive.Uncommon.cardpassiveupgradedef.cardpassiveupgrade):
+                            case nameof(NotImages.Passive.Uncommon.passiveupgradedef.passiveupgrade):
                                 passiveupgrade += card.Value1;
                                 break;
-                            case nameof(NotImages.Passive.Uncommon.cardpassivechargedef.cardpassivecharge):
+                            case nameof(NotImages.Passive.Uncommon.passivechargedef.passivecharge):
                                 passivecharge += card.Value1;
                                 break;
                             //start of rares
-                            case nameof(NotImages.Passive.Rare.cardpassivealgophobiadef.cardpassivealgophobia):
+                            case nameof(NotImages.Passive.Rare.passivealgophobiadef.passivealgophobia):
                                 passiveimplosion += card.Value1;
                                 break;
-                            case nameof(NotImages.Passive.Rare.cardpassiverpolaritydef.cardpassiverpolarity):
+                            case nameof(NotImages.Passive.Rare.passiverpolaritydef.passiverpolarity):
                                 passiveretribution += card.Value1;
                                 break;
-                            case nameof(NotImages.Passive.Rare.cardpassivewraitsothdef.cardpassivewraitsoth):
+                            case nameof(NotImages.Passive.Rare.passivewraitsothdef.passivewraitsoth):
                                 passiveeverlast += card.Value1;
                                 break;
                         }

@@ -338,7 +338,7 @@
       <None Remove="DIRRESOURCES/playerEn.yaml" />
       <None Remove="DIRRESOURCES/SEEn.yaml" />
       <None Remove="DIRRESOURCES/ultEn.yaml" />
-      <None Remove="Resources/cardpassivealgophobia.png" />
+      <None Remove="Resources/passivealgophobia.png" />
       <None Remove="Resources/cardbirdq.png" />
       <None Remove="Resources/cardburstwave.png" />
       <None Remove="Resources/cardcardtable.png" />
@@ -360,12 +360,12 @@
       <None Remove="Resources/cardmountain.png" />
       <None Remove="Resources/cardnineplus.png" />
       <None Remove="Resources/cardoncetime.png" />
-      <None Remove="Resources/cardpassivegold.png" />
+      <None Remove="Resources/passivegold.png" />
       <None Remove="Resources/cardpurediamond.png" />
       <None Remove="Resources/cardremini.png" />
       <None Remove="Resources/cardrewind.png" />
       <None Remove="Resources/cardrivalry.png" />
-      <None Remove="Resources/cardpassiverpolarity.png" />
+      <None Remove="Resources/passiverpolarity.png" />
       <None Remove="Resources/cardsharppeak.png" />
       <None Remove="Resources/cardshepherdg.png" />
       <None Remove="Resources/cardstake.png" />
@@ -374,7 +374,7 @@
       <None Remove="Resources/cardtwelve.png" />
       <None Remove="Resources/cardutmost.png" />
       <None Remove="Resources/cardwheresleep.png" />
-      <None Remove="Resources/cardpassivewraitsoth.png" />
+      <None Remove="Resources/passivewraitsoth.png" />
       <None Remove="Resources/mimab.png" />
       <None Remove="Resources/mimapassives.png" />
       <None Remove="Resources/seaccumulation.png" />
@@ -409,7 +409,6 @@
 
     <ItemGroup>
       <Folder Include="NotImages/Monster/" />
-      <Folder Include="NotImages/Passive/Uncommon/" />
     </ItemGroup>
 
 

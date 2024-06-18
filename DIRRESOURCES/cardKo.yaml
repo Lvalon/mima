@@ -133,17 +133,17 @@ cardperlereino:
   Name: 페를레이노로의 전송
   FlavorText: "그녀는 절대 권력이 존재하는 특정한 세계를 꿈꿉니다."
   DetailText: "게임이 제대로 운영될 수 있도록 몇 가지 |e:예외|가 있습니다."
-cardpassivewraitsoth:
+passivewraitsoth:
   Description: "모든 |마력 폭발|을 잃습니다.\n{PlayerName}은 예상 |마력 폭발|의 {gainred}%를 얻습니다.\n|마력 폭발|은 더 이상 소모되지 않습니다.\n|마력 폭발|의 활성화는 더 이상 지연될 수 없습니다."
   DetailText: '"예상 |마력 폭발|의 %를 얻는" 효과는 중첩될 수 있으며, 100%를 초과할 수 없습니다.'
   Name: 파라이조스의 분출
   FlavorText: "그녀는 분노의 도끼를 들고 감히 자기 앞을 가로막는 자를 추방했습니다."
-cardpassivealgophobia:
+passivealgophobia:
   Description: "적이 |마력 폭발|로 막히지 않은 피해를 입을 때마다, 그 적은 |마력 폭발|에 의해 입은 피해만큼의 체력을 잃습니다."
   Name: 알고리즘 공포증
   FlavorText: "당신이 다칠까 두려워할수록, 당신은 더 많이 다칠 것입니다."
   DetailText: "이 효과는 중첩됩니다."
-cardpassiverpolarity:
+passiverpolarity:
   Description: "|마력 폭발|로 인해 적이 체력을 잃을 때마다, {PlayerName}은 {Value1}의 체력을 잃습니다."
   Name: 극성 반전
   FlavorText: "극성이 좀 헷갈리지만, 정신을 차렸다."

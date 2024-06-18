@@ -30,8 +30,9 @@ namespace lvalonmima
             station.CanUseCardService = false;
             GameMaster.Instance.CurrentGameRun.CurrentMap.StartNode.StationType = stationType;
             List<ShopItem<Card>> list = new List<ShopItem<Card>>();
-            List<Card> mimapassivelist = toolbox.RollCardsCustom(GameMaster.Instance.CurrentGameRun.BattleCardRng, new CardWeightTable(RarityWeightTable.EnemyCard, OwnerWeightTable.AllOnes, CardTypeWeightTable.CanBeLoot), 8, null, true, true, false, false, (Card card) => card is mimaextensions.mimacard mimascard && mimascard.ispassive).ToList();
-            List<Card> mimamonsterlist = toolbox.RollCardsCustom(GameMaster.Instance.CurrentGameRun.BattleCardRng, new CardWeightTable(RarityWeightTable.EnemyCard, OwnerWeightTable.AllOnes, CardTypeWeightTable.CanBeLoot), 2, null, true, true, false, false, (Card card) => card is mimaextensions.mimacard mimascard && mimascard.ismonster).ToList();
+            //List<Card> mimapassivelist = toolbox.RollCardsCustom(GameMaster.Instance.CurrentGameRun.BattleCardRng, new CardWeightTable(RarityWeightTable.EnemyCard, OwnerWeightTable.AllOnes, CardTypeWeightTable.CanBeLoot), 8, null, true, true, false, false, (Card card) => card is mimaextensions.mimacard mimascard && mimascard.ispassive).ToList();
+            List<Card> mimapassivelist = toolbox.RollCardsCustom(GameMaster.Instance.CurrentGameRun.BattleCardRng, new CardWeightTable(RarityWeightTable.EnemyCard, OwnerWeightTable.AllOnes, CardTypeWeightTable.CanBeLoot), 8, null, true, true, false, false, (Card card) => card is mimaextensions.mimacard mimascard && mimaextensions.mimacard.passivecards.Contains(mimascard.Id)).ToList();
+            List<Card> mimamonsterlist = toolbox.RollCardsCustom(GameMaster.Instance.CurrentGameRun.BattleCardRng, new CardWeightTable(RarityWeightTable.EnemyCard, OwnerWeightTable.AllOnes, CardTypeWeightTable.CanBeLoot), 2, null, true, true, false, false, (Card card) => card is mimaextensions.mimacard mimascard && mimaextensions.mimacard.monstercards.Contains(mimascard.Id)).ToList();
 
             if (mimapassivelist.Count > 0)
             {
@@ -121,8 +122,8 @@ namespace lvalonmima
             station.CanUseCardService = false;
             GameMaster.Instance.CurrentGameRun.CurrentMap.StartNode.StationType = stationType;
             List<ShopItem<Card>> list = new List<ShopItem<Card>>();
-            List<Card> mimapassivelist = toolbox.RollCardsCustom(GameMaster.Instance.CurrentGameRun.BattleCardRng, new CardWeightTable(RarityWeightTable.EnemyCard, OwnerWeightTable.AllOnes, CardTypeWeightTable.CanBeLoot), 8, null, true, true, false, false, (Card card) => card is mimaextensions.mimacard mimascard && mimascard.isblitz).ToList();
-            List<Card> mimamonsterlist = toolbox.RollCardsCustom(GameMaster.Instance.CurrentGameRun.BattleCardRng, new CardWeightTable(RarityWeightTable.EnemyCard, OwnerWeightTable.AllOnes, CardTypeWeightTable.CanBeLoot), 2, null, true, true, false, false, (Card card) => card is mimaextensions.mimacard mimascard && mimascard.isbm).ToList();
+            List<Card> mimapassivelist = toolbox.RollCardsCustom(GameMaster.Instance.CurrentGameRun.BattleCardRng, new CardWeightTable(RarityWeightTable.EnemyCard, OwnerWeightTable.AllOnes, CardTypeWeightTable.CanBeLoot), 8, null, true, true, false, false, (Card card) => card is mimaextensions.mimacard mimascard && mimaextensions.mimacard.blitzcards.Contains(mimascard.Id)).ToList();
+            List<Card> mimamonsterlist = toolbox.RollCardsCustom(GameMaster.Instance.CurrentGameRun.BattleCardRng, new CardWeightTable(RarityWeightTable.EnemyCard, OwnerWeightTable.AllOnes, CardTypeWeightTable.CanBeLoot), 2, null, true, true, false, false, (Card card) => card is mimaextensions.mimacard mimascard && mimaextensions.mimacard.bmcards.Contains(mimascard.Id)).ToList();
 
             if (mimapassivelist.Count > 0)
             {

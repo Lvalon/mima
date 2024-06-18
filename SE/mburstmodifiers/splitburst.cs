@@ -61,7 +61,6 @@ namespace lvalonmima.SE.mburstmodifiers
         {
             public splitburst() : base()
             {
-                isMBmod = true;
             }
             //set up triggers to give a fuck on
             //also vfx/sfx

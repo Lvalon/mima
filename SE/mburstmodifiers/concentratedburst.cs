@@ -62,7 +62,6 @@ namespace lvalonmima.SE.mburstmodifiers
         {
             public concentratedburst() : base()
             {
-                isMBmod = true;
                 truecounter = 0;
             }
 

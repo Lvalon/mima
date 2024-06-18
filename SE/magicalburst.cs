@@ -107,7 +107,7 @@ namespace lvalonmima.SE
             private IEnumerable<BattleAction> OnStatusEffectAdded(StatusEffectApplyEventArgs args)
             {
                 //check if effect isMBmod == true
-                if (args.Effect is mimaextensions.mimase mimase && mimase.isMBmod == true)
+                if (args.Effect is mimaextensions.mimase mimase && MBmods.Contains(mimase.Id))
                 {
                     NotifyChanged();
                     dmgcalc();
@@ -125,7 +125,7 @@ namespace lvalonmima.SE
             }
             private IEnumerable<BattleAction> OnStatusEffectRemoved(StatusEffectEventArgs args)
             {
-                if (args.Effect is mimaextensions.mimase mimase && mimase.isMBmod == true)
+                if (args.Effect is mimaextensions.mimase mimase && MBmods.Contains(mimase.Id))
                 {
                     NotifyChanged();
                     dmgcalc();

@@ -63,7 +63,6 @@ namespace lvalonmima.SE.mburstmodifiers
         {
             public fastburst() : base()
             {
-                isMBmod = true;
                 truecounter = 0;
             }
             public int showfastburst => GameRun.Battle == null ? 20 : (Level > 5) ? Convert.ToInt32(5 * 20) : Convert.ToInt32(Level * 20);
