@@ -63,7 +63,6 @@ namespace lvalonmima.SE.mburstmodifiers
         {
             public accumulation() : base()
             {
-                isMBmod = true;
                 truecounter = 0;
             }
             //set up triggers to give a fuck on

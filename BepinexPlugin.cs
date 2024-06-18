@@ -6,6 +6,7 @@ using LBoL.Base;
 using LBoL.Base.Extensions;
 using LBoL.Core;
 using LBoL.Core.Cards;
+using LBoL.Core.Battle;
 using LBoL.Core.Stations;
 using LBoL.Presentation;
 using LBoLEntitySideloader;
@@ -19,6 +20,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using LBoL.Presentation.UI;
 using LBoLEntitySideloader.PersistentValues;
+using lvalonmima.NotImages.Blitz.Rare;
 
 namespace lvalonmima
 {
@@ -133,7 +135,7 @@ namespace lvalonmima
                 }
             }
         }
-        public GameEventPriority DefaultEventPriority => (GameEventPriority)1;
+        public GameEventPriority DefaultEventPriority => (GameEventPriority)1; //PRIORITY 1
         public readonly GameEventHandlerHolder _gameRunHandlerHolder = new GameEventHandlerHolder();
         public void HandleGameRunEvent<TEventArgs>(GameEvent<TEventArgs> @event, GameEventHandler<TEventArgs> handler, GameEventPriority priority) where TEventArgs : GameEventArgs
         {
@@ -147,7 +149,7 @@ namespace lvalonmima
         private void Update()
         {
             GameRunController gamerun = GameMaster.Instance?.CurrentGameRun;
-            
+
             if (gamerun != null)
             {
                 LBoL.Core.Units.PlayerUnit player = gamerun.Player;
@@ -165,15 +167,13 @@ namespace lvalonmima
         {
             private static void OnDeckCardsAdding(CardsEventArgs args)
             {
-                log.LogDebug("deck card add detected");
+                //add passive exhibit if it dne
                 GameRunController gamerun = GameMaster.Instance?.CurrentGameRun;
-                int num = args.Cards.Count((Card card) => card is mimaextensions.mimacard mimascard && mimascard.ispassive == true);
+                int num = args.Cards.Count((Card card) => card is mimaextensions.mimacard mimascard && mimaextensions.mimacard.passivecards.Contains(mimascard.Id));
                 LBoL.Core.Units.PlayerUnit player = gamerun.Player;
                 bool hasexhibit = player.HasExhibit<NotRelics.mimapassivesdef.mimapassives>();
-                log.LogDebug("does player have passive exhibit? " + hasexhibit);
                 if (num > 0 && hasexhibit == false)
                 {
-                    log.LogDebug("passive exhibit not found, adding exhibit");
                     GameMaster.Instance.StartCoroutine(GainExhibits(
                              gameRun: gamerun,
                              exhibits: new HashSet<Type>() { typeof(NotRelics.mimapassivesdef.mimapassives) },
@@ -185,10 +185,39 @@ namespace lvalonmima
                              }));
                 }
             }
+            private static void OnDeckCardsAdded(CardsEventArgs args)
+            {
+                //trigger blitz card effect
+                log.LogDebug("deck card added");
+                GameRunController gamerun = GameMaster.Instance?.CurrentGameRun;
+                foreach (Card card in args.Cards)
+                {
+                    log.LogDebug("card is " + card.Id);
+                    switch (card.Id)
+                    {
+                        case nameof(blitzeburstdef.blitzeburst):
+                            log.LogDebug("confirmed to be blitz");
+                            // BepinexPlugin blitzeburst = new blitzeburstdef.blitzeburst();
+                            // blitzeburst.onblitzeburst(args);
+
+                            if (gamerun.Battle != null)
+                            {
+                                log.LogDebug("in battle, will add philo");
+                                //new GainManaAction(ManaGroup.Philosophies(3));
+                                gamerun.Battle.GainMana(ManaGroup.Philosophies(3));
+                                log.LogDebug("done gaining mana");
+                            }
+                            gamerun.RemoveDeckCard(card, false);
+                            log.LogDebug("card nuked");
+                            break;
+                    }
+                }
+            }
 
             private static void Postfix(UiManager __instance)
             {
                 Instance.HandleGameRunEvent(GameMaster.Instance?.CurrentGameRun.DeckCardsAdding, new GameEventHandler<CardsEventArgs>(OnDeckCardsAdding));
+                Instance.HandleGameRunEvent(GameMaster.Instance?.CurrentGameRun.DeckCardsAdded, new GameEventHandler<CardsEventArgs>(OnDeckCardsAdded));
             }
         }
 
@@ -204,6 +233,28 @@ namespace lvalonmima
 
             gameRun.ExhibitPool.RemoveAll(e => exhibits.Contains(e));
         }
+        // public class GainManaAction : SimpleEventBattleAction<ManaEventArgs>
+        // {
+        //     public GainManaAction(ManaGroup value)
+        //     {
+        //         base.Args = new ManaEventArgs
+        //         {
+        //             Value = value
+        //         };
+        //     }
+        //     new protected void PreEventPhase()
+        //     {
+        //         Trigger(Battle.ManaGaining);
+        //     }
+        //     new protected void MainPhase()
+        //     {
+        //         Args.Value = Battle.GainMana(Args.Value);
+        //     }
+        //     new protected void PostEventPhase()
+        //     {
+        //         Trigger(Battle.ManaGained);
+        //     }
+        // }
 
         //MIMAA REMOVE BASE MANA
         private class CoroutineExtender : IEnumerable
@@ -293,7 +344,7 @@ namespace lvalonmima
                 log.LogDebug("bepinex saving");
                 LBoL.Core.Units.PlayerUnit player = gameRun.Player;
                 Exhibit exhibit = player.GetExhibit<NotRelics.mimapassivesdef.mimapassives>();
-                
+
                 if (exhibit != null && exhibit is NotRelics.mimapassivesdef.mimapassives mimapassive)
                 {
                     log.LogDebug("saving passives");
@@ -344,6 +395,11 @@ namespace lvalonmima
                 }
             }
             yield break;
+        }
+
+        public static implicit operator BepinexPlugin(blitzeburstdef.blitzeburst v)
+        {
+            throw new NotImplementedException();
         }
     }
 }

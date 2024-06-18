@@ -63,7 +63,6 @@ namespace lvalonmima.SE.mburstmodifiers
         {
             public everlastingmagic() : base()
             {
-                isMBmod = true;
                 truecounter = 0;
             }
             public int showeverlasting => GameRun.Battle == null ? 50 : (Level > 2) ? 100 : Convert.ToInt32(Level * 50);

@@ -147,41 +147,45 @@ carddawntime:
   Name: At The Dawn of Time
   FlavorText: "Witness the beginning of everything."
   DetailText: "These |e:alternate cards| ignore total mana and mana color restrictions.\n{SelfName} cannot be produced by this effect."
-cardpassivegold:
+passivegold:
   Description: "|g:Passive Card|\n|At the start of combat|: Gain {Value1} <sprite=\"Point\" name=\"Gold\">."
   Name: Accumulated Fortune
   FlavorText: "Activate only after 4 or more cards are played this turn...?"
-cardpassivepower:
+passivepower:
   Description: "|g:Passive Card|\n|At the start of combat|: Gain {Value1} <sprite=\"Point\" name=\"Power\">."
   Name: "Power of the Elements"
   FlavorText: "Before people realised, the tides have been turned."
-cardpassivemb:
+passivemb:
   Description: "|g:Passive Card|\n|At the start of each turn|: Gain {Value1} |Magical Burst|."
   Name: "Background Grudge"
   FlavorText: "A candle that keeps bursting into flames."
-cardpassivembhand:
+passivembhand:
   Description: "|g:Passive Card|\n|Whenever a card enters the hand|: Gain {Value1} |Magical Burst|."
   Name: "Abyss Conversion Lab"
   FlavorText: "Knowledge is power."
-cardpassiveupgrade:
+passiveupgrade:
   Description: "|g:Passive Card|\n|At the start of the first turn|: Upgrade a random card in the hand {Value1} time{Value1:plural one='' other='s'}."
   Name: "Dramatic Entrance?"
   FlavorText: "Yeah, no, maybe the evil spirit can come up with something better..."
-cardpassivecharge:
+passivecharge:
   Description: "|g:Passive Card|\n|Whenever| {Value2} |cards are played|: Gain {Value1} |Charge|. Resets at the end of combat."
   Name: "Sideloading Magic"
   FlavorText: "Who only casts one spell at a time nowadays?"
-cardpassivealgophobia:
+passivealgophobia:
   Description: "|g:Passive Card|\nWhenever an enemy takes unblocked damage from |Magical Burst|'s attack, they lose life equal to damage dealt by |Magical Burst|."
   Name: Algophobia
   FlavorText: "The more afraid you are to be hurt, the more you would be hurt."
   DetailText: "This effect is stackable."
-cardpassiverpolarity:
+passiverpolarity:
   Description: "|g:Passive Card|\nWhenever |Magical Burst| causes an enemy to lose life, {PlayerName} loses {Value1} life."
   Name: Reversing the Polarity
   FlavorText: "The polarity is a bit confused, but it got the spirit."
-cardpassivewraitsoth:
-  Description: "|g:Passive Card|\nLose all |Magical Burst|.\n{PlayerName} gains {gainred}% of supposed |Magical Burst|.\n|Magical Burst| is no longer consumed.\n|Magical Burst|'s activation can no longer be delayed."
+passivewraitsoth:
+  Description: "|g:Passive Card|\n{PlayerName} gains {gainred}% of supposed |Magical Burst|.\n|Magical Burst| is no longer consumed.\n|Magical Burst|'s activation can no longer be delayed."
   Name: Unleashing of Wraitsoth
   DetailText: "The \"Gain % of supposed |Magical Burst|\" effect is stackable, it cannot exceed 100%."
   FlavorText: "Wielding the axe of wraith, she banishes anyone who dare to stand in her way."
+blitzeburst:
+  Description: "Gain {Mana}."
+  Name: Elemental Burst
+  FlavorText: "With the powers combined..."

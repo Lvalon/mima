@@ -1,6 +1,7 @@
 ﻿using LBoL.Base;
 using LBoL.ConfigData;
 using LBoL.Core;
+using LBoL.Core.Cards;
 using LBoL.Core.Battle;
 using LBoL.Core.Battle.BattleActions;
 using LBoLEntitySideloader;
@@ -105,6 +106,14 @@ namespace lvalonmima.NotImages.Uncommon
             {
                 yield return new DrawManyCardAction(Value1);
                 yield return BuffAction<SE.mburstmodifiers.accumulationdef.accumulation>(Value2, 0, 0, 0, 0.2f);
+                //yield return new Battle.GainMana(ManaGroup.Philosophies(3));
+                // List<Card> cards = new List<Card>
+                //         {
+                //             Library.CreateCard<Blitz.Rare.blitzeburstdef.blitzeburst>(),
+                //             Library.CreateCard<Blitz.Rare.blitzeburstdef.blitzeburst>(),
+                //             Library.CreateCard<Blitz.Rare.blitzeburstdef.blitzeburst>()
+                //         };
+                // GameRun.AddDeckCards(cards, false, null);
             }
         }
     }

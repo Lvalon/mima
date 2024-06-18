@@ -64,7 +64,6 @@ namespace lvalonmima.SE.mburstmodifiers
         {
             public retribution() : base()
             {
-                isMBmod = false;
                 truecounter = 0;
             }
             protected override void OnAdded(Unit unit)
