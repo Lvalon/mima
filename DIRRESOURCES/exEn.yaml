@@ -18,7 +18,7 @@ mimapassives:
   passivepowerdes:
     "\n|At the start of combat|: Gain |n:{poweryaml}| <sprite=\"Point\" name=\"Power\">.\n"
   passivembdes:
-    "\n|At the start of each turn|: Gain |n:{mbyaml}| |Magical Burst|.\n"
+    "\n|At the start of each turn|: Gain |Magical Burst| equal to |n:{mbyaml}%| of current life.\n"
   passivembhanddes:
     "\n|Whenever a card enters the hand|: Gain |n:{mbhandyaml}| |Magical Burst|.\n"
   passiveupgradedes:
@@ -30,6 +30,6 @@ mimapassives:
   passiveeverlastdes:
     "\n|During combat|: {PlayerName} gains |n:{everlastyaml}%| of supposed |Magical Burst|. |Magical Burst| is no longer consumed. |Magical Burst|'s activation can no longer be delayed.\n"
   passivechargedes:
-    "|Whenever| |n:4| |cards are played|: Gain |n:{chargeyaml}| |Charge|. Resets at the end of combat. |n:{chargeleft}| card{chargeleft:plural one='' other='s'} are played currently."
+    "\n|Whenever| |n:2| |cards are played|: Gain |n:{chargeyaml}| |Charge|. Resets at the end of combat. |n:{chargeleft}| card play{chargeleft:plural one='' other='s'} left.\n"
   Name: Void Manifestation
   FlavorText: ""

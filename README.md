@@ -6,6 +6,8 @@ wouldnt have made this without neo's sideloader: https://github.com/Neoshrimp/LB
 
 intoxicated kid for providing LOTS of 9head code and sharing ideas: https://github.com/IntoxicatedKid
 
+marisa for providing very cool archetypes to take references from
+
 zosit for feedback and suggestions: https://github.com/Zosit
 
 xeno for feedback: xeno_3084

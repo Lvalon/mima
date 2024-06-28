@@ -61,7 +61,7 @@ namespace lvalonmima.SE
         }
 
         [EntityLogic(typeof(grudgetoldef))]
-        public sealed class grudgetol : StatusEffect
+        public sealed class grudgetol : mimaextensions.mimase
         {
             private bool thisround = false;
             public int loselife => GameRun.Battle == null ? 2 : (Level >= 27) ? Convert.ToInt32(Math.Pow(2, 27)) : Convert.ToInt32(Math.Pow(2, Level));

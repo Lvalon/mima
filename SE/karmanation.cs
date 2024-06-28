@@ -61,7 +61,7 @@ namespace lvalonmima.SE
         }
 
         [EntityLogic(typeof(karmanationdef))]
-        public sealed class karmanation : StatusEffect
+        public sealed class karmanation : mimaextensions.mimase
         {
 
             //set up triggers to give a fuck on

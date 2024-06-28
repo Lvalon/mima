@@ -1,9 +1,13 @@
 ﻿using LBoL.Base;
+using LBoL.ConfigData;
 using LBoL.Core;
 using LBoL.Core.Cards;
 using LBoL.Core.Randoms;
 using LBoL.Presentation;
 using System;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 
 namespace lvalonmima
 {
@@ -53,6 +57,74 @@ namespace lvalonmima
             }
 
             return filteredPool.SampleMany(rng, count, ensureCount);
+        }
+        static public Card[] RepeatableAllCards(RandomGen rng, CardWeightTable weightTable, int count, ManaGroup? manaLimit = null, bool colorLimit = false, bool applyFactors = false, bool battleRolling = false, bool ensureCount = false, Predicate<Card> filter = null)
+        {
+            GameRunController gr = GameMaster.Instance?.CurrentGameRun;
+            if (gr == null)
+                throw new InvalidOperationException("Rolling cards when run is not started.");
+
+            UniqueRandomPool<Type> innitialPool = CreateAllCardsPool(weightTable, manaLimit, colorLimit, applyFactors, battleRolling, null);
+
+            RepeatableRandomPool<Card> filteredPool = new RepeatableRandomPool<Card>();
+
+            foreach (RandomPoolEntry<Type> e in innitialPool)
+            {
+                Card card = Library.CreateCard(e.Elem);
+                if (filter(card))
+                {
+                    card.GameRun = gr;
+                    filteredPool.Add(card, e.Weight);
+                }
+            }
+
+            return filteredPool.SampleMany(rng, count, ensureCount);
+        }
+        static public Card[] UniqueAllCards(RandomGen rng, CardWeightTable weightTable, int count, ManaGroup? manaLimit = null, bool colorLimit = false, bool applyFactors = false, bool battleRolling = false, bool ensureCount = false, Predicate<Card> filter = null)
+        {
+            GameRunController gr = GameMaster.Instance?.CurrentGameRun;
+            if (gr == null)
+                throw new InvalidOperationException("Rolling cards when run is not started.");
+
+            UniqueRandomPool<Type> innitialPool = CreateAllCardsPool(weightTable, manaLimit, colorLimit, applyFactors, battleRolling, null);
+
+            UniqueRandomPool<Card> filteredPool = new UniqueRandomPool<Card>();
+
+            foreach (RandomPoolEntry<Type> e in innitialPool)
+            {
+                Card card = Library.CreateCard(e.Elem);
+                if (filter(card))
+                {
+                    card.GameRun = gr;
+                    filteredPool.Add(card, e.Weight);
+                }
+            }
+
+            return filteredPool.SampleMany(rng, count, ensureCount);
+        }
+
+        static public UniqueRandomPool<Type> CreateAllCardsPool(CardWeightTable weightTable, ManaGroup? manaLimit, bool colorLimit, bool applyFactors, bool battleRolling, [MaybeNull] Predicate<CardConfig> filter = null)
+        {
+            var gr = GameMaster.Instance.CurrentGameRun;
+            var charExSet = new HashSet<string>(gr.Player.Exhibits.Where(e => e.OwnerId != null).Select(e => e.OwnerId));
+            UniqueRandomPool<Type> uniqueRandomPool = new UniqueRandomPool<Type>();
+            foreach (var item4 in Library.EnumerateRollableCardTypes(10))
+            {
+                Type item = item4.Item1;
+                CardConfig item2 = item4.Item2;
+                if (filter != null && !filter(item2))
+                {
+                    continue;
+                }
+                float num = weightTable.WeightFor(item2, gr.Player.Id, charExSet);
+                if (num > 0f)
+                {
+                    float num2 = gr.BaseCardWeight(item2, applyFactors);
+                    uniqueRandomPool.Add(item, num * num2);
+                }
+            }
+
+            return uniqueRandomPool;
         }
 
         /* ONREVIVE
@@ -118,5 +190,13 @@ x being the number that has to be selected for the HybridColor field.
 Notes:
 It seems that a card can only have one type of Hybrid mana.
 */
+
+        //checklist: save suppressed damage, and a card that deals suppressed damage
+        //checklist: kms, lose 2 evil spirit (if evil spirit reaches -1, die), INNATE
+        //checklist: end turn retain mana, ice block after death
+        //checklist: lose life gain mana
+        //checklist: lose life 4 times add a token
+        //checklist: for each card used lose life
+        //checklist: gain mb equal to life
     }
 }

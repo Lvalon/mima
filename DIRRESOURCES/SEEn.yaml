@@ -1,5 +1,5 @@
 karmanation:
-  Description: "Deal {dmgscale} times the attack damage.\nEach extra Level doubles |Karmanation|'s effect.\n|d:Stops doubling effect after 27 levels.|"
+  Description: "Deal {dmgscale} times the attack damage.\nEach extra Level doubles |Karmanation|'s effect.\n|d:Stops doubling effect after 27 levels|."
   Brief: "Deal 2 times the attack damage.\nEach extra Level doubles |Karmanation|'s effect."
   Name: Karmanation
 evilspirit:
@@ -27,12 +27,12 @@ fastburst:
   Brief: "Immediately consume some |Magical Burst| after a card is played, then lose |Predestinated Burst|."
   Name: Predestinated Burst
 concentratedburst:
-  Description: "|Magical Burst| deals |Accurate| damage to a random enemy {Level}x{enemycount} times instead.\n|p:Multiplicative with Split Burst.|"
-  Brief: "|Magical Burst| deals |Accurate| damage to a random enemy for |Level| x |Enemy Count| times instead.\n|p:Multiplicative with Split Burst.|"
+  Description: "|Magical Burst| deals |Accurate| damage to a random enemy {Level}x{enemycount} times instead.\n|p:Multiplicative with Split Burst|."
+  Brief: "|Magical Burst| deals |Accurate| damage to a random enemy for |Level| x |Enemy Count| times instead.\n|p:Multiplicative with Split Burst|."
   Name: Concentrated Outbursts
 splitburst:
-  Description: "|Magical Burst| deals {splitdmg}% |Accurate| damage.\n|Magical Burst| deals damage {Level} extra time{Level:plural one='' other='s'}.\n|p:Multiplicative with Concentrated Outbursts.|"
-  Brief: "|Magical Burst| deals divided |Accurate| damage.\n|Magical Burst| deals damage some more times.\n|p:Multiplicative with Concentrated Outbursts.|"
+  Description: "|Magical Burst| deals {splitdmg}% |Accurate| damage.\n|Magical Burst| deals damage {Level} extra time{Level:plural one='' other='s'}.\n|p:Multiplicative with Concentrated Outbursts|."
+  Brief: "|Magical Burst| deals divided |Accurate| damage.\n|Magical Burst| deals damage some more times.\n|p:Multiplicative with Concentrated Outbursts|."
   Name: Split Burst
 retribution:
   Description: "Whenever |Magical Burst| causes an enemy to lose life, {OwnerName} loses {Level} life."
@@ -81,26 +81,26 @@ sedawntime:
   Brief: "At the start the turn, remove the hand from combat, add some random {OwnerName} cards to the hand, they have |Exile| and |Ethereal|.\n{OwnerName} takes and deals no damage, cards cost {Mana}, cannot gain mana or draw cards until end of turn."
   Name: Dawn of Time
 grudgetol:
-  Description: "Only lose |n:1/{loselife}| of original life.\nEach extra level doubles Grudge Tolerance's effect.\nAt the end of each round in which {OwnerName} did not gain |Karmanation| while having {SelfName}, lose 1 |Grudge Tolerance|.\n|d:Stops doubling effect after 27 levels.|"
+  Description: "Only lose |n:1/{loselife}| of original life.\nEach extra level doubles Grudge Tolerance's effect.\nAt the end of each round in which {OwnerName} did not gain |Karmanation| while having {SelfName}, lose 1 |Grudge Tolerance|.\n|d:Stops doubling effect after 27 levels|."
   Brief: "Only lose |n:1/2| of original life.\nEach extra level doubles Grudge Tolerance's effect.\nAt the end of each round in which {OwnerName} did not gain |Karmanation| while having {SelfName}, lose 1 |Grudge Tolerance|."
   Name: Grudge Tolerance
 sepassive:
-  Description: "When a |Passive| card is added to the library, it will apply its passive effects on the player, then removes itself from the library."
-  Brief: "When a |Passive| card is added to the library, it will apply its passive effects on the player, then removes itself from the library."
+  Description: "When a |Passive card| is added to the library, it will register its passive effects, then remove itself from the library."
+  Brief: "When a |Passive card| is added to the library, it will register its passive effects, then remove itself from the library."
   Name: Passive Card
 semonster:
-  Description: "Monster cards can be upgraded any number of times."
-  Brief: "Monster cards can be upgraded any number of times."
+  Description: "|Monster cards| can be upgraded any number of times.\n|Returns to hand after play|.\n{OwnerName} can only control 1 copy of each unique monster card.\nExtra copies in the library or battlefield will be consumed to upgrade the existing one."
+  Brief: "|Monster cards| can be upgraded any number of times.\n|Returns to hand after play|.\n{OwnerName} can only control 1 copy of each unique monster card.\nExtra copies in the library or battlefield will be consumed to upgrade the existing one."
   Name: Monster Card
 seblitz:
-  Description: "Blitz cards apply their effects, then remove themselves from the library."
-  Brief: "Blitz cards apply their effects, then remove themselves from the library."
+  Description: "When a |Blitz card| is added to the library, it will take effect, then remove itself from the library."
+  Brief: "When a |Blitz card| is added to the library, it will take effect, then remove itself from the library."
   Name: Blitz Card
 sepassiveshop:
-  Description: "Passive Shop sells different |Passive| and |Monster| cards."
-  Brief: "Passive Shop sells different |Passive| and |Monster| cards."
+  Description: "|Passive Shop| sells different |Passive| and |Monster| cards.\n|Repeated cards will not be offered|."
+  Brief: "|Passive Shop| sells different |Passive| and |Monster| cards.\n|Repeated cards will not be offered|."
   Name: Passive Shop
 seblitzshop:
-  Description: "Blitz Shop sells different |Blitz| cards."
-  Brief: "Blitz Shop sells different |Blitz| cards."
+  Description: "|Blitz Shop| sells different |Blitz| cards.\n|Repeated cards can be offered|."
+  Brief: "|Blitz Shop| sells different |Blitz| cards.\n|Repeated cards can be offered|."
   Name: Blitz Shop

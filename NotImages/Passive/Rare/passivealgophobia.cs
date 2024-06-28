@@ -97,7 +97,7 @@ namespace lvalonmima.NotImages.Passive.Rare
         }
 
         [EntityLogic(typeof(passivealgophobiadef))]
-        public sealed class passivealgophobia : mimaextensions.mimacard
+        public sealed class passivealgophobia : mimaextensions.mimacard.passivecard
         {
             // protected override IEnumerable<BattleAction> Actions(UnitSelector selector, ManaGroup consumingMana, Interaction precondition)
             // {

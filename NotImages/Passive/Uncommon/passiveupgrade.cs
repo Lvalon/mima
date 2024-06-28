@@ -96,7 +96,7 @@ namespace lvalonmima.NotImages.Passive.Uncommon
         }
 
         [EntityLogic(typeof(passiveupgradedef))]
-        public sealed class passiveupgrade : mimaextensions.mimacard
+        public sealed class passiveupgrade : mimaextensions.mimacard.passivecard
         {
         }
     }

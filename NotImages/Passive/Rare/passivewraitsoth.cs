@@ -98,7 +98,7 @@ namespace lvalonmima.NotImages.Passive.Rare
         }
 
         [EntityLogic(typeof(passivewraitsothdef))]
-        public sealed class passivewraitsoth : mimaextensions.mimacard
+        public sealed class passivewraitsoth : mimaextensions.mimacard.passivecard
         {
             public int gainred => Value1 * 50;
             protected override IEnumerable<BattleAction> Actions(UnitSelector selector, ManaGroup consumingMana, Interaction precondition)

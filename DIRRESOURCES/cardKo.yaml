@@ -3,7 +3,7 @@ cardmimaalib:
   Name: 불사조 문서
   FlavorText: "경험이 쌓입니다."
 cardmimablib:
-  Description: "|p:미마B카드는 미완성입니다.|\n|미마가 죽림에 입장시|:\n{SelfName}을 |덱|에서 제거하고, |희귀| 등급 이외의 |미마| 스킬 카드를 {Value1}장 골라 |덱|에 추가합니다."
+  Description: "|p:미마B카드는 미완성입니다|.\n|미마가 죽림에 입장시|:\n{SelfName}을 |덱|에서 제거하고, |희귀| 등급 이외의 |미마| 스킬 카드를 {Value1}장 골라 |덱|에 추가합니다."
   Name: 심연 재건
   FlavorText: "동력화합니다."
 cardoncetime:
@@ -135,7 +135,7 @@ cardperlereino:
   DetailText: "게임이 제대로 운영될 수 있도록 몇 가지 |e:예외|가 있습니다."
 passivewraitsoth:
   Description: "모든 |마력 폭발|을 잃습니다.\n{PlayerName}은 예상 |마력 폭발|의 {gainred}%를 얻습니다.\n|마력 폭발|은 더 이상 소모되지 않습니다.\n|마력 폭발|의 활성화는 더 이상 지연될 수 없습니다."
-  DetailText: '"예상 |마력 폭발|의 %를 얻는" 효과는 중첩될 수 있으며, 100%를 초과할 수 없습니다.'
+  DetailText: '"예상 |마력 폭발|의 %를 얻는" 효과는 중첩될 수 있으며, |100%|를 초과할 수 없습니다.'
   Name: 파라이조스의 분출
   FlavorText: "그녀는 분노의 도끼를 들고 감히 자기 앞을 가로막는 자를 추방했습니다."
 passivealgophobia:

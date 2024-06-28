@@ -96,7 +96,7 @@ namespace lvalonmima.NotImages.Passive.Uncommon
         }
 
         [EntityLogic(typeof(passivembhanddef))]
-        public sealed class passivembhand : mimaextensions.mimacard
+        public sealed class passivembhand : mimaextensions.mimacard.passivecard
         {
         }
     }

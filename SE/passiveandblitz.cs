@@ -56,7 +56,7 @@ namespace lvalonmima.SE
         }
 
         [EntityLogic(typeof(sepassivedef))]
-        public sealed class sepassive : StatusEffect
+        public sealed class sepassive : mimaextensions.mimase
         {
         }
     }
@@ -106,7 +106,7 @@ namespace lvalonmima.SE
         }
 
         [EntityLogic(typeof(semonsterdef))]
-        public sealed class semonster : StatusEffect
+        public sealed class semonster : mimaextensions.mimase
         {
         }
     }
@@ -156,7 +156,7 @@ namespace lvalonmima.SE
         }
 
         [EntityLogic(typeof(seblitzdef))]
-        public sealed class seblitz : StatusEffect
+        public sealed class seblitz : mimaextensions.mimase
         {
         }
     }
@@ -206,7 +206,7 @@ namespace lvalonmima.SE
         }
 
         [EntityLogic(typeof(sepassiveshopdef))]
-        public sealed class sepassiveshop : StatusEffect
+        public sealed class sepassiveshop : mimaextensions.mimase
         {
         }
     }
@@ -256,7 +256,7 @@ namespace lvalonmima.SE
         }
 
         [EntityLogic(typeof(seblitzshopdef))]
-        public sealed class seblitzshop : StatusEffect
+        public sealed class seblitzshop : mimaextensions.mimase
         {
         }
     }

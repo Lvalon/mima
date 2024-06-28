@@ -85,7 +85,7 @@ namespace lvalonmima.NotRelics
             public int passiveimplosion = 0;
             public int passiveretribution = 0;
             public int passiveeverlast = 0;
-            public int passivecharge = 0; public int chargeleftinternal = 4;
+            public int passivecharge = 0; public int chargeleftinternal = 2;
             //crit stuff below
             public float critdmginternal = 100;
             public mimapassives() : base()
@@ -379,7 +379,7 @@ namespace lvalonmima.NotRelics
                 if (passivemb > 0)
                 {
                     NotifyActivating();
-                    yield return new ApplyStatusEffectAction<SE.magicalburstdef.magicalburst>(Owner, new int?(passivemb), null, null, null, 0f, true);
+                    yield return new ApplyStatusEffectAction<SE.magicalburstdef.magicalburst>(Owner, new int?(Convert.ToInt32(Math.Round(Battle.Player.Hp * 1.0 * passivemb / 100, MidpointRounding.AwayFromZero))), null, null, null, 0f, true);
                 }
                 yield break;
             }
@@ -438,16 +438,15 @@ namespace lvalonmima.NotRelics
             {
                 foreach (Card card in args.Cards)
                 {
-                    if (card is mimaextensions.mimacard mimascard && mimaextensions.mimacard.passivecards.Contains(mimascard.Id))
+                    if (card is mimaextensions.mimacard mimascard && mimascard is mimaextensions.mimacard.passivecard)
                     {
                         haspassive = true;
                         switch (card.Id)
                         {
-                            //start of uncommons
-                            case nameof(NotImages.Passive.Uncommon.passivegolddef.passivegold):
+                            case nameof(NotImages.Passive.Common.passivegolddef.passivegold):
                                 passivegold += card.Value1;
                                 break;
-                            case nameof(NotImages.Passive.Uncommon.passivepowerdef.passivepower):
+                            case nameof(NotImages.Passive.Common.passivepowerdef.passivepower):
                                 passivepower += card.Value1;
                                 break;
                             case nameof(NotImages.Passive.Uncommon.passivembdef.passivemb):
@@ -462,7 +461,6 @@ namespace lvalonmima.NotRelics
                             case nameof(NotImages.Passive.Uncommon.passivechargedef.passivecharge):
                                 passivecharge += card.Value1;
                                 break;
-                            //start of rares
                             case nameof(NotImages.Passive.Rare.passivealgophobiadef.passivealgophobia):
                                 passiveimplosion += card.Value1;
                                 break;

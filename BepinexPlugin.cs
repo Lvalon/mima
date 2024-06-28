@@ -3,14 +3,13 @@ using BepInEx.Configuration;
 using HarmonyLib;
 using LBoLEntitySideloader.Entities;
 using LBoL.Base;
-using LBoL.Base.Extensions;
 using LBoL.Core;
 using LBoL.Core.Cards;
-using LBoL.Core.Battle;
 using LBoL.Core.Stations;
 using LBoL.Presentation;
 using LBoLEntitySideloader;
 using LBoLEntitySideloader.Resource;
+using LBoLEntitySideloader.CustomHandlers;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -18,9 +17,8 @@ using System.Linq;
 using System.Reflection;
 using UnityEngine;
 using UnityEngine.UI;
-using LBoL.Presentation.UI;
 using LBoLEntitySideloader.PersistentValues;
-using lvalonmima.NotImages.Blitz.Rare;
+using LBoL.Core.Units;
 
 namespace lvalonmima
 {
@@ -104,47 +102,24 @@ namespace lvalonmima
             //if (BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey(AddWatermark.API.GUID))
             //   WatermarkWrapper.ActivateWatermark();
 
+            CHandlerManager.RegisterGameEventHandler(
+                (GameRunController gr) => gr.DeckCardsAdding,
+                CustomHandlers.OnDeckCardsAdding
+                );
+            CHandlerManager.RegisterGameEventHandler(
+                (GameRunController gr) => gr.DeckCardsAdded,
+                CustomHandlers.OnDeckCardsAdded
+                );
             new mimaplayerdata().RegisterSelf(LBoLEntitySideloader.PluginInfo.GUID);
+            CustomHandlers.addreactors();
             Instance = this;
+            log.LogDebug(Application.persistentDataPath);
         }
 
         private void OnDestroy()
         {
             if (harmony != null)
                 harmony.UnpatchSelf();
-        }
-
-        public class GameEventHandlerHolder
-        {
-            public readonly List<Action> _removeHandlerFunctions = new List<Action>();
-
-            public void HandleEvent<T>(GameEvent<T> e, GameEventHandler<T> action, GameEventPriority priority) where T : GameEventArgs
-            {
-                e.AddHandler(action, priority);
-                _removeHandlerFunctions.Add(delegate
-                {
-                    e.RemoveHandler(action, priority);
-                });
-            }
-
-            public void ClearEventHandlers()
-            {
-                foreach (Action removeHandlerFunction in _removeHandlerFunctions)
-                {
-                    removeHandlerFunction();
-                }
-            }
-        }
-        public GameEventPriority DefaultEventPriority => (GameEventPriority)1; //PRIORITY 1
-        public readonly GameEventHandlerHolder _gameRunHandlerHolder = new GameEventHandlerHolder();
-        public void HandleGameRunEvent<TEventArgs>(GameEvent<TEventArgs> @event, GameEventHandler<TEventArgs> handler, GameEventPriority priority) where TEventArgs : GameEventArgs
-        {
-            _gameRunHandlerHolder.HandleEvent(@event, handler, priority);
-        }
-
-        public void HandleGameRunEvent<TEventArgs>(GameEvent<TEventArgs> @event, GameEventHandler<TEventArgs> handler) where TEventArgs : GameEventArgs
-        {
-            HandleGameRunEvent(@event, handler, DefaultEventPriority);
         }
         private void Update()
         {
@@ -162,99 +137,6 @@ namespace lvalonmima
                 }
             }
         }
-        [HarmonyPatch(typeof(UiManager), nameof(UiManager.EnterGameRun))]
-        private class UiManager_EnterGameRun_Patch
-        {
-            private static void OnDeckCardsAdding(CardsEventArgs args)
-            {
-                //add passive exhibit if it dne
-                GameRunController gamerun = GameMaster.Instance?.CurrentGameRun;
-                int num = args.Cards.Count((Card card) => card is mimaextensions.mimacard mimascard && mimaextensions.mimacard.passivecards.Contains(mimascard.Id));
-                LBoL.Core.Units.PlayerUnit player = gamerun.Player;
-                bool hasexhibit = player.HasExhibit<NotRelics.mimapassivesdef.mimapassives>();
-                if (num > 0 && hasexhibit == false)
-                {
-                    GameMaster.Instance.StartCoroutine(GainExhibits(
-                             gameRun: gamerun,
-                             exhibits: new HashSet<Type>() { typeof(NotRelics.mimapassivesdef.mimapassives) },
-                             triggerVisual: true,
-                             exhibitSource: new VisualSourceData()
-                             {
-                                 SourceType = VisualSourceType.Debug,
-                                 Source = null
-                             }));
-                }
-            }
-            private static void OnDeckCardsAdded(CardsEventArgs args)
-            {
-                //trigger blitz card effect
-                log.LogDebug("deck card added");
-                GameRunController gamerun = GameMaster.Instance?.CurrentGameRun;
-                foreach (Card card in args.Cards)
-                {
-                    log.LogDebug("card is " + card.Id);
-                    switch (card.Id)
-                    {
-                        case nameof(blitzeburstdef.blitzeburst):
-                            log.LogDebug("confirmed to be blitz");
-                            // BepinexPlugin blitzeburst = new blitzeburstdef.blitzeburst();
-                            // blitzeburst.onblitzeburst(args);
-
-                            if (gamerun.Battle != null)
-                            {
-                                log.LogDebug("in battle, will add philo");
-                                //new GainManaAction(ManaGroup.Philosophies(3));
-                                gamerun.Battle.GainMana(ManaGroup.Philosophies(3));
-                                log.LogDebug("done gaining mana");
-                            }
-                            gamerun.RemoveDeckCard(card, false);
-                            log.LogDebug("card nuked");
-                            break;
-                    }
-                }
-            }
-
-            private static void Postfix(UiManager __instance)
-            {
-                Instance.HandleGameRunEvent(GameMaster.Instance?.CurrentGameRun.DeckCardsAdding, new GameEventHandler<CardsEventArgs>(OnDeckCardsAdding));
-                Instance.HandleGameRunEvent(GameMaster.Instance?.CurrentGameRun.DeckCardsAdded, new GameEventHandler<CardsEventArgs>(OnDeckCardsAdded));
-            }
-        }
-
-        private static IEnumerator GainExhibits(GameRunController gameRun, HashSet<Type> exhibits, bool triggerVisual = false, VisualSourceData exhibitSource = null)
-        {
-            foreach (Type et in exhibits)
-            {
-                Exhibit ex = Library.CreateExhibit(et);
-                ex.GameRun = gameRun;
-
-                yield return gameRun.GainExhibitRunner(ex, triggerVisual, exhibitSource);
-            }
-
-            gameRun.ExhibitPool.RemoveAll(e => exhibits.Contains(e));
-        }
-        // public class GainManaAction : SimpleEventBattleAction<ManaEventArgs>
-        // {
-        //     public GainManaAction(ManaGroup value)
-        //     {
-        //         base.Args = new ManaEventArgs
-        //         {
-        //             Value = value
-        //         };
-        //     }
-        //     new protected void PreEventPhase()
-        //     {
-        //         Trigger(Battle.ManaGaining);
-        //     }
-        //     new protected void MainPhase()
-        //     {
-        //         Args.Value = Battle.GainMana(Args.Value);
-        //     }
-        //     new protected void PostEventPhase()
-        //     {
-        //         Trigger(Battle.ManaGained);
-        //     }
-        // }
 
         //MIMAA REMOVE BASE MANA
         private class CoroutineExtender : IEnumerable
@@ -317,7 +199,7 @@ namespace lvalonmima
             public override void Restore(GameRunController gameRun)
             {
                 log.LogDebug("bepinex restoring");
-                LBoL.Core.Units.PlayerUnit player = gameRun.Player;
+                PlayerUnit player = gameRun.Player;
                 Exhibit exhibit = player.GetExhibit<NotRelics.mimapassivesdef.mimapassives>();
 
                 if (exhibit != null && exhibit is NotRelics.mimapassivesdef.mimapassives mimapassive)
@@ -395,11 +277,6 @@ namespace lvalonmima
                 }
             }
             yield break;
-        }
-
-        public static implicit operator BepinexPlugin(blitzeburstdef.blitzeburst v)
-        {
-            throw new NotImplementedException();
         }
     }
 }

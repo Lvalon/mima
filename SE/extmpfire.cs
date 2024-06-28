@@ -60,7 +60,7 @@ namespace lvalonmima.SE
         }
 
         [EntityLogic(typeof(extmpfiredef))]
-        public sealed class extmpfire : StatusEffect
+        public sealed class extmpfire : mimaextensions.mimase
         {
             //set up triggers to give a fuck on
             //they worked

@@ -4,7 +4,7 @@ cardmimaalib:
   FlavorText: "Experience accumulates."
   DetailText:  Cards added to the library by this effect ignore total mana and mana color restrictions.
 cardmimablib:
-  Description: "|p:mimab cards are being worked.|\n|When Mima enters The Bamboo Forest|:\nRemove {SelfName} from the |library|, choose |n:1| of |n:3| non-Rare |Mima| cards {Value1} times to add them to the library."
+  Description: "|p:mimab cards are being worked on|.\n|When Mima enters The Bamboo Forest|:\nRemove {SelfName} from the |library|, choose |n:1| of |n:3| non-Rare non-|g:Passive| |Mima| cards {Value1} times to add them to the library."
   Name: Abyssal Reconstruction
   FlavorText: "Harnessed the harness."
 cardoncetime:
@@ -130,7 +130,7 @@ cardexistp:
   DetailText: "These |e:alternate cards| ignore character restrictions.\n{SelfName} cannot be produced by this effect."
 cardperlereino:
   Description: "Remove all status effects except |Evil Spirit| from each enemy.\nGain |Permanant Flawless|.\nGain |Evil Spirit| for each status effect removed by this effect.\nOnly the first {SelfName} will take effect each combat."
-  exDescription1: "|d:Remove all status effects except Evil Spirit from each enemy.|\n|d:Gain Permanant Flawless.|\n|d:Gain Evil Spirit for each status effect removed by this effect.|\nOnly the first {SelfName} will take effect each combat."
+  exDescription1: "|d:Remove all status effects except Evil Spirit from each enemy|.\n|d:Gain Permanant Flawless|.\n|d:Gain Evil Spirit for each status effect removed by this effect|.\nOnly the first {SelfName} will take effect each combat."
   Name: Transmigrating to Perlereino
   FlavorText: "She dreams of a certain world where absolute power resides."
   DetailText: There are a few |e:unconventional exceptions| to ensure that the game could run properly.
@@ -156,7 +156,7 @@ passivepower:
   Name: "Power of the Elements"
   FlavorText: "Before people realised, the tides have been turned."
 passivemb:
-  Description: "|g:Passive Card|\n|At the start of each turn|: Gain {Value1} |Magical Burst|."
+  Description: "|g:Passive Card|\n|At the start of each turn|: Gain |Magical Burst| equal to {Value1}|n:%| of current life."
   Name: "Background Grudge"
   FlavorText: "A candle that keeps bursting into flames."
 passivembhand:
@@ -181,11 +181,16 @@ passiverpolarity:
   Name: Reversing the Polarity
   FlavorText: "The polarity is a bit confused, but it got the spirit."
 passivewraitsoth:
-  Description: "|g:Passive Card|\n{PlayerName} gains {gainred}% of supposed |Magical Burst|.\n|Magical Burst| is no longer consumed.\n|Magical Burst|'s activation can no longer be delayed."
+  Description: "|g:Passive Card|\n{PlayerName} gains {gainred}|n:%| of supposed |Magical Burst|.\n|Magical Burst| is no longer consumed.\n|Magical Burst|'s activation can no longer be delayed."
   Name: Unleashing of Wraitsoth
-  DetailText: "The \"Gain % of supposed |Magical Burst|\" effect is stackable, it cannot exceed 100%."
+  DetailText: "The \"Gain % of supposed |Magical Burst|\" effect is stackable, it cannot exceed |100%|."
   FlavorText: "Wielding the axe of wraith, she banishes anyone who dare to stand in her way."
 blitzeburst:
-  Description: "Gain {Mana}."
+  Description: "|u:Blitz Card|\nEnter |Burst|.\nDeal {Damage} |Accurate| damage to all enemies."
   Name: Elemental Burst
   FlavorText: "With the powers combined..."
+monstertearkit:
+  Description: "{FriendS}|p:Monster Card|\n{FriendP}|Scry| {scryshow} card{scryshow:plural one='' other='s'}."
+  ExtraDescription1: "{FriendA}Put {activevalue} topmost black or blue card{activevalue:plural one='' other='s'} from the draw pile into the hand."
+  ExtraDescription2: "{FriendU}Choose up to {ultvalue} blue or black card{ultvalue:plural one='' other='s'} from the draw pile, discard pile and battlefield and put {ultvalue:plural one='it' other='them'} into the hand."
+  Name: Tear Kit

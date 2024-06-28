@@ -106,14 +106,18 @@ namespace lvalonmima.NotImages.Uncommon
             {
                 yield return new DrawManyCardAction(Value1);
                 yield return BuffAction<SE.mburstmodifiers.accumulationdef.accumulation>(Value2, 0, 0, 0, 0.2f);
-                //yield return new Battle.GainMana(ManaGroup.Philosophies(3));
-                // List<Card> cards = new List<Card>
-                //         {
-                //             Library.CreateCard<Blitz.Rare.blitzeburstdef.blitzeburst>(),
-                //             Library.CreateCard<Blitz.Rare.blitzeburstdef.blitzeburst>(),
-                //             Library.CreateCard<Blitz.Rare.blitzeburstdef.blitzeburst>()
-                //         };
-                // GameRun.AddDeckCards(cards, false, null);
+
+                List<Card> cards = new List<Card>
+                        {
+                            Library.CreateCard<Monster.Rare.monstertearkitdef.monstertearkit>(),
+                            Library.CreateCard<Monster.Rare.monstertearkitdef.monstertearkit>(),
+                            Library.CreateCard<Monster.Rare.monstertearkitdef.monstertearkit>(),
+                            Library.CreateCard<Monster.Rare.monstertearkitdef.monstertearkit>(),
+                            Library.CreateCard<Monster.Rare.monstertearkitdef.monstertearkit>()
+                        };
+                yield return new AddCardsToHandAction(cards);
+                yield return new AddCardsToDeckAction(cards);
+                yield return new AddCardsToDrawZoneAction(Library.CreateCards<Monster.Rare.monstertearkitdef.monstertearkit>(5, false), DrawZoneTarget.Random, AddCardsType.Normal);
             }
         }
     }

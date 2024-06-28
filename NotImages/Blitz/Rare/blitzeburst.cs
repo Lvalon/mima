@@ -1,6 +1,8 @@
 ﻿using LBoL.Base;
 using LBoL.Core.Cards;
+using LBoL.Core.Battle;
 using LBoL.ConfigData;
+using LBoL.Presentation;
 using LBoLEntitySideloader;
 using LBoLEntitySideloader.Attributes;
 using LBoLEntitySideloader.Entities;
@@ -8,7 +10,9 @@ using LBoLEntitySideloader.Resource;
 using System.Collections.Generic;
 using lvalonmima.SE;
 using LBoL.Core;
+using LBoL.Core.StatusEffects;
 using System.Collections;
+using LBoL.Core.Battle.BattleActions;
 
 namespace lvalonmima.NotImages.Blitz.Rare
 {
@@ -55,7 +59,7 @@ namespace lvalonmima.NotImages.Blitz.Rare
                Cost: new ManaGroup() { },
                UpgradedCost: null,
                MoneyCost: null,
-               Damage: null,
+               Damage: 10,
                UpgradedDamage: null,
                Block: null,
                UpgradedBlock: null,
@@ -65,7 +69,7 @@ namespace lvalonmima.NotImages.Blitz.Rare
                UpgradedValue1: null,
                Value2: null,
                UpgradedValue2: null,
-               Mana: new ManaGroup() { Philosophy = 3 } ,
+               Mana: null,
                UpgradedMana: null,
                Scry: null,
                UpgradedScry: null,
@@ -85,7 +89,7 @@ namespace lvalonmima.NotImages.Blitz.Rare
                RelativeKeyword: Keyword.None,
                UpgradedRelativeKeyword: Keyword.None,
 
-               RelativeEffects: new List<string>() { nameof(seblitzdef.seblitz) },
+               RelativeEffects: new List<string>() { nameof(seblitzdef.seblitz), nameof(Burst) },
                UpgradedRelativeEffects: new List<string>() { },
                RelativeCards: new List<string>() { },
                UpgradedRelativeCards: new List<string>() { },
@@ -93,29 +97,21 @@ namespace lvalonmima.NotImages.Blitz.Rare
                ImageId: "",
                UpgradeImageId: "",
                Unfinished: false,
-               Illustrator: "Lvalon",
+               Illustrator: "Dairi",
                SubIllustrator: new List<string>() { }
             );
             return cardConfig;
         }
 
         [EntityLogic(typeof(blitzeburstdef))]
-        public class blitzeburst : mimaextensions.mimacard
+        public sealed class blitzeburst : mimaextensions.mimacard.blitzcard
         {
-            public IEnumerator OnConfirmed(CardsEventArgs args)
-            {
-                foreach (Card card in args.Cards)
-                {
-                    if (card is mimaextensions.mimacard mimascard && blitzcards.Contains(mimascard.Id) && mimascard.Id == nameof(blitzeburst))
-                    {
-                        if (Battle != null)
-                        {
-                            Battle.GainMana(Mana);
-                        }
-                        GameRun.RemoveDeckCard(card, false);
-                    }
-                }
-                yield break;
+            public static void onconfirm(Card card) {
+                GameRunController gamerun = GameMaster.Instance?.CurrentGameRun;
+                BattleController battle = gamerun.Battle;
+                battle.RequestDebugAction(new ApplyStatusEffectAction<Burst>(battle.Player, 1, null, null, null, 0f, true).SetCause(ActionCause.Card),"blitzeburst: enter burst");
+                battle.RequestDebugAction(new DamageAction(battle.Player, battle.EnemyGroup.Alives, DamageInfo.Attack(10, true), "JunkoLunatic", GunType.Single).SetCause(ActionCause.Card), "blitzeburst: deal dmg");
+                gamerun.RemoveDeckCard(card);
             }
         }
     }
