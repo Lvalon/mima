@@ -165,7 +165,7 @@ namespace lvalonmima.SE
                             yield return new RemoveCardAction(card2);
                         }
                     }
-                    List<Card> list = toolbox.RollCardsCustomIgnore(GameRun.BattleCardRng, new CardWeightTable(RarityWeightTable.BattleCard, OwnerWeightTable.OnlyPlayer, CardTypeWeightTable.CanBeLoot), Level, null, false, false, false, false, (Card card) => card is mimaextensions.mimacard && !card.Keywords.HasFlag(Keyword.Forbidden) && card.Config.Id != "carddawntime").ToList();
+                    List<Card> list = toolbox.RollCardsCustomIgnore(GameRun.BattleCardRng, new CardWeightTable(RarityWeightTable.BattleCard, OwnerWeightTable.OnlyPlayer, CardTypeWeightTable.CanBeLoot), Level, null, false, false, false, false, (Card card) => !card.Keywords.HasFlag(Keyword.Forbidden) && card.Config.Id != "carddawntime").ToList();
                     if (list.Count > 0)
                     {
                         foreach (Card card in list)

@@ -57,7 +57,7 @@ namespace lvalonmima.SE.abandoned
         }
 
         [EntityLogic(typeof(damagemultiplierdef))]
-        public sealed class damagemultiplier : StatusEffect
+        public sealed class damagemultiplier : mimaextensions.mimase
         {
             public override bool ForceNotShowDownText => true;
             //set up triggers to give a fuck on

@@ -7,7 +7,9 @@ using LBoL.EntityLib.StatusEffects.ExtraTurn;
 using System.Collections.Generic;
 using lvalonmima.NotImages.Passive.Uncommon;
 using lvalonmima.NotImages.Passive.Rare;
+using lvalonmima.NotImages.Blitz.Rare;
 using lvalonmima.SE.mburstmodifiers;
+using lvalonmima.NotImages.Monster.Rare;
 
 namespace lvalonmima
 {
@@ -17,38 +19,37 @@ namespace lvalonmima
         {
             static mimacard()
             {
-                List<string> passivelist = new List<string>
-                {
-                    //uncommons start here
-                    nameof(passivechargedef.passivecharge),
-                    nameof(passivegolddef.passivegold),
-                    nameof(passivembdef.passivemb),
-                    nameof(passivembhanddef.passivembhand),
-                    nameof(passivepowerdef.passivepower),
-                    nameof(passiveupgradedef.passiveupgrade),
-                    //rares start here
-                    nameof(passivealgophobiadef.passivealgophobia),
-                    nameof(passiverpolaritydef.passiverpolarity),
-                    nameof(passivewraitsothdef.passivewraitsoth)
-                };
-                passivecards = passivelist;
-                List<string> monsterlist = new List<string>
-                {
-                };
-                monstercards = monsterlist;
-                List<string> blitzlist = new List<string>
-                {
-                };
-                monstercards = blitzlist;
-                List<string> bmlist = new List<string>
-                {
-                };
-                monstercards = bmlist;
             }
-            public static readonly List<string> passivecards;
-            public static readonly List<string> monstercards;
-            public static readonly List<string> blitzcards;
-            public static readonly List<string> bmcards;
+            public abstract class passivecard : mimacard
+            {
+            }
+            public abstract class blitzcard : mimacard
+            {
+                static blitzcard()
+                {
+                    List<Card> list = new List<Card>
+                    {
+                        Library.CreateCard<blitzeburstdef.blitzeburst>()
+                    };
+                    blitzlist = list;
+                }
+                public static readonly List<Card> blitzlist;
+                public abstract class bmcard : blitzcard
+                {
+                    static bmcard()
+                    {
+                        List<Card> list = new List<Card>
+                        {
+                            Library.CreateCard<blitzeburstdef.blitzeburst>()
+                        };
+                        bmlist = list;
+                    }
+                    public static readonly List<Card> bmlist;
+                }
+            }
+            public abstract class monstercard : mimacard
+            {
+            }
         }
         public abstract class mimaoptioncard : OptionCard
         {

@@ -60,9 +60,13 @@ namespace lvalonmima.SE
         }
 
         [EntityLogic(typeof(evilspiritdef))]
-        public sealed class evilspirit : StatusEffect
+        public sealed class evilspirit : mimaextensions.mimase
         {
             private bool thisround = false;
+            public evilspirit() : base()
+            {
+                truecounter = 0;
+            }
             //set up triggers to give a fuck on
             //also vfx/sfx
             //they worked
@@ -74,6 +78,7 @@ namespace lvalonmima.SE
                 ReactOwnerEvent(Battle.RoundEnding, new EventSequencedReactor<GameEventArgs>(OnRoundEnding));
                 ReactOwnerEvent(Battle.Player.StatusEffectAdded, new EventSequencedReactor<StatusEffectApplyEventArgs>(OnStatusEffectAdded));
                 HandleOwnerEvent(Owner.DamageDealing, new GameEventHandler<DamageDealingEventArgs>(OnDamageDealing));
+                HandleOwnerEvent(Battle.Player.DamageDealt, new GameEventHandler<DamageEventArgs>(OnPlayerDamageDealt));
                 HandleOwnerEvent(Owner.Dying, new GameEventHandler<DieEventArgs>(OnDying));
                 HandleOwnerEvent(Owner.TurnStarting, new GameEventHandler<UnitEventArgs>(OnOwnerTurnStarting));
                 ReactOwnerEvent(Battle.BattleEnding, new EventSequencedReactor<GameEventArgs>(OnBattleEnding));
@@ -191,6 +196,18 @@ namespace lvalonmima.SE
                 }
                 args.CancelBy(this);
                 yield break;
+            }
+            //count damage dealt from battle start
+            private void OnPlayerDamageDealt(DamageEventArgs args)
+            {
+                if (Battle.BattleShouldEnd)
+                {
+                    return;
+                }
+                if (args.Cause == ActionCause.Card && args.ActionSource == this)
+                {
+                    truecounter += (int)args.DamageInfo.Damage;
+                }
             }
         }
     }

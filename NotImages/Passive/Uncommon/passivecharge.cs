@@ -59,7 +59,7 @@ namespace lvalonmima.NotImages.Passive.Uncommon
                UpgradedShield: null,
                Value1: 1,
                UpgradedValue1: null,
-               Value2: 4,
+               Value2: 2,
                UpgradedValue2: null,
                Mana: null,
                UpgradedMana: null,
@@ -96,7 +96,7 @@ namespace lvalonmima.NotImages.Passive.Uncommon
         }
 
         [EntityLogic(typeof(passivechargedef))]
-        public sealed class passivecharge : mimaextensions.mimacard
+        public sealed class passivecharge : mimaextensions.mimacard.passivecard
         {
         }
     }

@@ -96,7 +96,7 @@ namespace lvalonmima.NotImages.Passive.Rare
         }
 
         [EntityLogic(typeof(passiverpolaritydef))]
-        public sealed class passiverpolarity : mimaextensions.mimacard
+        public sealed class passiverpolarity : mimaextensions.mimacard.passivecard
         {
             // protected override IEnumerable<BattleAction> Actions(UnitSelector selector, ManaGroup consumingMana, Interaction precondition)
             // {

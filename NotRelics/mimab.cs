@@ -50,7 +50,7 @@ namespace lvalonmima.NotRelics
             ExhibitConfig exhibitConfig = new ExhibitConfig(
                 Index: BepinexPlugin.sequenceTable.Next(typeof(CardConfig)),
                 Id: "",
-                Order: 1000,
+                Order: 100,
                 IsDebug: false,
                 IsPooled: false,
                 IsSentinel: false,
@@ -104,7 +104,7 @@ namespace lvalonmima.NotRelics
             private IEnumerator Draft()
             {
                 int draftamount = 3;
-                Card[] array1 = toolbox.RollCardsCustom(GameMaster.Instance.CurrentGameRun.BattleCardRng, new CardWeightTable(RarityWeightTable.EnemyCard, OwnerWeightTable.AllOnes, CardTypeWeightTable.CanBeLoot), draftamount, null, true, true, false, false, (Card card) => card is mimaextensions.mimacard mimascard && card.Config.Rarity != Rarity.Rare);
+                Card[] array1 = toolbox.RollCardsCustom(GameMaster.Instance.CurrentGameRun.BattleCardRng, new CardWeightTable(RarityWeightTable.EnemyCard, OwnerWeightTable.AllOnes, CardTypeWeightTable.CanBeLoot), draftamount, null, true, true, false, false, (Card card) => card is mimaextensions.mimacard mimascard && !(mimascard is mimaextensions.mimacard.passivecard) && card.Config.Rarity != Rarity.Rare);
                 //Card[] array1 = GameRun.RollCards(GameRun.CardRng, new CardWeightTable(RarityWeightTable.EnemyCard, OwnerWeightTable.OnlyPlayer, CardTypeWeightTable.CanBeLoot), draftamount, false, false, (CardConfig config) => config.Rarity != Rarity.Rare);
                 GameRun.UpgradeNewDeckCardOnFlags(array1);
                 MiniSelectCardInteraction interaction1 = new MiniSelectCardInteraction(array1, false, false, false)
@@ -114,7 +114,7 @@ namespace lvalonmima.NotRelics
                 };
                 yield return GameRun.InteractionViewer.View(interaction1);
                 GameRun.AddDeckCards(new Card[] { interaction1.SelectedCard }, false, null);
-                Card[] array2 = toolbox.RollCardsCustom(GameMaster.Instance.CurrentGameRun.BattleCardRng, new CardWeightTable(RarityWeightTable.EnemyCard, OwnerWeightTable.AllOnes, CardTypeWeightTable.CanBeLoot), draftamount, null, true, true, false, false, (Card card) => card is mimaextensions.mimacard mimascard && card.Config.Rarity != Rarity.Rare);
+                Card[] array2 = toolbox.RollCardsCustom(GameMaster.Instance.CurrentGameRun.BattleCardRng, new CardWeightTable(RarityWeightTable.EnemyCard, OwnerWeightTable.AllOnes, CardTypeWeightTable.CanBeLoot), draftamount, null, true, true, false, false, (Card card) => card is mimaextensions.mimacard mimascard && !(mimascard is mimaextensions.mimacard.passivecard) && card.Config.Rarity != Rarity.Rare);
                 GameRun.UpgradeNewDeckCardOnFlags(array2);
                 MiniSelectCardInteraction interaction2 = new MiniSelectCardInteraction(array2, false, false, false)
                 {
@@ -123,7 +123,7 @@ namespace lvalonmima.NotRelics
                 };
                 yield return GameRun.InteractionViewer.View(interaction2);
                 GameRun.AddDeckCards(new Card[] { interaction2.SelectedCard }, false, null);
-                Card[] array3 = toolbox.RollCardsCustom(GameMaster.Instance.CurrentGameRun.BattleCardRng, new CardWeightTable(RarityWeightTable.EnemyCard, OwnerWeightTable.AllOnes, CardTypeWeightTable.CanBeLoot), draftamount, null, true, true, false, false, (Card card) => card is mimaextensions.mimacard mimascard && card.Config.Rarity != Rarity.Rare);
+                Card[] array3 = toolbox.RollCardsCustom(GameMaster.Instance.CurrentGameRun.BattleCardRng, new CardWeightTable(RarityWeightTable.EnemyCard, OwnerWeightTable.AllOnes, CardTypeWeightTable.CanBeLoot), draftamount, null, true, true, false, false, (Card card) => card is mimaextensions.mimacard mimascard && !(mimascard is mimaextensions.mimacard.passivecard) && card.Config.Rarity != Rarity.Rare);
                 GameRun.UpgradeNewDeckCardOnFlags(array3);
                 MiniSelectCardInteraction interaction3 = new MiniSelectCardInteraction(array3, false, false, false)
                 {
@@ -132,7 +132,7 @@ namespace lvalonmima.NotRelics
                 };
                 yield return GameRun.InteractionViewer.View(interaction3);
                 GameRun.AddDeckCards(new Card[] { interaction3.SelectedCard }, false, null);
-                Card[] array4 = toolbox.RollCardsCustom(GameMaster.Instance.CurrentGameRun.BattleCardRng, new CardWeightTable(RarityWeightTable.EnemyCard, OwnerWeightTable.AllOnes, CardTypeWeightTable.CanBeLoot), draftamount, null, true, true, false, false, (Card card) => card is mimaextensions.mimacard mimascard && card.Config.Rarity != Rarity.Rare);
+                Card[] array4 = toolbox.RollCardsCustom(GameMaster.Instance.CurrentGameRun.BattleCardRng, new CardWeightTable(RarityWeightTable.EnemyCard, OwnerWeightTable.AllOnes, CardTypeWeightTable.CanBeLoot), draftamount, null, true, true, false, false, (Card card) => card is mimaextensions.mimacard mimascard && !(mimascard is mimaextensions.mimacard.passivecard) && card.Config.Rarity != Rarity.Rare);
                 GameRun.UpgradeNewDeckCardOnFlags(array4);
                 MiniSelectCardInteraction interaction4 = new MiniSelectCardInteraction(array4, false, false, false)
                 {
@@ -141,7 +141,7 @@ namespace lvalonmima.NotRelics
                 };
                 yield return GameRun.InteractionViewer.View(interaction4);
                 GameRun.AddDeckCards(new Card[] { interaction4.SelectedCard }, false, null);
-                Card[] array5 = toolbox.RollCardsCustom(GameMaster.Instance.CurrentGameRun.BattleCardRng, new CardWeightTable(RarityWeightTable.EnemyCard, OwnerWeightTable.AllOnes, CardTypeWeightTable.CanBeLoot), draftamount, null, true, true, false, false, (Card card) => card is mimaextensions.mimacard mimascard && card.Config.Rarity != Rarity.Rare);
+                Card[] array5 = toolbox.RollCardsCustom(GameMaster.Instance.CurrentGameRun.BattleCardRng, new CardWeightTable(RarityWeightTable.EnemyCard, OwnerWeightTable.AllOnes, CardTypeWeightTable.CanBeLoot), draftamount, null, true, true, false, false, (Card card) => card is mimaextensions.mimacard mimascard && !(mimascard is mimaextensions.mimacard.passivecard) && card.Config.Rarity != Rarity.Rare);
                 GameRun.UpgradeNewDeckCardOnFlags(array5);
                 MiniSelectCardInteraction interaction5 = new MiniSelectCardInteraction(array5, false, false, false)
                 {
@@ -150,7 +150,7 @@ namespace lvalonmima.NotRelics
                 };
                 yield return GameRun.InteractionViewer.View(interaction5);
                 GameRun.AddDeckCards(new Card[] { interaction5.SelectedCard }, false, null);
-                Card[] array6 = toolbox.RollCardsCustom(GameMaster.Instance.CurrentGameRun.BattleCardRng, new CardWeightTable(RarityWeightTable.EnemyCard, OwnerWeightTable.AllOnes, CardTypeWeightTable.CanBeLoot), draftamount, null, true, true, false, false, (Card card) => card is mimaextensions.mimacard mimascard && card.Config.Rarity != Rarity.Rare);
+                Card[] array6 = toolbox.RollCardsCustom(GameMaster.Instance.CurrentGameRun.BattleCardRng, new CardWeightTable(RarityWeightTable.EnemyCard, OwnerWeightTable.AllOnes, CardTypeWeightTable.CanBeLoot), draftamount, null, true, true, false, false, (Card card) => card is mimaextensions.mimacard mimascard && !(mimascard is mimaextensions.mimacard.passivecard) && card.Config.Rarity != Rarity.Rare);
                 GameRun.UpgradeNewDeckCardOnFlags(array6);
                 MiniSelectCardInteraction interaction6 = new MiniSelectCardInteraction(array6, false, false, false)
                 {
@@ -159,7 +159,7 @@ namespace lvalonmima.NotRelics
                 };
                 yield return GameRun.InteractionViewer.View(interaction6);
                 GameRun.AddDeckCards(new Card[] { interaction6.SelectedCard }, false, null);
-                Card[] array7 = toolbox.RollCardsCustom(GameMaster.Instance.CurrentGameRun.BattleCardRng, new CardWeightTable(RarityWeightTable.EnemyCard, OwnerWeightTable.AllOnes, CardTypeWeightTable.CanBeLoot), draftamount, null, true, true, false, false, (Card card) => card is mimaextensions.mimacard mimascard && card.Config.Rarity != Rarity.Rare);
+                Card[] array7 = toolbox.RollCardsCustom(GameMaster.Instance.CurrentGameRun.BattleCardRng, new CardWeightTable(RarityWeightTable.EnemyCard, OwnerWeightTable.AllOnes, CardTypeWeightTable.CanBeLoot), draftamount, null, true, true, false, false, (Card card) => card is mimaextensions.mimacard mimascard && !(mimascard is mimaextensions.mimacard.passivecard) && card.Config.Rarity != Rarity.Rare);
                 GameRun.UpgradeNewDeckCardOnFlags(array7);
                 MiniSelectCardInteraction interaction7 = new MiniSelectCardInteraction(array7, false, false, false)
                 {
@@ -168,7 +168,7 @@ namespace lvalonmima.NotRelics
                 };
                 yield return GameRun.InteractionViewer.View(interaction7);
                 GameRun.AddDeckCards(new Card[] { interaction7.SelectedCard }, false, null);
-                Card[] array8 = toolbox.RollCardsCustom(GameMaster.Instance.CurrentGameRun.BattleCardRng, new CardWeightTable(RarityWeightTable.EnemyCard, OwnerWeightTable.AllOnes, CardTypeWeightTable.CanBeLoot), draftamount, null, true, true, false, false, (Card card) => card is mimaextensions.mimacard mimascard && card.Config.Rarity != Rarity.Rare);
+                Card[] array8 = toolbox.RollCardsCustom(GameMaster.Instance.CurrentGameRun.BattleCardRng, new CardWeightTable(RarityWeightTable.EnemyCard, OwnerWeightTable.AllOnes, CardTypeWeightTable.CanBeLoot), draftamount, null, true, true, false, false, (Card card) => card is mimaextensions.mimacard mimascard && !(mimascard is mimaextensions.mimacard.passivecard) && card.Config.Rarity != Rarity.Rare);
                 GameRun.UpgradeNewDeckCardOnFlags(array8);
                 MiniSelectCardInteraction interaction8 = new MiniSelectCardInteraction(array8, false, false, false)
                 {
@@ -177,7 +177,7 @@ namespace lvalonmima.NotRelics
                 };
                 yield return GameRun.InteractionViewer.View(interaction8);
                 GameRun.AddDeckCards(new Card[] { interaction8.SelectedCard }, false, null);
-                Card[] array9 = toolbox.RollCardsCustom(GameMaster.Instance.CurrentGameRun.BattleCardRng, new CardWeightTable(RarityWeightTable.EnemyCard, OwnerWeightTable.AllOnes, CardTypeWeightTable.CanBeLoot), draftamount, null, true, true, false, false, (Card card) => card is mimaextensions.mimacard mimascard && card.Config.Rarity != Rarity.Rare);
+                Card[] array9 = toolbox.RollCardsCustom(GameMaster.Instance.CurrentGameRun.BattleCardRng, new CardWeightTable(RarityWeightTable.EnemyCard, OwnerWeightTable.AllOnes, CardTypeWeightTable.CanBeLoot), draftamount, null, true, true, false, false, (Card card) => card is mimaextensions.mimacard mimascard && !(mimascard is mimaextensions.mimacard.passivecard) && card.Config.Rarity != Rarity.Rare);
                 GameRun.UpgradeNewDeckCardOnFlags(array9);
                 MiniSelectCardInteraction interaction9 = new MiniSelectCardInteraction(array9, false, false, false)
                 {
@@ -186,7 +186,7 @@ namespace lvalonmima.NotRelics
                 };
                 yield return GameRun.InteractionViewer.View(interaction9);
                 GameRun.AddDeckCards(new Card[] { interaction9.SelectedCard }, false, null);
-                Card[] array10 = toolbox.RollCardsCustom(GameMaster.Instance.CurrentGameRun.BattleCardRng, new CardWeightTable(RarityWeightTable.EnemyCard, OwnerWeightTable.AllOnes, CardTypeWeightTable.CanBeLoot), draftamount, null, true, true, false, false, (Card card) => card is mimaextensions.mimacard mimascard && card.Config.Rarity != Rarity.Rare);
+                Card[] array10 = toolbox.RollCardsCustom(GameMaster.Instance.CurrentGameRun.BattleCardRng, new CardWeightTable(RarityWeightTable.EnemyCard, OwnerWeightTable.AllOnes, CardTypeWeightTable.CanBeLoot), draftamount, null, true, true, false, false, (Card card) => card is mimaextensions.mimacard mimascard && !(mimascard is mimaextensions.mimacard.passivecard) && card.Config.Rarity != Rarity.Rare);
                 GameRun.UpgradeNewDeckCardOnFlags(array10);
                 MiniSelectCardInteraction interaction10 = new MiniSelectCardInteraction(array10, false, false, false)
                 {
