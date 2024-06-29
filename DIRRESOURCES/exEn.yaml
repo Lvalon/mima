@@ -22,7 +22,7 @@ mimapassives:
   passivembhanddes:
     "\n|Whenever a card enters the hand|: Gain |n:{mbhandyaml}| |Magical Burst|.\n"
   passiveupgradedes:
-    "\n|At the start of the first turn|: Upgrade a random card in the hand |n:{upgradeyaml}| time{upgradeyaml:plural one='' other='s'}."
+    "\n|At the start of the first turn|: |Upgrade| a random card in the hand until the end of the combat |n:{upgradeyaml}| time{upgradeyaml:plural one='' other='s'}."
   passiveimplosiondes:
     "\n|During combat|: Whenever an enemy takes unblocked damage from |Magical Burst|'s attack, they lose life equal to |n:{implosionyaml}| time{implosionyaml:plural one='' other='s'} the damage dealt by |Magical Burst|.\n"
   passiveretributiondes:

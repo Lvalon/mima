@@ -30,10 +30,7 @@ namespace lvalonmima
         public static void OnDeckCardsAdding(CardsEventArgs args)
         {
             var gamerun = GameMaster.Instance.CurrentGameRun;
-            int num = args.Cards.Count((Card card) => card is mimaextensions.mimacard mimascard && mimascard is mimaextensions.mimacard.passivecard);
-            PlayerUnit player = gamerun.Player;
-            bool hasexhibit = player.HasExhibit<NotRelics.mimapassivesdef.mimapassives>();
-            if (num > 0 && hasexhibit == false)
+            if (args.Cards.Count((Card card) => card is mimaextensions.mimacard mimascard && mimascard is mimaextensions.mimacard.passivecard) > 0 && !gamerun.Player.HasExhibit<NotRelics.mimapassivesdef.mimapassives>())
             {
                 GameMaster.Instance.StartCoroutine(GainExhibits(
                          gameRun: gamerun,
@@ -51,124 +48,61 @@ namespace lvalonmima
             var gamerun = GameMaster.Instance.CurrentGameRun;
             BattleController battle = gamerun.Battle;
             var rmvlist = new List<Card>();
-            foreach (Card card in args.Cards)
+            //blitz
+            foreach (Card card in args.Cards.Where(c => c is mimaextensions.mimacard.blitzcard))
             {
-                //blitz cards
-                if (card is mimaextensions.mimacard mimascard && mimascard is mimaextensions.mimacard.blitzcard)
+                //queue delet
+                //rmvlist.Add(card);
+                switch (card.Id)
                 {
-                    //queue delet
-                    //rmvlist.Add(card);
-                    switch (card.Id)
-                    {
-                        //elemental burst
-                        case nameof(blitzeburstdef.blitzeburst):
-                            if (gamerun.Battle != null)
-                            {
-                                blitzeburstdef.blitzeburst.onconfirm(card);
-                            }
-                            break;
-                    }
+                    //elemental burst
+                    case nameof(blitzeburstdef.blitzeburst):
+                        if (gamerun.Battle != null)
+                        {
+                            blitzeburstdef.blitzeburst.onconfirm(card);
+                        }
+                        break;
                 }
             }
             //monster card anti duplicate
             var firstmonster = new List<Card>();
-            foreach (Card card in args.Cards)
+
+            //add non args library monster card to firstmosnter
+            foreach (Card libcard in gamerun.BaseDeck.Where(c => !args.Cards.Any(ac => ac == c) && c is mimaextensions.mimacard.monstercard))
             {
-                if (card is mimaextensions.mimacard mimascard && mimascard is mimaextensions.mimacard.monstercard)
+                //add to firstmonster if there isnt already one
+                if (!firstmonster.Any(fcard => fcard.Id == libcard.Id))
                 {
-                    //check if there isnt a monster of the same id in lib before, 0 means isnt, else is
-                    int equal = 0;
-                    foreach (Card libcard in gamerun.BaseDeck)
-                    {
-                        if (libcard.Id == card.Id)
-                            equal++;
-                    }
-                    foreach (Card card2 in args.Cards)
-                    {
-                        if (card2.Id == card.Id)
-                            equal--;
-                    }
-                    if (equal != 0)
-                    {
-                        foreach (Card libcard in gamerun.BaseDeck)
-                        {
-                            bool isargscard = false;
-                            foreach (Card card2 in args.Cards)
-                            {
-                                if (libcard == card2)
-                                {
-                                    isargscard = true;
-                                }
-                            }
-                            if (!isargscard)
-                            {
-                                bool alrexist = false;
-                                foreach (Card first in firstmonster)
-                                {
-                                    if (libcard == first)
-                                    {
-                                        alrexist = true;
-                                    }
-                                }
-                                if (!alrexist)
-                                {
-                                    firstmonster.Add(libcard);
-                                }
-                            }
-                        }
-                    }
-                    else
-                    {
-                        bool alrexist = false;
-                        foreach (Card first in firstmonster)
-                        {
-                            if (first.Id == card.Id)
-                            {
-                                alrexist = true;
-                            }
-                        }
-                        if (!alrexist)
-                        {
-                            firstmonster.Add(card);
-                        }
-                    }
-                    //remove cards that arent first monster
-                    bool infirst = false;
-                    foreach (Card first in firstmonster)
-                    {
-                        if (card == first)
-                        {
-                            infirst = true;
-                        }
-                    }
-                    if (!infirst)
-                    {
-                        foreach (Card first in firstmonster)
-                        {
-                            if (card.Id == first.Id)
-                            {
-                                bool isinlib = false;
-                                foreach (Card libcard in gamerun.BaseDeck) {
-                                    if (libcard == first) {
-                                        isinlib = true;
-                                    }
-                                }
-                                if (isinlib) {
-                                    first.Upgrade();
-                                }
-                            }
-                        }
-                        rmvlist.Add(card);
-                    }
+                    firstmonster.Add(libcard);
+                }
+            }
+
+            //add args monster card to firstmonster if tehre isnt already one
+            foreach (Card argc in args.Cards.Where(c => c is mimaextensions.mimacard.monstercard))
+            {
+                if (!firstmonster.Any(fcard => fcard.Id == argc.Id))
+                {
+                    firstmonster.Add(argc);
+                }
+            }
+
+            //upgrade first one, remove others
+            foreach (Card libcard in gamerun.BaseDeck.Where(c => c is mimaextensions.mimacard.monstercard))
+            {
+                foreach (Card respectivefirst in firstmonster.Where(fcard => fcard.Id == libcard.Id && fcard != libcard))
+                {
+                    respectivefirst.Upgrade();
+                }
+                //if lib card isnt in firstmonster list
+                if (!firstmonster.Any(c => c == libcard))
+                {
+                    rmvlist.Add(libcard);
                 }
             }
             //in case blitz outside battle
-            foreach (Card card in gamerun.BaseDeck)
+            foreach (Card card in gamerun.BaseDeck.Where(c => c is mimaextensions.mimacard.blitzcard))
             {
-                if (card is mimaextensions.mimacard mimascard && mimascard is mimaextensions.mimacard.blitzcard)
-                {
-                    rmvlist.Add(card);
-                }
+                rmvlist.Add(card);
             }
             //remove rmvlist cards
             foreach (Card card in rmvlist)
@@ -203,102 +137,44 @@ namespace lvalonmima
                 };
                 var rmvlist = new List<Card>();
                 var firstmonster = new List<Card>();
-                foreach (Card card in args.Cards)
+
+                //add non args battlefield monster card to firstmosnter
+                foreach (Card battlecard in gamerun.Battle.EnumerateAllCards().Where(c => !args.Cards.Any(ac => ac == c) && c is mimaextensions.mimacard.monstercard))
                 {
-                    if (card is mimaextensions.mimacard mimascard && mimascard is mimaextensions.mimacard.monstercard)
+                    //add to firstmonster if there isnt already one
+                    if (!firstmonster.Any(fcard => fcard.Id == battlecard.Id))
                     {
-                        //check if there isnt a monster of the same id in battlefield before, 0 means isnt, else is
-                        int equal = 0;
-                        foreach (Card battlecard in gamerun.Battle.EnumerateAllCards())
-                        {
-                            if (battlecard.Id == card.Id)
-                                equal++;
-                        }
-                        foreach (Card card2 in args.Cards)
-                        {
-                            if (card2.Id == card.Id)
-                                equal--;
-                        }
-                        if (equal != 0)
-                        {
-                            foreach (Card battlecard in gamerun.Battle.EnumerateAllCards())
-                            {
-                                bool isargscard = false;
-                                foreach (Card card2 in args.Cards)
-                                {
-                                    if (battlecard == card2)
-                                    {
-                                        isargscard = true;
-                                    }
-                                }
-                                if (!isargscard)
-                                {
-                                    bool alrexist = false;
-                                    foreach (Card first in firstmonster)
-                                    {
-                                        if (first.Id == battlecard.Id)
-                                        {
-                                            alrexist = true;
-                                        }
-                                    }
-                                    if (!alrexist)
-                                    {
-                                        firstmonster.Add(battlecard);
-                                    }
-                                }
-                            }
-                        }
-                        else
-                        {
-                            bool alrexist = false;
-                            foreach (Card first in firstmonster)
-                            {
-                                if (first.Id == card.Id)
-                                {
-                                    alrexist = true;
-                                }
-                            }
-                            if (!alrexist)
-                            {
-                                firstmonster.Add(card);
-                            }
-                        }
-                        //remove cards that arent first monster
-                        bool infirst = false;
-                        foreach (Card first in firstmonster)
-                        {
-                            if (card == first)
-                            {
-                                infirst = true;
-                            }
-                        }
-                        if (!infirst)
-                        {
-                            foreach (Card first in firstmonster)
-                            {
-                                if (card.Id == first.Id)
-                                {
-                                    bool isinlib = false;
-                                    foreach (Card libcard in gamerun.BaseDeck) {
-                                        if (first == libcard) {
-                                            isinlib = true;
-                                        }
-                                    }
-                                    if (!isinlib) {
-                                        rez.Add(new UpgradeCardAction(first));
-                                    }
-                                }
-                            }
-                            rmvlist.Add(card);
-                        }
+                        firstmonster.Add(battlecard);
                     }
                 }
-                foreach (Card card2 in gamerun.Battle.EnumerateAllCards())
+
+                //add args monster card to firstmonster if tehre isnt already one
+                foreach (Card argc in args.Cards.Where(c => c is mimaextensions.mimacard.monstercard))
                 {
-                    if (card2 is mimaextensions.mimacard mimascard && mimascard is mimaextensions.mimacard.blitzcard)
+                    if (!firstmonster.Any(fcard => fcard.Id == argc.Id))
                     {
-                        rez.Add(new RemoveCardAction(card2));
+                        firstmonster.Add(argc);
                     }
+                }
+
+                //upgrade first one, remove others
+                foreach (Card battlecard in gamerun.Battle.EnumerateAllCards().Where(c => c is mimaextensions.mimacard.monstercard))
+                {
+                    foreach (Card respectivefirst in firstmonster.Where(fcard => fcard.Id == battlecard.Id && fcard != battlecard))
+                    {
+                        rez.Add(new UpgradeCardAction(respectivefirst));
+                        //respectivefirst.Upgrade();
+                    }
+                    //if lib card isnt in firstmonster list
+                    if (!firstmonster.Any(c => c == battlecard))
+                    {
+                        rmvlist.Add(battlecard);
+                    }
+                }
+
+                foreach (Card card2 in gamerun.Battle.EnumerateAllCards().Where(c => c is mimaextensions.mimacard.blitzcard))
+                {
+                    rez.Add(new RemoveCardAction(card2));
                 }
                 foreach (Card card in rmvlist)
                 {
@@ -313,102 +189,43 @@ namespace lvalonmima
                 };
                 var rmvlist = new List<Card>();
                 var firstmonster = new List<Card>();
-                foreach (Card card in args.Cards)
+                //add non args battlefield monster card to firstmosnter
+                foreach (Card battlecard in gamerun.Battle.EnumerateAllCards().Where(c => !args.Cards.Any(ac => ac == c) && c is mimaextensions.mimacard.monstercard))
                 {
-                    if (card is mimaextensions.mimacard mimascard && mimascard is mimaextensions.mimacard.monstercard)
+                    //add to firstmonster if there isnt already one
+                    if (!firstmonster.Any(fcard => fcard.Id == battlecard.Id))
                     {
-                        //check if there isnt a monster of the same id in battlefield before, 0 means isnt, else is
-                        int equal = 0;
-                        foreach (Card battlecard in gamerun.Battle.EnumerateAllCards())
-                        {
-                            if (battlecard.Id == card.Id)
-                                equal++;
-                        }
-                        foreach (Card card2 in args.Cards)
-                        {
-                            if (card2.Id == card.Id)
-                                equal--;
-                        }
-                        if (equal != 0)
-                        {
-                            foreach (Card battlecard in gamerun.Battle.EnumerateAllCards())
-                            {
-                                bool isargscard = false;
-                                foreach (Card card2 in args.Cards)
-                                {
-                                    if (battlecard == card2)
-                                    {
-                                        isargscard = true;
-                                    }
-                                }
-                                if (!isargscard)
-                                {
-                                    bool alrexist = false;
-                                    foreach (Card first in firstmonster)
-                                    {
-                                        if (first.Id == battlecard.Id)
-                                        {
-                                            alrexist = true;
-                                        }
-                                    }
-                                    if (!alrexist)
-                                    {
-                                        firstmonster.Add(battlecard);
-                                    }
-                                }
-                            }
-                        }
-                        else
-                        {
-                            bool alrexist = false;
-                            foreach (Card first in firstmonster)
-                            {
-                                if (first.Id == card.Id)
-                                {
-                                    alrexist = true;
-                                }
-                            }
-                            if (!alrexist)
-                            {
-                                firstmonster.Add(card);
-                            }
-                        }
-                        //remove cards that arent first monster
-                        bool infirst = false;
-                        foreach (Card first in firstmonster)
-                        {
-                            if (card == first)
-                            {
-                                infirst = true;
-                            }
-                        }
-                        if (!infirst)
-                        {
-                            foreach (Card first in firstmonster)
-                            {
-                                if (card.Id == first.Id)
-                                {
-                                    bool isindrawpile = false;
-                                    foreach (Card drawcard in gamerun.Battle.DrawZone) {
-                                        if (first == drawcard) {
-                                            isindrawpile = true;
-                                        }
-                                    }
-                                    if (isindrawpile) {
-                                        rez.Add(new UpgradeCardAction(first));
-                                    }
-                                }
-                            }
-                            rmvlist.Add(card);
-                        }
+                        firstmonster.Add(battlecard);
                     }
                 }
-                foreach (Card card2 in gamerun.Battle.EnumerateAllCards())
+
+                //add args monster card to firstmonster if tehre isnt already one
+                foreach (Card argc in args.Cards.Where(c => c is mimaextensions.mimacard.monstercard))
                 {
-                    if (card2 is mimaextensions.mimacard mimascard && mimascard is mimaextensions.mimacard.blitzcard)
+                    if (!firstmonster.Any(fcard => fcard.Id == argc.Id))
                     {
-                        rez.Add(new RemoveCardAction(card2));
+                        firstmonster.Add(argc);
                     }
+                }
+
+                //upgrade first one, remove others
+                foreach (Card battlecard in gamerun.Battle.EnumerateAllCards().Where(c => c is mimaextensions.mimacard.monstercard))
+                {
+                    foreach (Card respectivefirst in firstmonster.Where(fcard => fcard.Id == battlecard.Id && fcard != battlecard))
+                    {
+                        rez.Add(new UpgradeCardAction(respectivefirst));
+                        //respectivefirst.Upgrade();
+                    }
+                    //if lib card isnt in firstmonster list
+                    if (!firstmonster.Any(c => c == battlecard))
+                    {
+                        rmvlist.Add(battlecard);
+                    }
+                }
+
+                foreach (Card card2 in gamerun.Battle.EnumerateAllCards().Where(c => c is mimaextensions.mimacard.blitzcard))
+                {
+                    rez.Add(new RemoveCardAction(card2));
                 }
                 foreach (Card card in rmvlist)
                 {
@@ -422,12 +239,9 @@ namespace lvalonmima
                 {
                 };
                 var rmvlist = new List<Card>();
-                foreach (Card card in gamerun.Battle.EnumerateAllCards())
+                foreach (Card card in gamerun.Battle.EnumerateAllCards().Where(c => c is mimaextensions.mimacard.blitzcard))
                 {
-                    if (card is mimaextensions.mimacard mimacard && (mimacard is mimaextensions.mimacard.blitzcard))
-                    {
-                        rmvlist.Add(card);
-                    }
+                    rmvlist.Add(card);
                 }
                 foreach (Card card in rmvlist)
                 {

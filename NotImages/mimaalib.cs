@@ -81,8 +81,8 @@ namespace lvalonmima.NotImages
                RelativeKeyword: Keyword.None,
                UpgradedRelativeKeyword: Keyword.None,
 
-               RelativeEffects: new List<string>() { },
-               UpgradedRelativeEffects: new List<string>() { },
+               RelativeEffects: new List<string>() { nameof(SE.sepassivedef.sepassive) },
+               UpgradedRelativeEffects: new List<string>() { nameof(SE.sepassivedef.sepassive) },
                RelativeCards: new List<string>() { },
                UpgradedRelativeCards: new List<string>() { },
                Owner: "Mima",

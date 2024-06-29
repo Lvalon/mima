@@ -54,7 +54,7 @@ namespace lvalonmima.NotImages.Uncommon
                TargetType: TargetType.All,
                Colors: new List<ManaColor>() { ManaColor.White, ManaColor.Red },
                IsXCost: true,
-               Cost: new ManaGroup() { Hybrid = 1, HybridColor = 2 },
+               Cost: new ManaGroup() { Red = 1, White = 1 },
                UpgradedCost: null,
                MoneyCost: null,
                Damage: null,
@@ -63,8 +63,8 @@ namespace lvalonmima.NotImages.Uncommon
                UpgradedBlock: null,
                Shield: null,
                UpgradedShield: null,
-               Value1: 3,
-               UpgradedValue1: 4,
+               Value1: 1,
+               UpgradedValue1: 2,
                Value2: 1,
                UpgradedValue2: null,
                Mana: null,
@@ -116,15 +116,24 @@ namespace lvalonmima.NotImages.Uncommon
             protected override IEnumerable<BattleAction> Actions(UnitSelector selector, ManaGroup consumingMana, Interaction precondition)
             {
                 ManaGroup manaGroup = ManaGroup.Empty;
-                yield return BuffAction<SE.magicalburstdef.magicalburst>(SynergyAmount(consumingMana, ManaColor.Red, 1) * Value1, 0, 0, 0, 0.2f);
-                List<Card> list = (from card in Battle.HandZone
-                                   where card.CanUpgradeAndPositive
-                                   select card).ToList().SampleManyOrAll(SynergyAmount(consumingMana, ManaColor.White, !IsUpgraded ? 2 : 1) * Value2, GameRun.BattleRng).ToList();
-                if (list.Count > 0)
+                yield return SacrificeAction(SynergyAmount(consumingMana, ManaColor.Red, 1) * Value1);
+                //yield return BuffAction<SE.magicalburstdef.magicalburst>(SynergyAmount(consumingMana, ManaColor.Red, 1) * Value1, 0, 0, 0, 0.2f);
+                for (int i = 1; i <= SynergyAmount(consumingMana, ManaColor.White, !IsUpgraded ? 2 : 1) * Value2; i++)
                 {
+                    Card[] cards = (from c in Battle.HandZone
+                                    where c.CanUpgrade
+                                    select c).ToList().SampleManyOrAll(1, GameRun.BattleRng);
                     NotifyActivating();
-                    yield return new UpgradeCardsAction(list);
+                    yield return new UpgradeCardsAction(cards);
                 }
+                // List<Card> list = (from card in Battle.HandZone
+                //                    where card.CanUpgradeAndPositive
+                //                    select card).ToList().SampleManyOrAll(SynergyAmount(consumingMana, ManaColor.White, !IsUpgraded ? 2 : 1) * Value2, GameRun.BattleRng).ToList();
+                // if (list.Count > 0)
+                // {
+                //     NotifyActivating();
+                //     yield return new UpgradeCardsAction(list);
+                // }
                 yield break;
             }
         }
