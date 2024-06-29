@@ -78,11 +78,11 @@ namespace lvalonmima.NotImages.Starter
                UltimateCost: null,
                UpgradedUltimateCost: null,
 
-               Keywords: Keyword.Replenish | Keyword.Exile,
-               UpgradedKeywords: Keyword.Replenish | Keyword.Exile,
+               Keywords: Keyword.Replenish | Keyword.Exile | Keyword.AutoExile,
+               UpgradedKeywords: Keyword.Replenish | Keyword.Exile | Keyword.AutoExile,
                EmptyDescription: false,
-               RelativeKeyword: Keyword.None,
-               UpgradedRelativeKeyword: Keyword.None,
+               RelativeKeyword: Keyword.AutoExile | Keyword.Replenish,
+               UpgradedRelativeKeyword: Keyword.AutoExile | Keyword.Replenish,
 
                RelativeEffects: new List<string>() { nameof(SE.magicalburstdef.magicalburst) },
                UpgradedRelativeEffects: new List<string>() { nameof(SE.magicalburstdef.magicalburst) },

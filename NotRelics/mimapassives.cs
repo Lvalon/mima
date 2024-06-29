@@ -367,7 +367,7 @@ namespace lvalonmima.NotRelics
                     {
                         Card[] cards = (from c in Battle.HandZone
                                         where c.CanUpgrade
-                                        select c).ToList().SampleManyOrAll(passiveupgrade, GameRun.BattleRng);
+                                        select c).ToList().SampleManyOrAll(1, GameRun.BattleRng);
                         yield return new UpgradeCardsAction(cards);
                     }
                 }

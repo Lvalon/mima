@@ -68,7 +68,7 @@ namespace lvalonmima.NotImages.Uncommon
                UpgradedValue1: 3,
                Value2: 1,
                UpgradedValue2: null,
-               Mana: null,
+               Mana: new ManaGroup() { Any = 0 },
                UpgradedMana: null,
                Scry: null,
                UpgradedScry: null,
@@ -120,6 +120,7 @@ namespace lvalonmima.NotImages.Uncommon
                 {
                     foreach (Card card in selectedCards)
                     {
+                        card.SetTurnCost(Mana);
                         card.IsEthereal = true;
                         card.IsExile = true;
                     }

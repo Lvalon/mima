@@ -107,17 +107,33 @@ namespace lvalonmima.NotImages.Uncommon
                 yield return new DrawManyCardAction(Value1);
                 yield return BuffAction<SE.mburstmodifiers.accumulationdef.accumulation>(Value2, 0, 0, 0, 0.2f);
 
-                List<Card> cards = new List<Card>
-                        {
-                            Library.CreateCard<Monster.Rare.monstertearkitdef.monstertearkit>(),
-                            Library.CreateCard<Monster.Rare.monstertearkitdef.monstertearkit>(),
-                            Library.CreateCard<Monster.Rare.monstertearkitdef.monstertearkit>(),
-                            Library.CreateCard<Monster.Rare.monstertearkitdef.monstertearkit>(),
-                            Library.CreateCard<Monster.Rare.monstertearkitdef.monstertearkit>()
-                        };
-                yield return new AddCardsToHandAction(cards);
-                yield return new AddCardsToDeckAction(cards);
-                yield return new AddCardsToDrawZoneAction(Library.CreateCards<Monster.Rare.monstertearkitdef.monstertearkit>(5, false), DrawZoneTarget.Random, AddCardsType.Normal);
+                // List<Card> cards = new List<Card>
+                //         {
+                //             Library.CreateCard<Monster.Rare.monstertearkitdef.monstertearkit>(),
+                //             Library.CreateCard<Monster.Rare.monstertearkitdef.monstertearkit>(),
+                //             Library.CreateCard<Monster.Rare.monstertearkitdef.monstertearkit>(),
+                //             Library.CreateCard<Monster.Rare.monstertearkitdef.monstertearkit>(),
+                //             Library.CreateCard<Monster.Rare.monstertearkitdef.monstertearkit>()
+                //         };
+                // List<Card> cards2 = new List<Card>
+                //         {
+                //             Library.CreateCard<Monster.Rare.monstertearkitdef.monstertearkit>(),
+                //             Library.CreateCard<Monster.Rare.monstertearkitdef.monstertearkit>(),
+                //             Library.CreateCard<Monster.Rare.monstertearkitdef.monstertearkit>(),
+                //             Library.CreateCard<Monster.Rare.monstertearkitdef.monstertearkit>(),
+                //             Library.CreateCard<Monster.Rare.monstertearkitdef.monstertearkit>()
+                //         };
+                //yield return new AddCardsToDrawZoneAction(Library.CreateCards<Monster.Rare.monstertearkitdef.monstertearkit>(5, false), DrawZoneTarget.Random, AddCardsType.Normal);
+                //yield return new AddCardsToHandAction(cards); //deck 8
+                //yield return new AddCardsToDeckAction(cards); //hand 8
+
+                //yield return new AddCardsToDeckAction(cards); //deck 4
+                //yield return new AddCardsToHandAction(cards2); //hand 4
+                //yield return new AddCardsToDrawZoneAction(Library.CreateCards<Monster.Rare.monstertearkitdef.monstertearkit>(5, false), DrawZoneTarget.Random, AddCardsType.Normal);
+
+                // yield return new AddCardsToDeckAction(cards); //deck 4
+                // yield return new AddCardsToDrawZoneAction(Library.CreateCards<Monster.Rare.monstertearkitdef.monstertearkit>(5, false), DrawZoneTarget.Random, AddCardsType.Normal);
+                // yield return new AddCardsToHandAction(cards); //draw pile 9
             }
         }
     }

@@ -1,3 +1,5 @@
+v0.0.41: changed some "mimaA" cards to fit the changed mimaB theme, integrated passives into mima. big experimental update for v1.5.0 (not backwards compatible)
+
 v0.0.40: huge balancing change by flattening mimaA base mana, minor typo fix, mimaB started being worked on
 
 v0.0.39: v1.4.2 compatible, not backwards compatible rip
