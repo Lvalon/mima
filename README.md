@@ -14,7 +14,7 @@ xeno for feedback: xeno_3084
 
 raspberry caffeine monster for korean translation
 
-bullytou for zh-hans translation
+bullytou and myself for zh-hans translation
 
 also huge thanks to everyone in #modding of the official discord server for helping out and stuff~
 

@@ -125,8 +125,8 @@ namespace lvalonmima
             station.CanUseCardService = false;
             GameMaster.Instance.CurrentGameRun.CurrentMap.StartNode.StationType = stationType;
             List<ShopItem<Card>> list = new List<ShopItem<Card>>();
-            List<Card> mimablitzlist = toolbox.RepeatableAllCards(GameMaster.Instance.CurrentGameRun.BattleCardRng, new CardWeightTable(RarityWeightTable.BattleCard, OwnerWeightTable.AllOnes, CardTypeWeightTable.CanBeLoot), 8, null, true, false, false, false, (Card card) => card is mimaextensions.mimacard mimascard && mimascard is mimaextensions.mimacard.blitzcard && !(mimascard is mimaextensions.mimacard.blitzcard.bmcard)).ToList();
-            List<Card> mimabmlist = toolbox.RepeatableAllCards(GameMaster.Instance.CurrentGameRun.BattleCardRng, new CardWeightTable(RarityWeightTable.BattleCard, OwnerWeightTable.AllOnes, CardTypeWeightTable.CanBeLoot), 2, null, true, false, false, false, (Card card) => card is mimaextensions.mimacard mimascard && mimascard is mimaextensions.mimacard.blitzcard.bmcard).ToList();
+            List<Card> mimablitzlist = toolbox.RepeatableAllCards(GameMaster.Instance.CurrentGameRun.BattleCardRng, new CardWeightTable(RarityWeightTable.BattleCard, OwnerWeightTable.AllOnes, CardTypeWeightTable.CanBeLoot), 8, true, (Card card) => card is mimaextensions.mimacard mimascard && mimascard is mimaextensions.mimacard.blitzcard && !(mimascard is mimaextensions.mimacard.blitzcard.bmcard)).ToList();
+            List<Card> mimabmlist = toolbox.RepeatableAllCards(GameMaster.Instance.CurrentGameRun.BattleCardRng, new CardWeightTable(RarityWeightTable.BattleCard, OwnerWeightTable.AllOnes, CardTypeWeightTable.CanBeLoot), 2, true, (Card card) => card is mimaextensions.mimacard mimascard && mimascard is mimaextensions.mimacard.blitzcard.bmcard).ToList();
             if (mimablitzlist.Count > 0)
             {
                 foreach (Card card in mimablitzlist)

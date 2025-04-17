@@ -321,7 +321,6 @@ Z:/projects/indev/lvalonmima/bin/Debug/netstandard2.1/ScriptEngine.dll
 /Users/e/Desktop/tachyon transmigration/projects/indev/lvalonmima/bin/Debug/netstandard2.1/lvalonmima.deps.json
 /Users/e/Desktop/tachyon transmigration/projects/indev/lvalonmima/bin/Debug/netstandard2.1/lvalonmima.dll
 /Users/e/Desktop/tachyon transmigration/projects/indev/lvalonmima/bin/Debug/netstandard2.1/lvalonmima.pdb
-/Users/e/Desktop/tachyon transmigration/projects/indev/lvalonmima/bin/Debug/netstandard2.1/LBoL-AddWatermark.dll
 /Users/e/Desktop/tachyon transmigration/projects/indev/lvalonmima/bin/Debug/netstandard2.1/LBoL-Entity-Sideloader.dll
 /Users/e/Desktop/tachyon transmigration/projects/indev/lvalonmima/bin/Debug/netstandard2.1/LBoL.Base.dll
 /Users/e/Desktop/tachyon transmigration/projects/indev/lvalonmima/bin/Debug/netstandard2.1/LBoL.ConfigData.dll
@@ -409,14 +408,12 @@ Z:/projects/indev/lvalonmima/bin/Debug/netstandard2.1/ScriptEngine.dll
 /Users/e/Desktop/tachyon transmigration/projects/indev/lvalonmima/bin/Debug/netstandard2.1/UnityEngine.WindModule.dll
 /Users/e/Desktop/tachyon transmigration/projects/indev/lvalonmima/bin/Debug/netstandard2.1/UnityEngine.ARModule.dll
 /Users/e/Desktop/tachyon transmigration/projects/indev/lvalonmima/bin/Debug/netstandard2.1/mcs.dll
-/Users/e/Desktop/tachyon transmigration/projects/indev/lvalonmima/bin/Debug/netstandard2.1/ScriptEngine.dll
 /Users/e/Desktop/tachyon transmigration/projects/indev/lvalonmima/bin/Debug/netstandard2.1/System.CodeDom.dll
 /Users/e/Desktop/tachyon transmigration/projects/indev/lvalonmima/bin/Debug/netstandard2.1/System.Runtime.CompilerServices.Unsafe.dll
 /Users/e/Desktop/tachyon transmigration/projects/indev/lvalonmima/bin/Debug/netstandard2.1/Unity.Mathematics.dll
 /Users/e/Desktop/tachyon transmigration/projects/indev/lvalonmima/bin/Debug/netstandard2.1/Unity.RenderPipeline.Universal.ShaderLibrary.dll
 /Users/e/Desktop/tachyon transmigration/projects/indev/lvalonmima/bin/Debug/netstandard2.1/Unity.Burst.dll
 /Users/e/Desktop/tachyon transmigration/projects/indev/lvalonmima/bin/Debug/netstandard2.1/Unity.Burst.Unsafe.dll
-/Users/e/Desktop/tachyon transmigration/projects/indev/lvalonmima/bin/Debug/netstandard2.1/LBoL-Entity-Sideloader.xml
 /Users/e/Desktop/tachyon transmigration/projects/indev/lvalonmima/obj/Debug/netstandard2.1/lvalonmima.csproj.AssemblyReference.cache
 /Users/e/Desktop/tachyon transmigration/projects/indev/lvalonmima/obj/Debug/netstandard2.1/lvalonmima.GeneratedMSBuildEditorConfig.editorconfig
 /Users/e/Desktop/tachyon transmigration/projects/indev/lvalonmima/obj/Debug/netstandard2.1/lvalonmima.AssemblyInfoInputs.cache

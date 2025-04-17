@@ -3,8 +3,8 @@ karmanation:
   Brief: "Deal 2 times the attack damage.\nEach extra Level doubles |Karmanation|'s effect."
   Name: Karmanation
 evilspirit:
-  Description: "Convert |Block| and |Barrier| gained into |Magical Burst|.\nDeal |l:25%| attack damage. Whenever {OwnerName} is defeated, heal to maximum life, then gain |Karmanation|, |Grudge Tolerance| and once per round, |Evil Spirit|.\nAt the end of each round, lose 1 |Evil Spirit|.\nIf {OwnerName} loses all |Evil Spirit|, they lose the game.\nFully heal after each combat."
-  Brief: "Convert |Block| and |Barrier| gained into |Magical Burst|.\nDeal |l:25%| attack damage. When defeated, heal to maximum life, then gain |Karmanation| and once per round, |Evil Spirit|.\nAt the end of each round, lose 1 |Evil Spirit|.\nLose the game on losing all levels.\nFully heal after each combat."
+  Description: "Convert |Block| and |Barrier| gained into |Magical Burst|.\nDeal |l:25%| attack damage. Whenever {OwnerName} is defeated, heal to maximum life instead, then gain |Karmanation|, |Grudge Tolerance| and once per round, |Evil Spirit|.\nAt the end of each round, lose 1 |Evil Spirit|.\nIf {OwnerName} loses all |Evil Spirit|, they lose the game.\nFully heal after each combat."
+  Brief: "Convert |Block| and |Barrier| gained into |Magical Burst|.\nDeal |l:25%| attack damage. When defeated, heal to maximum life instead, then gain |Karmanation|, |Grudge Tolerance| and once per round, |Evil Spirit|.\nAt the end of each round, lose 1 |Evil Spirit|.\nLose the game on losing all levels.\nFully heal after each combat."
   Name: Evil Spirit
 transcended:
   Description: "Whenever a skill card is played, gain {Mana}.\nAt the end of each round in which at least 1 skill card is played after |Transcended| is present, lose 1 |Transcended|."

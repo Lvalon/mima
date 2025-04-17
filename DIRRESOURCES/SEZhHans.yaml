@@ -1,0 +1,106 @@
+karmanation:
+  Description: "攻击造成 {dmgscale} 倍伤害。\n每多一层|报应|，效果翻倍。\n|d:最多生效 27 层|。"
+  Brief: "攻击造成 2 倍伤害。\n每多一层|报应|，效果翻倍。"
+  Name: 报应
+evilspirit:
+  Description: "获得|格挡|和|护盾|会改为获得|魔爆|。\n攻击造成 |l:25%| 的伤害。当{OwnerName}被击败时，回复至满生命值，并获得|报应|和|宽容|，以及每回合限一层的|恶灵|。\n每轮结束时，失去 1 层|恶灵|。\n{OwnerName}失去所有|恶灵|的层数后，游戏失败。\n每场战斗结束后，生命值回复至满。"
+  Brief: "获得|格挡|和|护盾|会改为获得|魔爆|。\n攻击造成 |l:25%| 的伤害。被击败时，回复至满生命值，并获得|报应|，以及每回合限一层的|恶灵|。\n每轮结束时，失去 1 层|恶灵|。\n失去所有的层数后，游戏失败。\n每场战斗结束后，生命值回复至满。"
+  Name: 恶灵
+transcended:
+  Description: "当一张技能牌被打出时，获得{Mana}。\n每轮结束时，如果此轮中，在拥有|超然物外|时至少有 1 张技能牌被打出，失去 1 层|超然物外|。"
+  Brief: "当一张技能牌被打出时，获得{Mana}。\n每轮结束时，如果此轮中，在拥有|超然物外|时至少有 1 张技能牌被打出，失去 1 层|超然物外|。"
+  Name: 超然物外
+theabyss:
+  Description: "费用为 3 或更多的技能牌的费用改为{Mana}。\n每轮结束时，如果此轮中，在拥有|深渊|时至少有 1 张技能牌被打出，失去 1 层|深渊|。"
+  Brief: "S费用为 3 或更多的技能牌的费用改为{Mana}。\n每轮结束时，如果此轮中，在拥有|深渊|时至少有 1 张技能牌被打出，失去 1 层|深渊|。"
+  Name: 深渊
+magicalburst:
+  Description: "每轮结束时，失去所有|魔爆|的层数。\n对所有敌人造成 {truecounter} 点|精准|的攻击伤害。\n获得|暂得火力|时，改为获得|EX暂得火力|。"
+  Brief: "每轮结束时，失去所有|魔爆|的层数，对所有敌人造成|精准|的攻击伤害。\n获得|暂得火力|时，改为获得|EX暂得火力|。"
+  Name: 魔爆
+accumulation:
+  Description: "推迟|魔爆|的自然失去 {Level} 轮。\n{OwnerName}具有|永续魔法|时不会生效。"
+  Brief: "推迟|魔爆|的自然失去。\n具有|永续魔法|时不会生效。"
+  Name: 法术积累
+fastburst:
+  Description: "一张卡牌被打出后，立即失去 {showfastburst}% 的|魔爆|并造成伤害，然后失去|命定之爆|。"
+  Brief: "一张卡牌被打出后，立即失去部分|魔爆|并造成伤害，然后失去|命定之爆|。"
+  Name: 命定之爆
+concentratedburst:
+  Description: "|魔爆|改为对随机敌人造成|精准|伤害 {Level}×{enemycount} 次。\n|p:受分裂爆发加成|。"
+  Brief: "|魔爆|改为对随机敌人造成|精准|伤害，次数为|层数|×|敌人数量|。\n|p:受分裂爆发加成|。"
+  Name: 集中爆发
+splitburst:
+  Description: "|魔爆|造成 {splitdmg}% 的|精准|伤害。\n|魔爆|额外造成 {Level} 次伤害。\n|p:受集中爆发加成|。"
+  Brief: "|魔爆|造成一定比例的|精准|伤害。\n|魔爆|额外造成一次伤害。\n|p:受集中爆发加成|。"
+  Name: 分裂爆发
+retribution:
+  Description: "|魔爆|造成伤害使敌人失去生命时，{OwnerName}失去 {Level} 点生命。"
+  Brief: "|魔爆|造成伤害使敌人失去生命时，{OwnerName}失去生命。"
+  Name: 罪罚
+implosion:
+  Description: "当|魔爆|的攻击造成未被格挡的伤害时，目标失去等于|魔爆|造成伤害 {Level} 倍的生命。"
+  Brief: "当|魔爆|的攻击造成未被格挡的伤害时，目标失去等于|魔爆|造成伤害的生命。"
+  Name: 内部爆发
+everlastingmagic:
+  Description: "{OwnerName}获得 {showeverlasting}% 的|魔爆|层数。\n|魔爆|不会失去层数。\n|魔爆|不会延迟生效。"
+  Brief: "获得更少的|魔爆|层数。\n|魔爆|不会失去层数。\n|魔爆|不会延迟生效。"
+  Name: 永续魔法
+damageadder:
+  Description: "这不可能。"
+  Brief: "这不可能。"
+  Name: Total Extra Damage
+damagemultiplier:
+  Description: "这不可能。"
+  Brief: "这不可能。"
+  Name: Total Damage Multiplier
+seshepherdg:
+  Description: "{OwnerName}的回合开始时，失去 {Level} 点生命，获得 {Level} 层|魔爆|。"
+  Brief: "{OwnerName}的回合开始时，失去生命，获得|魔爆|。"
+  Name: 牧羊女
+RepeatActionSe:
+  Description: "{OwnerName}的回合开始时，重复上一张打出的卡牌的效果 {Level} 次。"
+  Brief: "{OwnerName}的回合开始时，重复上一张打出的卡牌的效果。"
+  Name: 复诵
+startturnloselife:
+  Description: "{OwnerName}的回合开始时，失去 {Level} 点生命。"
+  Brief: "{OwnerName}的回合开始时，失去 {Level} 点生命。"
+  Name: 每回合失去生命
+extmpfire:
+  Description: "直到本轮结束（而非回合），获得 {Level} |火力|。\n|火力|提升攻击造成的伤害。"
+  Brief: "直到本轮结束（而非回合），获得|火力|。\n|火力|提升攻击造成的伤害。"
+  Name: EX暂得火力
+exfireonskill:
+  Description: "直到回合结束，当一张技能牌被打出后，获得 {Level} 点|EX暂得火力|。"
+  ExtraDescription: "直到回合结束，当一张技能牌被打出后，获得 {Level} 点|EX暂得火力|。\n{SelfName}尚未生效，只会在生效过的回合结束时移除。"
+  Brief: "直到回合结束，当一张技能牌被打出后，获得|EX暂得火力|。"
+  Name: 打出技能牌后获得EX暂得火力
+sedawntime:
+  Description: "跳过回合开始时的抽牌阶段。\n将手中的所有牌移出战斗。\n将 {Level} 张{OwnerName}牌加入手中，它们具有|放逐|和|虚无|。\n直到回合结束，{OwnerName}不会造成和受到伤害，所有卡牌费用为{Mana}，不能抽牌或获得法力。"
+  ExtraDescription: "跳过回合开始时的抽牌阶段。\n将手中的所有牌移出战斗。\n将 {Level} 张{OwnerName}牌加入手中，它们具有|放逐|和|虚无|。\n直到回合结束，{OwnerName}不会造成和受到伤害，所有卡牌费用为{Mana}，不能抽牌或获得法力。"
+  Brief: "回合开始时，将手中的所有牌移出战斗，将{OwnerName}牌加入手中，它们具有|放逐|和|虚无|。\n本回合中{OwnerName}不会造成和受到伤害，所有卡牌费用为{Mana}，不能抽牌或获得法力。"
+  Name: 时之黎明
+grudgetol:
+  Description: "失去生命时，只会失去 |n:1/{loselife}| 的生命。\n每层宽容效果翻倍。\n{OwnerName}没有获得|报应|的一轮结束时，如果拥有{SelfName}，失去 1 层|宽容|。\n|d:最多生效 27 层|。"
+  Brief: "失去生命时，只会失去 |n:1/2| 的生命。\n每层宽容效果翻倍。\n{OwnerName}没有获得|报应|的一轮结束时，如果拥有{SelfName}，失去 1 层|宽容|。"
+  Name: 宽容
+sepassive:
+  Description: "当一张|被动牌|加入牌库时，登记它的被动效果，然后将它移出牌库。"
+  Brief: "当一张|被动牌|加入牌库时，登记它的被动效果，然后将它移出牌库。"
+  Name: 被动牌
+semonster:
+  Description: "|怪兽牌|可以升级任意次数。\n|打出后回到手中|。\n同种怪兽，{OwnerName}只能同时拥有 1 张。\n牌库或战场中更多的同种怪兽改为升级那个怪兽。"
+  Brief: "|怪兽牌|可以升级任意次数。\n|打出后回到手中|。\n同种怪兽，{OwnerName}只能同时拥有 1 张。\n牌库或战场中更多的同种怪兽改为升级那个怪兽。"
+  Name: 怪兽牌
+seblitz:
+  Description: "当一张|闪击牌|加入牌库时，产生效果，然后将它移出牌库。"
+  Brief: "当一张|闪击牌|加入牌库时，产生效果，然后将它移出牌库。"
+  Name: 闪击牌
+sepassiveshop:
+  Description: "|被动商店|出售各类|被动|牌和|怪兽|牌。\n|不会提供重复的牌|。"
+  Brief: "|被动商店|出售各类|被动|牌和|怪兽|牌。\n|不会提供重复的牌|。"
+  Name: 被动商店
+seblitzshop:
+  Description: "|闪击商店||出售各类|闪击|牌。\n|会提供重复的牌|。"
+  Brief: "|闪击商店|出售各类|闪击| cards。\n|会提供重复的牌|。"
+  Name: 闪击商店

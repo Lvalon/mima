@@ -76,6 +76,10 @@ namespace lvalonmima.NotImages.Uncommon
                UpgradedActiveCost: null,
                UltimateCost: null,
                UpgradedUltimateCost: null,
+               Kicker: null,
+               UpgradedKicker: null,
+               ActiveCost2: null,
+               UpgradedActiveCost2: null,
 
                Keywords: Keyword.None,
                UpgradedKeywords: Keyword.None,

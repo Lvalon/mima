@@ -8,6 +8,7 @@ using LBoL.Core.Units;
 using LBoLEntitySideloader.Attributes;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
+using LBoL.Base;
 
 namespace lvalonmima
 {
@@ -42,16 +43,20 @@ namespace lvalonmima
 
             PlayerUnitConfig config = new PlayerUnitConfig(
             Id: "",
+            HasHomeName: false,
             ShowOrder: 2147483647,
             Order: 0,
             UnlockLevel: 10,
             ModleName: "",
             NarrativeColor: "#ffffff",
             IsSelectable: true,
+            BasicRingOrder: null,
             MaxHp: 66,
             InitialMana: new LBoL.Base.ManaGroup() { Philosophy = 2, Colorless = 2 },
             InitialMoney: 66,
             InitialPower: 0,
+            LeftColor: ManaColor.Philosophy,
+            RightColor: ManaColor.Colorless,
             UltimateSkillA: "ulta",
             UltimateSkillB: "ultb",
             ExhibitA: "mimaa",

@@ -81,6 +81,10 @@ namespace lvalonmima.NotImages.Uncommon
                UpgradedActiveCost: null,
                UltimateCost: null,
                UpgradedUltimateCost: null,
+               Kicker: null,
+               UpgradedKicker: null,
+               ActiveCost2: null,
+               UpgradedActiveCost2: null,
 
                Keywords: Keyword.Exile | Keyword.Ethereal,
                UpgradedKeywords: Keyword.Exile | Keyword.Ethereal,

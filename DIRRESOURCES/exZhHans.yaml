@@ -1,10 +1,35 @@
 mimaa:
   Description:
-    "|p:Unswappable|\nAt the start of {PlayerName}'s turn, gain 1 random mana.\nCards unique to |Mima| are added to the card pool.\nAt the start of combat, {PlayerName} gains {Value1} |Evil Spirit|.\nWhenever {PlayerName} plays a skill card, gain {Value3} |Magical Burst|.\nWhenever {PlayerName} is defeated, become |Transcended|."
-  Name: REINCARNATION
-  FlavorText: I die with the dying. I'm born with the dead!
+    "|p:无法调换|\n{PlayerName}的回合开始时，获得 1 点随机法力。\n|魅魔|的专属卡牌会加入牌池。\n每场战斗开始时，{PlayerName}获得 {Value1} 层|恶灵|。\n一张技能牌被打出后，{PlayerName}获得 {Value3} 层|魔爆|。\n{PlayerName}被击败时，|超然物外|。\n{PlayerName}击败一个首领并获得一件|光耀展品|时，从法力池中移除{losemana}。"
+  Name: 转世
+  FlavorText: "與生，與死。"
 mimab:
   Description:
-    "|p:Unswappable|\nAdds {BaseMana} to the mana base.\nCards unique to |Mima| are added to the card pool.\nAt the start of combat, {PlayerName} gains {Value1} |Evil Spirit|.\nWhenever {PlayerName} is defeated, enter |The Abyss|."
-  Name: Down Abyssmal
-  FlavorText: "It stares back. Not even the strongest of beings can withstand it."
+    "|p:无法调换|\n获得基础法力{BaseMana}。\n|魅魔|的专属卡牌会加入牌池。\n出发后，{PlayerName}可以支付 {Value4} 点<sprite=\"Point\" name=\"Gold\">并按下|Tab|键，在战斗外打开|被动商店|，或在战斗内打开|闪击商店|。\n每场战斗开始时，{PlayerName}获得 {Value1} 层|恶灵|。\n"
+  Name: 堕落深渊
+  FlavorText: "它凝视回来。那凝视甚至是最强的存在都不能承受。"
+mimapassives:
+  Description:
+    "{PlayerName}展现深渊的力量，获得被动效果。{spaceyaml}{passivegoldyaml}{passivepoweryaml}{passivembyaml}{passivembhandyaml}{passiveupgradeyaml}{passivechargeyaml}{passiveimplosionyaml}{passiveretributionyaml}{passiveeverlastyaml}"
+  spacedes:
+    "\n"
+  passivegolddes:
+    "\n|战斗开始时|：获得 |n:{goldyaml}| 点<sprite=\"Point\" name=\"Gold\">。\n"
+  passivepowerdes:
+    "\n|战斗开始时|：获得 |n:{poweryaml}| <sprite=\"Point\" name=\"Power\">。\n"
+  passivembdes:
+    "\n|回合开始时|：获得当前生命值 |n:{mbyaml}%| 的|魔爆|层数。\n"
+  passivembhanddes:
+    "\n|一张牌进入手中时|：获得 |n:{mbhandyaml}| 层|魔爆|。\n"
+  passiveupgradedes:
+    "\n|第一回合开始时时|：本场战斗中|升级|手中的随机 |n:{upgradeyaml}| 张牌。"
+  passiveimplosiondes:
+    "\n|战斗中|：当一个敌人受到|魔爆|造成的未被格挡的伤害时，还会失去|魔爆|造成的伤害 |n:{implosionyaml}| 倍的生命值。\n"
+  passiveretributiondes:
+    "\n|战斗中|：|魔爆|造成伤害使敌人失去生命值时，{PlayerName}失去 |n:{retributionyaml}| 点生命值。\n"
+  passiveeverlastdes:
+    "\n|战斗中|：{PlayerName}获得 |n:{everlastyaml}%| 的|魔爆|。|魔爆|不会消耗层数。|魔爆|不会延迟生效。\n"
+  passivechargedes:
+    "\n|打出| |n:2| |张牌后|：获得 |n:{chargeyaml}| 层|充能|。战斗结束时重置。还需要打出 |n:{chargeleft}| 张牌。\n"
+  Name: 展现虚空
+  FlavorText: ""

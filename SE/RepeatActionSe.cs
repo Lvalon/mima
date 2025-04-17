@@ -54,7 +54,8 @@ namespace lvalonmima.SE
                 RelativeEffects: new List<string>() { },
                 VFX: "Default",
                 VFXloop: "Default",
-                SFX: "Default"
+                SFX: "Default",
+                ImageId: null
             );
             return statusEffectConfig;
         }
@@ -77,115 +78,116 @@ namespace lvalonmima.SE
             }
             private IEnumerable<BattleAction> OnPlayerTurnStarted(UnitEventArgs args)
             {
-                if (card != null && card.Battle == null)
-                {
-                    card.EnterBattle(Battle);
-                    Temp = true;
-                }
-                if (card.CardType == CardType.Friend)
-                {
-                    activeCost = card.Config.ActiveCost;
-                    upgradedActiveCost = card.Config.UpgradedActiveCost;
-                    card.Config.ActiveCost = 0;
-                    card.Config.UpgradedActiveCost = 0;
-                }
-                if (card != null && card.Battle != null && card.GameRun != null)
-                {
-                    UnitSelector unitSelector = new UnitSelector(Battle.AllAliveEnemies.Sample(GameRun.BattleRng));
-                    for (int i = 0; i < Level; i++)
-                    {
-                        if (!unitSelector.SelectedEnemy.IsAlive)
-                        {
-                            unitSelector = new UnitSelector(Battle.AllAliveEnemies.Sample(GameRun.BattleRng));
-                        }
-                        List<DamageAction> damageActions = new List<DamageAction>();
-                        switch (card.Config.TargetType)
-                        {
-                            case TargetType.Nobody:
-                                foreach (BattleAction battleAction in card.GetActions(UnitSelector.Nobody, ManaGroup.Empty, card.Precondition(), damageActions, card.Summoning))
-                                {
-                                    DamageAction damageAction = battleAction as DamageAction;
-                                    if (damageAction != null)
-                                    {
-                                        damageActions.Add(damageAction);
-                                    }
-                                    yield return battleAction;
-                                }
-                                break;
-                            case TargetType.SingleEnemy:
-                                foreach (BattleAction battleAction in card.GetActions(unitSelector, ManaGroup.Empty, card.Precondition(), damageActions, card.Summoning))
-                                {
-                                    DamageAction damageAction = battleAction as DamageAction;
-                                    if (damageAction != null)
-                                    {
-                                        damageActions.Add(damageAction);
-                                    }
-                                    yield return battleAction;
-                                }
-                                break;
-                            case TargetType.AllEnemies:
-                                foreach (BattleAction battleAction in card.GetActions(UnitSelector.AllEnemies, ManaGroup.Empty, card.Precondition(), damageActions, card.Summoning))
-                                {
-                                    DamageAction damageAction = battleAction as DamageAction;
-                                    if (damageAction != null)
-                                    {
-                                        damageActions.Add(damageAction);
-                                    }
-                                    yield return battleAction;
-                                }
-                                break;
-                            case TargetType.RandomEnemy:
-                                foreach (BattleAction battleAction in card.GetActions(UnitSelector.RandomEnemy, ManaGroup.Empty, card.Precondition(), damageActions, card.Summoning))
-                                {
-                                    DamageAction damageAction = battleAction as DamageAction;
-                                    if (damageAction != null)
-                                    {
-                                        damageActions.Add(damageAction);
-                                    }
-                                    yield return battleAction;
-                                }
-                                break;
-                            case TargetType.Self:
-                                foreach (BattleAction battleAction in card.GetActions(UnitSelector.Self, ManaGroup.Empty, card.Precondition(), damageActions, card.Summoning))
-                                {
-                                    DamageAction damageAction = battleAction as DamageAction;
-                                    if (damageAction != null)
-                                    {
-                                        damageActions.Add(damageAction);
-                                    }
-                                    yield return battleAction;
-                                }
-                                break;
-                            case TargetType.All:
-                                foreach (BattleAction battleAction in card.GetActions(UnitSelector.All, ManaGroup.Empty, card.Precondition(), damageActions, card.Summoning))
-                                {
-                                    DamageAction damageAction = battleAction as DamageAction;
-                                    if (damageAction != null)
-                                    {
-                                        damageActions.Add(damageAction);
-                                    }
-                                    yield return battleAction;
-                                }
-                                break;
-                            default:
-                                break;
-                        }
-                    }
-                    Battle.PlayerTurnShouldEnd = false;
-                }
-                if (card.CardType == CardType.Friend)
-                {
-                    card.Config.ActiveCost = activeCost;
-                    card.Config.UpgradedActiveCost = upgradedActiveCost;
-                }
-                if (Temp)
-                {
-                    if (card.Battle != null)
-                    {
-                        card.LeaveBattle();
-                    }
-                    Temp = false;
-                }
+                // if (card != null && card.Battle == null)
+                // {
+                //     card.EnterBattle(Battle);
+                //     Temp = true;
+                // }
+                // if (card.CardType == CardType.Friend)
+                // {
+                //     activeCost = card.Config.ActiveCost;
+                //     upgradedActiveCost = card.Config.UpgradedActiveCost;
+                //     card.Config.ActiveCost = 0;
+                //     card.Config.UpgradedActiveCost = 0;
+                // }
+                // if (card != null && card.Battle != null && card.GameRun != null)
+                // {
+                //     UnitSelector unitSelector = new UnitSelector(Battle.AllAliveEnemies.Sample(GameRun.BattleRng));
+                //     for (int i = 0; i < Level; i++)
+                //     {
+                //         if (!unitSelector.SelectedEnemy.IsAlive)
+                //         {
+                //             unitSelector = new UnitSelector(Battle.AllAliveEnemies.Sample(GameRun.BattleRng));
+                //         }
+                //         List<DamageAction> damageActions = new List<DamageAction>();
+                //         switch (card.Config.TargetType)
+                //         {
+                //             case TargetType.Nobody:
+                //                 foreach (BattleAction battleAction in card.GetActions(UnitSelector.Nobody, ManaGroup.Empty, card.Precondition(), damageActions, card.Summoning))
+                //                 {
+                //                     DamageAction damageAction = battleAction as DamageAction;
+                //                     if (damageAction != null)
+                //                     {
+                //                         damageActions.Add(damageAction);
+                //                     }
+                //                     yield return battleAction;
+                //                 }
+                //                 break;
+                //             case TargetType.SingleEnemy:
+                //                 foreach (BattleAction battleAction in card.GetActions(unitSelector, ManaGroup.Empty, card.Precondition(), damageActions, card.Summoning))
+                //                 {
+                //                     DamageAction damageAction = battleAction as DamageAction;
+                //                     if (damageAction != null)
+                //                     {
+                //                         damageActions.Add(damageAction);
+                //                     }
+                //                     yield return battleAction;
+                //                 }
+                //                 break;
+                //             case TargetType.AllEnemies:
+                //                 foreach (BattleAction battleAction in card.GetActions(UnitSelector.AllEnemies, ManaGroup.Empty, card.Precondition(), damageActions, card.Summoning))
+                //                 {
+                //                     DamageAction damageAction = battleAction as DamageAction;
+                //                     if (damageAction != null)
+                //                     {
+                //                         damageActions.Add(damageAction);
+                //                     }
+                //                     yield return battleAction;
+                //                 }
+                //                 break;
+                //             case TargetType.RandomEnemy:
+                //                 foreach (BattleAction battleAction in card.GetActions(UnitSelector.RandomEnemy, ManaGroup.Empty, card.Precondition(), damageActions, card.Summoning))
+                //                 {
+                //                     DamageAction damageAction = battleAction as DamageAction;
+                //                     if (damageAction != null)
+                //                     {
+                //                         damageActions.Add(damageAction);
+                //                     }
+                //                     yield return battleAction;
+                //                 }
+                //                 break;
+                //             case TargetType.Self:
+                //                 foreach (BattleAction battleAction in card.GetActions(UnitSelector.Self, ManaGroup.Empty, card.Precondition(), damageActions, card.Summoning))
+                //                 {
+                //                     DamageAction damageAction = battleAction as DamageAction;
+                //                     if (damageAction != null)
+                //                     {
+                //                         damageActions.Add(damageAction);
+                //                     }
+                //                     yield return battleAction;
+                //                 }
+                //                 break;
+                //             case TargetType.All:
+                //                 foreach (BattleAction battleAction in card.GetActions(UnitSelector.All, ManaGroup.Empty, card.Precondition(), damageActions, card.Summoning))
+                //                 {
+                //                     DamageAction damageAction = battleAction as DamageAction;
+                //                     if (damageAction != null)
+                //                     {
+                //                         damageActions.Add(damageAction);
+                //                     }
+                //                     yield return battleAction;
+                //                 }
+                //                 break;
+                //             default:
+                //                 break;
+                //         }
+                //     }
+                //     Battle.PlayerTurnShouldEnd = false;
+                // }
+                // if (card.CardType == CardType.Friend)
+                // {
+                //     card.Config.ActiveCost = activeCost;
+                //     card.Config.UpgradedActiveCost = upgradedActiveCost;
+                // }
+                // if (Temp)
+                // {
+                //     if (card.Battle != null)
+                //     {
+                //         card.LeaveBattle();
+                //     }
+                //     Temp = false;
+                // }
+                yield break;
             }
             protected override void OnRemoved(Unit unit)
             {

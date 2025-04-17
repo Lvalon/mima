@@ -58,7 +58,8 @@ namespace lvalonmima.SE
                 RelativeEffects: new List<string>() { },
                 VFX: "Default",
                 VFXloop: "Default",
-                SFX: "Default"
+                SFX: "Default",
+                ImageId: null
             );
             return statusEffectConfig;
         }

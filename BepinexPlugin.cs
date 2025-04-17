@@ -110,7 +110,7 @@ namespace lvalonmima
                 (GameRunController gr) => gr.DeckCardsAdded,
                 CustomHandlers.OnDeckCardsAdded
                 );
-            new mimaplayerdata().RegisterSelf(LBoLEntitySideloader.PluginInfo.GUID);
+            new mimaplayerdata().RegisterSelf(PInfo.GUID);
             CustomHandlers.addreactors();
             Instance = this;
             log.LogDebug(Application.persistentDataPath);

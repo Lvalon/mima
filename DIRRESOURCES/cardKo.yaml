@@ -2,8 +2,9 @@ cardmimaalib:
   Description: "|미마가 죽림에 입장시|:\n{SelfName}를 |덱|에서 제거하고, |희귀| 등급 이외의 |미마| 스킬 카드를 {Value1}장 |덱|에 추가합니다."
   Name: 불사조 문서
   FlavorText: "경험이 쌓입니다."
+  DetailText:  이 효과로 덱에 추가된 카드는 총 마나 및 마나 색상 제한을 무시합니다.
 cardmimablib:
-  Description: "|p:미마B카드는 미완성입니다|.\n|미마가 죽림에 입장시|:\n{SelfName}을 |덱|에서 제거하고, |희귀| 등급 이외의 |미마| 스킬 카드를 {Value1}장 골라 |덱|에 추가합니다."
+  Description: "|p:미마B카드는 미완성입니다.|\n|미마가 죽림에 입장시|:\n{SelfName}을 |덱|에서 제거하고, |희귀| 등급 이외의 |미마| 스킬 카드를 {Value1}장 골라 |덱|에 추가합니다."
   Name: 심연 재건
   FlavorText: "동력화합니다."
 cardoncetime:
@@ -72,7 +73,7 @@ cardremini:
   Name: 추억의 스펠북
   FlavorText: "영혼조차도 기억할 수 있는 것의 수에 제한이 있는걸까?"
 cardrewind:
-  Description: "손패를 버립니다.\n뽑을 카드 더미와 버릴 카드 더미를 교체합니다.\n무작위 마나 {Value1}를 얻고, |예지| {Scry} 한 뒤, 카드를 {Value2}장 뽑습니다."
+  Description: "손패를 버립니다.\n뽑을 카드 더미와 버릴 카드 더미를 교체합니다.\n무작위 마나 {Value1}를 얻고, |예지| {Scry} 한 뒤, 카드를 {Value2}장 뽑습니다.\n|마력 폭발|의 자연 활성화를 {Value3} 턴 지연시킵니다."
   Name: 되감을 시간이야
   FlavorText: '"되감을 시간이야"'
 cardgrasp:
@@ -110,7 +111,7 @@ cardburstwave:
   Name: 폭발 파동 기능
   FlavorText: "방출되는 폭발의 양은 관측되기 전까지는 알 수 없습니다."
 cardmarisaskill:
-  Description: "{Value2}개의 |Marisa| 스킬 카드 중 최대 {Value1}장을 선택하여 손에 넣습니다.\n선택한 카드는 {Mana}의 |일시 화력|을 갖고, |소멸|과 |휘발성|을 얻습니다."
+  Description: "{Value2}개의 |마리사| 스킬 카드 중 최대 {Value1}장을 선택하여 손에 넣습니다.\n선택한 카드는 {Mana}의 |일시 화력|을 갖고, |소멸|과 |휘발성|을 얻습니다."
   DetailText: "이 |e:대체 카드|는 총 마나 및 마나 색상 제한을 무시합니다."
   Name: 견습생의 업적
   FlavorText: "마리사! 물약이 아직도 불안정한거야?"
@@ -133,20 +134,6 @@ cardperlereino:
   Name: 페를레이노로의 전송
   FlavorText: "그녀는 절대 권력이 존재하는 특정한 세계를 꿈꿉니다."
   DetailText: "게임이 제대로 운영될 수 있도록 몇 가지 |e:예외|가 있습니다."
-passivewraitsoth:
-  Description: "모든 |마력 폭발|을 잃습니다.\n{PlayerName}은 예상 |마력 폭발|의 {gainred}%를 얻습니다.\n|마력 폭발|은 더 이상 소모되지 않습니다.\n|마력 폭발|의 활성화는 더 이상 지연될 수 없습니다."
-  DetailText: '"예상 |마력 폭발|의 %를 얻는" 효과는 중첩될 수 있으며, |100%|를 초과할 수 없습니다.'
-  Name: 파라이조스의 분출
-  FlavorText: "그녀는 분노의 도끼를 들고 감히 자기 앞을 가로막는 자를 추방했습니다."
-passivealgophobia:
-  Description: "적이 |마력 폭발|로 막히지 않은 피해를 입을 때마다, 그 적은 |마력 폭발|에 의해 입은 피해만큼의 체력을 잃습니다."
-  Name: 알고리즘 공포증
-  FlavorText: "당신이 다칠까 두려워할수록, 당신은 더 많이 다칠 것입니다."
-  DetailText: "이 효과는 중첩됩니다."
-passiverpolarity:
-  Description: "|마력 폭발|로 인해 적이 체력을 잃을 때마다, {PlayerName}은 {Value1}의 체력을 잃습니다."
-  Name: 극성 반전
-  FlavorText: "극성이 좀 헷갈리지만, 정신을 차렸다."
 cardcardtable:
   Description: "손이 가득 찰 때까지 무작위 스킬 카드를 손에 추가합니다.\n그 카드들은 무작위 마나 {Value1}만큼 덜 듭니다."
   Name: 테이블 위의 카드
@@ -160,3 +147,50 @@ carddawntime:
   Name: 시간의 여명에
   FlavorText: "모든 것의 시작을 목격하세요."
   DetailText: "이 |e:대체 카드|는 총 마나와 마나 색상 제한을 무시합니다.\n{SelfName}는 이 효과로 생성될 수 없습니다."
+passivegold:
+  Description: "|g:패시브 카드|\n|전투 시작시|: <sprite=\"Point\" name=\"Gold\"> {Value1} 획득."
+  Name: 쌓이는 행운
+  FlavorText: "이번 턴에 4장 이상의 카드를 사용한 후에만 활성화...?"
+passivepower:
+  Description: "|g:패시브 카드|\n|전투 시작시|: <sprite=\"Point\" name=\"Power\"> {Value1} 획득."
+  Name: "파워 오브 디 엘리멘츠"
+  FlavorText: "너의 덱을 강화해서 최고의 듀얼을 즐겨보자!"
+passivemb:
+  Description: "|g:패시브 카드|\n|매 턴 시작시|: 남은 체력의 {Value1}|n:%| 만큼 |마력 폭발|을 얻습니다."
+  Name: "원한의 배경"
+  FlavorText: "자꾸만 불길에 휩싸이는 촛불."
+passivembhand:
+  Description: "|g:패시브 카드|\n|카드가 손에 들어올 때마다|: |마력 폭발| {Value1} 획득."
+  Name: "심연 변환 실험실"
+  FlavorText: "지식은 곧 힘."
+passiveupgrade:
+  Description: "|g:패시브 카드|\n|첫 턴 시작시|: 손의 무작위 카드 {Value1}장을 전투 종료시 까지 |강화|합니다."
+  Name: "극적인 등장?"
+  FlavorText: "그래, 아니, 어쩌면 악령이 더 나은 것을 생각해낼 수 있을지도..."
+passivecharge:
+  Description: "|g:패시브 카드|\n|카드를| {Value2} |장 사용할 때 마다|: |충전|을 {Value1} 얻습니다. 전투 종료시 초기화됩니다."
+  Name: "미승인 마법"
+  FlavorText: "요즘 누가 한 번에 한 번에 주문을 하나씩만 외우나?"
+passivealgophobia:
+  Description: "|g:패시브 카드|\n적이 |마력 폭발|로 막히지 않은 피해를 받을 때 마다, 추가로 그만큼 피해를 받습니다."
+  Name: 알고리즘 공포증
+  FlavorText: "상처받는 것이 두려울수록 더 큰 상처를 입게 됩니다."
+  DetailText: "이 효과는 중첩 가능합니다."
+passiverpolarity:
+  Description: "|g:패시브 카드|\n적이 |마력 폭발|로 피해를 받을 때 마다, {PlayerName}가 체력을 {Value1} 잃습니다."
+  Name: 극성 반전
+  FlavorText: "극성이 좀 혼란스럽지만, 정신을 차렸다."
+passivewraitsoth:
+  Description: "|g:패시브 카드|\n{PlayerName}는 |마력 폭발|을 |n:{everlastyaml}%|만 얻습니다. |마력 폭발|이 소모되지 않습니다. |마력 폭발|의 발동이 지연되지 않습니다."
+  Name: 파라이조스의 분출
+  DetailText: "\"얻는 |마력 폭발|의 %\" 효과는 중첩 가능하고, |100%|를 넘을 수 없다."
+  FlavorText: "그녀는 악령의 도끼를 휘두르며 감히 자신을 가로막는 사람을 추방합니다."
+blitzeburst:
+  Description: "|u:전격 카드|\n|버스트| 상태가 됩니다.\n모든 적에게 |명중| 피해를 {Damage} 줍니다."
+  Name: 원소 폭발
+  FlavorText: "힘이 합쳐져서..."
+monstertearkit:
+  Description: "{FriendS}|p:몬스터 카드|\n{FriendP}|예지| {scryshow}."
+  ExtraDescription1: "{FriendA}뽑을 카드 더미에서 가장 높은 흑/청색 카드를 {activevalue}장 손으로 가져옵니다."
+  ExtraDescription2: "{FriendU}뽑을 카드 더미/버린 카드 더미/전장에서 흑/청색 카드를 {ultvalue}장까지 골라 그 카드들을 손으로 가져옵니다."
+  Name: 눈물 키트

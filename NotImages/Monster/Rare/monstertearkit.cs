@@ -85,6 +85,10 @@ namespace lvalonmima.NotImages.Monster.Rare
                UpgradedActiveCost: null,
                UltimateCost: -2,
                UpgradedUltimateCost: null,
+               ActiveCost2: 0,
+               Kicker: null,
+               UpgradedKicker: null,
+               UpgradedActiveCost2: null,
 
                Keywords: Keyword.Scry,
                UpgradedKeywords: Keyword.Scry,

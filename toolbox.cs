@@ -2,6 +2,7 @@
 using LBoL.ConfigData;
 using LBoL.Core;
 using LBoL.Core.Cards;
+using LBoL.Core.StatusEffects;
 using LBoL.Core.Randoms;
 using LBoL.Presentation;
 using System;
@@ -58,13 +59,13 @@ namespace lvalonmima
 
             return filteredPool.SampleMany(rng, count, ensureCount);
         }
-        static public Card[] RepeatableAllCards(RandomGen rng, CardWeightTable weightTable, int count, ManaGroup? manaLimit = null, bool colorLimit = false, bool applyFactors = false, bool battleRolling = false, bool ensureCount = false, Predicate<Card> filter = null)
+        static public Card[] RepeatableAllCards(RandomGen rng, CardWeightTable weightTable, int count, bool ensureCount = false, Predicate<Card> filter = null)
         {
             GameRunController gr = GameMaster.Instance?.CurrentGameRun;
             if (gr == null)
                 throw new InvalidOperationException("Rolling cards when run is not started.");
 
-            UniqueRandomPool<Type> innitialPool = CreateAllCardsPool(weightTable, manaLimit, colorLimit, applyFactors, battleRolling, null);
+            UniqueRandomPool<Type> innitialPool = CreateAllCardsPool(weightTable, null);
 
             RepeatableRandomPool<Card> filteredPool = new RepeatableRandomPool<Card>();
 
@@ -80,13 +81,13 @@ namespace lvalonmima
 
             return filteredPool.SampleMany(rng, count, ensureCount);
         }
-        static public Card[] UniqueAllCards(RandomGen rng, CardWeightTable weightTable, int count, ManaGroup? manaLimit = null, bool colorLimit = false, bool applyFactors = false, bool battleRolling = false, bool ensureCount = false, Predicate<Card> filter = null)
+        static public Card[] UniqueAllCards(RandomGen rng, CardWeightTable weightTable, int count, bool ensureCount = false, Predicate<Card> filter = null)
         {
             GameRunController gr = GameMaster.Instance?.CurrentGameRun;
             if (gr == null)
                 throw new InvalidOperationException("Rolling cards when run is not started.");
 
-            UniqueRandomPool<Type> innitialPool = CreateAllCardsPool(weightTable, manaLimit, colorLimit, applyFactors, battleRolling, null);
+            UniqueRandomPool<Type> innitialPool = CreateAllCardsPool(weightTable, null);
 
             UniqueRandomPool<Card> filteredPool = new UniqueRandomPool<Card>();
 
@@ -103,12 +104,12 @@ namespace lvalonmima
             return filteredPool.SampleMany(rng, count, ensureCount);
         }
 
-        static public UniqueRandomPool<Type> CreateAllCardsPool(CardWeightTable weightTable, ManaGroup? manaLimit, bool colorLimit, bool applyFactors, bool battleRolling, [MaybeNull] Predicate<CardConfig> filter = null)
+        static public UniqueRandomPool<Type> CreateAllCardsPool(CardWeightTable weightTable, [MaybeNull] Predicate<CardConfig> filter = null)
         {
             var gr = GameMaster.Instance.CurrentGameRun;
             var charExSet = new HashSet<string>(gr.Player.Exhibits.Where(e => e.OwnerId != null).Select(e => e.OwnerId));
             UniqueRandomPool<Type> uniqueRandomPool = new UniqueRandomPool<Type>();
-            foreach (var item4 in Library.EnumerateRollableCardTypes(10))
+            foreach (var item4 in EnumerateALLCardTypes())
             {
                 Type item = item4.Item1;
                 CardConfig item2 = item4.Item2;
@@ -116,16 +117,87 @@ namespace lvalonmima
                 {
                     continue;
                 }
-                float num = weightTable.WeightFor(item2, gr.Player.Id, charExSet);
-                if (num > 0f)
+                // float num = weightTable.WeightFor(item2, gr.Player.Id, charExSet);
+                // if (num > 0f)
+                // {
+                //     float num2 = gr.BaseCardWeight(item2, false);
+                //     uniqueRandomPool.Add(item, num * num2);
+                // }
+                uniqueRandomPool.Add(item, 1);
+            }
+
+            return uniqueRandomPool;
+        }
+        public static IEnumerable<(Type, CardConfig)> EnumerateALLCardTypes()
+        {
+            foreach (CardConfig item in CardConfig.AllConfig())
+            {
+                // CardType type = item.Type;
+                // if (type != CardType.Misfortune && type != CardType.Status && type != 0)
+                // {
+                    Type type2 = TypeFactory<Card>.TryGetType(item.Id);
+                    if ((object)type2 != null)
+                    {
+                        yield return (type2, item);
+                    }
+                // }
+            }
+        }
+        public static IEnumerable<(Type, ExhibitConfig)> EnumerateALLExhibitTypes()
+        {
+            foreach (ExhibitConfig item in ExhibitConfig.AllConfig())
+            {
+                Type type = TypeFactory<Exhibit>.TryGetType(item.Id);
+                if ((object)type != null)
                 {
-                    float num2 = gr.BaseCardWeight(item2, applyFactors);
-                    uniqueRandomPool.Add(item, num * num2);
+                    yield return (type, item);
+                }
+            }
+        }
+        static public UniqueRandomPool<Type> CreateAllExhibitsPool(ExhibitWeightTable weightTable, [MaybeNull] Predicate<ExhibitConfig> filter = null)
+        {
+            UniqueRandomPool<Type> uniqueRandomPool = new UniqueRandomPool<Type>();
+            foreach (var item4 in EnumerateALLExhibitTypes())
+            {
+                ExhibitConfig item2 = item4.Item2;
+                if (filter != null && !filter(item2))
+                {
+                    continue;
                 }
             }
 
             return uniqueRandomPool;
         }
+
+        static public Card createcardwithidBACKUP(String id)
+        {
+            UniqueRandomPool<Type> uniqueRandomPool = new UniqueRandomPool<Type>();
+            foreach (var item4 in EnumerateALLCardTypes())
+            {
+                Type item = item4.Item1;
+                CardConfig item2 = item4.Item2;
+                if (item2.Id == id)
+                {
+                    uniqueRandomPool.Add(item, 1);
+                }
+            }
+            UniqueRandomPool<Card> filteredPool = new UniqueRandomPool<Card>();
+            foreach (RandomPoolEntry<Type> e in uniqueRandomPool)
+            {
+                Card card = Library.CreateCard(e.Elem);
+                filteredPool.Add(card, e.Weight);
+            }
+            Card rez = filteredPool.Sample(RandomGen.InitGen);
+            //Card rez = Library.CreateCard();
+            return rez;
+        }
+
+        //v2
+        public static Card createcardwithid(String id)
+        {
+            return TypeFactory<Card>.CreateInstance(TypeFactory<Card>.TryGetType(id));
+        }
+        
 
         /* ONREVIVE
 
@@ -167,29 +239,29 @@ namespace lvalonmima
                base.NotifyActivating();
            }
         }
-        
-How to make an Hybrid color card:
-config.Cost = new ManaGroup() { ..., Hybrid = amount, HybridColor = (int) color_code };
 
-color_code: 
-0: Azorius (White/Blue)
-1: Orzhov (White/Black)
-2: Boros (White/Red)
-3: Selesnya (White/Green)
-4: Dimir (Blue/Black)
-5: Izzet (Blue/Red)
-6: Simic (Blue/Green)
-7: Rakdos (Black/Red)
-8: Golgari (Black/Green)
-9: Gruul (Red/Green)
+    How to make an Hybrid color card:
+    config.Cost = new ManaGroup() { ..., Hybrid = amount, HybridColor = (int) color_code };
 
-Notation:
-x: MtG Guild (Color 1/Color 2)
-x being the number that has to be selected for the HybridColor field.
+    color_code: 
+    0: Azorius (White/Blue)
+    1: Orzhov (White/Black)
+    2: Boros (White/Red)
+    3: Selesnya (White/Green)
+    4: Dimir (Blue/Black)
+    5: Izzet (Blue/Red)
+    6: Simic (Blue/Green)
+    7: Rakdos (Black/Red)
+    8: Golgari (Black/Green)
+    9: Gruul (Red/Green)
 
-Notes:
-It seems that a card can only have one type of Hybrid mana.
-*/
+    Notation:
+    x: MtG Guild (Color 1/Color 2)
+    x being the number that has to be selected for the HybridColor field.
+
+    Notes:
+    It seems that a card can only have one type of Hybrid mana.
+    */
 
         //checklist: save suppressed damage, and a card that deals suppressed damage
         //checklist: kms, lose 2 evil spirit (if evil spirit reaches -1, die), INNATE
