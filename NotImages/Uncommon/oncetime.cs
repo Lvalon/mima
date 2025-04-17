@@ -81,6 +81,10 @@ namespace lvalonmima.NotImages.Uncommon
                UpgradedActiveCost: null,
                UltimateCost: null,
                UpgradedUltimateCost: null,
+               Kicker: null,
+               UpgradedKicker: null,
+               ActiveCost2: null,
+               UpgradedActiveCost2: null,
 
                Keywords: Keyword.None,
                UpgradedKeywords: Keyword.None,
@@ -110,8 +114,8 @@ namespace lvalonmima.NotImages.Uncommon
                 List<cardoncetime> list = Library.CreateCards<cardoncetime>(2, IsUpgraded).ToList();
                 cardoncetime first = list[0];
                 cardoncetime cardoncetime = list[1];
-                first.ShowWhichDescription = 2;
-                cardoncetime.ShowWhichDescription = 1;
+                first.ChoiceCardIndicator = 2;
+                cardoncetime.ChoiceCardIndicator = 1;
                 first.SetBattle(Battle);
                 cardoncetime.SetBattle(Battle);
                 MiniSelectCardInteraction interaction = new MiniSelectCardInteraction(list, false, false, false)

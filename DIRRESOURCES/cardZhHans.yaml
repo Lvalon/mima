@@ -1,0 +1,196 @@
+cardmimaalib:
+  Description: "|进入竹林时|：\n从|牌库|中移除{SelfName}，将 {Value1} 张非稀有的非|g:被动||魅魔|技能牌加入牌库。"
+  Name: 凤凰档案
+  FlavorText: "经验累积。"
+  DetailText:  因此效果加入牌库的牌不会受到基础法力颜色和数量的限制。
+cardmimablib:
+  Description: "|p:魅魔B的卡牌正在制作中|。\n|进入竹林时|:\n从|牌库|中移除{SelfName}，从 |n:3| 张非稀有的非|g:被动||魅魔|牌中选择 |n:1| 张加入牌库 {Value1} 次。"
+  Name: 深渊重构
+  FlavorText: "套上了缰绳。"
+cardoncetime:
+  Description: "|抉择|：将 {Value1} 张|纯净钻石|洗入抽牌堆，或在本场战斗中|净化|手中随机 {Value2} 张牌。"
+  ExtraDescription2: "将 {Value1} 张|纯净钻石| 洗入抽牌堆。"
+  ExtraDescription1: "在本场战斗中|净化|手中随机 {Value2} 张牌。"
+  Name: 曾几何时……
+  FlavorText: "梦永远没有起始，那么梦因何而起？"
+cardmexploit:
+  Description: "|每支付<sprite=\"ManaSprite\" name=\"P\">|：获得{Mana}。\n|每支付<sprite=\"ManaSprite\" name=\"C\"><sprite=\"ManaSprite\" name=\"C\">|：抽 {Value1} 张牌。"
+  Name: 法力利用
+  FlavorText: "作等价崩坏的美梦。"
+cardshepherdg:
+  Description: "失去 {Value1} 点生命，获得 {Value2} 层|魔爆|。\n{PlayerName}的回合开始时，失去 {Value1} 点生命，获得 {Value2} 层|魔爆|。"
+  Name: 牧羊女
+  FlavorText: "此乃永恒之始。"
+cardpurediamond:
+  Description: "{SelfName}进入手中时：获得{Mana}。\n对所有角色造成 {Value1} 点伤害，然后放逐{SelfName}。"
+  Name: 纯净钻石
+  FlavorText: "永恒里的多少光阴？"
+cardmountain:
+  Description: "将 {Value1} 张|纯净钻石|洗入抽牌堆。\n获得 {Value2} 层|魔爆|。"
+  Name: 纯净钻石山
+  FlavorText: "最伟大的寻求。"
+cardextrav:
+  Description: "失去 {Value2} 层|魔爆|。\n抽 {Value1} 张牌。"
+  Name: 强欲而金满之法
+  FlavorText: "贪念乃过去的遗物。"
+cardenterzone:
+  Description: "手中的所有牌的费用|暂时降低| {Value1} 点随机法力。\n|过载| {Value2}。"
+  Name: 进入状态！
+  FlavorText: "随时都能进入状态时，她还算是进入状态吗？"
+cardwheresleep:
+  Description: "|战斗开始时|：|放逐|{SelfName}，失去 {Value1} 点生命，获得 {Value2} 层|魔爆|。"
+  Name: 我的住处
+  FlavorText: "奔跑无限好，那么留下呢？"
+cardendlesswalk:
+  Description: "将 {Value1} 张|纯净钻石|洗入抽牌堆。\n抽 {Value2} 张牌。"
+  Name: 无尽演练
+  FlavorText: "越发掘，这山越宏伟。"
+cardsharppeak:
+  Description: "|每支付<sprite=\"ManaSprite\" name=\"R\">|：失去 {Value1} 点生命。\n|每支付<sprite=\"ManaSprite\" name=\"W\"><sprite=\"ManaSprite\" name=\"W\">|：本场战斗中|升级|手中随机 {Value2} 张牌。"
+  UpgradedDescription: "|每支付<sprite=\"ManaSprite\" name=\"R\">|：失去 {Value1} 点生命。\n|每支付<sprite=\"ManaSprite\" name=\"W\"> spent|：本场战斗中|升级|手中随机 {Value2} 张牌。"
+  Name: 锐化尖峰
+  FlavorText: "终有一天，这山会被磨去。"
+cardextratick:
+  Description: "立即失去所有|魔爆|的层数并造成伤害。\n{PlayerName}的回合开始时，获得{Mana}。"
+  Name: 额外的一刻
+  FlavorText: "只有对其观察者而言，时间的流动才是恒定的。"
+cardbirdq:
+  Description: "抽 {Value1} 张牌。\n延迟|魔爆|的自然失去 {Value2} 回合。"
+  Name: 话题里的鸟儿
+  FlavorText: "这将是一只了不起的鸟。"
+cardfromhell:
+  Description: "获得 {Value1} 点|EX暂得火力|。\n获得 {Value1} 层|魔爆|。"
+  Name: 来自地狱
+  FlavorText: "来自地狱的鸟儿？这有点儿似曾相识..."
+carderosion:
+  Description: "失去 {Value2} 点生命。\n对所有敌人施加 {Value1} 层|中毒|。"
+  Name: 精神侵蚀
+  FlavorText: "仅仅是恶灵的存在就能影响周遭的活物。"
+cardremini:
+  Description: "失去 {Value3} 层|魔爆|。\n从 {Value2} 张非稀有的{PlayerName}技能牌中选择 {Value1} 张加入手中。"
+  UpgradedDescription: "从 {Value2} 张非稀有的{PlayerName}技能牌中选择 {Value1} 张加入手中。"
+  Name: 怀旧魔法书
+  FlavorText: "难道灵魂的记忆也有限制吗？"
+  DetailText: "不能找到{SelfName}。"
+cardrewind:
+  Description: "丢弃手中的所有牌。\n交换抽牌堆和弃牌堆。\n获得 {Value1} 点随机法力，|占卜| {Scry} ，抽 {Value2} 张牌。"
+  Name: 倒退时间
+  FlavorText: "\"It's Rewind Time。\""
+cardgrasp:
+  Description: "失去 {Value1} 点生命。\n将抽牌堆和弃牌堆中的各 {Value2} 张牌移回手中。"
+  Name: 尽在掌握！
+  FlavorText: "真正的魔法师在准备好时，甚至不用准备。"
+cardchannelling:
+  Description: "失去 {Value1} 点生命。\n获得 {Value2} 层|时域冲击|。"
+  Name: 通灵时间流
+  FlavorText: "化过去，现在与未来为泥土。"
+cardstarliege:
+  Description: "获得 {Value1} 点|EX暂得火力|。\n赋予手中随机 {Value2} 张牌|回响|。"
+  Name: 赛弗特灯塔
+  FlavorText: "赛弗特，那永恆之光耀。"
+cardstake:
+  Description: "获得 {Value1} 层|天衣无缝|。\n获得{Mana}。\n本场战斗中|升级|手中的所有牌。"
+  Name: 赌上你的灵魂！
+  FlavorText: "征幻。"
+cardtwelve:
+  Description: "本场战斗中|净化|手中的所有牌，并赋予它们|放逐|。"
+  Name: 日末之时
+  FlavorText: "时钟怎么样？"
+cardnineplus:
+  Description: "抽牌直到手牌达到 {Value1} 张。\nGain {Value2} |魔爆|。"
+  Name: "9+10"
+  FlavorText: "21"
+cardutmost:
+  Description: "|魔爆|改为对随机敌人造成|精准|伤害，每有一个敌人造成 {Value1} 次。\n获得 {Value2} |魔爆|。"
+  Name: 极大专注
+  FlavorText: "从感知中移除一切對戰鬥不必要的内容。"
+  DetailText: "可以与自身或|爆发波函数|叠加。"
+cardburstwave:
+  Description: "|魔爆|造成 1/{Value3} 的|精准|伤害。\n|魔爆|额外造成 {Value1} 次伤害。\n获得 {Value2} 点|火力|。"
+  Name: 爆发波函数
+  FlavorText: "魔爆不发出来，不会知道会有多少发。"
+  DetailText: "可以与自身或|极大专注|叠加。"
+cardmarisaskill:
+  Description: "从 {Value2} 张|魔理沙|技能牌中选择 {Value1} 张加入手中。\n这些牌|暂塑|为{Mana}，具有|放逐|和|虚无|。"
+  Name: 学徒的成就
+  FlavorText: "魔理沙！药剂稳定了么？"
+  DetailText: "|e:备选牌|无视法力数量和颜色限制。"
+cardrivalry:
+  Description: "从 {Value1} 张{PlayerName}罕见能力牌中选择 {Value2} 张加入手中。\n这些牌|暂塑|为{Mana}，具有|虚无|。"
+  Name: 宿敌的割据
+  FlavorText: "幻想乡只能有一种最强。"
+cardtpartner:
+  Description: "将 1 张具有|时间有限|的随机牌加入手中。\n这些牌|暂塑|为{Mana}，具有|放逐|和|虚无|。"
+  Name: 时之伙伴
+  FlavorText: "封測之末的美夢。"
+  DetailText: "|e:备选牌|无视法力数量，颜色和角色限制。\n不会找到{SelfName}。"
+cardexistp:
+  Description: "从 {Value1} 张|直觉|牌中选择 {Value2} 张加入手中。\n这些牌|暂塑|为{Mana}，具有|放逐|和|虚无|。"
+  Name: 存在与毅力
+  DetailText: "|e:备选牌|无视法力数量，颜色和角色限制。\n不会找到{SelfName}。"
+cardperlereino:
+  Description: "移除所有敌人身上除|恶灵|以外的效果。\n获得|永续天衣无缝|。\n每移除一个效果，获得 1 层|恶灵|。\n每场战斗中，只有第一张{SelfName}生效。"
+  exDescription1: "|d:移除所有敌人身上除恶灵以外的效果|。\n|d:n获得永续天衣无缝|。\n|d:n每移除一个效果，获得 1 层恶灵|。\n每场战斗中，只有第一张{SelfName}生效。"
+  Name: 穿越至珍珠世界
+  FlavorText: "她梦见了绝对力量所在的世界。"
+  DetailText: "存在一些|e:非传统异常|保证游戏正常运行。"
+cardcardtable:
+  Description: "将随机的技能牌加入手中，直到手牌到达上限。\n这些牌的费用|暂时降低| {Value1} 点随机的法力。"
+  Name: 底牌
+  FlavorText: "\"会赢的。\""
+cardmicrocosmos:
+  Description: "结束{PlayerName}的回合，获得一个额外的回合。\n这个回合中，每打出一张技能牌，获得 {Value1} 点|EX暂得火力|。\n|时间有限|{Mana}。"
+  Name: 小小星云
+  FlavorText: "这怕不是全球暖化的原因..."
+carddawntime:
+  Description: "结束{PlayerName}的回合，获得一个额外的回合。\n这个回合中，{PlayerName}不能使任何角色失去生命，卡牌的费用为{Mana}，不能抽牌或获得法力。\n这个回合的开始时，将手中的所有牌移出战斗，将随机 {Value1} 张{PlayerName}牌加入手中，这些牌具有|放逐|和|虚无|。"
+  Name: 时之黎明
+  FlavorText: "见证一切的起始。"
+  DetailText: "|e:备选牌|无视法力数量和颜色限制。\n不能获得{SelfName}。"
+passivegold:
+  Description: "|g:被动牌|\n|战斗开始时|：获得 {Value1} 点<sprite=\"Point\" name=\"Gold\">。"
+  Name: 积累的幸福
+  FlavorText: "连锁4以后才能发动...？"
+passivepower:
+  Description: "|g:被动牌|\n|战斗开始时|：获得 {Value1} 点<sprite=\"Point\" name=\"Power\">。"
+  Name: 元素之力
+  FlavorText: "在意识之外，潮汐已被扭转。"
+passivemb:
+  Description: "|g:被动牌|\n|回合开始时|：获得等于当前生命值 {Value1}|n:%| 的|魔爆|。"
+  Name: 暗中怨恨
+  FlavorText: "会持续自燃的蜡烛。"
+passivembhand:
+  Description: "|g:被动牌|\n|一张牌进入手中时|：获得 {Value1} 层|魔爆|。"
+  Name: 深渊转换实验室
+  FlavorText: "知识就是力量。"
+passiveupgrade:
+  Description: "|g:被动牌|\n|第一回合开始时|：本场战斗中|升级|手中的随机 {Value1} 张牌。"
+  Name: "戏剧性登场？"
+  FlavorText: "欸不是，那恶灵还有更好的想法吧..."
+passivecharge:
+  Description: "|g:被动牌|\n|打出 {Value2} 张牌后|：获得 {Value1} 层|充能|。 战斗结束时重置。"
+  Name: 侧载魔法
+  FlavorText: "现在谁还会单发魔法？"
+passivealgophobia:
+  Description: "|g:被动牌|\n当一个敌人受到|魔爆|造成的未被格挡的伤害时，还会失去等于|魔爆|造成的伤害的生命值。"
+  Name: 疼痛恐惧症
+  FlavorText: "越害怕被伤害，伤的只会越深。"
+  DetailText: "可以叠加。"
+passiverpolarity:
+  Description: "|g:被动牌|\n|魔爆|造成伤害使敌人失去生命值时，{PlayerName}失去 {Value1} 点生命。"
+  Name: 两极反转
+  FlavorText: "虽然极性有点混乱，但它体现了一种魂。"
+passivewraitsoth:
+  Description: "|g:被动牌|\n{PlayerName}获得的|魔爆|变为 {gainred}|n:%| 。\n|魔爆|不会消耗层数。\n|魔爆|不会延迟生效。"
+  Name: 天魔的释放
+  DetailText: "\"获得|魔爆|比率\"的效果可以叠加，不会超过|100%|。"
+  FlavorText: "手持天魔之斧，她除外了一切阻拦。"
+blitzeburst:
+  Description: "|u:闪击牌|\n进入|爆发|。\n对所有敌人造成 {Damage} 点|精准|伤害。"
+  Name: 元素爆发
+  FlavorText: "力量結合之時..."
+monstertearkit:
+  Description: "{FriendS}|p:怪兽牌|\n{FriendP}|占卜| {scryshow} 。"
+  ExtraDescription1: "{FriendA}将抽牌堆最上的 {activevalue} 张黑色或蓝色牌放入手中。"
+  ExtraDescription2: "{FriendU}选择抽牌堆，弃牌堆或战场中至多 {ultvalue} 张黑色或蓝色牌放入手中。"
+  Name: 珠泪琪多

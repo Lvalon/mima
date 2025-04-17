@@ -77,6 +77,10 @@ namespace lvalonmima.NotImages.Starter
                UpgradedActiveCost: null,
                UltimateCost: null,
                UpgradedUltimateCost: null,
+               Kicker: null,
+               UpgradedKicker: null,
+               ActiveCost2: null,
+               UpgradedActiveCost2: null,
 
                Keywords: Keyword.Replenish | Keyword.Exile | Keyword.AutoExile,
                UpgradedKeywords: Keyword.Replenish | Keyword.Exile | Keyword.AutoExile,

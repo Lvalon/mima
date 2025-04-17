@@ -1,4 +1,8 @@
-v0.0.41: changed some "mimaA" cards to fit the changed mimaB theme, integrated passives into mima. big experimental update for v1.5.0 (not backwards compatible)
+v0.0.43: v1.7.0 compatible
+
+v0.0.42: minor description fix on evil spirit, brief version of it now mentions grudge tolerance as well
+
+v0.0.41: changed some "mimaA" cards to fit the changed mimaB theme, integrated passives into mima. big experimental update for v1.5.0 (not backwards compatible). next update might come with further nerfs of mimaA in hopes of balancing her power in later acts :skull:
 
 v0.0.40: huge balancing change by flattening mimaA base mana, minor typo fix, mimaB started being worked on
 

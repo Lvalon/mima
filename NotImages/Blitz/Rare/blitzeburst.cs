@@ -41,7 +41,9 @@ namespace lvalonmima.NotImages.Blitz.Rare
                Index: BepinexPlugin.sequenceTable.Next(typeof(CardConfig)),
                Id: "",
                Order: 10,
+               Kicker: null,
                AutoPerform: true,
+               UpgradedKicker: null,
                Perform: new string[0][],
                GunName: "Simple1",
                GunNameBurst: "Simple1",
@@ -82,6 +84,8 @@ namespace lvalonmima.NotImages.Blitz.Rare
                UpgradedActiveCost: null,
                UltimateCost: null,
                UpgradedUltimateCost: null,
+               ActiveCost2: null,
+               UpgradedActiveCost2: null,
 
                Keywords: Keyword.Forbidden,
                UpgradedKeywords: Keyword.None,

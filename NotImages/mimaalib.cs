@@ -74,6 +74,10 @@ namespace lvalonmima.NotImages
                UpgradedActiveCost: null,
                UltimateCost: null,
                UpgradedUltimateCost: null,
+               Kicker: null,
+               UpgradedKicker: null,
+               ActiveCost2: null,
+               UpgradedActiveCost2: null,
 
                Keywords: Keyword.None,
                UpgradedKeywords: Keyword.None,
@@ -88,7 +92,7 @@ namespace lvalonmima.NotImages
                Owner: "Mima",
                ImageId: "",
                UpgradeImageId: "",
-               Unfinished: true,
+               Unfinished: false,
                Illustrator: "Dairi",
                SubIllustrator: new List<string>() { }
             );

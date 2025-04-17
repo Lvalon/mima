@@ -3,6 +3,31 @@ mimaa:
   Name: 환생
   FlavorText: 죽음과 함께 죽고. 죽음과 함께 태어난다!
 mimab:
-  Description: "|p:교환불가|\n마나 풀에 {BaseMana}가 추가됩니다.\n|미마|의 전용 카드가 카드 풀에 추가됩니다.\n첫 턴 시작시 |악령|을 {Value1} 얻습니다.\n{PlayerName}가 패배하면 |심연|으로 들어갑니다."
+  Description: "|p:교환불가|\n마나 풀에 {BaseMana}가 추가됩니다.\n|미마|의 전용 카드가 카드 풀에 추가됩니다.\n게임 시작시, {PlayerName}는 <sprite=\"Point\" name=\"Gold\">을 {Value4}만큼 지불하고 |Tab|을 눌러 전투중이 아닐시 |패시브 상점|을 열 수 있고, 전투중일시 |전격 상점|을 열 수 있습니다.\n전투 시작시, {PlayerName}는 |악령|을 {Value1} 얻습니다.\n"
   Name: 심연으로의 내리막
   FlavorText: "그것이 뒤에서 응시한다. 아무리 강한 존재도 견딜 수 없도록."
+mimapassives:
+  Description:
+    "{PlayerName}가 심연의 힘을 드러냈습니다. 패시브를 얻습니다.{spaceyaml}{passivegoldyaml}{passivepoweryaml}{passivembyaml}{passivembhandyaml}{passiveupgradeyaml}{passivechargeyaml}{passiveimplosionyaml}{passiveretributionyaml}{passiveeverlastyaml}"
+  spacedes:
+    "\n"
+  passivegolddes:
+    "\n|전투 시작시|: <sprite=\"Point\" name=\"Gold\"> |n:{goldyaml}| 획득.\n"
+  passivepowerdes:
+    "\n|전투 시작시|: <sprite=\"Point\" name=\"Power\"> |n:{poweryaml}| 획득.\n"
+  passivembdes:
+    "\n|매 턴 시작시|: 남은 체력의 |n:{mbyaml}%| 만큼 |마력 폭발|을 얻습니다.\n"
+  passivembhanddes:
+    "\n|카드가 손에 들어올 때마다|: |마력 폭발| |n:{mbhandyaml}| 획득.\n"
+  passiveupgradedes:
+    "\n|첫 턴 시작시|: 손의 무작위 카드 |n:{upgradeyaml}|장을 전투 종료시 까지 |강화|합니다."
+  passiveimplosiondes:
+    "\n|전투중일시|: 적이 |마력 폭발|로 막히지 않은 피해를 받을 때 마다, 추가로 그만큼 피해를 |n:{implosionyaml}|번 받습니다.\n"
+  passiveretributiondes:
+    "\n|전투중일시|: 적이 |마력 폭발|로 피해를 받을 때 마다, {PlayerName}가 체력을 |n:{retributionyaml}| 잃습니다.\n"
+  passiveeverlastdes:
+    "\n|전투중일시|: {PlayerName}는 |마력 폭발|을 |n:{everlastyaml}%|만 얻습니다. |마력 폭발|이 소모되지 않습니다. |마력 폭발|의 발동이 지연되지 않습니다.\n"
+  passivechargedes:
+    "\n|카드를| |n:2| |장 사용할 때 마다|: |충전|을 |n:{chargeyaml}| 얻습니다. 전투 종료시 초기화됩니다. |n:{chargeleft}|장 남음\n"
+  Name: 공허 출현
+  FlavorText: ""

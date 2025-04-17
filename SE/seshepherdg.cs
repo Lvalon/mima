@@ -53,7 +53,8 @@ namespace lvalonmima.SE
                 RelativeEffects: new List<string>() { nameof(magicalburstdef.magicalburst) },
                 VFX: "Default",
                 VFXloop: "Default",
-                SFX: "Default"
+                SFX: "Default",
+                ImageId: null
             );
             return statusEffectConfig;
         }

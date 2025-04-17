@@ -51,7 +51,8 @@ namespace lvalonmima.SE.abandoned
                 RelativeEffects: new List<string>() { },
                 VFX: "Default",
                 VFXloop: "Default",
-                SFX: "Default"
+                SFX: "Default",
+                ImageId: null
             );
             return statusEffectConfig;
         }

@@ -54,7 +54,8 @@ namespace lvalonmima.SE
                 RelativeEffects: new List<string>() { nameof(karmanationdef.karmanation), nameof(grudgetoldef.grudgetol) },
                 VFX: "Default",
                 VFXloop: "Default",
-                SFX: "Default"
+                SFX: "Default",
+                ImageId: null
             );
             return statusEffectConfig;
         }

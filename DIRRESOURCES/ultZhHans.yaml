@@ -1,0 +1,10 @@
+ulta:
+  Title: '魔符'
+  Content: '万华镜「喧闹之物」'
+  Description: '失去 {hplosing} 点生命。对随机敌人造成 {Damage} 点伤害 {Value2} 次。
+
+  |精准|'
+ultb:
+  Title: '怨符'
+  Content: '重叠的邪恶气场'
+  Description: '失去 {hplosing} 点生命。'
