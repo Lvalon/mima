@@ -1,0 +1,18 @@
+exmimaa:
+  Name: Reincarnation
+  Description: |-
+    Adds {BaseMana} to the mana base. Cards unique to |Mima| are added to the card pool.
+    Cards of all colors are added to the card pool.
+    |Mima| is |Creative|.
+    |Mima| has |Evil Spirit| while in combat.
+    {PlayerName} enters |Transcendence| when {PlayerName}'s |Evil Spirit| life-related effects trigger.
+
+exmimab:
+  Name: Down Abyssmal
+  Description: |-
+    Adds {BaseMana} to the mana base. Cards unique to |Mima| are added to the card pool.
+    Cards of all colors are added to the card pool.
+    |Mima| is |Creative|.
+    |Mima| has |Evil Spirit| while in combat.
+    |Evil Spirit|'s |Block| and |Barrier| to damage conversion cap is halved. 
+    When {PlayerName}'s |Evil Spirit| life-related effects would trigger, {PlayerName} enters the |Abyss|, has the life-related effects delayed to the end of round, and will not be defeated until then.

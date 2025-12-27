@@ -1,0 +1,16 @@
+ultmimaa:
+  Title: 魔符
+  Content: "幽幻亂舞"
+  Description: |-
+    對所有單位施加 {Value1} 次|寒冷|。
+    對所有敵人施加 {Value2} 層|中毒|。
+    獲得 {Value2} 層|時域衝擊|。
+
+ultmimab:
+  Title: 淵符
+  Content: "Evil Field"
+  Description: |-
+    失去所有生命值，所有敵人失去等量的生命值，如果{PlayerName}的生命值為 {Value1}，則改為所有敵人失去等於玩家最大生命值的生命值。
+
+exnotgojo:
+  Content: "無量空處"

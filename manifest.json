@@ -1,0 +1,7 @@
+{
+  "name": "Mima",
+  "version_number": "0.1.1",
+  "website_url": "",
+  "description": "Adds Mima to the game.",
+  "dependencies": [ "BepInEx-BepInExPack-5.4.2100", "TeamNeo-Sideloader-0.5.0"]
+}

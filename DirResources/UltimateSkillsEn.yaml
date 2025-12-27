@@ -1,0 +1,16 @@
+ultmimaa:
+  Title: Magic Sign
+  Content: "Spectral Boisterous Dance"
+  Description: |-
+    Apply |Cold| to everyone {Value1} time{Value1:plural one='' other='s'}.
+    Apply {Value2} |Poison| to each enemy.
+    Gain {Value2} |Time Pulse|.
+
+ultmimab:
+  Title: Void Sign
+  Content: "Evil Field"
+  Description: |-
+    Lose all life, all enemies lose that much life, if {PlayerName}'s life is {Value1}, all enemies lose life equal to {PlayerName}'s maximum life instead.
+
+exnotgojo:
+  Content: "Infinite Void"

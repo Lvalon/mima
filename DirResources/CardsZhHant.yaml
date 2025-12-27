@@ -1,0 +1,375 @@
+cardmimaa:
+  Name: 法力球
+  Description: 造成 {Damage} 點傷害。
+
+cardmimab:
+  Name: 深淵射線
+  Description: 造成 {Damage} 點傷害。
+
+cardpurediamond:
+  Name: 純潔鑽石
+  Description: "|進入手中時|：|放逐|{SelfName}。\n|被放逐時|：獲得{Mana}，對所有單位造成 {Value1} 點傷害。"
+
+cardmimaexa:
+  Name: 鳳凰檔案
+  Description: "|戰鬥開始時|：打出戰場裡所有的|能力|牌。"
+  DetailText: "{SelfName}會在擁有展品|轉生|的|魅魔|最大生命值少於 {Value1} 時加入牌庫。"
+
+cardmimaexb:
+  Name: 深淵重構
+  Description: "|戰鬥開始時|：|打出|{SelfName}。\n擁有|淨化|的非|基礎|牌被打出時會被再次打出。\n進入|深淵|。"
+  DetailText: "{SelfName}會在擁有展品|深入深淵|的|魅魔|生命值少於 {Value1} 時加入牌庫。"
+
+#cardmimaexb:
+#  Name: 深淵重構
+#  Description: "|戰鬥開始時|：|打出|{SelfName}，|淨化|所有牌，進入|深淵|。"
+#  DetailText: "{SelfName}會在擁有展品|深入深淵|的|魅魔|生命值少於 {Value1} 時加入牌庫。"
+
+cardwraitsoth:
+  Name: 天魔的釋放
+  Description: "獲得 {Value2} 層|魔爆|。\n|魔爆|不再在觸發時消耗層數。\n每當|魔爆|被觸發時，從手牌、抽牌堆和棄牌堆中選擇至多 {Value1} 張牌|淨化|。\n如果生效時|< 25%|{hp25ns}：被選擇的牌也將被移入手中。"
+
+cardrpolarity:
+  Name: 兩極反轉
+  Description: "本場戰鬥中，{PlayerName}獲得的所有{Mana}都轉化為{Mana2}。\n賦予|戰場|中所有沒|放逐|的牌|放逐|，其他牌則失去|放逐|。"
+
+cardalgophobia:
+  Name: 疼痛恐懼症
+  Description: "{PlayerName}每次失去生命時，失去 {Value1} 點生命值"
+  UpgradedDescription: "{PlayerName}每次失去生命時，失去 {Value1} 點生命值，對所有敵人施加 {Value1} 層|中毒|。"
+  DetailText: "笑死 根本不會自己無限"
+
+cardperlereino:
+  Name: 轉生至珍珠世界
+  Description: "|超然物外|效果也會在打出卡牌時觸發。\n進入|超然物外|。"
+  UpgradedDescription: "|超然物外|效果也會在打出卡牌時觸發。\n進入|超然物外|。\n當累計失去 {Value2}% 的生命值時，獲得戰鬥勝利。"
+
+cardmicrocosmos:
+  Name: 微小宇宙
+  Description: "結束{PlayerName}的回合，獲得一個額外的回合。\n這個回合中，只能打出|技能|牌，每打出一張牌，獲得 |n:1| 點|暫得火力|，|魔爆|和|充能|。\n如果打出時|< 50%|{hp50ns}：該回合開始時，進入|深淵|。"
+  UpgradedDescription: "結束{PlayerName}的回合，獲得一個額外的回合。\n這個回合開始時，進入|深淵|。\n這個回合中，只能打出|技能|牌，每打出一張牌，獲得 |n:1| 點|暫得火力|，|魔爆|和|充能|。\n如果打出時|< 50%|{hp50ns}：該回合開始時，再次進入|深淵|。"
+
+carddawntime:
+  Name: 時之黎明
+  Description: "結束{PlayerName}的回合，獲得一個額外的回合。\n這個回合中，{PlayerName}不能使任何單位失去生命，卡牌的費用為{Mana}，不能抽牌或獲得法力。\n這個回合開始時，將所有手牌移出戰鬥，將隨機 {Value1} 張{PlayerName}牌加入手中，這些牌具有|放逐|和|虛無|。\n如果打出時|< 10%|{hp10ns}：移除該回合的所有限制。"
+  DetailText: "|e:備選牌|無視法力數量和顏色限制。\n不能獲得{SelfName}。\n{SelfName}不會在戰鬥中被隨機獲得，不能成為複製效果的對象。"
+
+cardtable:
+  Name: 攤牌
+  Description: "將隨機的技能牌加入手中，直到手牌到達上限。\n這些牌的費用|暫時降低| {Value1} 點隨機的法力，具有|放逐|和|虛無|。"
+  UpgradedDescription: "將隨機的技能牌加入手中，直到手牌到達上限。\n這些牌的費用|暫時降低| {Value1} 點隨機的法力，具有|放逐|和|虛無|。\n進入|超然物外|。"
+
+cardchannelling:
+  Description: "失去 {Value1} 點生命值。\n獲得 {Value2} 層|時域衝擊|。"
+  Name: 通靈時間流
+
+cardmountain:
+  Description: "將 {Value1} 張|純淨鑽石|洗入抽牌堆。"
+  Name: 純潔的鑽石山
+
+carderosion:
+  Description: "失去 {Value1} 點生命值。\n對所有敵人施加 {Value2} 層|中毒|。"
+  Name: 靈魂侵蝕
+
+cardremini:
+  Name: 懷舊魔法書
+  Description: "從 {Value2} 張非稀有的{PlayerName}技能牌中選擇 {Value1} 張加入手中。\n如果|< 50%|{hp50ns}：可以多選 {Value1} 張。"
+  DetailText: "不能找到{SelfName}。"
+
+cardoncetime:
+  Name: 曾幾何時……
+  Description: "|戰鬥開始時|：|放逐|{SelfName}，對所有敵人施加|寒冷|，|純化| {Value1}。"
+  UpgradedDescription: "|戰鬥開始時|：|放逐|{SelfName}，對所有單位施加|寒冷|，|純化| {Value1}。"
+
+cardmexploit:
+  Name: 法力利用
+  Description: "|每支付{Mana}|：獲得{Mana}。\n|每支付{Mana2}|：對所有敵人施加 {Value1} 層|中毒|。\n|每支付{Mana3}|：將 {Value1} 張|純淨鑽石|洗入抽牌堆。"
+
+cardextrav:
+  Name: 強慾而金滿之壺
+  Description: "失去 {Value1} 點生命值。\n抽 {Value1} 張牌。"
+
+cardenterzone:
+  Name: 進入狀態！
+  Description: "所有手牌的費用|暫時降低| {Value1} 點隨機法力。\n|過載| {Value2}。"
+
+cardwheresleep:
+  Name: 我的歸宿
+  Description: "|戰鬥開始時|：|放逐|{SelfName}，失去 {Value1} 點生命值並將 {Value2} 張|純潔鑽石|洗入抽牌堆。"
+
+cardendlesswalk:
+  Name: 無窮無盡
+  Description: "抽 {Value1} 張牌，|淨化|它。\n|透支| {Value1}。"
+
+cardsharppeak:
+  Name: 銳化鋒芒
+  Description: "|每支付{Mana}|：失去 {Value1} 點生命值，|透支| {Value1}，獲得 {Value2} 層|充能|。"
+
+cardbirdq:
+  Name: 話題裡的小鳥
+  Description: "選擇至多 {Value1} 張手牌|淨化|。\n將 {Value1} 張|純淨鑽石|洗入抽牌堆。\n如果|< 50%|{hp50ns}：洗入多 {Value1} 張|純淨鑽石|。"
+
+cardfromhell:
+  Name: 來自地獄
+  Description: "將 {Value1} 張|純淨鑽石|洗入抽牌堆。\n獲得 {Value10} 層|魔爆|。\n|純化| {Value2}。\n獲得 {Value2} 層|充能|。\n如果|< 50%|{hp50ns}：再次生效。"
+
+cardrewind:
+  Name: 倒退時間
+  Description: "將手牌置於抽牌堆頂。\n結束{PlayerName}的回合，進行一個額外的回合。\n在這個回合的抽牌階段，抽牌改為將棄牌堆頂的牌移入手中。"
+
+cardgrasp:
+  Name: 盡在掌握！
+  Description: "失去 {Value1} 點生命值。\n將抽牌堆和棄牌堆頂的各一張牌|淨化|，移除|已打出|並移回手中。\n如果|< 10%|{hp10ns}：改為從抽牌堆和棄牌堆各選至多 {Value2} 張牌。"
+
+cardstarliege:
+  Name: 輝光的烽火
+  Description: "選擇 {Value1} 張手牌賦予|保留|。\n從|放逐|區選擇一張牌移回手中。\n如果其中一張牌被|放逐|，|放逐|另一張牌。\n將 {Value1} 張|純淨鑽石|洗入抽牌堆。"
+  DetailText: "只有最近被|連結|的一對牌會生效。"
+
+cardstake:
+  Name: 賭上你的靈魂！
+  Description: "從手牌選擇 {Value1} 張牌|放逐|。\n|透支|並獲得等於該牌基礎費用的|充能|。\n從|戰場|中將一張包含該牌包含的顏色的牌移入手中。"
+  UpgradedDescription: "從手牌、抽牌堆和棄牌堆中選擇 {Value1} 張牌|放逐|。\n|透支|並獲得等於該牌基礎費用的|充能|。\n從|戰場|中將一張包含該牌包含的顏色的牌移入手中。"
+
+cardtwelve:
+  Name: 日末之時
+  Description: "|淨化|所有手牌。\n如果|< 50%|{hp50ns}：效果處理後死亡。"
+
+cardnineplus:
+  Name: "9+10"
+  Description: "獲得 {Value2} 層|魔爆|。\n抽 {Value10} 張牌。"
+  UpgradedDescription: "獲得 {Value2} 層|魔爆|。\n抽 {Value10} 張牌。\n抽到每張紅色牌獲得 {Value1} 層|充能|。"
+
+cardmarisaskill:
+  Name: 學徒的成就
+  Description: "從 {Value2} 張|魔理沙|技能牌中選擇 {Value1} 張加入手中，它|暫塑|為{Mana}，具有|放逐|和|虛無|。"
+  DetailText: "|e:備選牌|無視法力數量和顏色限制。"
+
+cardrivalry:
+  Name: 宿敵的割據
+  Description: "從 {Value1} 張{PlayerName}罕見能力牌中選擇 {Value2} 張加入手中，它|暫塑|為{Mana}，具有|虛無|。"
+  DetailText: "|e:備選牌|無視法力數量和顏色限制。"
+
+cardtpartner:
+  Name: 時之夥伴
+  Description: "將 {Value1} 張具有|時間有限|的隨機牌加入手中，它|暫塑|為{Mana}，具有|放逐|和|虛無|。"
+  DetailText: "|e:備選牌|無視法力數量，顏色和所有者限制。\n不會找到{SelfName}。"
+
+cardexistp:
+  Name: 存在的證明
+  Description: "|戰場|中的所有攻擊牌變為|追擊牌|。\n從 {Value2} 張具有|追加攻擊|的牌選擇 {Value1} 張加入手中，它|暫塑|為{Mana}，具有|放逐|和|虛無|。"
+  DetailText: "|e:備選牌|無視法力數量，顏色和所有者限制。\n不能找到{SelfName}。"
+
+cardindomitable:
+  Name: 不屈不撓的惡靈
+  Description: "無效化並記錄這輪內{PlayerName}所有失去的生命值和受到的傷害。\n下輪開始時，失去記錄總和的生命值。\n如果|< 25%|{hp25ns}：效果處理後死亡。"
+
+cardentertainment:
+  Name: 現代娛樂
+  Description: "失去 {Value1} 點生命值。\n獲得 {Value10} 點<sprite=\"Point\" name=\"Gold\">。\n獲得{Mana}。\n將 {Value2} 張|純淨鑽石|洗入抽牌堆。"
+  UpgradedDescription: "失去 {Value1} 點生命值。\n獲得 {Value10} 點<sprite=\"Point\" name=\"Gold\"> 和 {Value10} 點<sprite=\"Point\" name=\"Power\">。\n獲得{Mana}。\n將 {Value2} 張|純淨鑽石|洗入抽牌堆。"
+
+cardshepherdg:
+  Name: 牧羊娃
+  Description: "對所有單位施加|寒冷|。\n{PlayerName}的回合開始時，對所有敵人施加|寒冷|，獲得{Mana}。"
+
+cardutmost:
+  Name: 究極的專注
+  Description: "每當一張牌被打出時，獲得 {Value1} 層|魔爆|。"
+
+cardburstwave:
+  Name: 爆發波函數
+  Description: "{PlayerName}的回合開始時，選擇至多 {Value1} 張手牌|放逐|，獲得等量的|魔爆|和|充能|。"
+  UpgradedDescription: "{PlayerName}的回合開始時，選擇至多 {Value1} 張手牌|放逐|，獲得等量的|魔爆|和|充能|。\n觸發一次此效果。"
+
+cardaccumulate:
+  Name: 積累的幸福
+  Description: "{PlayerName}的回合開始時，獲得{Mana}，|透支| {Value1}，|純化| {Value1}，將 {Value1} 張|純淨鑽石|洗入抽牌堆。\n戰鬥結束時，獲得 {Value2} <sprite=\"Point\" name=\"Gold\">。\n如果生效時|< 25%|{hp25ns}：{SelfName}不會|透支|和|純化|。"
+
+cardbackground:
+  Name: 暗湧的怨恨
+  Description: "擁有|中毒|的敵人被攻擊時，失去 {Value1} 點生命值並造成 {Value1} 點傷害。"
+  UpgradedDescription: "擁有|中毒|的敵人被攻擊時，失去 {Value1} 點生命值並造成 {Value1} 點傷害。\n對所有敵人施加 {Value2} 層|中毒|。"
+
+cardconversion:
+  Name: 深淵轉換
+  Description: "{PlayerName}的回合開始時，失去敵人數量的生命值並獲得等量的|時域衝擊|。\n獲得 {Value2} 層|時域衝擊|。\n如果生效時|< 25%|{hp25ns}：{SelName}打出後和此狀態獲得的|時域衝擊|為雙倍。"
+
+cardentrance:
+  Name: "戲劇性登場"
+  Description: "這場戰鬥內未曾打出過卡牌時費用為{Mana}。\n將 {Value1} 張|純淨鑽石|洗入抽牌堆，獲得 {Value2} 層|時域衝擊|，獲得 {Value2} 層|魔爆|，對所有單位施加|寒冷|和 {Value2} 層|中毒|。"
+
+cardsideload:
+  Name: 側載魔法
+  Description: "每使用 {Value30} 點{Mana}，抽 {Value1} 張牌。\n每使用 {Value30} 點{Mana2}，獲得{Mana2}。"
+  UpgradedDescription: "每使用 {Value30} 點{Mana}，抽 {Value1} 張牌。\n每使用 {Value30} 點{Mana2}，獲得{Mana2}。\n抽 {Value2} 張牌，獲得{Mana2}。"
+
+cardpote:
+  Name: 元素之力
+  Description: "每使用{ManaHHHWU}，|升級|隨機 {Value1} 張手牌並獲得 {Value2} 層|時域衝擊|。\n每使用{ManaUU}，對一名隨機敵人施加|寒冷| {Value1} 次。\n每使用{ManaHHBR}，獲得 {Value1} 層|充能|。\n每使用{ManaR}，獲得 {Value1} 層|魔爆|。\n每使用{ManaHHBG}，對所有敵人施加 {Value1} 層|中毒|。"
+  UpgradedDescription: "每使用{ManaHHHWU}，|升級|隨機 {Value1} 張手牌並獲得 {Value2} 層|時域衝擊|。\n每使用{ManaUU}，對一名隨機敵人施加|寒冷| {Value1} 次。\n每使用{ManaHHBR}，獲得 {Value1} 層|充能|。\n每使用{ManaR}，獲得 {Value1} 層|魔爆|。\n每使用{ManaHHBG}，對所有敵人施加 {Value1} 層|中毒|。\n獲得{Mana}。"
+
+cardextratick:
+  Name: 額外的一刻
+  Description: "{PlayerName}的|自然回合|和其他額外回合結束後，進行一個額外的回合。\n這個回合開始時，進行 {Value2} 次|追加攻擊|，|淨化|隨機 {Value1} 張手牌，然後結束回合。\n如果生效時|< 50%|{hp50ns}：多進行 {Value1} 次|追加攻擊|。"
+
+cardpwave:
+  Name: 貫通寬波
+  Description: "對所有敵人造成 {Damage} 點傷害。每損失 {Value1} 點生命值提升 {Value2} 點傷害。"
+
+cardspeedupshot:
+  Name: "Speed Up + 高速連射"
+  Description: "|回合結束時|：對隨機敵人造成 {Damage} 點傷害並施加 {Value1} 點|中毒|各 {Value2} 次。丟棄{SelfName}。"
+
+cardsuperimpact:
+  Name: 超新星衝擊
+  Description: "造成 {Damage} 點傷害。\n獲得 {svalue} 點|充能|。\n|側載 {svalue}|：失去 {Value1} 點生命值，|退治|時，失去 {Value10} 點生命值，獲得 {Value2} 點<sprite=\"Point\" name=\"Power\">。"
+  ExtraDescription1: "不要|側載 {svalue}|。"
+  ExtraDescription2: '|側載 {svalue}|：失去 {Value1} 點生命值，|退治|時，失去 {Value10} 點生命值，獲得 {Value2} 點<sprite="Point" name="Power">。'
+  DetailText: "|退治|效果在擊敗敵人時優先生效。"
+
+cardphantasmlaser:
+  Name: 幻象激光
+  Description: "失去 {Value1} 點生命值。\n對所有敵人造成 {Damage} 點傷害。\n|退治|時，永久|升級|一張牌。"
+
+cardbiglaser:
+  Name: 巨大激光
+  Description: "失去 {Value1} 點生命值。\n對所有敵人造成 {Damage} 點傷害。\n造成未被阻擋的傷害時，施加等量層數的|中毒|。\n|退治|時，再次生效。"
+
+cardsymmconv:
+  Name: 對稱匯聚
+  Description: "造成 {Damage} 點傷害 {battleatk} 次。\n|成長|：多造成傷害 {Value2} 次。\n|退治|時，失去等於{SelfName}這場戰鬥內被打出的次數的生命值 ({GrowCount})。"
+  NonbattleDescription: "造成 {Damage} 點傷害 {Value2} 次。\n|成長|：多造成傷害 {Value2} 次。\n|退治|時，失去等於{SelfName}這場戰鬥內被打出的次數的生命值。"
+  DetailText: "在{SelfName}的效果處理後才算作被打出。"
+
+cardimplodemagic:
+  Name: 內爆魔法
+  Description: "獲得 {Value1} 層|魔爆|。\n對所有敵人造成 {Damage} 點傷害。\n|側載 {svalue}|：攻擊變為|精準|。"
+  UpgradedDescription: "獲得 {Value1} 層|魔爆|。\n對所有敵人造成 {Damage} 點傷害。\n|退治|時，獲得 {Value2} 點最大生命值。\n|側載 {svalue}|：攻擊變為|精準|並受|魔爆|加成。"
+  ExtraDescription1: "不要|側載 {svalue}|。"
+  ExtraDescription2: "|側載 {svalue}|：攻擊變為|精準|。"
+  UpgradedExtraDescription2: "|側載 {svalue}|：攻擊變為|精準|並受|魔爆|加成。"
+
+cardflameon:
+  Name: 著火
+  Description: "獲得 {Value1} 層|充能|。\n造成 {Damage} 點傷害。\n|退治|時，失去 {Value2} 點生命值，獲得 {Value3} 點<sprite=\"Point\" name=\"Power\">。"
+  UpgradedDescription: "獲得 {Value1} 層|充能|。\n施加 |n:1| 層|易傷|。\n造成 {Damage} 點傷害。\n|退治|時，失去 {Value2} 點生命值，獲得 {Value3} 點<sprite=\"Point\" name=\"Power\">。"
+
+cardomniur:
+  Name: 右上飛來的全方向彈亂射
+  Description: "失去 {Value1} 點生命值。\n|純化| {Value1}。\n對隨機敵人造成 {Damage} 點傷害 {Value2} 次。\n|退治|時，從戰場及牌庫移除{SelfName}，然後將|e:左上|加入牌庫。"
+  UpgradedDescription: "失去 {Value1} 點生命值。\n|純化| {Value1}。\n對隨機敵人造成 {Damage} 點傷害 {Value2} 次。\n|退治|時，從戰場及牌庫移除{SelfName}，然後將|e:左上+|加入牌庫。"
+  DetailText: "{SelfName}不會在戰鬥中被隨機獲得，不能成為複製效果的對象。"
+
+cardomniul:
+  Name: 左上飛來的全方向彈亂射
+  Description: "獲得 {Value1} 層|充能|。\n|純化| {Value1}。\n對隨機敵人造成 {Damage} 點傷害 {Value2} 次。\n|退治|時，從戰場及牌庫移除{SelfName}，然後將|e:左右|加入牌庫。"
+  UpgradedDescription: "獲得 {Value1} 層|充能|。\n|純化| {Value1}。\n對隨機敵人造成 {Damage} 點傷害 {Value2} 次。\n|退治|時，從戰場及牌庫移除{SelfName}，然後將|e:左右+|加入牌庫。"
+
+cardomnilr:
+  Name: 左右飛來的全方向彈亂射
+  Description: "失去 {value3} 點生命值。\n獲得 {value3} 層|充能|。\n對隨機敵人造成 {Damage} 點傷害 {Value2} 次。\n|退治|時，獲得 {Value1} 點最大生命值。"
+
+cardantispirit:
+  Name: 反幽幻彈
+  Description: "施加 {Value1} 層|中毒|。\n|升級|隨機 |n:1| 張手牌。\n進行一次|追加攻擊|。\n如果敵人沒被擊敗，則對另一名敵人再次生效。\n|退治|時，從|放逐|區選擇 |n:1| 張牌，獲得等於其總費用的最大生命值並將其移出戰鬥。"
+  DetailText: "{SelfName}的效果會再次生效最多 |n:2| 次。"
+
+cardbanquet:
+  Name: 混入宴會
+  Description: "進入|平靜|並獲得 {Value1} 回合的|光學迷彩|。\n這輪結束時，離開|平靜|。\n施加 {Value2} 層|中毒|，對每個敵人觸發一次|中毒|傷害。\n|退治|時，失去|光學迷彩|，離開|平靜|，進入|爆發|。"
+  UpgradedDescription: "進入|平靜|並獲得 {Value1} 回合的|光學迷彩|。\n這輪結束時，離開|平靜|。\n對所有敵人施加 {Value2} 層|中毒|，對每個敵人觸發一次|中毒|傷害。\n|退治|時，失去|光學迷彩|，離開|平靜|，進入|爆發|。"
+
+carddpillar:
+  Name: 鑽石方柱
+  Description: "對所有敵人造成 {Damage} 點傷害。\n對所有敵人施加|寒冷|。\n獲得 {Value1} 層|時域衝擊|。\n將 {Value2} 張|純淨鑽石|洗入抽牌堆。\n|退治|時，再次生效。"
+  UpgradedDescription: "對所有敵人造成 {Damage} 點傷害。\n對所有敵人施加|寒冷|。\n獲得 {Value1} 層|時域衝擊|。\n將 {Value2} 張|純淨鑽石|洗入抽牌堆。\n|退治|時，再次生效，失去 {Value1} 點生命值，獲得|寒冷|。"
+
+cardglacier:
+  Name: 冰晶
+  Description: "施加|寒冷|。\n|退治|時，獲得|寒冷|。"
+  UpgradedDescription: "施加|寒冷|。\n|退治|時，獲得|寒冷| {Value1} 次。"
+
+cardmachinegun:
+  Name: 冰柱機關槍
+  Description: "對隨機一名敵人施加|寒冷|。\n對隨機敵人造成 {Damage} 點傷害 {Value1} 次。\n擁有|寒冷|的敵人受到 {Value2} 倍傷害。\n如果|< 50%|{hp50ns}：隨機施加改為對所有敵人施加|寒冷|。"
+  UpgradedDescription: "對隨機一名敵人施加|寒冷|。\n對隨機敵人造成 {Damage} 點傷害 {Value1} 次。\n擁有|寒冷|的敵人受到 {Value2} 倍傷害。\n|退治|時，獲得 {Value4} 點最大生命值。\n如果|< 50%|{hp50ns}：隨機施加改為對所有敵人施加|寒冷|。"
+
+cardicyrose:
+  Name: 冰薔薇
+  Description: "造成 {Damage} 點傷害。\n如果目標擁有|寒冷|，失去 {Value1} 點生命值，施加|寒冷|。\n|退治|時，每有一個擁有|寒冷|的敵人，獲得 {Value2} 點最大生命值。"
+
+cardyukionna:
+  Name: 雪女造訪
+  Description: "失去 {Value1} 點生命值。\n隨機對一名敵人施加|寒冷| {Value1} 次。\n|退治|時，抽 {Value1} 張牌。"
+  UpgradedDescription: "失去 {Value1} 點生命值。\n隨機對一名敵人施加|寒冷| {Value1} 次。\n|退治|時，獲得 {Value2} 點最大生命值，抽 {Value1} 張牌。"
+
+carddoubleit:
+  Name: 加倍，再給...
+  Description: "失去 {Value2} 點生命值。\n目標失去 {Value1} 點生命值。\n加倍並再次生效於這次效果處理內，一個沒被指定的敵人上。\n|退治|時，獲得等於再次生效次數除以 |n:3| 的最大生命值。"
+  UpgradedDescription: "失去 {Value2} 點生命值。\n目標失去 {Value1} 點生命值。\n加倍並再次生效於這次效果處理內，一個沒被指定|兩次|的敵人上。\n|退治|時，獲得等於再次生效次數除以 |n:3| 的最大生命值。"
+  DetailText: "當一名敵人被指定後（升級後則是指定兩次後），{SelfName}不會再指定該敵人。"
+
+cardtruefalse:
+  Name: 真真假假 假假真真
+  Description: "失去 {Value2} 點最大生命值，然後目標的生命值變為目標已損的生命值。{eff1}\n失去其生命值差別的生命值。{eff2}\n將{SelfName}移出戰鬥。"
+  DetailText: "{SelfName}不會在戰鬥中被隨機獲得，不能成為複製效果的對象。"
+
+cardignition:
+  Name: 點燃
+  Description: "對所有敵人施加 {Value1} 層|易傷|.\n獲得 {Value2} 層|充能|和|魔爆|。\n對所有敵人造成等於|魔爆|層數的傷害。\n|退治|時，|側載 {svalue}|：選擇一張手牌，獲得等於其總費用的最大生命值，|放逐|它。"
+  UpgradedDescription: "對所有敵人施加 {Value1} 層|易傷|.\n獲得 {Value2} 層|充能|，|暫得火力|和|魔爆|。\n對所有敵人造成等於|魔爆|層數的傷害。\n|退治|時，|側載 {svalue}|：選擇一張手牌，獲得等於其總費用的最大生命值，|放逐|它。"
+  ExtraDescription1: "不要|側載 {svalue}|。"
+  ExtraDescription2: "|側載 {svalue}|：選擇一張手牌，獲得等於其總費用的最大生命值，|放逐|它。"
+
+cardintoxicated:
+  Name: 酣之毒
+  Description: "對所有擁有|中毒|的敵人造成 {Damage} 點傷害。\n每有一個擁有|中毒|的敵人，獲得 {Value1} 層|中毒|並|升級|隨機 {Value1} 張手牌。\n觸發一次|中毒|傷害。\n|退治|時，永久|升級|一張牌。"
+  UpgradedDescription: "對所有擁有|中毒|的敵人造成 {Damage} 點傷害。\n每有一個擁有|中毒|的敵人，獲得 {Value1} 層|中毒|並|升級|隨機 {Value1} 張手牌。\n觸發一次|中毒|傷害。\n|退治|時，永久|升級|一張牌。"
+
+cardabyssdweller:
+  Name: 深淵的潛伏者
+  Description: "造成 {Damage} 點傷害。\n|退治|時，失去 {Value1} 點生命值，在一回合內，卡牌被放逐後會被移到棄牌堆。"
+
+cardbigbang:
+  Name: 大爆炸
+  Description: "對所有敵人造成 {Damage} 點傷害。\n{PlayerName}進入|超然物外|或|深淵|時，將{SelfName}從棄牌堆洗入抽牌堆。\n|退治|時，|透支| {Value2}。\n如果打出時|< 50%|{hp50ns}：攻擊後進行一次|追加攻擊|。"
+  UpgradedDescription: "對所有敵人造成 {Damage} 點傷害。\n{PlayerName}進入|超然物外|或|深淵|時，將{SelfName}從棄牌堆洗入抽牌堆。\n|退治|時，獲得 {Value1} 點最大生命值，|透支| {Value2}。\n如果打出時|< 50%|{hp50ns}：攻擊後進行一次|追加攻擊|。"
+
+cardsmashpass:
+  Name: 上還是不上
+  Description: "|抉擇|：造成 {Damage} 點傷害並獲得{Mana}；或進行 {Value1} 次|追加攻擊|。\n如果|< 25%|{hp25ns}：|抉擇|改為依次生效|抉擇|選項。\n|退治|時，依次生效|抉擇|的選項，獲得 {Value2} 點最大生命值。"
+  ExtraDescription1: "造成 {Damage} 點傷害並獲得{Mana}。"
+  ExtraDescription2: "進行 {Value1} 次|追加攻擊|。"
+
+cardreckfly:
+  Name: 胡亂飛行
+  Description: "戰場中的一個隨機單位失去 {Value1} 點生命值。\n重複這效果直至有一個單位因此達到 |n:0| 點生命值。\n將{SelfName}移出戰鬥。\n如果效果處理時|< 25%|{hp25ns}：獲得{Mana}。"
+  UpgradedDescription: "戰場中的一個隨機單位失去 {Value1} 點生命值。\n重複這效果直至有一個單位達到 |n:0| 點生命值，然後再有單位因此達到 |n:0| 點生命值。\n將{SelfName}移出戰鬥。\n如果效果處理時|< 25%|{hp25ns}：獲得{Mana}。"
+  DetailText: "|p:可能會產生無限。|\n{SelfName}不會在戰鬥中被隨機獲得，不能成為複製效果的對象。"
+
+cardtwilightspark:
+  Name: 暮光火花
+  Description: "|側載 爆發|：放逐所有手牌，失去所有法力。每失去{Mana}，將傷害提升 {Value2}%，如果基礎傷害乘法力的倍數和|爆發|的傷害倍數{showtext}超過敵人的生命值，擊敗敵人。\n對所有敵人造成 {Damage} 點傷害。\n如果|< 10%|{hp10ns}：選擇|側載 爆發|時不會離開|爆發|。"
+  UpgradedDescription: "獲得 {Value4} 層|充能|。\n|側載 爆發|：放逐所有手牌，失去所有法力。每失去{Mana}，將傷害提升 {Value2}%，如果基礎傷害乘法力的倍數和|爆發|的傷害倍數{showtext}超過敵人的生命值，擊敗敵人。\n對所有敵人造成 {Damage} 點傷害。\n如果|< 10%|{hp10ns}：選擇|側載 爆發|時不會離開|爆發|。"
+  ExtraDescription1: "不要|側載 爆發|。\n如果|< 10%|{hp10ns}：選擇|側載 爆發|時不會離開|爆發|。"
+  ExtraDescription2: "|側載 爆發|：放逐所有手牌，失去所有法力。每失去{Mana}，將傷害提升 {Value2}%，如果基礎傷害乘法力的倍數和|爆發|的傷害倍數{showtext2}超過敵人的生命值，擊敗敵人。\n如果|< 10%|{hp10ns}：選擇|側載 爆發|時不會離開|爆發|。"
+
+cardcdarkness:
+  Name: Complete Darkness
+  Description: "|純化|所有法力。\n對所有敵人造成 {Damage} 點傷害。\n在一輪內，單體攻擊將會指定戰場中的隨機單位。\n將 {SelfName} 移出戰鬥。"
+  UpgradedDescription: "對所有敵人造成 {Damage} 點傷害。\n在一輪內，單體攻擊將會指定戰場中的隨機單位。\n將 {SelfName} 移出戰鬥。"
+  DetailText: "{SelfName}不會在戰鬥中被隨機獲得，不能成為複製效果的對象。"
+
+carddragonslay:
+  Name: 龍斬
+  Description: "失去 {self} 點生命值。\n目標失去 {damage} 點生命值，如果失去的生命值超過目標的生命值，則變為擊敗目標。\n選擇 {Value2} 張手牌|放逐|，|放逐| {Value2} 張後加倍{SelfName}的失去生命值效果。\n將{SelfName}的|已打出|移除並移回手中。"
+  UpgradedDescription: "失去 {self} 點生命值。\n目標失去 {damage} 點生命值，如果失去的生命值超過目標的生命值，則變為擊敗目標。\n選擇 {Value2} 張手牌|放逐|，加倍{SelfName}的失去生命值效果。\n將{SelfName}的|已打出|移除並移回手中。"
+  DetailText: "{SelfName}不會在戰鬥中被隨機獲得，不能成為複製效果的對象。"
+
+cardshinki:
+  Name: 魔界之神神綺
+  Description: "{FriendS}|手牌中|：打出一張牌後，失去 {Value1} 點生命值，升級隨機 {Value1} 張手牌，獲得 {Value1} 點|暫得火力|。\n{FriendP}選擇戰場上一張顏色包含{ManaW}/{ManaB}/{ManaR}的牌移回手中。"
+  ExtraDescription1: "{FriendA}進入|超然物外|和|深淵|。"
+  ExtraDescription3: "{FriendU}獲得|魔界製造|。"
+  DetailText: "|e:備選牌|無視法力數量和顏色限制。\n不能找到{SelfName}。"

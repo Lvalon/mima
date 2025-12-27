@@ -1,0 +1,190 @@
+secreative:
+  Description: "Each non-|Teammate| card can only be played once per turn."
+  Brief: "Each non-|Teammate| card can only be played once per turn."
+  Name: Creative
+  seerror: "Any other spells?"
+
+seused:
+  Description: "This card has already been used this turn."
+  Brief: "This card has already been used this turn."
+  Name: Used
+
+selinked:
+  Description: "This card will be |Exiled| when the card it's been linked to is |Exiled|."
+  Brief: "This card will be |Exiled| when the card it's been linked to is |Exiled|."
+  Name: Linked
+
+seunder:
+  Description: "{PlayerName} has less than X% life."
+  Brief: "{PlayerName} has less than X% life."
+  Name: "< X%"
+
+sesideload:
+  Description: "Could be activated if the Player has at least X |Charge|, consuming that |Charge|."
+  Brief: "Could be activated if the Player has at least X |Charge|, consuming that |Charge|."
+  Name: Sideload X
+
+seevilspirit:
+  Description: "|Block| and |Barrier| gained will deal damage to {OwnerName} instead, each instance caps at {bscap} damage.\nWhen {OwnerName} is defeated, restore to maximum life instead, then each enemy's life and maximum life are reduced by {OwnerName}'s maximum life.\nWhen {OwnerName} defeats herself by card effect, her own Status Effect, Exhibit or by herself, gain |n:1| maximum life, otherwise lose half the maximum life.\nWhen {OwnerName} has less than |n:6| maximum life, lose the game."
+  Brief: "|Block| and |Barrier| gained will deal damage to {OwnerName} instead, each instance caps at {bscap} damage.\nWhen {OwnerName} is defeated, restore to maximum life instead, then each enemy's life and maximum life are reduced by {OwnerName}'s maximum life.\nWhen {OwnerName} defeats herself by card effect, her own Status Effect, Exhibit or by herself, gain |n:1| maximum life, otherwise lose half the maximum life.\nWhen {OwnerName} has less than |n:6| maximum life, lose the game."
+  Name: Evil Spirit
+
+setranscendence:
+  Description: "When {OwnerName} takes damage or loses life, draw |n:1| card and gain {Mana}.\n{SelfName} loses |n:1| Level at the end of each turn."
+  Brief: "When {OwnerName} takes damage or loses life, draw |n:1| cards and gain {Mana}.\n{SelfName} loses |n:1| Level at the end of each turn."
+  Name: Transcendence
+
+seabyss:
+  Description: "When entering, lose |n:1| maximum life.\nWhen entering, leaving the {SelfName} or at the start of turn, gain {Mana}, all cards in hand gain |Pure|, if they already have |Pure|, remove all costs instead.\n{SelfName} loses |n:1| Level at the end of each turn."
+  Brief: "When entering, lose |n:1| maximum life.\nWhen entering, leaving the {SelfName} or at the start of turn, gain {Mana}, all cards in hand gain |Pure|, if they already have |Pure|, remove all costs instead.\n{SelfName} loses |n:1| Level at the end of each turn."
+  Name: Abyss
+
+semburst:
+  Description: "At the end of {OwnerName}'s turn, deal {Count} |Accurate| attack damage to each enemy, then lose {SelfName}."
+  Brief: "At the end of {OwnerName}'s turn, deal |Accurate| attack damage to each enemy, then lose {SelfName}."
+  Name: Magical Burst
+
+semimaexb:
+  Description: "|Pure| non-|Basic| cards played will be played again."
+  Brief: "|Pure| non-|Basic| cards played will be played again."
+  Name: Abyssal Reconstruction
+
+sewraitsoth:
+  Description: "|Magical Burst| is no longer consumed on its activation.\nWhenever |Magical Burst| is activated, choose up to {Level:plural one='1 card' other='% cards'} from the hand, draw and discard pile, {Level:plural one='it gains' other='they gain'} |Pure|, then if |< 25%|, add {Level:plural one='it' other='them'} to the hand."
+  Brief: "|Magical Burst| is no longer consumed on its activation.\nWhenever |Magical Burst| is activated, choose cards from the hand, draw and discard pile, they gain |Pure|, then if |< 25%|, add them to the hand."
+  Name: Unleashing of Wraitsoth
+
+serpolarity:
+  Description: "Convert all {Mana} {PlayerName} would gain to {Mana2}."
+  Brief: "Convert all {Mana} {PlayerName} would gain to {Mana2}."
+  Name: Reversing the Polarity
+
+sealgophobia:
+  Description: "Whenever {PlayerName} loses life, lose {Level} life."
+  Brief: "Whenever {PlayerName} loses life, lose life."
+  Name: Algophobia
+
+sealgophobia2:
+  Description: "Whenever {PlayerName} loses life, apply {Level} |Poison| to each enemy."
+  Brief: "Whenever {PlayerName} loses life, apply |Poison| to each enemy."
+  Name: Algophobia+
+
+seperlereino:
+  Description: "|Transcendence|'s effect also triggers {Level} time{Level:plural one='' other='s'} when a card is played."
+  Brief: "|Transcendence|'s effect also triggers when a card is played."
+  Name: Transmigrating to Perlereino
+
+sefuckyou700:
+  Description: "When {Count}% life is lost, win the battle."
+  Brief: "When |n:700|% life has been lost accumulatively, win the battle."
+  Name: Chain Link 7
+
+semicrocosmos:
+  Description: "Only |Skill| cards can be played, gain |n:1| |Temporary Firepower|, |Magical Burst| and |Charge| whenever a card is played."
+  ExtraDescription: "When {SelfName} resolves, enter the |Abyss| {Level} time{Level:plural one='' other='s'}.\nOnly |Skill| cards can be played, gain |n:1| |Temporary Firepower|, |Magical Burst| and |Charge| whenever a card is played.\n{SelfName} is inactive and will only be removed after the turn it resolves."
+  Name: Micro Cosmos
+
+sedawntime:
+  Description: "{PlayerName} cannot cause any life loss, cards cost {Mana}, cannot gain mana or draw cards this turn.\nIf Level ({Level}) is |n:1|, ignore these restrictions."
+  ExtraDescription: "{PlayerName} cannot cause any life loss, cards cost {Mana}, cannot gain mana or draw cards this turn.\nIf Level ({Level}) is |n:1|, ignore these restrictions.\nWhen {SelfName} resolves, remove all cards in hand from combat, add {Count} random {PlayerName} cards to the hand, they have |Exile| and |Ethereal|.\n{SelfName} is inactive and will only be removed after the turn it resolves."
+  Name: Dawn of TIme
+
+serewind:
+  Description: "During the draw step, put top cards of the discard pile into the hand instead of drawing."
+  ExtraDescription: "During the draw step, put top cards of the discard pile into the hand instead of drawing.\n{SelfName} is inactive and will only be removed after the turn it resolves."
+  Name: Rewind Time
+
+seindomitable:
+  Description: "Negate and record all the life loss and damage {PlayerName} would take during this round.\nAt the start of the next round, lose {Count} life."
+  Brief: "Negate and record all the life loss and damage {PlayerName} would take during this round.\nAt the start of the next round, lose life equal to the recorded sum."
+  Name: Indomitable Evil Spirit
+
+seshepherdg:
+  Description: "At the start of {PlayerName}'s turn, apply |Cold| to each enemy {Level} time{Level:plural one='' other='s'}, gain {Mana}."
+  Brief: "At the start of {PlayerName}'s turn, apply |Cold| to each enemy, gain {Mana}."
+  Name: The Shepherd's Girl
+
+seutmost:
+  Description: "Whenever a card is played, gain {Level} |Magical Burst|."
+  Brief: "Whenever a card is played, gain |Magical Burst|."
+  Name: Utmost Concentration
+
+seburstwave:
+  Description: "At the start of {PlayerName}'s turn, choose up to {Level} card{Level:plural one='' other='s'} in hand to |Exile|, gain that much |Magical Burst| and |Charge|."
+  Brief: "At the start of {PlayerName}'s turn, choose cards in hand to |Exile|, gain that much |Magical Burst| and |Charge|."
+  Name: Burst Wave Function
+
+seaccumulate:
+  Description: "At the start of {PlayerName}'s turn, gain {Mana}, |Overdraft| {Level}, |Purify| {Level}, Add {Level} |Pure Diamond{Level:plural one='' other='s'}| to the draw pile.\nIf |< 25%| during activation: {SelfName} will not |Overdraft| and |Purify|.\nAt the end of combat, gain {Count} <sprite=\"Point\" name=\"Gold\">."
+  Brief: "At the start of {PlayerName}'s turn, gain {Mana}, |Overdraft|, |Purify|, Add |Pure Diamonds| to the draw pile.\nIf |< 25%| during activation: {SelfName} will not |Overdraft| and |Purify|.\nAt the end of combat, gain <sprite=\"Point\" name=\"Gold\">."
+  Name: Accumulated Fortune
+
+sebackground:
+  Description: "Whenever an enemy with |Poison| is attacked, {PlayerName} loses {Level} life and deal {Level} damage to the enemy."
+  Brief: "Whenever an enemy with |Poison| is attacked, lose life and deal damage to the enemy."
+  Name: Background Grudge
+
+seconversion:
+  Description: "At the start of {PlayerName}'s turn, lose life and gain |Time Pulse| equal to {Level} time{Level:plural one='' other='s'} the number of enemies.\nIf |< 25%| during activation: The |Time Pulse| gain from playing {SelfName} and its effects are doubled.."
+  Brief: "At the start of {PlayerName}'s turn, lose life and gain |Time Pulse| equal to the number of enemies.\nIf |< 25%| during activation: The |Time Pulse| gain from playing {SelfName} and its effects are doubled.."
+  Name: Abyss Conversion Lab
+
+secardsideload:
+  Description: "Whenever {Value1} {Mana} is spent, draw {Value2} card{Value2:plural one='' other='s'}."
+  Brief: "Whenever {Value1} {Mana} is spent, draw {Value2} card{Value2:plural one='' other='s'}."
+  Name: Sideloaded Blue
+
+secardsideload2:
+  Description: "Whenever {Value1} {Mana} is spent, gain {Mana2}."
+  Brief: "Whenever {Value1} {Mana} is spent, gain {Mana2}."
+  Name: Sideloaded Green
+
+sepotehhhwu:
+  Description: "Whenever {Mana} is spent, |upgrade| {Value1} random card in hand and gain {Value2} |Time Pulse|."
+  Brief: "Whenever {Mana} is spent, |upgrade| {Value1} random card in hand and gain {Value2} |Time Pulse|."
+  Name: Power of the Timestream
+
+sepoteuu:
+  Description: "Whenever {Mana} is spent, apply |Cold| to a random enemy {Value1} time{Value1:plural one='' other='s'}."
+  Brief: "Whenever {Mana} is spent, apply |Cold| to a random enemy {Value1} time{Value1:plural one='' other='s'}."
+  Name: Power of Ice
+
+sepotehhbr:
+  Description: "Whenever {Mana} is spent, gain {Value1} |Charge|."
+  Brief: "Whenever {Mana} is spent, gain {Value1} |Charge|."
+  Name: Power of Inferno
+
+sepoter:
+  Description: "Whenever {Mana} is spent, gain {Value1} |Magical Burst|."
+  Brief: "Whenever {Mana} is spent, gain {Value1} |Magical Burst|."
+  Name: Power of Magic
+
+sepotehhbg:
+  Description: "Whenever {Mana} is spent, apply {Value1} |Poison| to each enemy."
+  Brief: "Whenever {Mana} is spent, apply {Value1} |Poison| to each enemy."
+  Name: Power of Curse
+
+seextratick:
+  Description: "After the end of {PlayerName}'s |Natural Turn| and after all other extra turns, take an extra turn.\nAt the start of that turn, perform {Count} |Follow-Up Attack{Count:plural one='' other='s'}|, {Level} random card{Level:plural one='' other='s'} in the hand gain{Level:plural one='s' other=''} |Pure|, then end the turn.\nIf |< 50%| during activation: Perform {Level} more |Follow-Up Attack{Level:plural one='' other='s'}|."
+  ExtraDescription: "After the end of {PlayerName}'s |Natural Turn| and after all other extra turns, take an extra turn.\nAt the start of that turn, perform {Count} |Follow-Up Attack{Count:plural one='' other='s'}|, {Level} random card{Level:plural one='' other='s'} in the hand gain{Level:plural one='s' other=''} |Pure|, then end the turn.\nIf |< 50%| during activation: Perform {Level} more |Follow-Up Attack{Level:plural one='' other='s'}|."
+  Name: An Extra Tick in Time
+
+senopeace:
+  Description: "At the end of the round, exit |Serenity|."
+  Brief: "At the end of the round, exit |Serenity|."
+  Name: Infiltration Complete
+
+seabyssdweller:
+  Description: "Cards will be moved to the discard pile after being |Exiled|.\n{SelfName} lasts {Level:plural one='until end of turn' other='for the next % turns'}."
+  Brief: "Cards will be moved to the discard pile after being |Exiled|."
+  Name: Abyss Dwelling
+
+secdarkness:
+  Description: "Single target attacks will target random units on the battlefield.\n{SelfName} loses |n:1| Level at the end of each round."
+  Brief: "Single target attacks will target random units on the battlefield.\n{SelfName} loses |n:1| Level at the end of each round."
+  Name: Complete Darkness
+
+seshinki:
+  Description: "At the start of turn, choose up to {Level} of {Count} non-Common cards to add to the top of the draw pile, they |temporarily cost| {Mana}, have |Replenish|, |Exile| and |Ethereal|.\n|n:Shinki, God of Makai| cannot be produced by this effect."
+  Brief: "At the start of turn, choose up to |n:3| of |n:7| non-Common cards to add to the top of the draw pile, they |temporarily cost| {Mana}, have |Replenish|, |Exile| and |Ethereal|.\n|n:Shinki, God of Makai| cannot be produced by this effect."
+  Name: Makai Creation

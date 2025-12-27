@@ -1,0 +1,189 @@
+secreative:
+  Description: "每张非|同伴|牌一回合只能被打出一次。"
+  Brief: "每张非|同伴|牌一回合只能被打出一次。"
+  Name: 创意
+  seerror: "还有其他法术吗？"
+
+seused:
+  Description: "此卡这轮已被打出。"
+  Brief: "此卡这轮已被打出。"
+  Name: 已打出
+
+selinked:
+  Description: "与此牌|连结|的牌被|放逐|时，|放逐|此牌。"
+  Brief: "与此牌|连结|的牌被|放逐|时，|放逐|此牌。"
+  Name: 连结
+
+seunder:
+  Description: "{PlayerName}的生命值少于 X%。"
+  Brief: "{PlayerName}的生命值少于 X%。"
+  Name: "< X%"
+
+sesideload:
+  Description: "可以消耗 X 层|充能|触发效果。"
+  Brief: "可以消耗 X 层|充能|触发效果。"
+  Name: 侧载 X
+
+seevilspirit:
+  Description: "{OwnerName}获得的|格档|和|护盾|将变为对{OwnerName}造成伤害，單次上限为 {bscap} 点伤害。\n当{OwnerName}被击败时，回满生命值，然后所有敌人的生命值和最大生命值降低{OwnerName}的最大生命值。\n当{OwnerName}以卡牌效果、自身状态、展品或自己击败自己时，获得 |n:1| 点最大生命值，否则失去一半最大生命值。\n当{OwnerName}的最大生命值少于 |n:6| 点时，死亡。"
+  Brief: "{OwnerName}获得的|格档|和|护盾|将变为对{OwnerName}造成伤害，單次上限为 {bscap} 点伤害。\n当{OwnerName}被击败时，回满生命值，然后所有敌人的生命值和最大生命值降低{OwnerName}的最大生命值。\n当{OwnerName}以卡牌效果、自身状态、展品或自己击败自己时，获得 |n:1| 点最大生命值，否则失去一半最大生命值。\n当{OwnerName}的最大生命值少于 |n:6| 点时，死亡。"
+  Name: 恶灵
+
+setranscendence:
+  Description: "当{OwnerName}受到伤害或失去生命时，抽 |n:1| 张牌并获得{Mana}。\n剩余 {Level} 回合。"
+  Brief: "当{OwnerName}受到伤害或失去生命时，抽 |n:1| 张牌并获得{Mana}。\n持续一定的回合数。"
+  Name: 超然物外
+
+seabyss:
+  Description: "进入{SelfName}时，失去 |n:1| 点最大生命值。\n进入，退出{SelfName}或回合开始时，获得{Mana}，|净化|所有手牌，如果它们已经拥有|净化|，则移除所有费用。\n剩余 {Level} 回合。"
+  Brief: "进入{SelfName}时，失去 |n:1| 点最大生命值。\n进入，退出{SelfName}或回合开始时，获得{Mana}，|净化|所有手牌，如果它们已经拥有|净化|，则移除所有费用。\n持续一定的回合数。"
+  Name: 深渊
+
+semburst:
+  Description: "{OwnerName}的回合结束时，对所有敌人造成 {Count} 点|精准|攻击伤害，然后失去{SelfName}。"
+  Brief: "{OwnerName}的回合结束时，对所有敌人造成|精准|攻击伤害，然后失去{SelfName}。"
+  Name: 魔爆
+
+semimaexb:
+  Description: "拥有|净化|的非|基础|牌被打出时会被再次打出。"
+  Brief: "拥有|净化|的非|基础|牌被打出时会被再次打出。"
+  Name: 深渊重构
+
+sewraitsoth:
+  Description: "触发|魔爆|不会再消耗层数。\n每当|魔爆|被触发时，从手牌、抽牌堆和弃牌堆中选择至多 {Level} 张牌|净化|，然后如果|< 25%|，被选择的牌也将被移入手中。"
+  Brief: "触发|魔爆|不会再消耗层数。\n每当|魔爆|被触发时，从手牌、抽牌堆和弃牌堆中选择若干张牌|净化|，然后如果|< 25%|，被选择的牌也将被移入手中。"
+  Name: 天魔的释放
+
+serpolarity:
+  Description: "将{PlayerName}在本场战斗中获得的所有{Mana}转化为{Mana2}。"
+  Brief: "将{PlayerName}在本场战斗中获得的所有{Mana}转化为{Mana2}。"
+  Name: 两极反转
+
+sealgophobia:
+  Description: "{PlayerName}每次失去生命时，失去 {Level} 点生命值。"
+  Brief: "{PlayerName}每次失去生命时，失去生命值。"
+  Name: 疼痛恐惧症
+
+sealgophobia2:
+  Description: "{PlayerName}每次失去生命时，对所有敌人施加 {Level} 层|中毒|。"
+  Brief: "{PlayerName}每次失去生命时，对所有敌人施加|中毒|。"
+  Name: 疼痛恐惧症+
+
+seperlereino:
+  Description: "|超然物外|效果也会在打出卡牌时触发{Level}次。"
+  Brief: "|超然物外|效果也会在打出卡牌时触发。"
+  Name: 转生至珍珠世界
+
+sefuckyou700:
+  Description: "当失去 {Count}% 的生命值时，获得战斗胜利。"
+  Brief: "当累计失去 |n:700|% 的生命值时，获得战斗胜利。"
+  Name: 连锁 7
+
+semicrocosmos:
+  Description: "这个回合中，只能打出|技能|牌，每打出一张牌，获得 |n:1| 点|暂得火力|，|魔爆|和|充能|。"
+  ExtraDescription: "{SelfName}生效时，进入|深渊|{Level}次。\n这个回合中，只能打出|技能|牌，每打出一张牌，获得 |n:1| 点|暂得火力|，|魔爆|和|充能|。\n还未生效；只有在生效的回合结束时才会移除{SelfName}。"
+  Name: 微小宇宙
+
+sedawntime:
+  Description: "这个回合中，{PlayerName}不能使任何单位失去生命，卡牌的费用为{Mana}，不能抽牌或获得法力。\n如果层数 ({Level}) 为 |n:1|，忽略这些限制。"
+  ExtraDescription: "{SelfName}生效时，将所有手牌移出战斗，将随机 {Count} 张{PlayerName}牌加入手中，这些牌具有|放逐|和|虚无|。\n这个回合中，{PlayerName}不能使任何单位失去生命，卡牌的费用为{Mana}，不能抽牌或获得法力。\n如果层数 ({Level}) 为 |n:1|，忽略这些限制。\n还未生效；只有在生效的回合结束时才会移除{SelfName}。"
+  Name: 时之黎明
+
+serewind:
+  Description: "在抽牌阶段，抽牌改为将弃牌堆顶的牌移入手中。"
+  ExtraDescription: "在抽牌阶段，抽牌改为将弃牌堆顶的牌移入手中。\n还未生效；只有在生效的回合结束时才会移除{SelfName}。"
+  Name: 倒退时间
+
+seindomitable:
+  Description: "无效化并记录这轮内{PlayerName}所有失去的生命值和受到的伤害。\n下轮开始时，失去记录总和的生命值。"
+  Brief: "无效化并记录这轮内{PlayerName}所有失去的生命值和受到的伤害。\n下轮开始时，失去记录总和的生命值。"
+  Name: 不屈不挠的恶灵
+
+seshepherdg:
+  Description: "{PlayerName}的回合开始时，对所有敌人施加|寒冷| {Level} 次，获得{Mana}。"
+  Brief: "{PlayerName}的回合开始时，对所有敌人施加|寒冷|，获得{Mana}。"
+  Name: 牧羊娃
+seutmost:
+  Description: "每当一张牌被打出时，获得 {Level} 层|魔爆|。"
+  Brief: "每当一张牌被打出时，获得|魔爆|。"
+  Name: 究极的专注
+
+seburstwave:
+  Description: "{PlayerName}的回合开始时，选择至多 {Level} 张手牌|放逐|，获得等量的|魔爆|和|充能|。"
+  Brief: "{PlayerName}的回合开始时，选择手牌|放逐|，获得等量的|魔爆|和|充能|。"
+  Name: 爆发波函数
+
+seaccumulate:
+  Description: "{PlayerName}的回合开始时，获得{Mana}，|透支| {Level}，|纯化| {Level}，将 {Level} 张|纯净钻石|洗入抽牌堆。\n如果生效时|< 25%|： {SelfName}不会|透支|和|纯化|。\n战斗结束时，获得 {Count} <sprite=\"Point\" name=\"Gold\">。"
+  Brief: "{PlayerName}的回合开始时，获得{Mana}，|透支|，|纯化|，将|纯净钻石|洗入抽牌堆。\n如果生效时|< 25%|： {SelfName}不会|透支|和|纯化|。\n战斗结束时，获得 <sprite=\"Point\" name=\"Gold\">。"
+  Name: 积累的幸福
+
+sebackground:
+  Description: "拥有|中毒|的敌人被攻击时，{PlayerName}失去 {Level} 点生命值并造成 {Level} 点伤害。"
+  Brief: "拥有|中毒|的敌人被攻击时，{PlayerName}失去生命值并造成伤害。"
+  Name: 暗涌的怨恨
+
+seconversion:
+  Description: "{PlayerName}的回合开始时，失去敌人数量乘以 {Level} 的生命值并获得等量的|时域冲击|。\n如果生效时|< 25%|：{SelName}打出后和此状态获得的|时域冲击|为双倍。"
+  Brief: "{PlayerName}的回合开始时，失去敌人数量的生命值并获得等量的|时域冲击|。\n如果生效时|< 25%|：{SelName}打出后和此状态获得的|时域冲击|为双倍。"
+  Name: 深渊转换实验室
+
+secardsideload:
+  Description: "每使用 {Value1} 点{Mana}，抽 {Value2} 张牌。"
+  Brief: "每使用 {Value1} 点{Mana}，抽 {Value2} 张牌。"
+  Name: 蓝色侧载
+
+secardsideload2:
+  Description: "每使用 {Value1} 点{Mana}，获得{Mana2}。"
+  Brief: "每使用 {Value1} 点{Mana}，获得{Mana2}。"
+  Name: 绿色侧载
+
+sepotehhhwu:
+  Description: "每使用{Mana}，|升级|随机 {Value1} 张手牌并获得 {Value2} 层|时域冲击|。"
+  Brief: "每使用{Mana}，|升级|随机 {Value1} 张手牌并获得 {Value2} 层|时域冲击|。"
+  Name: 时域之力
+
+sepoteuu:
+  Description: "每使用{Mana}，对一名随机敌人施加|寒冷| {Value1} 次。"
+  Brief: "每使用{Mana}，对一名随机敌人施加|寒冷| {Value1} 次。"
+  Name: 冰霜之力
+
+sepotehhbr:
+  Description: "每使用{Mana}，获得 {Value1} 层|充能|。"
+  Brief: "每使用{Mana}，获得 {Value1} 层|充能|。"
+  Name: 烈焰之力
+
+sepoter:
+  Description: "每使用{Mana}，获得 {Value1} 层|魔爆|。"
+  Brief: "每使用{Mana}，获得 {Value1} 层|魔爆|。"
+  Name: 魔法之力
+
+sepotehhbg:
+  Description: "每使用{Mana}，对所有敌人施加 {Value1} 层|中毒|。"
+  Brief: "每使用{Mana}，对所有敌人施加 {Value1} 层|中毒|。"
+  Name: 诅咒之力
+
+seextratick:
+  Description: "{PlayerName}的|自然回合|和其他额外回合结束后，进行一个额外的回合。\n这个回合开始时，进行 {Count} 次|追加攻击|，|净化|随机 {Level} 张手牌，然后结束回合。\n如果生效时|< 50%|：多进行 {Level} 次|追加攻击|。"
+  ExtraDescription: "{PlayerName}的|自然回合|和其他额外回合结束后，进行一个额外的回合。\n这个回合开始时，进行 {Count} 次|追加攻击|，|净化|随机 {Level} 张手牌，然后结束回合。\n如果生效时|< 50%|：多进行 {Level} 次|追加攻击|。"
+  Name: 额外的一刻
+
+senopeace:
+  Description: "这轮结束时，离开|平静|。"
+  Brief: "这轮结束时，离开|平静|。"
+  Name: 混入完成
+
+seabyssdweller:
+  Description: "卡牌被放逐后会被移到弃牌堆。\n剩余 {Level} 回合。"
+  Brief: "卡牌被放逐后会被移到弃牌堆。\n持续一定的回合数。"
+  Name: 深渊潜伏中
+
+secdarkness:
+  Description: "单体攻击将会指定战场中的随机单位。\n剩余 {Level} 轮。"
+  Brief: "单体攻击将会指定战场中的随机单位。\n持续一定的轮数。"
+  Name: Complete Darkness
+
+seshinki:
+  Description: "回合开始时，从 {Count} 张非普通牌选择至多 {Level} 张置于抽牌堆顶，它们|暂塑|为{Mana}，具有|填充|、|放逐|、|虚无|。\n不能找到|n:魔界之神神绮|。"
+  Brief: "回合开始时，从 |n:7| 张非普通牌选择至多 |n:3| 张置于抽牌堆顶，它们|暂塑|为{Mana}，具有|填充|、|放逐|、|虚无|。\n不能找到|n:魔界之神神绮|。"
+  Name: 魔界制造

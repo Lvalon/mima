@@ -1,0 +1,375 @@
+cardmimaa:
+  Name: Magic Sphere
+  Description: Deal {Damage} damage.
+
+cardmimab:
+  Name: Void Ray
+  Description: Deal {Damage} damage.
+
+cardpurediamond:
+  Name: Pure Diamond
+  Description: "|When {SelfName} enters the hand|: |Exile| {SelfName}.\n|When {SelfName} is Exiled|: Gain {Mana}, deal {Value1} damage to everyone."
+
+cardmimaexa:
+  Name: The Phoenix Archive
+  Description: "|At the start of combat|: Play all |Abilities| on the battlefield."
+  DetailText: "{SelfName} is added to the library when |Mima| with the |Reincarnation| exhibit has less than {Value1} maximum life."
+
+cardmimaexb:
+  Name: Abyssal Reconstruction
+  Description: "|At the start of combat|: Play {SelfName}.\n|Pure| non-|Basic| cards played will be played again.\nEnter the |Abyss|."
+  DetailText: "{SelfName} is added to the library when |Mima| with the |Down Abyssmal| exhibit has less than {Value1} maximum life."
+
+#cardmimaexb:
+#  Name: Abyssal Reconstruction
+#  Description: "|At the start of combat|: Play {SelfName}, all cards gain |Pure|, enter the |Abyss|."
+#  DetailText: "{SelfName} is added to the library when |Mima| with the |Down Abyssmal| exhibit has less than {Value1} maximum life."
+
+cardwraitsoth:
+  Name: Unleashing of Wraitsoth
+  Description: "Gain {Value2} |Magical Burst|.\n|Magical Burst| is no longer consumed on its activation.\nWhenever |Magical Burst| is activated, choose up to {Value1} card{Value1:plural one='' other='s'} from the hand, draw and discard pile, {Value1:plural one='it gains' other='they gain'} |Pure|.\nIf |< 25%|{hp25bs}during activation: Also add the chosen card{Value1:plural one='' other='s'} to the hand."
+
+cardrpolarity:
+  Name: Reversing the Polarity
+  Description: "Convert all {Mana} {PlayerName} would gain this combat to {Mana2}.\nAll cards on the |battlefield| without |Exile| gains |Exile|, all the other cards lose |Exile|."
+
+cardalgophobia:
+  Name: Algophobia
+  Description: "Whenever {PlayerName} loses life, lose {Value1} life."
+  UpgradedDescription: "Whenever {PlayerName} loses life, lose {Value1} life, apply {Value1} |Poison| to each enemy."
+  DetailText: "no it doesnt cause an infinite loop with itself lmao"
+
+cardperlereino:
+  Name: Transmigrating to Perlereino
+  Description: "|Transcendence|'s effect also triggers when a card is played.\nEnter |Transcendence|."
+  UpgradedDescription: "|Transcendence|'s effect also triggers when a card is played.\nEnter |Transcendence|.\nWhen {Value2}% life has been lost accumulatively, win the battle."
+
+cardmicrocosmos:
+  Name: Micro Cosmos
+  Description: "End {PlayerName}'s turn, then take an extra turn.\nDuring that turn, only |Skill| cards can be played, gain |n:1| |Temporary Firepower|, |Magical Burst| and |Charge| whenever a card is played.\nIf |< 25%|{hp25bs}during play: At the start of that turn, enter the |Abyss|."
+  UpgradedDescription: "End {PlayerName}'s turn, then take an extra turn.\nAt the start of that turn, enter the |Abyss|.\nDuring that turn, only |Skill| cards can be played, gain |n:1| |Temporary Firepower|, |Magical Burst| and |Charge| whenever a card is played.\nIf |< 25%|{hp25bs}during play: At the start of that turn, enter the |Abyss| once more."
+
+carddawntime:
+  Name: At The Dawn of Time
+  Description: "End {PlayerName}'s turn, then take an extra turn.\n{PlayerName} cannot cause any life loss, cards cost {Mana}, cannot gain mana or draw cards that turn.\nAt the start of that turn, remove all cards in hand from combat, add {Value1} random {PlayerName} cards to the hand, they have |Exile| and |Ethereal|.\nIf |< 10%|{hp10bs}during play: Remove all restrictions during that turn."
+  DetailText: "These |e:alternate cards| ignore total mana and mana color restrictions.\n{SelfName} cannot be produced by this effect.\n{SelfName} cannot be randomly generated in combat, and cannot be copied."
+
+cardtable:
+  Name: Cards on the Table
+  Description: "Add random skill cards to the hand until the hand is full.\nThey |temporarily cost| {Value1} random mana less, has |Exile| and |Ethereal|."
+  UpgradedDescription: "Add random skill cards to the hand until the hand is full.\nThey |temporarily cost| {Value1} random mana less, has |Exile| and |Ethereal|.\nEnter |Transcendence|."
+
+cardchannelling:
+  Name: Channelling the Timestream
+  Description: "Lose {Value1} life.\nGain {Value2} |Time Pulse|."
+
+cardmountain:
+  Name: Mountain of Pure Diamond
+  Description: "Add {Value1} |Pure Diamond{Value1:plural one='' other='s'}| to the draw pile."
+
+carderosion:
+  Name: Spiritual Erosion
+  Description: "Lose {Value1} life.\nApply {Value2} |Poison| to each enemy."
+
+cardremini:
+  Name: Spellbook of Reminiscence
+  Description: "Choose {Value1} of {Value2} non-Rare {PlayerName} skill card{Value2:plural one='' other='s'} to add to the hand.\nIf |< 50%|{hp50ns}: Choose up to {Value1} more."
+  DetailText: "{SelfName} cannot be produced by this effect."
+
+cardoncetime:
+  Name: Once Upon A Time...
+  Description: "|At the start of combat|: |Exile| {SelfName}, apply |Cold| to each enemy, |Purify| {Value1}."
+  UpgradedDescription: "|At the start of combat|: |Exile| {SelfName}, apply |Cold| to everyone, |Purify| {Value1}."
+
+cardmexploit:
+  Name: Mana Exploit
+  Description: "|For each {Mana} spent|: Gain {Mana}.\n|For each {Mana2} spent|: Apply {Value1} |Poison| to each enemy.\n|For each {Mana3} spent|: Add {Value1} |Pure Diamond| to the draw pile."
+
+cardextrav:
+  Name: Spell of Extravagance
+  Description: "Lose {Value1} life.\nDraw {Value1} card{Value1:plural one='' other='s'}."
+
+cardenterzone:
+  Name: Entering The Zone!
+  Description: "All cards in hand |temporarily cost| {Value1} random mana less.\n|Overdraft| {Value2}."
+
+cardwheresleep:
+  Name: Where I Reside
+  Description: "|At the start of combat|: |Exile| {SelfName}, lose {Value1} life and add {Value2} |Pure Diamond{Value2:plural one='' other='s'}| into the draw pile."
+
+cardendlesswalk:
+  Name: Endless Walkthrough
+  Description: "Draw {Value1} card{Value1:plural one='' other='s'}, the card{Value1:plural one='' other='s'} drawn this way gain{Value1:plural one='s' other=''} |Pure|.\n|Overdraft| {Value1}."
+
+cardsharppeak:
+  Name: Sharpen the Peak
+  Description: "|For each {Mana} spent|: Lose {Value1} life, |Overdraft| {Value1}, gain {Value2} |Charge|."
+
+cardbirdq:
+  Name: The Bird in Question
+  Description: "Choose up to {Value1} card{Value1:plural one='' other='s'} in the hand, {Value1:plural one='it gains' other='they gain'} |Pure|.\nAdd {Value1} |Pure Diamond{Value1:plural one='' other='s'}| into the draw pile.\nIf |< 50%|{hp50ns}: Add {Value1} more |Pure Diamond{Value1:plural one='' other='s'}|."
+
+cardfromhell:
+  Name: From Hell
+  Description: "Add {Value1} |Pure Diamond{Value1:plural one='' other='s'}| into the draw pile.\nGain {Value10} |Magical Burst|.\n|Purify| {Value2}.\nGain {Value2} |Charge|.\nIf |< 25%|{hp25ns}: Repeat these effects."
+
+cardrewind:
+  Name: It's Rewind Time
+  Description: "Put the hand on top of the draw pile.\nEnd {PlayerName}'s turn. Then, take an extra turn.\nDuring that turn's draw step, put top cards of the discard pile into the hand instead of drawing."
+
+cardgrasp:
+  Name: Within My Grasp!
+  Description: "Lose {Value1} Life.\nPut the top card of the draw and discard piles into the hand.\nThey gain |Pure| and lose |Used|.\nIf |< 10%|{hp10ns}: Choose at most {Value2} card{Value2:plural one='' other='s'} from each of the draw and discard piles instead."
+
+cardstarliege:
+  Name: Starliege Beacon
+  Description: "Choose {Value1} card{Value1:plural one='' other='s'} in the hand, {Value1:plural one='it gains' other='they gain'} |Retain|.\nReturn a card from |Exile| to the hand.\nIf either card is |Exiled|, |Exile| the other.\nAdd {Value1} |Pure Diamond{Value1:plural one='' other='s'}| to the draw pile."
+  DetailText: "Only the most recently |linked| pair of cards will be active."
+
+cardstake:
+  Name: Stake Your Spirit!
+  Description: "Choose {Value1} card in the hand, |Exile| it.\n|Overdraft| and gain |Charge| equal to that card's total cost.\nPut a card with a shared color as that card's color from the |battlefield| into the hand."
+  UpgradedDescription: "Choose {Value1} card in the hand, draw pile or discard pile, |Exile| it.\n|Overdraft| and gain |Charge| equal to that card's total cost.\nPut a card with a shared color as that card's color from the |battlefield| into the hand."
+
+cardtwelve:
+  Name: Clock Strikes Twelve
+  Description: "All cards in hand gain |Pure|.\nIf |< 50%|{hp50ns}: Lose the game."
+
+cardnineplus:
+  Name: "9+10"
+  Description: "Gain {Value2} |Magical Burst|.\nDraw {Value10} cards."
+  UpgradedDescription: "Gain {Value2} |Magical Burst|.\nDraw {Value10} cards. Gain {Value1} |Charge| for each red card drawn this way."
+
+cardmarisaskill:
+  Name: Achievements of the Apprentice
+  Description: "Choose up to {Value1} of {Value2} |Marisa| skill card{Value2:plural one='' other='s'} to add to the hand.\n{Value1:plural one='It' other='They'} |temporarily cost{Value1:plural one='s' other=''}| {Mana} and {Value1:plural one='has' other='have'} |Exile| and |Ethereal|."
+  DetailText: "These |e:alternate cards| ignore total mana and mana color restrictions."
+
+cardrivalry:
+  Name: Rivalry of Sworn Enemies
+  Description: "Choose {Value2} of {Value1} Uncommon {PlayerName} ability card{Value1:plural one='' other='s'} to add to the hand.\n{Value2:plural one='It' other='They'} |temporarily cost{Value2:plural one='s' other=''}| {Mana} and has |Ethereal|."
+  DetailText: "These |e:alternate cards| ignore total mana and mana color restrictions."
+
+cardtpartner:
+  Name: Partners In Time
+  Description: "Add {Value1} random card with |Time Limit| to the hand.\nIt |temporarily costs| {Mana} and has |Exile| and |Ethereal|."
+  DetailText: "These |e:alternate cards| ignore total mana, mana color and character restrictions.\n{SelfName} cannot be produced by this effect."
+
+cardexistp:
+  Name: Proof of Existence
+  Description: "All attack cards on the |battlefield| become |Follow-Up Cards|.\nChoose {Value1} of {Value2} cards with |Follow-Up Attack| to add to the hand.\nIt |temporarily costs| {Mana} and has |Exile| and |Ethereal|."
+  DetailText: "These |e:alternate cards| ignore total mana, mana color and character restrictions.\n{SelfName} cannot be produced by this effect."
+
+cardindomitable:
+  Name: Indomitable Evil Spirit
+  Description: "Negate and record all the life loss and damage {PlayerName} would take during this round.\nAt the start of the next round, lose life equal to the recorded sum.\nIf |< 25%|{hp25ns}: Lose the game."
+
+cardentertainment:
+  Name: Modern Entertainment
+  Description: "Lose {Value1} life.\nGain {Value10} <sprite=\"Point\" name=\"Gold\">.\nGain {Mana}.\nAdd {Value2} |Pure Diamond{Value2:plural one='' other='s'}| to the draw pile."
+  UpgradedDescription: "Lose {Value1} life.\nGain {Value10} <sprite=\"Point\" name=\"Gold\"> and {Value10} <sprite=\"Point\" name=\"Power\">.\nGain {Mana}.\nAdd {Value2} |Pure Diamond{Value2:plural one='' other='s'}| to the draw pile."
+
+cardshepherdg:
+  Name: The Shepherd's Girl
+  Description: "Apply |Cold| to everyone.\nAt the start of {PlayerName}'s turn, apply |Cold| to each enemy, gain {Mana}."
+
+cardutmost:
+  Name: Utmost Concentration
+  Description: "Whenever a card is played, gain {Value1} |Magical Burst|."
+
+cardburstwave:
+  Name: Burst Wave Function
+  Description: "At the start of {PlayerName}'s turn, choose up to {Value1} card{Value1:plural one='' other='s'} in hand to |Exile|, gain that much |Magical Burst| and |Charge|."
+  UpgradedDescription: "At the start of {PlayerName}'s turn, choose up to {Value1} card{Value1:plural one='' other='s'} in hand to |Exile|, gain that much |Magical Burst| and |Charge|.\nTrigger this effect once."
+
+cardaccumulate:
+  Name: Accumulated Fortune
+  Description: "At the start of {PlayerName}'s turn, gain {Mana}, |Overdraft| {Value1}, |Purify| {Value1}, Add {Value1} |Pure Diamond{Value1:plural one='' other='s'}| to the draw pile.\nAt the end of combat, gain {Value2} <sprite=\"Point\" name=\"Gold\">.\nIf |< 25%|{hp25bs}during activation: {SelfName} will not |Overdraft| and |Purify|."
+
+cardbackground:
+  Name: Background Grudge
+  Description: "Whenever an enemy with |Poison| is attacked, lose {Value1} life and deal {Value1} damage to the enemy."
+  UpgradedDescription: "Whenever an enemy with |Poison| is attacked, lose {Value1} life and deal {Value1} damage to the enemy.\nApply {Value2} |Poison| to each enemy."
+
+cardconversion:
+  Name: Abyss Conversion
+  Description: "At the start of {PlayerName}'s turn, lose life and gain |Time Pulse| equal to the number of enemies.\nGain {Value2} |Time Pulse|.\nIf |< 25%|{hp25bs}during activation: The |Time Pulse| gain from playing {SelfName} and its effects are doubled.."
+
+cardentrance:
+  Name: "Dramatic Entrance"
+  Description: "{SelfName} costs {Mana} to play if no cards have been played this combat.\nAdd {Value1} |Pure Diamond{Value1:plural one='' other='s'}| to the draw pile, gain {Value2} |Time Pulse|, gain {Value2} |Magical Burst|, apply |Cold| and {Value2} |Poison| to everyone."
+
+cardsideload:
+  Name: Sideloading Magic
+  Description: "Whenever {Value30} {Mana} is spent, draw {Value1} card.\nWhenever {Value30} {Mana2} is spent, gain {Mana2}."
+  UpgradedDescription: "Whenever {Value30} {Mana} is spent, draw {Value1} card.\nWhenever {Value30} {Mana2} is spent, gain {Mana2}.\nDraw {Value2} card{Value2:plural one='' other='s'}, gain {Mana2}."
+
+cardpote:
+  Name: Power of the Elements
+  Description: "Whenever {ManaHHHWU} is spent, |Upgrade| {Value1} random card in hand and gain {Value2} |Time Pulse|.\nWhenever {ManaUU} is spent, apply |Cold| to a random enemy {Value1} time{Value1:plural one='' other='s'}.\nWhenever {ManaHHBR} is spent, gain {Value1} |Charge|.\nWhenever {ManaR} is spent, gain {Value1} |Magical Burst|.\nWhenever {ManaHHBG} is spent, apply {Value1} |Poison| to each enemy."
+  UpgradedDescription: "Whenever {ManaHHHWU} is spent, |Upgrade| {Value1} random card in hand and gain {Value2} |Time Pulse|.\nWhenever {ManaUU} is spent, apply |Cold| to a random enemy {Value1} time{Value1:plural one='' other='s'}.\nWhenever {ManaHHBR} is spent, gain {Value1} |Charge|.\nWhenever {ManaR} is spent, gain {Value1} |Magical Burst|.\nWhenever {ManaHHBG} is spent, apply {Value1} |Poison| to each enemy.\nGain {Mana}."
+
+cardextratick:
+  Name: An Extra Tick in Time
+  Description: "After the end of {PlayerName}'s |Natural Turn| and all other extra turns, take an extra turn.\nAt the start of that turn, perform {Value2} |Follow-Up Attack{Value2:plural one='' other='s'}|, {Value1} random card{Value1:plural one='' other='s'} in the hand gain{Value1:plural one='s' other=''} |Pure|, then end the turn.\nIf |< 50%|{hp50bs}during activation: Perform {Value1} more |Follow-Up Attack{Value1:plural one='' other='s'}|."
+
+cardpwave:
+  Name: Piercing Wide Wave
+  Description: "Deal {Damage} damage to each enemy. Damage is increased by {Value2} for every {Value1} life lost."
+
+cardspeedupshot:
+  Name: Speed Up Rapidfire Shot
+  Description: "|At the end of turn|: Both deal {Damage} damage and apply {Value1} |Poison| to a random enemy {Value2} time{Value2:plural one='' other='s'}. Discard {SelfName}."
+
+cardsuperimpact:
+  Name: Supernova Impact
+  Description: "Deal {Damage} damage.\nGain {svalue} |Charge|.\n|Sideload {svalue}|: Lose {Value1} life, on |Expel|, Lose {Value10} life, gain {Value2} <sprite=\"Point\" name=\"Power\">."
+  ExtraDescription1: "Don't |Sideload {svalue}|."
+  ExtraDescription2: '|Sideload {svalue}|: Lose {Value1} life, on |Expel|, Lose {Value10} life, gain {Value2} <sprite="Point" name="Power">.'
+  DetailText: "The |Expel| effect will be resolved first when an enemy has been defeated."
+
+cardphantasmlaser:
+  Name: Phantasm Lasers
+  Description: "Lose {Value1} life.\nDeal {Damage} damage to each enemy.\n|Expel|: Permanently |Upgrade| a card."
+
+cardbiglaser:
+  Name: Greater Laser
+  Description: "Lose {Value1} life.\nDeal {Damage} damage to each enemy.\nApply |Poison| equal to unblocked damage dealt.\n|Expel|: Repeat these effects."
+
+cardsymmconv:
+  Name: Symmetrical Convergence
+  Description: "Deal {Damage} damage {battleatk} time{battleatk:plural one='' other='s'}.\n|Growth|: Deal damage {Value2} more time{Value2:plural one='' other='s'}.\n|Expel|: Lose life equal to number of times {SelfName} has been played this combat ({GrowCount})."
+  NonbattleDescription: "Deal {Damage} damage {Value2} time{Value2:plural one='' other='s'}.\n|Growth|: Deal damage {Value2} more time{Value2:plural one='' other='s'}.\n|Expel|: Lose life equal to number of times {SelfName} has been played this combat."
+  DetailText: "{SelfName} is considered played after its effects resolve."
+
+cardimplodemagic:
+  Name: Imploding Magic
+  Description: "Gain {Value1} |Magical Burst|.\nDeal {Damage} damage to each enemy.\n|Sideload {svalue}|: The attack becomes |Accurate|."
+  UpgradedDescription: "Gain {Value1} |Magical Burst|.\nDeal {Damage} damage to each enemy.\n|Expel|: Gain {Value2} maximum life.\n|Sideload {svalue}|: The attack becomes |Accurate| and is affected by |Magical Burst|."
+  ExtraDescription1: "Don't |Sideload {svalue}|."
+  ExtraDescription2: "|Sideload {svalue}|: The attack becomes |Accurate|."
+  UpgradedExtraDescription2: "|Sideload {svalue}|: The attack becomes |Accurate| and is affected by |Magical Burst|."
+
+cardflameon:
+  Name: Flame On
+  Description: "Gain {Value1} |Charge|.\nDeal {Damage} damage.\n|Expel|: Lose {Value2} life, gain {Value3} <sprite=\"Point\" name=\"Power\">."
+  UpgradedDescription: "Gain {Value1} |Charge|.\nApply |n:1| |Vulnerable|.\nDeal {Damage} damage.\n|Expel|: Lose {Value2} life, gain {Value3} <sprite=\"Point\" name=\"Power\">."
+
+cardomniur:
+  Name: Omnidirectional Random Shot (UR)
+  Description: "Lose {Value1} life.\n|Purify| {Value1}.\nDeal {Damage} damage to a random enemy {Value2} times.\n|Expel|: Remove {SelfName} from the battlefield and the library, then add |e:UL| to the library."
+  UpgradedDescription: "Lose {Value1} life.\n|Purify| {Value1}.\nDeal {Damage} damage to a random enemy {Value2} times.\n|Expel|: Remove {SelfName} from the battlefield and the library, then add |e:UL+| to the library."
+  DetailText: "{SelfName} cannot be randomly generated in combat, and cannot be copied."
+
+cardomniul:
+  Name: Omnidirectional Random Shot (UL)
+  Description: "Gain {Value1} |Charge|.\n|Purify| {Value1}.\nDeal {Damage} damage to a random enemy {Value2} times.\n|Expel|: Remove {SelfName} from the battlefield and the library, then add |e:LR| to the library."
+  UpgradedDescription: "Gain {Value1} |Charge|.\n|Purify| {Value1}.\nDeal {Damage} damage to a random enemy {Value2} times.\n|Expel|: Remove {SelfName} from the battlefield and the library, then add |e:LR+| to the library."
+
+cardomnilr:
+  Name: Omnidirectional Random Shot (LR)
+  Description: "Lose {value3} life.\nGain {value3} |Charge|.\nDeal {Damage} damage to a random enemy {Value2} times.\n|Expel|: Gain {Value1} maximum life."
+
+cardantispirit:
+  Name: Anti-Spirit Illusion Shot
+  Description: "Apply {Value1} |Poison|.\n|Upgrade| |n:1| random card in the hand.\nPerform a |Follow-Up Attack|.\nActivate on another enemy again if the enemy is not defeated.\n|Expel|: Choose |n:1| card from |Exile|, gain maximum life equal to its total cost and remove it from combat."
+  DetailText: "{SelfName}'s effect will be repeated for |n:2| times at most."
+
+cardbanquet:
+  Name: Banquet Infiltration
+  Description: "Enter |Serenity| and gain |Optical Camouflage| for {Value1} turn{Value1:plural one='' other='s'}.\nAt the end of round, exit |Serenity|.\nApply {Value2} |Poison|, trigger each enemy's |Poison| life loss effect once.\n|Expel|: Lose |Optical Camouflage|, exit |Serenity|, enter |Burst|."
+  UpgradedDescription: "Enter |Serenity| and gain |Optical Camouflage| for {Value1} turn{Value1:plural one='' other='s'}.\nAt the end of round, exit |Serenity|.\nApply {Value2} |Poison| to each enemy, trigger each enemy's |Poison| life loss effect once.\n|Expel|: Lose |Optical Camouflage|, exit |Serenity|, enter |Burst|."
+
+carddpillar:
+  Name: Diamond Pillar
+  Description: "Deal {Damage} damage to each enemy.\nApply |Cold| to each enemy.\nGain {Value1} |Time Pulse|.\nAdd {Value2} |Pure Diamond{Value2:plural one='' other='s'}| to the draw pile.\n|Expel|: Repeat these effects."
+  UpgradedDescription: "Deal {Damage} damage to each enemy.\nApply |Cold| to each enemy.\nGain {Value1} |Time Pulse|.\nAdd {Value2} |Pure Diamond{Value2:plural one='' other='s'}| to the draw pile.\n|Expel|: Repeat these effects, lose {Value1} life, gain |Cold|."
+
+cardglacier:
+  Name: Glacier
+  Description: "Apply |Cold|.\n|Expel|: Gain |Cold|."
+  UpgradedDescription: "Apply |Cold| to each enemy.\n|Expel|: Gain |Cold| {Value1} time{Value1:plural one='' other='s'}."
+
+cardmachinegun:
+  Name: Icicle Machine Gun
+  Description: "Apply |Cold| to a random enemy.\nDeal {Damage} damage to a random enemy {Value1} times.\nEnemies with |Cold| takes {Value2} time{Value2:plural one='' other='s'} that damage.\nIf |< 50%|{hp50ns}: Apply |Cold| to each enemy instead of applying randomly."
+  UpgradedDescription: "Apply |Cold| to a random enemy.\nDeal {Damage} damage to a random enemy {Value1} times.\nEnemies with |Cold| takes {Value2} time{Value2:plural one='' other='s'} that damage.\n|Expel|: Gain {Value4} maximum life.\nIf |< 50%|{hp50ns}: Apply |Cold| to each enemy instead of applying randomly."
+
+cardicyrose:
+  Name: Icy Rose
+  Description: "Deal {Damage} damage.\nIf the target has |Cold|, lose {Value1} life, apply |Cold|.\n|Expel|: For each enemy with |Cold|, gain {Value2} maximum life."
+
+cardyukionna:
+  Name: Yuki-Onna Visitation
+  Description: "Lose {Value1} life.\nApply |Cold| to a random enemy {Value1} time{Value1:plural one='' other='s'}.\n|Expel|: Draw {Value1} card{Value1:plural one='' other='s'}."
+  UpgradedDescription: "Lose {Value1} life.\nApply |Cold| to a random enemy {Value1} time{Value1:plural one='' other='s'}.\n|Expel|: Gain {Value2} maximum life, draw {Value1} card{Value1:plural one='' other='s'}."
+
+carddoubleit:
+  Name: Double It and...
+  Description: "Lose {Value2} life.\nThe target loses {Value1} life.\nDouble and repeat the life loss on an enemy that has not been targeted during this effect's resolution.\n|Expel|: Gain maximum life equal to the repeated times divided by |n:3|."
+  UpgradedDescription: "Lose {Value2} life.\nThe target loses {Value1} life.\nDouble and repeat the life loss on an enemy that has not been targeted |twice| during this effect's resolution.\n|Expel|: Gain maximum life equal to the repeated times divided by |n:3|."
+  DetailText: "After an enemy has been targeted (twice on upgrade), the card will no longer target it."
+
+cardtruefalse:
+  Name: It's All Real and Not
+  Description: "Lose {Value2} maximum life, then the target's life becomes the target's life lost.{eff1}\nLose life equal to the difference of the life before and life now.{eff2}\nRemove {SelfName} from combat."
+  DetailText: "{SelfName} cannot be randomly generated in combat, and cannot be copied."
+
+cardignition:
+  Name: Ignition
+  Description: "Apply {Value1} |Vulnerable| to each enemy.\nGain {Value2} |Charge| and |Magical Burst|.\nDeal damage to each enemy equal to the |Magical Burst| level.\n|Expel|: |Sideload {svalue}|: Choose a card in the hand, gain maximum life equal to its total cost, |Exile| it."
+  UpgradedDescription: "Apply {Value1} |Vulnerable| to each enemy.\nGain {Value2} |Charge|, |Temporary Firepower| and |Magical Burst|.\nDeal damage to each enemy equal to the |Magical Burst| level.\n|Expel|: |Sideload {svalue}|: Choose a card in the hand, gain maximum life equal to its total cost, |Exile| it."
+  ExtraDescription1: "Don't |Sideload {svalue}|."
+  ExtraDescription2: "|Sideload {svalue}|: Choose a card in the hand, gain maximum life equal to its total cost, |Exile| it."
+
+cardintoxicated:
+  Name: Intoxicated Poison
+  Description: "Deal {Damage} damage to each enemy with |Poison|, gain {Value1} |Poison| and |upgrade| {Value1} random card in hand for each enemy with |Poison|.\n|Expel|: Permanently |Upgrade| a card."
+  UpgradedDescription: "Deal {Damage} damage to each enemy with |Poison|, gain {Value1} |Poison| and |upgrade| {Value1} random card in hand for each enemy with |Poison|.\nTrigger |Poison|'s life loss effect once.\n|Expel|: Permanently |Upgrade| a card."
+
+cardabyssdweller:
+  Name: Abyss Dweller
+  Description: "Deal {Damage} damage.\n|Expel|: Lose {Value1} life, until end of turn, cards will be moved to the discard pile after being |Exiled|."
+
+cardbigbang:
+  Name: The Big Bang
+  Description: "Deal {Damage} damage to each enemy.\nWhen {PlayerName} enters |Transcendence| or the |Abyss|, place {SelfName} from the discard pile to the draw pile.\n|Expel|: |Overdraft| {Value2}.\nIf |< 50%|{hp50bs}during play: After attacking, perform a |Follow-Up Attack|."
+  UpgradedDescription: "Deal {Damage} damage to each enemy.\nWhen {PlayerName} enters |Transcendence| or the |Abyss|, place {SelfName} from the discard pile to the draw pile.\n|Expel|: Gain {Value1} maximum life, |Overdraft| {Value2}.\nIf |< 50%|{hp50bs}during play: After attacking, perform a |Follow-Up Attack|."
+
+cardsmashpass:
+  Name: Smash or Pass
+  Description: "|Choose|: Deal {Damage} damage and gain {Mana}, or perform {Value1} |Follow-Up Attacks|.\nIf |< 25%|{hp25ns}: Perform both |Choose| effects consecutively instead.\n|Expel|: Repeat both |Choose| effects consecutively, gain {Value2} maximum life."
+  ExtraDescription1: "Deal {Damage} damage and gain {Mana}."
+  ExtraDescription2: "Perform {Value1} |Follow-Up Attacks|."
+
+cardreckfly:
+  Name: Reckless Flying
+  Description: "A random unit on the battlefield loses {Value1} life.\nRepeat this effect until a unit reaches |n:0| life by this effect.\nRemove {SelfName} from combat.\nIf |< 25%|{hp25bs}during effect resolution: Gain {Mana}."
+  UpgradedDescription: "A random unit on the battlefield loses {Value1} life.\nRepeat this effect until a unit reaches |n:0| life by this effect, then a unit reaches |n:0| life by this effect again.\nRemove {SelfName} from combat.\nIf |< 25%|{hp25bs}during effect resolution: Gain {Mana}."
+  DetailText: "|p:May cause infinites.|\n{SelfName} cannot be randomly generated in combat, and cannot be copied."
+
+cardtwilightspark:
+  Name: Twilight Spark
+  Description: "Gain {Value4} |Charge|.\n|Sideload Burst|: Exile all cards in hand, lose all mana. For each {Mana} lost, increase the damage by {Value2}%, if the base damage times the mana multiplier and the |Burst| damage multiplier{showtextfs}exceeds the enemy's life, defeat the enemy.\nDeal {Damage} damage to each enemy.\nIf |< 10%|{hp10ns}: Choosing to |Sideload Burst| will not exit |Burst|."
+  UpgradedDescription: "Gain {Value4} |Charge|.\n|Sideload Burst|: Exile all cards in hand, lose all mana. For each {Mana} lost, increase the damage by {Value2}%, if the base damage times the mana multiplier and the |Burst| damage multiplier{showtextfs}exceeds the enemy's life, defeat the enemy.\nDeal {Damage} damage to each enemy.\nIf |< 10%|{hp10ns}: Choosing to |Sideload Burst| will not exit |Burst|."
+  ExtraDescription1: "Don't |Sideload Burst|.\nIf |< 10%|{hp10ns}: Choosing to |Sideload Burst| will not exit |Burst|."
+  ExtraDescription2: "|Sideload Burst|: Exile all cards in hand, lose all mana. For each {Mana} lost, increase the damage by {Value2}%, if the base damage times the mana multiplier and the |Burst| damage multiplier{showtextfs2} exceeds the enemy's life, defeat the enemy.\nIf |< 10%|{hp10ns}: Choosing to |Sideload Burst| will not exit |Burst|."
+
+cardcdarkness:
+  Name: Complete Darkness
+  Description: "|Purify| all mana.\nDeal {Damage} damage to each enemy.\nFor {Value1} round, single target attacks will target random units on the battlefield.\nRemove {SelfName} from combat."
+  UpgradedDescription: "Deal {Damage} damage to each enemy.\nFor {Value1} round, single target attacks will target random units on the battlefield.\nRemove {SelfName} from combat."
+  DetailText: "{SelfName} cannot be randomly generated in combat, and cannot be copied."
+
+carddragonslay:
+  Name: Dragon Slay
+  Description: "Lose {self} life.\nThe target loses {damage} life, if the life loss exceeds the target's life, defeat the target instead.\nChoose {Value2} card{Value2:plural one='' other='s'} from hand to |Exile|, and if you do, double {SelfName}'s life loss effects.\nReturn {SelfName} to the hand, it loses |Used|."
+  UpgradedDescription: "Lose {self} life.\nThe target loses {damage} life, if the life loss exceeds the target's life, defeat the target instead.\nChoose {Value2} card{Value2:plural one='' other='s'} from hand to |Exile|, double {SelfName}'s life loss effects.\nReturn {SelfName} to the hand, it loses |Used|."
+  DetailText: "{SelfName} cannot be randomly generated in combat, and cannot be copied."
+
+cardshinki:
+  Name: Shinki, God of Makai
+  Description: "{FriendS}|While in hand|: Whenever a card is played, lose {Value1} life, upgrade {Value1} random card in hand, gain {Value1} |Temporary Firepower|.\n{FriendP}Choose a card on the battlefield that is colored {ManaW}/{ManaB}/{ManaR}, return it to the hand."
+  ExtraDescription1: "{FriendA}Enter |Transcendence| and the |Abyss|."
+  ExtraDescription3: "{FriendU}Gain |Makai Creation|."
+  DetailText: "These |e:alternate cards| ignore total mana and mana color restrictions.\n{SelfName} cannot be produced by this effect."
