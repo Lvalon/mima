@@ -114,3 +114,4 @@
 /Users/e/Desktop/tachyon transmigration/projects/indev/lvalonmima/obj/Debug/netstandard2.1/lvalonmima.csproj.Up2Date
 /Users/e/Desktop/tachyon transmigration/projects/indev/lvalonmima/obj/Debug/netstandard2.1/lvalonmima.dll
 /Users/e/Desktop/tachyon transmigration/projects/indev/lvalonmima/obj/Debug/netstandard2.1/lvalonmima.pdb
+/Users/e/Desktop/tachyon transmigration/projects/indev/lvalonmima/obj/Debug/netstandard2.1/lvalonmima.sourcelink.json

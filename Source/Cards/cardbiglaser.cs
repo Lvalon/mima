@@ -62,7 +62,7 @@ namespace lvalonmima.Cards
 
 		public IEnumerable<BattleAction> OnPlayerDamageDealt(DamageEventArgs args)
 		{
-			if (Battle.AllAliveEnemies.Count() > 0 && args.ActionSource == this)
+			if (Battle.AllAliveEnemies.Count() > 0 && args.ActionSource == this && args.DamageInfo.DamageType == DamageType.Attack)
 			{
 				DamageInfo damageInfo = args.DamageInfo;
 				if (damageInfo.Damage > 0f)
