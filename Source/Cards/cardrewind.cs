@@ -19,7 +19,7 @@ namespace lvalonmima.Cards
 		{
 			CardConfig config = GetCardDefaultConfig();
 			config.Colors = new List<ManaColor>() { ManaColor.Black, ManaColor.Green };
-			config.Cost = new ManaGroup() { Any = 2, Black = 1, Green = 1 };
+			config.Cost = new ManaGroup() { Any = 1, Black = 2, Green = 2 };
 			config.Rarity = Rarity.Uncommon;
 			config.Type = CardType.Skill;
 			config.TargetType = TargetType.Self;

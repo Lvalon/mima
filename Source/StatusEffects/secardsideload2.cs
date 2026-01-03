@@ -26,7 +26,7 @@ namespace lvalonmima.StatusEffects
 	[EntityLogic(typeof(secardsideload2Def))]
 	public sealed class secardsideload2 : StatusEffect
 	{
-		public int Value1 => 4;
+		public int Value1 => 6;
 		public ManaGroup Mana => new ManaGroup() { Green = 1 };
 		public ManaGroup Mana2 => ManaGroup.Greens(Owner == null ? 1 : Level);
 		protected override void OnAdded(Unit unit)

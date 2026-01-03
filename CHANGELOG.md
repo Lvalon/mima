@@ -1,6 +1,6 @@
 # Changelog / 更新日誌
 
-## [0.1.1] - 2025-12-24
+## [0.1.1] - 2026-1-3
 
 ### Changes / 改動
 
@@ -10,7 +10,7 @@
 - 修了點 bug。
 - 削了點卡。
 
-## [0.1.0] - 2025-12-23
+## 0.1.0 - 2025-12-23
 
 ### 新增 / Added
 
@@ -32,4 +32,5 @@
 
 - 1.7.0 支援。
 
+[0.1.1]: https://thunderstore.io/package/download/Lvalon/Mima/0.1.1/
 [0.0.43]: https://thunderstore.io/package/download/Lvalon/Mima/0.0.43/

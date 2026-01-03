@@ -140,8 +140,8 @@ secardsideload2:
   Name: Sideloaded Green
 
 sepotehhhwu:
-  Description: "Whenever {Mana} is spent, |upgrade| {Value1} random card in hand and gain {Value2} |Time Pulse|."
-  Brief: "Whenever {Mana} is spent, |upgrade| {Value1} random card in hand and gain {Value2} |Time Pulse|."
+  Description: "Whenever {Mana} is spent, |Upgrade| {Value1} random card in hand and gain {Value2} |Time Pulse|."
+  Brief: "Whenever {Mana} is spent, |Upgrade| {Value1} random card in hand and gain {Value2} |Time Pulse|."
   Name: Power of the Timestream
 
 sepoteuu:

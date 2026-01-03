@@ -188,8 +188,8 @@ cardaccumulate:
 
 cardbackground:
   Name: Background Grudge
-  Description: "Whenever an enemy with |Poison| is attacked, lose {Value1} life and deal {Value1} damage to the enemy."
-  UpgradedDescription: "Whenever an enemy with |Poison| is attacked, lose {Value1} life and deal {Value1} damage to the enemy.\nApply {Value2} |Poison| to each enemy."
+  Description: "Whenever an enemy with |Poison| is attacked, lose {Value1} life and deal {Value1} attack damage to the enemy."
+  UpgradedDescription: "Whenever an enemy with |Poison| is attacked, lose {Value1} life and deal {Value1} attack damage to the enemy.\nApply {Value2} |Poison| to each enemy."
 
 cardconversion:
   Name: Abyss Conversion
@@ -297,7 +297,7 @@ cardmachinegun:
 
 cardicyrose:
   Name: Icy Rose
-  Description: "Deal {Damage} damage.\nIf the target has |Cold|, lose {Value1} life, apply |Cold|.\n|Expel|: For each enemy with |Cold|, gain {Value2} maximum life."
+  Description: "Deal {Damage} damage.\nLose {Value1} life.\nApply |Cold|.\n|Expel|: For each enemy with |Cold|, gain {Value2} maximum life."
 
 cardyukionna:
   Name: Yuki-Onna Visitation
@@ -324,8 +324,8 @@ cardignition:
 
 cardintoxicated:
   Name: Intoxicated Poison
-  Description: "Deal {Damage} damage to each enemy with |Poison|, gain {Value1} |Poison| and |upgrade| {Value1} random card in hand for each enemy with |Poison|.\n|Expel|: Permanently |Upgrade| a card."
-  UpgradedDescription: "Deal {Damage} damage to each enemy with |Poison|, gain {Value1} |Poison| and |upgrade| {Value1} random card in hand for each enemy with |Poison|.\nTrigger |Poison|'s life loss effect once.\n|Expel|: Permanently |Upgrade| a card."
+  Description: "Deal {Damage} damage to each enemy with |Poison|, gain {Value1} |Poison| and |Upgrade| {Value1} random card in hand for each enemy with |Poison|.\n|Expel|: Permanently |Upgrade| a card."
+  UpgradedDescription: "Deal {Damage} damage to each enemy with |Poison|, gain {Value1} |Poison| and |Upgrade| {Value1} random card in hand for each enemy with |Poison|.\nTrigger |Poison|'s life loss effect once.\n|Expel|: Permanently |Upgrade| a card."
 
 cardabyssdweller:
   Name: Abyss Dweller
@@ -344,8 +344,8 @@ cardsmashpass:
 
 cardreckfly:
   Name: Reckless Flying
-  Description: "A random unit on the battlefield loses {Value1} life.\nRepeat this effect until a unit reaches |n:0| life by this effect.\nRemove {SelfName} from combat.\nIf |< 25%|{hp25bs}during effect resolution: Gain {Mana}."
-  UpgradedDescription: "A random unit on the battlefield loses {Value1} life.\nRepeat this effect until a unit reaches |n:0| life by this effect, then a unit reaches |n:0| life by this effect again.\nRemove {SelfName} from combat.\nIf |< 25%|{hp25bs}during effect resolution: Gain {Mana}."
+  Description: "A random unit on the battlefield loses {Value1} life.\nRepeat this effect until a unit reaches |n:0| life by this effect.\nRemove {SelfName} from combat.\nIf |< 25%|{hp25bs}during each effect's resolution: Gain {Mana}."
+  UpgradedDescription: "A random unit on the battlefield loses {Value1} life.\nRepeat this effect until a unit reaches |n:0| life by this effect, then a unit reaches |n:0| life by this effect again.\nRemove {SelfName} from combat.\nIf |< 25%|{hp25bs}during each effect's resolution: Gain {Mana}."
   DetailText: "|p:May cause infinites.|\n{SelfName} cannot be randomly generated in combat, and cannot be copied."
 
 cardtwilightspark:
@@ -369,7 +369,7 @@ carddragonslay:
 
 cardshinki:
   Name: Shinki, God of Makai
-  Description: "{FriendS}|While in hand|: Whenever a card is played, lose {Value1} life, upgrade {Value1} random card in hand, gain {Value1} |Temporary Firepower|.\n{FriendP}Choose a card on the battlefield that is colored {ManaW}/{ManaB}/{ManaR}, return it to the hand."
+  Description: "{FriendS}|While in hand|: Whenever a card is played, lose {Value1} life, |Upgrade| {Value1} random card in hand, gain {Value1} |Temporary Firepower|.\n{FriendP}Choose a card on the battlefield that is colored {ManaW}/{ManaB}/{ManaR}, return it to the hand."
   ExtraDescription1: "{FriendA}Enter |Transcendence| and the |Abyss|."
   ExtraDescription3: "{FriendU}Gain |Makai Creation|."
   DetailText: "These |e:alternate cards| ignore total mana and mana color restrictions.\n{SelfName} cannot be produced by this effect."

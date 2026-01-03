@@ -23,7 +23,7 @@ namespace lvalonmima.Cards
 			config.Type = CardType.Attack;
 			config.TargetType = TargetType.SingleEnemy;
 
-			config.Damage = 7;
+			config.Damage = 4;
 
 			config.GunName = GunNameID.GetGunFromId(12140);
 			config.GunNameBurst = GunNameID.GetGunFromId(12141);

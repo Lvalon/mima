@@ -36,8 +36,7 @@ namespace lvalonmima.Cards
 			config.RelativeEffects = new List<string>() { nameof(Cold) };
 			config.UpgradedRelativeEffects = new List<string>() { nameof(Cold) };
 
-			config.Value1 = 6;
-			config.UpgradedValue1 = 8;
+			config.Value1 = 3;
 			config.Value2 = 1;
 
 			config.Illustrator = "老邢";
@@ -65,7 +64,7 @@ namespace lvalonmima.Cards
 			try
 			{
 				NotifyActivating();
-				int num = Battle.AllAliveEnemies.Where(e => e.HasStatusEffect<Cold>()).Count();
+				int num = Battle.AllAliveEnemies.Count(e => e.HasStatusEffect<Cold>());
 				GameRun.SetHpAndMaxHp(Battle.Player.Hp + Value2 * num, Battle.Player.MaxHp + Value2 * num, true);
 				yield break;
 			}
@@ -79,15 +78,11 @@ namespace lvalonmima.Cards
 			localplaying = true;
 			try
 			{
-				bool goon = false;
-				if (selector.SelectedEnemy.IsAlive && selector.SelectedEnemy.HasStatusEffect<Cold>()) { goon = true; }
 				yield return AttackAction(selector);
-				if (goon)
-				{
-					yield return SacrificeAction(Value1);
-					if (Battle.BattleShouldEnd || !selector.SelectedEnemy.IsAlive) { yield break; }
-					yield return DebuffAction<Cold>(selector.SelectedEnemy, 1);
-				}
+				if (Battle.BattleShouldEnd || !selector.SelectedEnemy.IsAlive) { yield break; }
+				yield return SacrificeAction(Value1);
+				if (Battle.BattleShouldEnd || !selector.SelectedEnemy.IsAlive) { yield break; }
+				yield return DebuffAction<Cold>(selector.SelectedEnemy, 1);
 			}
 			finally
 			{

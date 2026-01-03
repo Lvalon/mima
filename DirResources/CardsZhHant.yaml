@@ -188,8 +188,8 @@ cardaccumulate:
 
 cardbackground:
   Name: 暗湧的怨恨
-  Description: "擁有|中毒|的敵人被攻擊時，失去 {Value1} 點生命值並造成 {Value1} 點傷害。"
-  UpgradedDescription: "擁有|中毒|的敵人被攻擊時，失去 {Value1} 點生命值並造成 {Value1} 點傷害。\n對所有敵人施加 {Value2} 層|中毒|。"
+  Description: "擁有|中毒|的敵人被攻擊時，失去 {Value1} 點生命值並造成 {Value1} 點攻擊傷害。"
+  UpgradedDescription: "擁有|中毒|的敵人被攻擊時，失去 {Value1} 點生命值並造成 {Value1} 點攻擊傷害。\n對所有敵人施加 {Value2} 層|中毒|。"
 
 cardconversion:
   Name: 深淵轉換
@@ -297,7 +297,7 @@ cardmachinegun:
 
 cardicyrose:
   Name: 冰薔薇
-  Description: "造成 {Damage} 點傷害。\n如果目標擁有|寒冷|，失去 {Value1} 點生命值，施加|寒冷|。\n|退治|時，每有一個擁有|寒冷|的敵人，獲得 {Value2} 點最大生命值。"
+  Description: "造成 {Damage} 點傷害。\n失去 {Value1} 點生命值。\n施加|寒冷|。\n|退治|時，每有一個擁有|寒冷|的敵人，獲得 {Value2} 點最大生命值。"
 
 cardyukionna:
   Name: 雪女造訪
@@ -324,7 +324,7 @@ cardignition:
 
 cardintoxicated:
   Name: 酣之毒
-  Description: "對所有擁有|中毒|的敵人造成 {Damage} 點傷害。\n每有一個擁有|中毒|的敵人，獲得 {Value1} 層|中毒|並|升級|隨機 {Value1} 張手牌。\n觸發一次|中毒|傷害。\n|退治|時，永久|升級|一張牌。"
+  Description: "對所有擁有|中毒|的敵人造成 {Damage} 點傷害。\n每有一個擁有|中毒|的敵人，獲得 {Value1} 層|中毒|並|升級|隨機 {Value1} 張手牌。\n|退治|時，永久|升級|一張牌。"
   UpgradedDescription: "對所有擁有|中毒|的敵人造成 {Damage} 點傷害。\n每有一個擁有|中毒|的敵人，獲得 {Value1} 層|中毒|並|升級|隨機 {Value1} 張手牌。\n觸發一次|中毒|傷害。\n|退治|時，永久|升級|一張牌。"
 
 cardabyssdweller:
@@ -344,8 +344,8 @@ cardsmashpass:
 
 cardreckfly:
   Name: 胡亂飛行
-  Description: "戰場中的一個隨機單位失去 {Value1} 點生命值。\n重複這效果直至有一個單位因此達到 |n:0| 點生命值。\n將{SelfName}移出戰鬥。\n如果效果處理時|< 25%|{hp25ns}：獲得{Mana}。"
-  UpgradedDescription: "戰場中的一個隨機單位失去 {Value1} 點生命值。\n重複這效果直至有一個單位達到 |n:0| 點生命值，然後再有單位因此達到 |n:0| 點生命值。\n將{SelfName}移出戰鬥。\n如果效果處理時|< 25%|{hp25ns}：獲得{Mana}。"
+  Description: "戰場中的一個隨機單位失去 {Value1} 點生命值。\n重複這效果直至有一個單位因此達到 |n:0| 點生命值。\n將{SelfName}移出戰鬥。\n每段效果處理如果時|< 25%|{hp25ns}：獲得{Mana}。"
+  UpgradedDescription: "戰場中的一個隨機單位失去 {Value1} 點生命值。\n重複這效果直至有一個單位達到 |n:0| 點生命值，然後再有單位因此達到 |n:0| 點生命值。\n將{SelfName}移出戰鬥。\n每段效果處理時如果|< 25%|{hp25ns}：獲得{Mana}。"
   DetailText: "|p:可能會產生無限。|\n{SelfName}不會在戰鬥中被隨機獲得，不能成為複製效果的對象。"
 
 cardtwilightspark:

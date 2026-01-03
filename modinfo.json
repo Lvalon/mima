@@ -1,0 +1,22 @@
+{
+  "Title": "Mima",
+  "Description": "(EN/繁/簡)\nAdds Mima to the game.\n將魅魔加入遊戲。",
+  "Brief": "(EN/繁/簡)\nAdds Mima to the game.\n將魅魔加入遊戲。",
+  "Changelog": [
+    "v0.1.1:\nWorkshop support, mechanic revamp.\nView the full changelog in CHANGELOG.md."
+  ],
+  "Version": "0.1.1",
+  "Author": "Lvalon",
+  "Tags": [
+    "Character",
+    "Content"
+  ],
+  "PublishedFileId": 0,
+  "AuthorId": 76561199402689541,
+  "GUID": "llbol.char.mima",
+  "Dependencies": [
+    "BepInEx-BepInExPack-5.4.2100",
+    "neo.lbol.frameworks.entitySideloader"
+  ],
+  "LastUpdateTime": 0
+}

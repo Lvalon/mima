@@ -36,7 +36,7 @@ namespace lvalonmima.Cards
 	public sealed class cardsideload : lvalonmimaCard
 	{
 		public ManaGroup Mana2 => new ManaGroup() { Green = 1 };
-		public int Value30 => 4;
+		public int Value30 => 6;
 		protected override IEnumerable<BattleAction> Actions(UnitSelector selector, ManaGroup consumingMana, Interaction precondition)
 		{
 			yield return new ApplyStatusEffectAction<secardsideload>(Battle.Player, Value1, 0, 0, 0);

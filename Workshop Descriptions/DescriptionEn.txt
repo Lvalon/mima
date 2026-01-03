@@ -1,0 +1,21 @@
+(EN/繁/簡)
+Mima character mod.
+
+[h1]Includes[/h1]
+[list]
+[*]Character Cards: 73+2
+[*]Character Exhibits: 2
+[/list]
+
+[h1]Btw[/h1]
+After transitioning from v1 Mima to v2, she now provides a relatively more proper power scaling experience, and is available now.
+
+[h1]Also[/h1]
+Bug reports, suggestions are appreciated. For feedback, post your suggestions in the modding channel in the Lbol discord.
+
+[h1]Special Thanks[/h1]
+[list]
+[*]camellia for drawing fantastic portraits for Mima. They made me determined to make Mima a magnificant character that could live up to her arts <3
+[*]All other artists who drew art for Mima, your arts became the last piece of puzzle that completes and enriches Mima.
+[*]Everyone in the Discord official server's #mod-dev channel for helping out with all the coding problems.
+[/list]

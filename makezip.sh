@@ -9,5 +9,6 @@ cp -a /Users/e/Desktop/tachyon\ transmigration/projects/indev/lvalonmima/CREDITS
 cp -a /Users/e/Desktop/tachyon\ transmigration/projects/indev/lvalonmima/icon.png lvalonmima/
 cp -a /Users/e/Desktop/tachyon\ transmigration/projects/indev/lvalonmima/manifest.json lvalonmima/
 cp -a /Users/e/Desktop/tachyon\ transmigration/projects/indev/lvalonmima/README.md lvalonmima/
+cp -a /Users/e/Desktop/tachyon\ transmigration/projects/indev/lvalonmima/modinfo.json lvalonmima/
 rm -fr lvalonmima/Thumbs.db
 zip -r -j lvalonmima.zip lvalonmima/*
