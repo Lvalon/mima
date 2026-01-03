@@ -1,6 +1,14 @@
 # Changelog / 更新日誌
 
-## [0.1.2] - 2026-1-3
+## [0.1.3] - 2026-1-3
+
+### Changes / 改動
+
+- Minor bugfixes.
+
+- 修了點 bug。
+
+## 0.1.2 - 2026-1-3
 
 ### Changes / 改動
 
@@ -12,7 +20,7 @@
 - 修了點 bug 和改善了文本。
 - 修了巨大激光對玩家施加中毒。
 
-## [0.1.1] - 2026-1-3
+## 0.1.1 - 2026-1-3
 
 ### Changes / 改動
 
@@ -44,5 +52,5 @@
 
 - 1.7.0 支援。
 
-[0.1.2]: https://thunderstore.io/package/download/Lvalon/Mima/0.1.2/
+[0.1.3]: https://thunderstore.io/package/download/Lvalon/Mima/0.1.3/
 [0.0.43]: https://thunderstore.io/package/download/Lvalon/Mima/0.0.43/
