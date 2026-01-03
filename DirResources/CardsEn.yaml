@@ -8,7 +8,7 @@ cardmimab:
 
 cardpurediamond:
   Name: Pure Diamond
-  Description: "|When {SelfName} enters the hand|: |Exile| {SelfName}.\n|When {SelfName} is Exiled|: Gain {Mana}, deal {Value1} damage to everyone."
+  Description: "|When {SelfName} enters the hand|: |Exile| {SelfName}.\n|When {SelfName} is Exiled|: Gain {Mana}, deal {Value1} damage to everyone, draw |n:1| card."
 
 cardmimaexa:
   Name: The Phoenix Archive
@@ -56,8 +56,8 @@ carddawntime:
 
 cardtable:
   Name: Cards on the Table
-  Description: "Add random skill cards to the hand until the hand is full.\nThey |temporarily cost| {Value1} random mana less, has |Exile| and |Ethereal|."
-  UpgradedDescription: "Add random skill cards to the hand until the hand is full.\nThey |temporarily cost| {Value1} random mana less, has |Exile| and |Ethereal|.\nEnter |Transcendence|."
+  Description: "Add random skill cards to the hand until the hand is full.\nThey |temporarily cost| {Value1} random mana less and have |Exile| and |Ethereal|."
+  UpgradedDescription: "Add random skill cards to the hand until the hand is full.\nThey |temporarily cost| {Value1} random mana less and have |Exile| and |Ethereal|.\nEnter |Transcendence|."
 
 cardchannelling:
   Name: Channelling the Timestream
@@ -193,7 +193,7 @@ cardbackground:
 
 cardconversion:
   Name: Abyss Conversion
-  Description: "At the start of {PlayerName}'s turn, lose life and gain |Time Pulse| equal to the number of enemies.\nGain {Value2} |Time Pulse|.\nIf |< 25%|{hp25bs}during activation: The |Time Pulse| gain from playing {SelfName} and its effects are doubled.."
+  Description: "At the start of {PlayerName}'s turn, lose life and gain |Time Pulse| equal to the number of enemies.\nGain {Value2} |Time Pulse|.\nIf |< 25%|{hp25bs}during activation: The |Time Pulse| gain from playing {SelfName} and its effects are doubled."
 
 cardentrance:
   Name: "Dramatic Entrance"
@@ -215,7 +215,7 @@ cardextratick:
 
 cardpwave:
   Name: Piercing Wide Wave
-  Description: "Deal {Damage} damage to each enemy. Damage is increased by {Value2} for every {Value1} life lost."
+  Description: "Deal {Damage} damage to each enemy. Damage is increased by {Value2} for every {Value1} missing life."
 
 cardspeedupshot:
   Name: Speed Up Rapidfire Shot
@@ -288,7 +288,7 @@ carddpillar:
 cardglacier:
   Name: Glacier
   Description: "Apply |Cold|.\n|Expel|: Gain |Cold|."
-  UpgradedDescription: "Apply |Cold| to each enemy.\n|Expel|: Gain |Cold| {Value1} time{Value1:plural one='' other='s'}."
+  UpgradedDescription: "Apply |Cold|.\n|Expel|: Gain |Cold| {Value1} time{Value1:plural one='' other='s'}."
 
 cardmachinegun:
   Name: Icicle Machine Gun

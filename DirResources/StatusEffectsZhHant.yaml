@@ -25,8 +25,8 @@ sesideload:
   Name: 側載 X
 
 seevilspirit:
-  Description: "{OwnerName}獲得的|格檔|和|護盾|將變為對{OwnerName}造成傷害，單次上限為 {bscap} 點傷害。\n當{OwnerName}被擊敗時，回滿生命值，然後所有敵人的生命值和最大生命值降低{OwnerName}的最大生命值。\n當{OwnerName}以卡牌效果、自身狀態、展品或自己擊敗自己時，獲得 |n:1| 點最大生命值，否則失去一半最大生命值。\n當{OwnerName}的最大生命值少於 |n:6| 點時，死亡。"
-  Brief: "{OwnerName}獲得的|格檔|和|護盾|將變為對{OwnerName}造成傷害，單次上限為 {bscap} 點傷害。\n當{OwnerName}被擊敗時，回滿生命值，然後所有敵人的生命值和最大生命值降低{OwnerName}的最大生命值。\n當{OwnerName}以卡牌效果、自身狀態、展品或自己擊敗自己時，獲得 |n:1| 點最大生命值，否則失去一半最大生命值。\n當{OwnerName}的最大生命值少於 |n:6| 點時，死亡。"
+  Description: "{OwnerName}獲得的|格檔|和|護盾|將變為對{OwnerName}造成傷害，單次上限為 {bscap} 點傷害。\n當{OwnerName}被擊敗時，回滿生命值，然後所有敵人的生命值和最大生命值降低{OwnerName}的最大生命值。\n當{OwnerName}以卡牌效果、自身狀態、展品或自己擊敗自己時，獲得 |n:1| 點最大生命值（每張戰鬥一次），否則失去一半最大生命值。\n當{OwnerName}的最大生命值少於 |n:6| 點時，死亡。"
+  Brief: "{OwnerName}獲得的|格檔|和|護盾|將變為對{OwnerName}造成傷害，單次上限為 {bscap} 點傷害。\n當{OwnerName}被擊敗時，回滿生命值，然後所有敵人的生命值和最大生命值降低{OwnerName}的最大生命值。\n當{OwnerName}以卡牌效果、自身狀態、展品或自己擊敗自己時，獲得 |n:1| 點最大生命值（每張戰鬥一次），否則失去一半最大生命值。\n當{OwnerName}的最大生命值少於 |n:6| 點時，死亡。"
   Name: 惡靈
 
 setranscendence:
@@ -35,8 +35,8 @@ setranscendence:
   Name: 超然物外
 
 seabyss:
-  Description: "進入{SelfName}時，失去 |n:1| 點最大生命值。\n進入，退出{SelfName}或回合開始時，獲得{Mana}，|淨化|所有手牌，如果它們已經擁有|淨化|，則移除所有費用。\n剩餘 {Level} 回合。"
-  Brief: "进入{SelfName}时，失去 |n:1| 点最大生命值。\n進入，退出{SelfName}或回合開始時，獲得{Mana}，|淨化|所有手牌，如果它們已經擁有|淨化|，則移除所有費用。\n持續一定的回合數。"
+  Description: "進入，退出{SelfName}或回合開始時，獲得{Mana}，|淨化|所有手牌，如果它們已經擁有|淨化|，則移除所有費用。\n剩餘 {Level} 回合。"
+  Brief: "進入，退出{SelfName}或回合開始時，獲得{Mana}，|淨化|所有手牌，如果它們已經擁有|淨化|，則移除所有費用。\n持續一定的回合數。"
   Name: 深淵
 
 semburst:

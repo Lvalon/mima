@@ -28,8 +28,8 @@ namespace lvalonmima.Cards
 			config.Value1 = 5;
 			config.Mana = new ManaGroup() { Philosophy = 1 };
 
-			config.Keywords = Keyword.Forbidden | Keyword.Replenish;
-			config.UpgradedKeywords = Keyword.Forbidden | Keyword.Replenish;
+			config.Keywords = Keyword.Forbidden;
+			config.UpgradedKeywords = Keyword.Forbidden;
 
 			config.Illustrator = "半熟とまと";
 
@@ -68,6 +68,8 @@ namespace lvalonmima.Cards
 				yield return new GainManaAction(Mana);
 				if (Battle.BattleShouldEnd) { yield break; }
 				yield return new DamageAction(Battle.Player, Battle.AllAliveUnits, DamageInfo.Reaction(Value1), GunNameID.GetGunFromId(400), GunType.Single);
+				if (Battle.BattleShouldEnd) { yield break; }
+				yield return new DrawCardAction();
 			}
 		}
 		private IEnumerable<BattleAction> EnterHandReactor()

@@ -25,8 +25,8 @@ sesideload:
   Name: Sideload X
 
 seevilspirit:
-  Description: "|Block| and |Barrier| gained will deal damage to {OwnerName} instead, each instance caps at {bscap} damage.\nWhen {OwnerName} is defeated, restore to maximum life instead, then each enemy's life and maximum life are reduced by {OwnerName}'s maximum life.\nWhen {OwnerName} defeats herself by card effect, her own Status Effect, Exhibit or by herself, gain |n:1| maximum life, otherwise lose half the maximum life.\nWhen {OwnerName} has less than |n:6| maximum life, lose the game."
-  Brief: "|Block| and |Barrier| gained will deal damage to {OwnerName} instead, each instance caps at {bscap} damage.\nWhen {OwnerName} is defeated, restore to maximum life instead, then each enemy's life and maximum life are reduced by {OwnerName}'s maximum life.\nWhen {OwnerName} defeats herself by card effect, her own Status Effect, Exhibit or by herself, gain |n:1| maximum life, otherwise lose half the maximum life.\nWhen {OwnerName} has less than |n:6| maximum life, lose the game."
+  Description: "|Block| and |Barrier| gained will deal damage to {OwnerName} instead, each instance caps at {bscap} damage.\nWhen {OwnerName} is defeated, restore to maximum life instead, then each enemy's life and maximum life are reduced by {OwnerName}'s maximum life.\nWhen {OwnerName} defeats herself by card effect, her own Status Effect, Exhibit or by herself, gain |n:1| maximum life (once per combat), otherwise lose half the maximum life.\nWhen {OwnerName} has less than |n:6| maximum life, lose the game."
+  Brief: "|Block| and |Barrier| gained will deal damage to {OwnerName} instead, each instance caps at {bscap} damage.\nWhen {OwnerName} is defeated, restore to maximum life instead, then each enemy's life and maximum life are reduced by {OwnerName}'s maximum life.\nWhen {OwnerName} defeats herself by card effect, her own Status Effect, Exhibit or by herself, gain |n:1| maximum life (once per combat), otherwise lose half the maximum life.\nWhen {OwnerName} has less than |n:6| maximum life, lose the game."
   Name: Evil Spirit
 
 setranscendence:
@@ -35,13 +35,13 @@ setranscendence:
   Name: Transcendence
 
 seabyss:
-  Description: "When entering, lose |n:1| maximum life.\nWhen entering, leaving the {SelfName} or at the start of turn, gain {Mana}, all cards in hand gain |Pure|, if they already have |Pure|, remove all costs instead.\n{SelfName} loses |n:1| Level at the end of each turn."
-  Brief: "When entering, lose |n:1| maximum life.\nWhen entering, leaving the {SelfName} or at the start of turn, gain {Mana}, all cards in hand gain |Pure|, if they already have |Pure|, remove all costs instead.\n{SelfName} loses |n:1| Level at the end of each turn."
+  Description: "When entering, leaving the {SelfName} or at the start of turn, gain {Mana}, all cards in hand gain |Pure|, if they already have |Pure|, remove all costs instead.\n{SelfName} loses |n:1| Level at the end of each turn."
+  Brief: "When entering, leaving the {SelfName} or at the start of turn, gain {Mana}, all cards in hand gain |Pure|, if they already have |Pure|, remove all costs instead.\n{SelfName} loses |n:1| Level at the end of each turn."
   Name: Abyss
 
 semburst:
   Description: "At the end of {OwnerName}'s turn, deal {Count} |Accurate| attack damage to each enemy, then lose {SelfName}."
-  Brief: "At the end of {OwnerName}'s turn, deal |Accurate| attack damage to each enemy, then lose {SelfName}."
+  Brief: "At the end of {OwnerName}'s turn, deal |Accurate| attack damage equal to the Level of {SelfName} to each enemy, then lose {SelfName}."
   Name: Magical Burst
 
 semimaexb:
@@ -125,8 +125,8 @@ sebackground:
   Name: Background Grudge
 
 seconversion:
-  Description: "At the start of {PlayerName}'s turn, lose life and gain |Time Pulse| equal to {Level} time{Level:plural one='' other='s'} the number of enemies.\nIf |< 25%| during activation: The |Time Pulse| gain from playing {SelfName} and its effects are doubled.."
-  Brief: "At the start of {PlayerName}'s turn, lose life and gain |Time Pulse| equal to the number of enemies.\nIf |< 25%| during activation: The |Time Pulse| gain from playing {SelfName} and its effects are doubled.."
+  Description: "At the start of {PlayerName}'s turn, lose life and gain |Time Pulse| equal to {Level} time{Level:plural one='' other='s'} the number of enemies.\nIf |< 25%| during activation: The |Time Pulse| gain from playing {SelfName} and its effects are doubled."
+  Brief: "At the start of {PlayerName}'s turn, lose life and gain |Time Pulse| equal to the number of enemies.\nIf |< 25%| during activation: The |Time Pulse| gain from playing {SelfName} and its effects are doubled."
   Name: Abyss Conversion Lab
 
 secardsideload:
@@ -185,6 +185,6 @@ secdarkness:
   Name: Complete Darkness
 
 seshinki:
-  Description: "At the start of turn, choose up to {Level} of {Count} non-Common cards to add to the top of the draw pile, they |temporarily cost| {Mana}, have |Replenish|, |Exile| and |Ethereal|.\n|n:Shinki, God of Makai| cannot be produced by this effect."
-  Brief: "At the start of turn, choose up to |n:3| of |n:7| non-Common cards to add to the top of the draw pile, they |temporarily cost| {Mana}, have |Replenish|, |Exile| and |Ethereal|.\n|n:Shinki, God of Makai| cannot be produced by this effect."
+  Description: "At the start of turn, choose up to {Level} of {Count} non-Common cards to add to the top of the draw pile, they |temporarily cost| {Mana} and have |Replenish|, |Exile| and |Ethereal|.\n|n:Shinki, God of Makai| cannot be produced by this effect."
+  Brief: "At the start of turn, choose up to |n:3| of |n:7| non-Common cards to add to the top of the draw pile, they |temporarily cost| {Mana} and have |Replenish|, |Exile| and |Ethereal|.\n|n:Shinki, God of Makai| cannot be produced by this effect."
   Name: Makai Creation

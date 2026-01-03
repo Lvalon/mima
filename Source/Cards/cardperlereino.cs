@@ -15,8 +15,8 @@ namespace lvalonmima.Cards
 		public override CardConfig MakeConfig()
 		{
 			CardConfig config = GetCardDefaultConfig();
-			config.Colors = new List<ManaColor>() { ManaColor.White, ManaColor.Blue, ManaColor.Black, ManaColor.Green };
-			config.Cost = new ManaGroup() { White = 1, Green = 1, Black = 1, Blue = 1 };
+			config.Colors = new List<ManaColor>() { ManaColor.Blue, ManaColor.Black, ManaColor.Green };
+			config.Cost = new ManaGroup() { Green = 1, Black = 2, Blue = 2 };
 			config.Rarity = Rarity.Rare;
 			config.Type = CardType.Ability;
 			config.TargetType = TargetType.Self;

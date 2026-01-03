@@ -4,6 +4,8 @@ using System.Linq;
 using DG.Tweening;
 using HarmonyLib;
 using LBoL.Core;
+using LBoL.Core.Battle;
+using LBoL.Core.Battle.BattleActionRecord;
 using LBoL.Presentation;
 using LBoL.Presentation.UI.Panels;
 using LBoL.Presentation.Units;
@@ -19,6 +21,34 @@ namespace lvalonmima.Patches
 	{
 		public static GameEvent<DeadEventArgs> PreDeadEvent { get; set; }
 		public static GameEvent<DeadEventArgs> PostDeadEvent { get; set; }
+		[HarmonyPatch(typeof(ActionResolver), nameof(ActionResolver.InternalResolve))]
+		public static class ActionResolver_InternalResolve_Prefix
+		{
+			private const int NewMaxDepth = 6666;
+
+			static bool Prefix(
+				ActionResolver __instance,
+				PhaseRecord parentPhase,
+				BattleAction action,
+				int depth,
+				string recordName,
+				ref IEnumerator<object> __result
+			)
+			{
+				if (depth <= NewMaxDepth)
+					return true;
+				Debug.LogError($"ActionResolver stack depth over {NewMaxDepth}, reactions regarded");
+
+				__result = tmp();
+				return false;
+			}
+
+			private static IEnumerator<object> tmp()
+			{
+				yield break;
+			}
+		}
+
 		[HarmonyPatch(typeof(UnitView), nameof(UnitView.SpellDeclare))]
 		public static class UnitView_SpellDeclare_Patch
 		{

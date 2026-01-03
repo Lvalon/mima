@@ -46,7 +46,7 @@ namespace lvalonmima.Cards
 	{
 		protected override void EnterBattle2(BattleController battle)
 		{
-			ReactBattleEvent(Battle.BattleStarted, OnBattleStarted);
+			ReactBattleEvent(Battle.BattleStarted, OnBattleStarted, GameEventPriority.Highest + 100);
 		}
 
 		private IEnumerable<BattleAction> OnBattleStarted(GameEventArgs args)

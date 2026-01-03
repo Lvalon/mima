@@ -8,7 +8,7 @@ cardmimab:
 
 cardpurediamond:
   Name: 纯洁钻石
-  Description: "|进入手中时|：|放逐|{SelfName}。\n|被放逐时|：获得{Mana}，对所有单位造成 {Value1} 点伤害。"
+  Description: "|进入手中时|：|放逐|{SelfName}。\n|被放逐时|：获得{Mana}，对所有单位造成 {Value1} 点伤害，抽 |n:1| 张牌。"
 
 cardmimaexa:
   Name: 凤凰档案

@@ -8,7 +8,7 @@ cardmimab:
 
 cardpurediamond:
   Name: 純潔鑽石
-  Description: "|進入手中時|：|放逐|{SelfName}。\n|被放逐時|：獲得{Mana}，對所有單位造成 {Value1} 點傷害。"
+  Description: "|進入手中時|：|放逐|{SelfName}。\n|被放逐時|：獲得{Mana}，對所有單位造成 {Value1} 點傷害，抽 |n:1| 張牌。"
 
 cardmimaexa:
   Name: 鳳凰檔案

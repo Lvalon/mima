@@ -62,20 +62,20 @@ namespace lvalonmima.StatusEffects
 		public IEnumerable<BattleAction> FirstGain(int level = 1)
 		{
 			NotifyActivating();
-			if (Owner.MaxHp <= level)
-			{
-				yield return new ForceKillAction(Owner, Owner);
-			}
-			else if (Owner == Battle.Player)
-			{
-				GameRun.LoseMaxHp(level, true);
-				if (Owner.HasStatusEffect<seevilspirit>() && Owner.MaxHp < 6)
-				{
-					yield return new ForceKillAction(Owner, Owner);
-				}
-			}
+			// if (Owner.MaxHp <= level)
+			// {
+			// 	yield return new ForceKillAction(Owner, Owner);
+			// }
+			// else if (Owner == Battle.Player)
+			// {
+			// 	GameRun.LoseMaxHp(level, true);
+			// 	if (Owner.HasStatusEffect<seevilspirit>() && Owner.MaxHp < 6)
+			// 	{
+			// 		yield return new ForceKillAction(Owner, Owner);
+			// 	}
+			// }
 
-			if (Battle.BattleShouldEnd) { yield break; }
+			// if (Battle.BattleShouldEnd) { yield break; }
 
 			yield return new GainManaAction(Mana * level);
 			foreach (Card card in Battle.EnumerateAllCards().Where(card => card.Zone == CardZone.Hand && (card.IsPurified || level > 1) && !card.IsXCost))
@@ -92,20 +92,20 @@ namespace lvalonmima.StatusEffects
 		public IEnumerable<BattleAction> StackGain(int level = 1)
 		{
 			NotifyActivating();
-			if (Owner.MaxHp <= level)
-			{
-				yield return new ForceKillAction(Owner, Owner);
-			}
-			else if (Owner == Battle.Player)
-			{
-				GameRun.LoseMaxHp(level, true);
-				if (Owner.HasStatusEffect<seevilspirit>() && Owner.MaxHp < 6)
-				{
-					yield return new ForceKillAction(Owner, Owner);
-				}
-			}
+			// if (Owner.MaxHp <= level)
+			// {
+			// 	yield return new ForceKillAction(Owner, Owner);
+			// }
+			// else if (Owner == Battle.Player)
+			// {
+			// 	GameRun.LoseMaxHp(level, true);
+			// 	if (Owner.HasStatusEffect<seevilspirit>() && Owner.MaxHp < 6)
+			// 	{
+			// 		yield return new ForceKillAction(Owner, Owner);
+			// 	}
+			// }
 
-			if (Battle.BattleShouldEnd) { yield break; }
+			// if (Battle.BattleShouldEnd) { yield break; }
 
 			yield return new GainManaAction(Mana * level);
 			foreach (Card card in Battle.EnumerateAllCards().Where(card => card.Zone == CardZone.Hand && (card.IsPurified || level > 1) && !card.IsXCost))

@@ -4,8 +4,12 @@
 
 ### Changes / 改動
 
+- Gaining maximum life from reviving is now once per combat.
+- Minor bugfixes and yaml improvements.
 - Fixed Greater Laser applying poison to player.
 
+- 復活獲得 1 點最大生命值變為每場戰鬥一次。
+- 修了點 bug 和改善了文本。
 - 修了巨大激光對玩家施加中毒。
 
 ## [0.1.1] - 2026-1-3
