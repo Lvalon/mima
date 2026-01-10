@@ -24,7 +24,7 @@ namespace lvalonmima.Patches
 		[HarmonyPatch(typeof(ActionResolver), nameof(ActionResolver.InternalResolve))]
 		public static class ActionResolver_InternalResolve_Prefix
 		{
-			private const int NewMaxDepth = 6666;
+			private const int NewMaxDepth = 666666;
 
 			static bool Prefix(
 				ActionResolver __instance,

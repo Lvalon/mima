@@ -3,9 +3,9 @@
   "Description": "(EN/繁/簡)\nAdds Mima to the game.\n將魅魔加入遊戲。",
   "Brief": "(EN/繁/簡)\nAdds Mima to the game.\n將魅魔加入遊戲。",
   "Changelog": [
-    "v0.1.3:\nMinor bugfixes.\nView the full changelog in CHANGELOG.md."
+    "v0.1.4:\nMinor bugfixes.\nView the full changelog in CHANGELOG.md."
   ],
-  "Version": "0.1.3",
+  "Version": "0.1.4",
   "Author": "Lvalon",
   "Tags": [
     "Character",

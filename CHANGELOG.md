@@ -1,5 +1,13 @@
 # Changelog / 更新日誌
 
+## [0.1.4] - 2026-1-10
+
+### Changes / 改動
+
+- Minor bugfixes.
+
+- 修了點 bug。
+
 ## [0.1.3] - 2026-1-3
 
 ### Changes / 改動
@@ -32,7 +40,7 @@
 
 ## 0.1.0 - 2025-12-23
 
-### 新增 / Added
+### Added / 新增
 
 - Portraits, all card arts and other media.
 
@@ -52,5 +60,6 @@
 
 - 1.7.0 支援。
 
+[0.1.4]: https://thunderstore.io/package/download/Lvalon/Mima/0.1.4/
 [0.1.3]: https://thunderstore.io/package/download/Lvalon/Mima/0.1.3/
 [0.0.43]: https://thunderstore.io/package/download/Lvalon/Mima/0.0.43/
