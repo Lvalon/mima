@@ -7,9 +7,11 @@ using LBoL.Core;
 using LBoL.Core.Battle;
 using LBoL.Core.Battle.BattleActionRecord;
 using LBoL.Presentation;
+using LBoL.Presentation.UI.ExtraWidgets;
 using LBoL.Presentation.UI.Panels;
 using LBoL.Presentation.Units;
 using lvalonmima.Cards;
+using lvalonmima.Exhibits;
 using lvalonmima.GunName;
 using lvalonmima.lvalonmimaUlt;
 using UnityEngine;
@@ -19,6 +21,73 @@ namespace lvalonmima.Patches
 	[HarmonyPatch]
 	class CustomGameEventManager
 	{
+		[HarmonyPatch(typeof(PopupHud), nameof(PopupHud.PopupFromScene))]
+		public static class PopupHud_PopupFromScene_Patch
+		{
+			static bool Prefix(
+				PopupHud __instance,
+				int popValue,
+				Color color,
+				Vector3 worldPosition
+			)
+			{
+				if (popValue > int.MinValue)
+					return true;
+
+				string text = toolbox.gibberish();
+
+				string coloredText = "";
+				foreach (char c in text)
+				{
+					Color charColor = RandomBrightColor();
+					string hex = ColorUtility.ToHtmlStringRGB(charColor);
+					coloredText += $"<color=#{hex}>{c}</color>";
+				}
+
+				DamagePopup obj = Object.Instantiate(
+					__instance.damagePopup,
+					__instance.transform
+				);
+
+				obj.transform.localPosition =
+					CameraController.ScenePositionToLocalPositionInRectTransform(
+						worldPosition,
+						(RectTransform)__instance.transform
+					);
+
+				obj.tmp.text = coloredText;
+
+				// manual obj.Show() exec
+				obj.rb.linearVelocity = new Vector2(0, 0);
+				obj.rb.gravityScale = 0;
+
+				obj.gameObject.SetActive(value: true);
+				float scale = 1f + GameMaster.Instance?.CurrentGameRun?.Battle?.Player?.GetExhibit<exmimab>()?.Counter / GameMaster.Instance?.CurrentGameRun?.Battle?.Player?.MaxHp ?? 1f;
+
+				obj.transform.localScale = Vector3.one * scale;
+
+				//obj.transform.DOScale(new Vector3(1f, 1f, 1f), 1f).From(Vector3.one).SetEase(Ease.InSine);
+
+				Object.Destroy(obj.gameObject, 0.2f);
+
+				// obj.Show();
+
+				return false;
+			}
+
+			// Helper: generate a bright random color
+			private static Color RandomBrightColor()
+			{
+				return Color.HSVToRGB(
+					Random.value,
+					Random.Range(0.8f, 1f),
+					Random.Range(0.85f, 1f)
+				);
+			}
+		}
+
+
+
 		public static GameEvent<DeadEventArgs> PreDeadEvent { get; set; }
 		public static GameEvent<DeadEventArgs> PostDeadEvent { get; set; }
 		[HarmonyPatch(typeof(ActionResolver), nameof(ActionResolver.InternalResolve))]

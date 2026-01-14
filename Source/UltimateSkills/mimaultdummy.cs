@@ -7,16 +7,16 @@ using System.Collections.Generic;
 
 namespace lvalonmima.lvalonmimaUlt
 {
-	public sealed class exnotgojoDef : lvalonmimaUltTemplate
-	{
-	}
-	[EntityLogic(typeof(exnotgojoDef))]
-	public sealed class exnotgojo : UltimateSkill
-	{
+	// public sealed class exnotgojoDef : lvalonmimaUltTemplate
+	// {
+	// }
+	// [EntityLogic(typeof(exnotgojoDef))]
+	// public sealed class exnotgojo : UltimateSkill
+	// {
 
-		protected override IEnumerable<BattleAction> Actions(UnitSelector selector)
-		{
-			yield break;
-		}
-	}
+	// 	protected override IEnumerable<BattleAction> Actions(UnitSelector selector)
+	// 	{
+	// 		yield break;
+	// 	}
+	// }
 }

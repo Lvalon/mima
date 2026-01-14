@@ -2,8 +2,6 @@
 using HarmonyLib;
 using LBoL.Base;
 using LBoL.Core;
-using System.Linq;
-using LBoL.Core.StatusEffects;
 using LBoL.EntityLib.EnemyUnits.Character;
 using LBoL.Presentation;
 using LBoLEntitySideloader;
@@ -16,6 +14,13 @@ using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
 using lvalonmima.Source.Packs;
+using LBoL.Core.Battle;
+using System;
+using Random = System.Random;
+using LBoL.Presentation.Units;
+using LBoL.Presentation.UI.Panels;
+using System.Collections;
+using LBoL.Presentation.UI.ExtraWidgets;
 
 
 namespace lvalonmima
@@ -92,117 +97,217 @@ namespace lvalonmima
 			var gamerun = GameMaster.Instance?.CurrentGameRun;
 			if (gamerun == null)
 			{
-				u50 = false;
-				u25 = false;
-				u10 = false;
+				ResetFlags();
 				return;
 			}
-			if (gamerun.Packs.Contains(nameof(packtrumpDef)[..^3]))
-			{
-				while (gamerun.BaseDeck.Count(c => c.Id == nameof(cardmimaexa)) > 1)
-				{
-					gamerun.RemoveDeckCard(gamerun.BaseDeck.FirstOrDefault(c => c.Id == nameof(cardmimaexa)));
-				}
-				while (gamerun.BaseDeck.Count(c => c.Id == nameof(cardmimaexb)) > 1)
-				{
-					gamerun.RemoveDeckCard(gamerun.BaseDeck.FirstOrDefault(c => c.Id == nameof(cardmimaexb)));
-				}
-				if (gamerun.Player.MaxHp < 12)
-				{
-					if (gamerun.Player.Id == modUniqueID && gamerun.Player.HasExhibit<exmimaa>() && gamerun.BaseDeck.Count(c => c.Id == nameof(cardmimaexa)) < 1)
-					{
-						gamerun.AddDeckCard(Library.CreateCard<cardmimaexa>());
-					}
-					if (gamerun.Player.Id == modUniqueID && gamerun.Player.HasExhibit<exmimab>() && gamerun.BaseDeck.Count(c => c.Id == nameof(cardmimaexb)) < 1)
-					{
-						gamerun.AddDeckCard(Library.CreateCard<cardmimaexb>());
-					}
-				}
-			}
+
+			HandleDeckCleanup(GameMaster.Instance);
+
 			var battle = gamerun.Battle;
-			if (battle != null)
+			if (battle == null)
 			{
-				if (battle.Player.Hp < toolbox.hpfrompercent(battle.Player, 50))
-				{
-					u50 = true;
-					IEnumerable<StatusEffect> se50 = battle.AllAliveUnits.SelectMany(u => u.StatusEffects).Where(s => (s is sehl50 || s is exhl50) && s.Highlight == false);
-					if (se50.Count() > 0)
-					{
-						foreach (StatusEffect se in se50)
-						{
-							se.Highlight = true;
-						}
-					}
-				}
-				else
-				{
-					u50 = false;
-					IEnumerable<StatusEffect> se50 = battle.AllAliveUnits.SelectMany(u => u.StatusEffects).Where(s => (s is sehl50 || s is exhl50) && s.Highlight == true);
-					if (se50.Count() > 0)
-					{
-						foreach (StatusEffect se in se50)
-						{
-							se.Highlight = false;
-						}
-					}
-				}
+				ResetFlags();
+				return;
+			}
 
-				if (battle.Player.Hp < toolbox.hpfrompercent(battle.Player, 25))
-				{
-					u25 = true;
-					IEnumerable<StatusEffect> se25 = battle.AllAliveUnits.SelectMany(u => u.StatusEffects).Where(s => (s is sehl25 || s is exhl25) && s.Highlight == false);
-					if (se25.Count() > 0)
-					{
-						foreach (StatusEffect se in se25)
-						{
-							se.Highlight = true;
-						}
-					}
-				}
-				else
-				{
-					u25 = false;
-					IEnumerable<StatusEffect> se25 = battle.AllAliveUnits.SelectMany(u => u.StatusEffects).Where(s => (s is sehl25 || s is exhl25) && s.Highlight == true);
-					if (se25.Count() > 0)
-					{
-						foreach (StatusEffect se in se25)
-						{
-							se.Highlight = false;
-						}
-					}
-				}
+			var player = battle.Player;
+			int hp = player.Hp;
 
-				if (battle.Player.Hp < toolbox.hpfrompercent(battle.Player, 10))
+			if (player.GetExhibit<exmimab>() != null && hp == 0)
+			{
+				Random r = new Random();
+				if (r.Next(1, player.MaxHp * 100) <= player.GetExhibit<exmimab>().Counter)
 				{
-					u10 = true;
-					IEnumerable<StatusEffect> se10 = battle.AllAliveUnits.SelectMany(u => u.StatusEffects).Where(s => (s is sehl10 || s is exhl10) && s.Highlight == false);
-					if (se10.Count() > 0)
-					{
-						foreach (StatusEffect se in se10)
-						{
-							se.Highlight = true;
-						}
-					}
+					UnitView target = GameDirector.GetUnit(player);
+
+					Color color = Color.HSVToRGB(
+					UnityEngine.Random.value,
+					UnityEngine.Random.Range(0.8f, 1f),
+					UnityEngine.Random.Range(0.85f, 1f)
+					);
+
+					Camera cam = Camera.main;
+					float scale = cam != null ? cam.orthographicSize : 5f;
+
+					float radiusBias = Mathf.Pow(UnityEngine.Random.value, 0.25f);
+					Vector2 direction = UnityEngine.Random.insideUnitCircle.normalized;
+
+					Vector2 chaosOffset2D =
+						direction
+						* radiusBias
+						* scale
+						* player.GetExhibit<exmimab>().Counter / player.MaxHp;
+
+					PopupHud.Instance.PopupFromScene(
+						int.MinValue,
+						color,
+						target.transform.position + (Vector3)chaosOffset2D
+					);
+
+					PopupHud.Instance.StartCoroutine(
+				FollowupPopups(
+						target,
+						color,
+						target.transform.position,
+						(Vector3)chaosOffset2D
+					));
+				}
+			}
+
+			int hp50 = toolbox.hpfrompercent(player, 50);
+			int hp25 = toolbox.hpfrompercent(player, 25);
+			int hp10 = toolbox.hpfrompercent(player, 10);
+
+			UpdateHighlight(battle, hp < hp50, ref u50, typeof(sehl50), typeof(exhl50));
+			UpdateHighlight(battle, hp < hp25, ref u25, typeof(sehl25), typeof(exhl25));
+			UpdateHighlight(battle, hp < hp10, ref u10, typeof(sehl10), typeof(exhl10));
+		}
+		private void ResetFlags()
+		{
+			u50 = false;
+			u25 = false;
+			u10 = false;
+		}
+
+		private void HandleDeckCleanup(GameMaster gamerun2)
+		{
+			var gamerun = GameMaster.Instance?.CurrentGameRun;
+			if (gamerun == null)
+				return;
+			if (!gamerun.Packs.Contains(nameof(packtrumpDef)[..^3]))
+				return;
+
+			RemoveDuplicates(gamerun2, nameof(cardmimaexa));
+			RemoveDuplicates(gamerun2, nameof(cardmimaexb));
+
+			if (gamerun.Player.MaxHp >= 12)
+				return;
+
+			if (gamerun.Player.Id != modUniqueID)
+				return;
+
+			if (gamerun.Player.HasExhibit<exmimaa>() &&
+				!HasCard(gamerun2, nameof(cardmimaexa)))
+			{
+				gamerun.AddDeckCard(Library.CreateCard<cardmimaexa>());
+			}
+
+			if (gamerun.Player.HasExhibit<exmimab>() &&
+				!HasCard(gamerun2, nameof(cardmimaexb)))
+			{
+				gamerun.AddDeckCard(Library.CreateCard<cardmimaexb>());
+			}
+		}
+		private void RemoveDuplicates(GameMaster gamerun2, string cardId)
+		{
+			var gamerun = GameMaster.Instance?.CurrentGameRun;
+			if (gamerun == null)
+				return;
+			bool found = false;
+
+			for (int i = gamerun.BaseDeck.Count - 1; i >= 0; i--)
+			{
+				if (gamerun.BaseDeck[i].Id != cardId)
+					continue;
+
+				if (!found)
+				{
+					found = true;
 				}
 				else
 				{
-					u10 = false;
-					IEnumerable<StatusEffect> se10 = battle.AllAliveUnits.SelectMany(u => u.StatusEffects).Where(s => (s is sehl10 || s is exhl10) && s.Highlight == true);
-					if (se10.Count() > 0)
+					gamerun.RemoveDeckCard(gamerun.BaseDeck[i]);
+				}
+			}
+		}
+
+		private bool HasCard(GameMaster gamerun2, string cardId)
+		{
+			var gamerun = GameMaster.Instance?.CurrentGameRun;
+			if (gamerun == null)
+				return false;
+			for (int i = 0; i < gamerun.BaseDeck.Count; i++)
+			{
+				if (gamerun.BaseDeck[i].Id == cardId)
+					return true;
+			}
+			return false;
+		}
+		private void UpdateHighlight(
+			BattleController battle,
+			bool shouldBeActive,
+			ref bool flag,
+			Type t1,
+			Type t2
+		)
+		{
+			if (flag == shouldBeActive)
+				return;
+
+			flag = shouldBeActive;
+
+			foreach (var unit in battle.AllAliveUnits)
+			{
+				foreach (var status in unit.StatusEffects)
+				{
+					if ((status.GetType() == t1 || status.GetType() == t2) &&
+						status.Highlight != shouldBeActive)
 					{
-						foreach (StatusEffect se in se10)
-						{
-							se.Highlight = false;
-						}
+						status.Highlight = shouldBeActive;
 					}
 				}
 			}
-			else
-			{
-				u50 = false;
-				u25 = false;
-				u10 = false;
-			}
+		}
+
+		private static IEnumerator FollowupPopups(
+		UnitView target,
+		Color color,
+		Vector3 basePosition,
+		Vector2 initialOffset
+		)
+		{
+			yield return new WaitForSeconds(-0.6f);
+			SpawnFollowup(target, color, basePosition, initialOffset * 0.6f, 2f);
+
+			yield return new WaitForSeconds(0.6f);
+			SpawnFollowup(target, color, basePosition, initialOffset * 0.25f, 2f);
+		}
+
+		private static void SpawnFollowup(
+			UnitView target,
+			Color color,
+			Vector3 basePosition,
+			Vector2 offset,
+			float scale
+		)
+		{
+			// PopupHud.Instance.PopupFromScene(
+			// 	int.MinValue,
+			// 	color,
+			// 	basePosition + (Vector3)offset
+			// );
+			DamagePopup obj = Instantiate(
+		PopupHud.Instance.damagePopup,
+		PopupHud.Instance.transform
+	);
+
+			obj.transform.localPosition =
+				CameraController.ScenePositionToLocalPositionInRectTransform(
+					basePosition + (Vector3)offset,
+					(RectTransform)PopupHud.Instance.transform
+				);
+
+			obj.tmp.text = toolbox.gibberish();
+			obj.tmp.color = color;
+
+			obj.transform.localScale = Vector3.one * scale;
+
+			obj.rb.linearVelocity = new Vector2(0, 0);
+			obj.rb.gravityScale = 0;
+
+			obj.gameObject.SetActive(value: true);
+
+			Destroy(obj.gameObject, 0.1f);
 		}
 	}
 }

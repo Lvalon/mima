@@ -12,6 +12,7 @@ namespace lvalonmima.Localization
 		public static string UnitModel = "UnitModel";
 		public static string UltimateSkills = "UltimateSkills";
 		public static string StatusEffects = "StatusEffects";
+		public static string JadeBoxes = "JadeBoxes";
 		public static string Packs = "Packs";
 
 		public static BatchLocalization CardsBatchLoc = new BatchLocalization(BepinexPlugin.directorySource, typeof(CardTemplate), Cards);
@@ -21,6 +22,7 @@ namespace lvalonmima.Localization
 		public static BatchLocalization UnitModelBatchLoc = new BatchLocalization(BepinexPlugin.directorySource, typeof(UnitModelTemplate), UnitModel);
 		public static BatchLocalization UltimateSkillsBatchLoc = new BatchLocalization(BepinexPlugin.directorySource, typeof(UltimateSkillTemplate), UltimateSkills);
 		public static BatchLocalization StatusEffectsBatchLoc = new BatchLocalization(BepinexPlugin.directorySource, typeof(StatusEffectTemplate), StatusEffects);
+		public static BatchLocalization JadeBoxBatchLoc = new BatchLocalization(BepinexPlugin.directorySource, typeof(JadeBoxTemplate), JadeBoxes);
 		public static BatchLocalization PacksBatchLoc = new BatchLocalization(BepinexPlugin.directorySource, typeof(PackTemplate), Packs);
 
 
@@ -34,6 +36,7 @@ namespace lvalonmima.Localization
 			UnitModelBatchLoc.DiscoverAndLoadLocFiles(UnitModel);
 			UltimateSkillsBatchLoc.DiscoverAndLoadLocFiles(UltimateSkills);
 			StatusEffectsBatchLoc.DiscoverAndLoadLocFiles(StatusEffects);
+			JadeBoxBatchLoc.DiscoverAndLoadLocFiles(JadeBoxes);
 			PacksBatchLoc.DiscoverAndLoadLocFiles(Packs);
 		}
 	}

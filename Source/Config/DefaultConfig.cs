@@ -254,5 +254,22 @@ namespace lvalonmima.Config
 				}
 			);
 		}
+
+		public static JadeBoxConfig DefaultJadeBoxConfig()
+		{
+			return new JadeBoxConfig(
+				Index: 0,
+				Id: "",
+				Order: 10,
+				Group: new List<string>() { },
+				Value1: null,
+				Value2: null,
+				Value3: null,
+				Mana: null,
+				Keywords: Keyword.None,
+				RelativeEffects: new List<string>() { },
+				RelativeCards: new List<string>() { }
+			);
+		}
 	}
 }

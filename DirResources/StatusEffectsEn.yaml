@@ -25,8 +25,8 @@ sesideload:
   Name: Sideload X
 
 seevilspirit:
-  Description: "|Block| and |Barrier| gained will deal damage to {OwnerName} instead, each instance caps at {bscap} damage.\nWhen {OwnerName} is defeated, restore to maximum life instead, then each enemy's life and maximum life are reduced by {OwnerName}'s maximum life.\nWhen {OwnerName} defeats herself by card effect, her own Status Effect, Exhibit or by herself, gain |n:1| maximum life (once per combat), otherwise lose half the maximum life.\nWhen {OwnerName} has less than |n:6| maximum life, lose the game."
-  Brief: "|Block| and |Barrier| gained will deal damage to {OwnerName} instead, each instance caps at {bscap} damage.\nWhen {OwnerName} is defeated, restore to maximum life instead, then each enemy's life and maximum life are reduced by {OwnerName}'s maximum life.\nWhen {OwnerName} defeats herself by card effect, her own Status Effect, Exhibit or by herself, gain |n:1| maximum life (once per combat), otherwise lose half the maximum life.\nWhen {OwnerName} has less than |n:6| maximum life, lose the game."
+  Description: "|Block| and |Barrier| gained will deal damage to {OwnerName} instead, each instance caps at {bscap} damage.\nWhen {OwnerName} is defeated, restore to maximum life instead, then each enemy's life and maximum life are reduced by half of {OwnerName}'s maximum life.\nWhen {OwnerName} defeats herself by card effect, her own Status Effect, Exhibit or by herself, gain |n:1| maximum life (once per combat), otherwise lose half the maximum life.\nWhen {OwnerName} has less than |n:6| maximum life, lose the game."
+  Brief: "|Block| and |Barrier| gained will deal damage to {OwnerName} instead, each instance caps at {bscap} damage.\nWhen {OwnerName} is defeated, restore to maximum life instead, then each enemy's life and maximum life are reduced by half of {OwnerName}'s maximum life.\nWhen {OwnerName} defeats herself by card effect, her own Status Effect, Exhibit or by herself, gain |n:1| maximum life (once per combat), otherwise lose half the maximum life.\nWhen {OwnerName} has less than |n:6| maximum life, lose the game."
   Name: Evil Spirit
 
 setranscendence:

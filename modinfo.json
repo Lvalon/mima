@@ -3,9 +3,9 @@
   "Description": "(EN/繁/簡)\nAdds Mima to the game.\n將魅魔加入遊戲。",
   "Brief": "(EN/繁/簡)\nAdds Mima to the game.\n將魅魔加入遊戲。",
   "Changelog": [
-    "v0.1.4:\nMinor bugfixes.\nView the full changelog in CHANGELOG.md."
+    "v0.1.5:\nMajor nerfs.\nView the full changelog in CHANGELOG.md."
   ],
-  "Version": "0.1.4",
+  "Version": "0.1.5",
   "Author": "Lvalon",
   "Tags": [
     "Character",
@@ -18,5 +18,5 @@
     "BepInEx-BepInExPack-5.4.2100",
     "neo.lbol.frameworks.entitySideloader"
   ],
-  "LastUpdateTime": 1767456720
+  "LastUpdateTime": 1768006125
 }

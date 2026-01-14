@@ -25,8 +25,8 @@ sesideload:
   Name: 侧载 X
 
 seevilspirit:
-  Description: "{OwnerName}获得的|格档|和|护盾|将变为对{OwnerName}造成伤害，單次上限为 {bscap} 点伤害。\n当{OwnerName}被击败时，回满生命值，然后所有敌人的生命值和最大生命值降低{OwnerName}的最大生命值。\n当{OwnerName}以卡牌效果、自身状态、展品或自己击败自己时，获得 |n:1| 点最大生命值（每场战斗一次），否则失去一半最大生命值。\n当{OwnerName}的最大生命值少于 |n:6| 点时，死亡。"
-  Brief: "{OwnerName}获得的|格档|和|护盾|将变为对{OwnerName}造成伤害，單次上限为 {bscap} 点伤害。\n当{OwnerName}被击败时，回满生命值，然后所有敌人的生命值和最大生命值降低{OwnerName}的最大生命值。\n当{OwnerName}以卡牌效果、自身状态、展品或自己击败自己时，获得 |n:1| 点最大生命值（每场战斗一次），否则失去一半最大生命值。\n当{OwnerName}的最大生命值少于 |n:6| 点时，死亡。"
+  Description: "{OwnerName}获得的|格档|和|护盾|将变为对{OwnerName}造成伤害，單次上限为 {bscap} 点伤害。\n当{OwnerName}被击败时，回满生命值，然后所有敌人的生命值和最大生命值降低{OwnerName}的最大生命值的一半。\n当{OwnerName}以卡牌效果、自身状态、展品或自己击败自己时，获得 |n:1| 点最大生命值（每场战斗一次），否则失去一半最大生命值。\n当{OwnerName}的最大生命值少于 |n:6| 点时，死亡。"
+  Brief: "{OwnerName}获得的|格档|和|护盾|将变为对{OwnerName}造成伤害，單次上限为 {bscap} 点伤害。\n当{OwnerName}被击败时，回满生命值，然后所有敌人的生命值和最大生命值降低{OwnerName}的最大生命值的一半。\n当{OwnerName}以卡牌效果、自身状态、展品或自己击败自己时，获得 |n:1| 点最大生命值（每场战斗一次），否则失去一半最大生命值。\n当{OwnerName}的最大生命值少于 |n:6| 点时，死亡。"
   Name: 恶灵
 
 setranscendence:

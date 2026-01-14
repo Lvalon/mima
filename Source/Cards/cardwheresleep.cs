@@ -30,7 +30,7 @@ namespace lvalonmima.Cards
 			config.RelativeCards = new List<string>() { nameof(cardpurediamond) };
 			config.UpgradedRelativeCards = new List<string>() { nameof(cardpurediamond) };
 
-			config.Illustrator = "もね";
+			config.Illustrator = "Radal";
 
 			config.Index = CardIndexGenerator.GetUniqueIndex(config);
 			return config;

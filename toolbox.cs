@@ -9,6 +9,7 @@ using LBoL.Presentation;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using UnityEngine;
 
 namespace lvalonmima
 {
@@ -25,6 +26,29 @@ namespace lvalonmima
 		// 		return GameMaster.Instance.CurrentGameRun.Player.Hp < toolbox.hpfrompercent(GameMaster.Instance.CurrentGameRun.Player, 50, true);
 		// 	}
 		// }
+
+		public static string gibberish()
+		{
+			System.Random rng = new System.Random();
+			float t = Mathf.Pow((float)rng.NextDouble(), 2.5f);
+			int length = Mathf.RoundToInt(Mathf.Lerp(3, 24, t));
+			var sb = new System.Text.StringBuilder();
+
+			for (int i = 0; i < length; i++)
+			{
+				int roll = rng.Next(3);
+
+				if (roll == 0)
+					sb.Append((char)rng.Next(33, 127));
+				else if (roll == 1)
+					sb.Append((char)rng.Next(0x2200, 0x22FF));
+				else
+					sb.Append((char)rng.Next(0x25A0, 0x25FF));
+			}
+
+			return sb.ToString();
+		}
+
 
 		/// <summary>
 		/// round away from zero

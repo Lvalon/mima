@@ -24,8 +24,8 @@ namespace lvalonmima.Cards
 
 			config.Type = CardType.Status;
 			config.TargetType = TargetType.Nobody;
-			config.Damage = 5;
-			config.Value1 = 5;
+			config.Damage = 3;
+			config.Value1 = 3;
 			config.Mana = new ManaGroup() { Philosophy = 1 };
 
 			config.Keywords = Keyword.Forbidden;

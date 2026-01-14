@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using LBoL.Base;
 using LBoL.ConfigData;
@@ -9,6 +10,7 @@ using LBoLEntitySideloader.Attributes;
 using LBoLEntitySideloader.CustomKeywords;
 using lvalonmima.Cards;
 using lvalonmima.Cards.Template;
+using lvalonmima.JadeBoxes;
 
 namespace lvalonmima.StatusEffects
 {
@@ -36,28 +38,44 @@ namespace lvalonmima.StatusEffects
 			HandleOwnerEvent(Battle.CardsAddedToDiscard, OnCardAdded);
 			HandleOwnerEvent(Battle.CardsAddedToDrawZone, OnCardAddedDraw);
 			HandleOwnerEvent(Battle.CardsAddedToExile, OnCardAdded);
+			if (GameRun.JadeBoxes.Any(x => x.Id == nameof(JadeBoxCreative)))
+			{
+				HandleOwnerEvent(Battle.CardMoved, OnCardMoved);
+			}
+		}
+
+		private void RemoveKeyword(Card card)
+		{
+			if (card.HasCustomKeyword(nameof(seused)))
+			{
+				card.RemoveCustomKeyword(lvalonmimakeyword.Used);
+			}
+		}
+
+		private void RemoveKeyword(Card[] cards)
+		{
+			foreach (Card card in cards)
+			{
+				RemoveKeyword(card);
+			}
+		}
+
+		private void OnCardMoved(CardMovingEventArgs args)
+		{
+			if (args.DestinationZone is CardZone.Hand && args.SourceZone != CardZone.Draw)
+			{
+				RemoveKeyword(args.Card);
+			}
 		}
 
 		private void OnCardAddedDraw(CardsAddingToDrawZoneEventArgs args)
 		{
-			foreach (Card card in args.Cards)
-			{
-				if (card.HasCustomKeyword(nameof(seused)))
-				{
-					card.RemoveCustomKeyword(lvalonmimakeyword.Used);
-				}
-			}
+			RemoveKeyword(args.Cards);
 		}
 
 		private void OnCardAdded(CardsEventArgs args)
 		{
-			foreach (Card card in args.Cards)
-			{
-				if (card.HasCustomKeyword(nameof(seused)))
-				{
-					card.RemoveCustomKeyword(lvalonmimakeyword.Used);
-				}
-			}
+			RemoveKeyword(args.Cards);
 		}
 
 		private void OnCardPlayed(CardUsingEventArgs args)
@@ -85,7 +103,7 @@ namespace lvalonmima.StatusEffects
 		{
 			foreach (Card card in Battle.EnumerateAllCards().Where(c => c.HasCustomKeyword(nameof(seused))))
 			{
-				card.RemoveCustomKeyword(lvalonmimakeyword.Used);
+				RemoveKeyword(card);
 			}
 		}
 	}

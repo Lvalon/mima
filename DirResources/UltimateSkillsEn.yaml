@@ -12,5 +12,5 @@ ultmimab:
   Description: |-
     Lose all life, all enemies lose that much life, if {PlayerName}'s life is {Value1}, all enemies lose life equal to {PlayerName}'s maximum life instead.
 
-exnotgojo:
-  Content: "Infinite Void"
+# exnotgojo:
+#   Content: "Infinite Void"

@@ -12,5 +12,5 @@ ultmimab:
   Description: |-
     失去所有生命值，所有敌人失去等量的生命值，如果{PlayerName}的生命值为 {Value1}，则改为所有敌人失去等于玩家最大生命值的生命值。
 
-exnotgojo:
-  Content: "无量空处"
+# exnotgojo:
+#   Content: "无量空处"

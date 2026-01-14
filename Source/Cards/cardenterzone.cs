@@ -35,6 +35,8 @@ namespace lvalonmima.Cards
 
 			config.Illustrator = "camellia";
 
+			config.SubIllustrator = new List<string>() { "Radal" };
+
 			config.Index = CardIndexGenerator.GetUniqueIndex(config);
 			return config;
 		}
