@@ -101,7 +101,7 @@ namespace lvalonmima.Cards
 
 				if (IsUpgraded)
 				{
-					while ((a2.Count() < full.Count() || mult * Value1 >= int.MaxValue / 2) && Battle.AllAliveEnemies.Where(e => !a2.Contains(e)).Any() && Battle.AllAliveEnemies.Count() > 0)
+					while ((a2.Count() < full.Count() || mult * Value1 >= int.MaxValue / 2) && Battle.AllAliveEnemies.Any(e => !a2.Contains(e)) && Battle.AllAliveEnemies.Count() > 0)
 					{
 						full = Battle.AllAliveEnemies.ToList();
 						enemy = Battle.AllAliveEnemies.Where(e => !a2.Contains(e)).Sample(GameRun.BattleRng);
@@ -122,7 +122,7 @@ namespace lvalonmima.Cards
 				}
 				else
 				{
-					while ((a1.Count() < full.Count() || mult * Value1 >= int.MaxValue / 2) && Battle.AllAliveEnemies.Where(e => !a1.Contains(e)).Any() && Battle.AllAliveEnemies.Count() > 0)
+					while ((a1.Count() < full.Count() || mult * Value1 >= int.MaxValue / 2) && Battle.AllAliveEnemies.Any(e => !a1.Contains(e)) && Battle.AllAliveEnemies.Count() > 0)
 					{
 						full = Battle.AllAliveEnemies.ToList();
 						enemy = Battle.AllAliveEnemies.Where(e => !a1.Contains(e)).Sample(GameRun.BattleRng);

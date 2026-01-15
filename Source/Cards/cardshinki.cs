@@ -68,7 +68,7 @@ namespace lvalonmima.Cards
 			if (Battle.BattleShouldEnd || Zone != CardZone.Hand) { yield break; }
 			yield return SacrificeAction(Value1);
 			if (Battle.BattleShouldEnd) { yield break; }
-			if (Battle.HandZone.Where(c => !c.IsUpgraded && c.CanUpgradeAndPositive).Count() > 0)
+			if (Battle.HandZone.Count(c => !c.IsUpgraded && c.CanUpgradeAndPositive) > 0)
 			{
 				yield return new UpgradeCardAction(Battle.HandZone.Where(c => !c.IsUpgraded && c.CanUpgradeAndPositive).Sample(GameRun.BattleRng));
 			}

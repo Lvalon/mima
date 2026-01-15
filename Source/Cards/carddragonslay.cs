@@ -89,7 +89,7 @@ namespace lvalonmima.Cards
 				}
 			}
 
-			if (Battle.HandZone.Where(c => c != this).Count() > 2 && Battle.AllAliveEnemies.Count() > 0)
+			if (Battle.HandZone.Count(c => c != this) > 2 && Battle.AllAliveEnemies.Count() > 0)
 			{
 				SelectCardInteraction interaction = new SelectCardInteraction(Value2, Value2, Battle.HandZone.Where(c => c != this), SelectedCardHandling.DoNothing)
 				{
@@ -114,7 +114,7 @@ namespace lvalonmima.Cards
 			}
 			else
 			{
-				bool qualifies = Battle.HandZone.Where(c => c != this).Count() == 2;
+				bool qualifies = Battle.HandZone.Count(c => c != this) == 2;
 				yield return new ExileManyCardAction(Battle.HandZone.Where(c => c != this));
 				if (Battle.BattleShouldEnd) { yield break; }
 				if (qualifies || IsUpgraded)

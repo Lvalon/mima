@@ -1,6 +1,6 @@
 secreative:
-  Description: "Each non-|Teammate| card can only be played once per turn."
-  Brief: "Each non-|Teammate| card can only be played once per turn."
+  Description: "Each non-|Teammate| card can only be played once per turn.\nCards moved from anywhere other than the draw pile to the hand loses |Used|."
+  Brief: "Each non-|Teammate| card can only be played once per turn.\nCards moved from anywhere other than the draw pile to the hand loses |Used|."
   Name: Creative
   seerror: "Any other spells?"
 

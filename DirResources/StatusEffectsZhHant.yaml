@@ -1,12 +1,12 @@
 secreative:
-  Description: "每張非|同伴|牌一回合只能被打出一次。"
-  Brief: "每張非|同伴|牌一回合只能被打出一次。"
+  Description: "每張非|同伴|牌一回合只能被打出一次。\n被從抽牌堆外的地方移回手中的卡牌將失去|已打出|。"
+  Brief: "每張非|同伴|牌一回合只能被打出一次。\n被從抽牌堆外的地方移回手中的卡牌將失去|已打出|。"
   Name: 創意
   seerror: "還有其他法術嗎？"
 
 seused:
-  Description: "此卡這輪已被打出。"
-  Brief: "此卡這輪已被打出。"
+  Description: "此卡牌這輪已被打出。"
+  Brief: "此卡牌這輪已被打出。"
   Name: 已打出
 
 selinked:

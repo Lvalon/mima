@@ -48,7 +48,7 @@ namespace lvalonmima.Cards
 	{
 		public override Interaction Precondition()
 		{
-			if (Battle.HandZone.Where(c => !c.IsPurified && !c.IsXCost && c != this).Count() > 1)
+			if (Battle.HandZone.Count(c => !c.IsPurified && !c.IsXCost && c != this) > 1)
 			{
 				return new SelectCardInteraction(0, Value1, Battle.HandZone.Where(c => !c.IsPurified && !c.IsXCost && c != this));
 			}

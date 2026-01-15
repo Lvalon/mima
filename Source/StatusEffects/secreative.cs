@@ -30,7 +30,7 @@ namespace lvalonmima.StatusEffects
 		public override bool ForceNotShowDownText => true;
 		protected override void OnAdded(Unit unit)
 		{
-			HandleOwnerEvent(Battle.CardPlayed, OnCardPlayed);
+			// HandleOwnerEvent(Battle.CardPlayed, OnCardPlayed);
 			HandleOwnerEvent(Battle.CardUsed, OnCardPlayed);
 			HandleOwnerEvent(Battle.Player.TurnEnded, OnRoundEnded, GameEventPriority.Lowest);
 			//HandleOwnerEvent(Battle.RoundEnded, OnRoundEnded, GameEventPriority.Lowest);
@@ -38,10 +38,10 @@ namespace lvalonmima.StatusEffects
 			HandleOwnerEvent(Battle.CardsAddedToDiscard, OnCardAdded);
 			HandleOwnerEvent(Battle.CardsAddedToDrawZone, OnCardAddedDraw);
 			HandleOwnerEvent(Battle.CardsAddedToExile, OnCardAdded);
-			if (GameRun.JadeBoxes.Any(x => x.Id == nameof(JadeBoxCreative)))
-			{
-				HandleOwnerEvent(Battle.CardMoved, OnCardMoved);
-			}
+			// if (GameRun.JadeBoxes.Any(x => x.Id == nameof(JadeBoxCreative)))
+			// {
+			HandleOwnerEvent(Battle.CardMoved, OnCardMoved);
+			// }
 		}
 
 		private void RemoveKeyword(Card card)

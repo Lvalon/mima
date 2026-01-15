@@ -1,5 +1,13 @@
 # Changelog / 更新日誌
 
+## [0.1.6] - 2026-1-15
+
+### Changes / 改動
+
+- Creative now removes Used from cards recycled from places other than the draw pile.
+
+- 創意現在從抽牌堆外的地方回收後會移除該牌的已打出。
+
 ## [0.1.5] - 2026-1-14
 
 ### Added / 新增
@@ -80,6 +88,7 @@
 
 - 1.7.0 支援。
 
+[0.1.6]: https://thunderstore.io/package/download/Lvalon/Mima/0.1.6/
 [0.1.5]: https://thunderstore.io/package/download/Lvalon/Mima/0.1.5/
 [0.1.4]: https://thunderstore.io/package/download/Lvalon/Mima/0.1.4/
 [0.1.3]: https://thunderstore.io/package/download/Lvalon/Mima/0.1.3/

@@ -72,7 +72,7 @@ namespace lvalonmima.Cards
 			expelling = true;
 			try
 			{
-				if (!Battle.Player.TryGetStatusEffect(out Charging se) || se.Level < svalue || Battle.HandZone.Where(c => c != this).Count() == 0)
+				if (!Battle.Player.TryGetStatusEffect(out Charging se) || se.Level < svalue || Battle.HandZone.Count(c => c != this) == 0)
 				{
 					yield break;
 				}

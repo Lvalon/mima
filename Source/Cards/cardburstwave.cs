@@ -43,7 +43,7 @@ namespace lvalonmima.Cards
 		protected override IEnumerable<BattleAction> Actions(UnitSelector selector, ManaGroup consumingMana, Interaction precondition)
 		{
 			yield return new ApplyStatusEffectAction<seburstwave>(Battle.Player, Value1, 0, 0, 0);
-			if (Battle.AllAliveEnemies.Count() > 0 && IsUpgraded && Battle.HandZone.Where(c => c != this).Count() > 0)
+			if (Battle.AllAliveEnemies.Count() > 0 && IsUpgraded && Battle.HandZone.Count(c => c != this) > 0)
 			{
 				SelectCardInteraction interaction = new SelectCardInteraction(0, Value1, Battle.HandZone.Where(c => c != this), SelectedCardHandling.DoNothing)
 				{
