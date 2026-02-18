@@ -926,7 +926,12 @@ namespace lvalonmima.Patches.Exhibits
 
 				bool alreadyAccepted = exhibit.IsQuestSlotAccepted(index);
 
-				SelectCardInteraction interaction = new SelectCardInteraction(1, 1, new[] { card })
+				string cardId = card?.Id ?? item.Content?.Id ?? "";
+				bool canAbandon = true;
+				if (cardId == nameof(cardquest11))
+					canAbandon = false;
+
+				SelectCardInteraction interaction = new SelectCardInteraction(0, (!canAbandon && alreadyAccepted) ? 0 : 1, new[] { card })
 				{
 					Source = null,
 					CanCancel = true,
@@ -935,7 +940,6 @@ namespace lvalonmima.Patches.Exhibits
 
 				yield return panel.GameRun.InteractionViewer.View(interaction);
 
-				string cardId = card?.Id ?? item.Content?.Id ?? "";
 				if (cardId == "")
 				{
 					BepinexPlugin.log.LogWarning("[EXQUESTING UI] Clicked card has no ID, cannot track quest progress.");
@@ -958,10 +962,10 @@ namespace lvalonmima.Patches.Exhibits
 								List<Card> toRmv2 = new List<Card>();
 								for (int i = 0; i < Library.CreateCard<cardquest10>().Value20; i++)
 								{
-									toRmv2.Add(panel.GameRun.BaseDeck.First(c => c.Id == nameof(LBoL.EntityLib.Cards.Neutral.Black.Shadow)));
+									toRmv2.Add(panel.GameRun.BaseDeck.FirstOrDefault(c => c.Id == nameof(LBoL.EntityLib.Cards.Neutral.Black.Shadow) && !toRmv2.Contains(c)));
 								}
 								if (toRmv2.Count > 0)
-									panel.GameRun.RemoveDeckCards(toRmv2);
+									panel.GameRun.RemoveDeckCards(toRmv2.Where(c => c != null && c is LBoL.EntityLib.Cards.Neutral.Black.Shadow).ToArray());
 								break;
 							default:
 								break;
@@ -988,10 +992,10 @@ namespace lvalonmima.Patches.Exhibits
 								break;
 							case nameof(cardquest10):
 								cardquest10 quest10 = Library.CreateCard<cardquest10>();
-								for (int i = 0; i < quest10.Value20; i++)
-								{
-									panel.GameRun.AddDeckCards(Library.CreateCards<LBoL.EntityLib.Cards.Neutral.Black.Shadow>(quest10.Value20), true);
-								}
+								panel.GameRun.AddDeckCards(Library.CreateCards<LBoL.EntityLib.Cards.Neutral.Black.Shadow>(quest10.Value20), true);
+								break;
+							case nameof(cardquest11):
+								panel.GameRun.GainMoney(Library.CreateCard<cardquest11>().Value440);
 								break;
 							default:
 								break;

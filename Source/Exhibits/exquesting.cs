@@ -43,6 +43,7 @@ namespace lvalonmima.Exhibits
 		public Dictionary<string, int> PendingQuestProgress = new Dictionary<string, int>();
 		public Dictionary<string, string> QuestRequirements = new Dictionary<string, string>(StringComparer.Ordinal);
 		public HashSet<string> CompletedQuestCards = new HashSet<string>(StringComparer.Ordinal);
+		private readonly HashSet<string> FreshlyCompletedQuestCards = new HashSet<string>(StringComparer.Ordinal);
 		public Dictionary<int, Card> RolledQuestCards = new Dictionary<int, Card>();
 		public HashSet<int> SoldOutQuestSlots = new HashSet<int>();
 		private static readonly int[] VisibleQuestSlots = { 1, 2, 3, 5, 6, 7 };
@@ -84,7 +85,7 @@ namespace lvalonmima.Exhibits
 				Card card = kvp.Value;
 				string cardId = card?.Id ?? "<null>";
 				bool accepted = card != null && !string.IsNullOrEmpty(card.Id) && PendingQuestProgress.ContainsKey(card.Id);
-				bool completed = card != null && !string.IsNullOrEmpty(card.Id) && CompletedQuestCards.Contains(card.Id);
+				bool completed = false;
 				bool soldOut = IsQuestSlotSoldOut(slot);
 				parts.Add($"{slot}:{cardId}(accepted={accepted},completed={completed},soldOut={soldOut})");
 			}
@@ -620,15 +621,6 @@ namespace lvalonmima.Exhibits
 				BepinexPlugin.log.LogInfo($"[EXQUESTING SAVE] RollQuestCards assigned slot={slot} card={finalCard?.Id ?? "<null>"}");
 			}
 
-			foreach (var kvp in RolledQuestCards)
-			{
-				Card card = kvp.Value;
-				if (card != null && !string.IsNullOrEmpty(card.Id) && CompletedQuestCards.Contains(card.Id))
-				{
-					SoldOutQuestSlots.Add(kvp.Key);
-				}
-			}
-
 			PreRollQuestRequirementsForRolledCards(useGameRunRng: true);
 			CleanupStaleQuestRequirements();
 
@@ -666,11 +658,6 @@ namespace lvalonmima.Exhibits
 				return false;
 			}
 
-			if (CompletedQuestCards.Contains(questCardId))
-			{
-				return true;
-			}
-
 			if (RolledQuestCards == null || RolledQuestCards.Count == 0)
 			{
 				return false;
@@ -703,11 +690,6 @@ namespace lvalonmima.Exhibits
 				return false;
 			}
 
-			if (CompletedQuestCards.Contains(card.Id))
-			{
-				return false;
-			}
-
 			return PendingQuestProgress.ContainsKey(card.Id);
 		}
 
@@ -724,6 +706,7 @@ namespace lvalonmima.Exhibits
 			}
 
 			CompletedQuestCards.Add(questCardId);
+			FreshlyCompletedQuestCards.Add(questCardId);
 			PendingQuestProgress.Remove(questCardId);
 			ClearQuestRequirement(questCardId);
 		}
@@ -733,6 +716,20 @@ namespace lvalonmima.Exhibits
 			if (!string.IsNullOrEmpty(questCardId))
 			{
 				CompletedQuestCards.Remove(questCardId);
+				FreshlyCompletedQuestCards.Remove(questCardId);
+			}
+		}
+
+		public bool IsFreshlyCompletedQuestCard(string questCardId)
+		{
+			return !string.IsNullOrEmpty(questCardId) && FreshlyCompletedQuestCards.Contains(questCardId);
+		}
+
+		public void ClearFreshQuestCompletion(string questCardId)
+		{
+			if (!string.IsNullOrEmpty(questCardId))
+			{
+				FreshlyCompletedQuestCards.Remove(questCardId);
 			}
 		}
 
@@ -864,7 +861,7 @@ namespace lvalonmima.Exhibits
 
 				ShopItem<Card> item = new ShopItem<Card>(run, rolledCard, 0, false, false)
 				{
-					IsSoldOut = IsQuestSlotSoldOut(i) || IsQuestCardCompleted(rolledCard.Id)
+					IsSoldOut = IsQuestSlotSoldOut(i)
 				};
 				shopCards.Add(item);
 			}

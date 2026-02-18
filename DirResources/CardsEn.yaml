@@ -454,3 +454,9 @@ cardquest10:
   Description: "|When accepted|: Gain {Value20} |Shadow{Value20:plural one='' other='s'}|.\n|When abandoned|: Remove {Value20} |Shadow{Value20:plural one='' other='s'}|."
   ExtraDescription1: "|Challenge|: The |Shadow{Value20:plural one='' other='s'}| leave the library after advancing {Value1} level{Value1:plural one='' other='s'} to |Reward| {PlayerName}."
   ExtraDescription2: '|Reward|: {Value2} life and |n:100| <sprite="Point" name="Gold">.'
+
+cardquest11:
+  Name: "11. Gold Rush"
+  Description: "|p:Cannot be abandoned.|\n|When accepted|: Gain {Value440} <sprite=\"Point\" name=\"Gold\">."
+  ExtraDescription1: '|Challenge|: During the next {Value1} combat{Value1:plural one='''' other=''s''}, when {PlayerName} takes damage, lose {Value2} time{Value2:plural one='''' other=''s''} that much <sprite="Point" name="Gold">, and if there aren''''t enough <sprite="Point" name="Gold"> to lose, lose {Value2} time{Value2:plural one='''' other=''s''} that much life.'
+  DetailText: "Directly self-inflicted damage cannot trigger the |Challenge| effect."

@@ -68,3 +68,4 @@ Roguelite Shop:
 8. Perfect Cherry Blossom: https://danbooru.donmai.us/posts/951996 (an2a)
 9. The Strongest: https://www.pixiv.net/en/artworks/70611521 (ういrふぃ８え８w８ぢ)
 10. Is That So?: https://www.reddit.com/r/touhou/comments/x5ewe5/daily_rumia_550_that_tree_came_outta_nowhere/ (Redlikeroses7)
+11. Gold Rush: https://www.pixiv.net/en/artworks/47122213 ((仮))

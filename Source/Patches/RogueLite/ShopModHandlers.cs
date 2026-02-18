@@ -299,21 +299,125 @@ namespace lvalonmima.Source.Patches
 			// Run after station enter initialization so vanilla restore/state hydration does not overwrite effects.
 			yield return null;
 			BepinexPlugin.log.LogInfo($"[EXQUESTING SAVE] CoResolveCompletedQuestEffectsOnStationEnter begin completed=[{string.Join(", ", completedSnapshot)}], baseDeckCount={(gameRun.BaseDeck?.Count ?? -1)}");
+			HashSet<string> consumedCompleted = new HashSet<string>(StringComparer.Ordinal);
 
 			foreach (string questCardId in completedSnapshot)
 			{
 				if (string.IsNullOrEmpty(questCardId))
 					continue;
 
+				if (exhibit.IsFreshlyCompletedQuestCard(questCardId))
+				{
+					BepinexPlugin.log.LogInfo($"[EXQUESTING SAVE] CoResolveCompletedQuestEffectsOnStationEnter skip fresh completion quest={questCardId}; preserving for restart replay.");
+					exhibit.ClearFreshQuestCompletion(questCardId);
+					continue;
+				}
+
 				switch (questCardId)
 				{
 					case nameof(cardquest4):
 						Card card = Library.CreateCard<cardquest4>();
-						gameRun.RemoveDeckCard(gameRun.BaseDeck.FirstOrDefault(c => c.Id == nameof(cardgenji)));
-						gameRun.GainPower((int)card.Config.Value2);
-						gameRun.Heal((int)card.Config.Value2);
+						Card genji = null;
+						for (int attempt = 0; attempt < 60; attempt++)
+						{
+							genji = gameRun.BaseDeck?.FirstOrDefault(c => c.Id == nameof(cardgenji));
+							if (genji != null)
+							{
+								if (attempt > 0)
+								{
+									BepinexPlugin.log.LogInfo($"[EXQUESTING SAVE] CoResolveCompletedQuestEffectsOnStationEnter quest4 found cardgenji after retries attempt={attempt}");
+								}
+								break;
+							}
+
+							if (attempt < 59)
+							{
+								yield return null;
+							}
+						}
+						if (genji != null && card != null)
+						{
+							int hpBefore = gameRun.Player?.Hp ?? -1;
+							int maxHpBefore = gameRun.Player?.MaxHp ?? -1;
+							int powerBefore = gameRun.Player?.Power ?? -1;
+							gameRun.RemoveDeckCard(genji);
+							gameRun.GainPower((int)card.Config.Value2);
+							gameRun.Heal((int)card.Config.Value2);
+							BepinexPlugin.log.LogInfo($"[EXQUESTING SAVE] CoResolveCompletedQuestEffectsOnStationEnter quest4 applied value2={card.Config.Value2} hp={hpBefore}->{gameRun.Player?.Hp ?? -1} maxHp={maxHpBefore}->{gameRun.Player?.MaxHp ?? -1} power={powerBefore}->{gameRun.Player?.Power ?? -1}");
+						}
+						else
+						{
+							BepinexPlugin.log.LogInfo($"[EXQUESTING SAVE] CoResolveCompletedQuestEffectsOnStationEnter quest4 no-op genjiMissing={genji == null} cardNull={card == null}; treating as already resolved.");
+						}
+						consumedCompleted.Add(questCardId);
+						break;
+					case nameof(cardquest10):
+						cardquest10 card2 = Library.CreateCard<cardquest10>();
+						if (card2 != null)
+						{
+							int requiredShadows = card2.Value20;
+							for (int attempt = 0; attempt < 60; attempt++)
+							{
+								int shadowCount = gameRun.BaseDeck?.Count(c => c.Id == nameof(LBoL.EntityLib.Cards.Neutral.Black.Shadow)) ?? 0;
+								if (shadowCount >= requiredShadows)
+								{
+									if (attempt > 0)
+									{
+										BepinexPlugin.log.LogInfo($"[EXQUESTING SAVE] CoResolveCompletedQuestEffectsOnStationEnter quest10 found shadows after retries attempt={attempt} shadows={shadowCount}");
+									}
+									break;
+								}
+
+								if (attempt < 59)
+								{
+									yield return null;
+								}
+							}
+
+							List<Card> shadows = gameRun.BaseDeck
+								.Where(c => c.Id == nameof(LBoL.EntityLib.Cards.Neutral.Black.Shadow))
+								.Take(card2.Value20)
+								.ToList();
+							if (shadows.Count >= card2.Value20)
+							{
+								gameRun.RemoveDeckCards(shadows);
+								int hpBefore = gameRun.Player?.Hp ?? -1;
+								int maxHpBefore = gameRun.Player?.MaxHp ?? -1;
+								int moneyBefore = gameRun.Money;
+								gameRun.Heal((int)card2.Config.Value2);
+								gameRun.GainMoney((int)card2.Config.Value2 * 10, true, new VisualSourceData
+								{
+									SourceType = VisualSourceType.Entity,
+									Source = exhibit,
+								});
+								BepinexPlugin.log.LogInfo($"[EXQUESTING SAVE] CoResolveCompletedQuestEffectsOnStationEnter quest10 applied shadowsRemoved={shadows.Count} value2={card2.Config.Value2} hp={hpBefore}->{gameRun.Player?.Hp ?? -1} maxHp={maxHpBefore}->{gameRun.Player?.MaxHp ?? -1} money={moneyBefore}->{gameRun.Money}");
+							}
+							else
+							{
+								BepinexPlugin.log.LogInfo($"[EXQUESTING SAVE] CoResolveCompletedQuestEffectsOnStationEnter quest10 no-op insufficient shadows after retries shadows={shadows.Count} required={card2.Value20}; treating as already resolved.");
+							}
+						}
+						consumedCompleted.Add(questCardId);
 						break;
 				}
+			}
+
+			if (consumedCompleted.Count > 0)
+			{
+				foreach (string questCardId in consumedCompleted)
+				{
+					exhibit.ClearQuestCompleted(questCardId);
+					foreach (var kvp in exhibit.RolledQuestCards)
+					{
+						Card slotCard = kvp.Value;
+						if (slotCard != null && string.Equals(slotCard.Id, questCardId, StringComparison.Ordinal))
+						{
+							exhibit.SoldOutQuestSlots.Remove(kvp.Key);
+						}
+					}
+				}
+
+				BepinexPlugin.log.LogInfo($"[EXQUESTING SAVE] CoResolveCompletedQuestEffectsOnStationEnter consumed completed=[{string.Join(", ", consumedCompleted)}], remainingCompleted=[{string.Join(", ", exhibit.CompletedQuestCards)}], soldOutCount={exhibit.SoldOutQuestSlots.Count}");
 			}
 
 			// Persist post-resolution state to avoid regression on immediate reload.
@@ -484,6 +588,7 @@ namespace lvalonmima.Source.Patches
 
 						if (progress >= card.Config.Value1)
 						{
+							gameRun.RemoveDeckCards(gameRun.BaseDeck.Where(c => c.Id == nameof(LBoL.EntityLib.Cards.Neutral.Black.Shadow)).Take(((cardquest10)card).Value20).ToList());
 							gameRun.Heal((int)card.Config.Value2);
 							gameRun.GainMoney((int)card.Config.Value2 * 10, true, new VisualSourceData
 							{
@@ -862,6 +967,31 @@ namespace lvalonmima.Source.Patches
 								enemy.ReactBattleEvent(enemy.DamageReceived, args => OnQuest9(args, gamerun, exhibit));
 							player.HandleBattleEvent(gamerun.Battle.EnemySpawned
 							, args => args.Unit.ReactBattleEvent(args.Unit.DamageReceived, damageArgs => OnQuest9(damageArgs, gamerun, exhibit)));
+							break;
+						case nameof(cardquest11):
+							battleChallenges.Add(id);
+							player.ReactBattleEvent(player.DamageReceived, args =>
+							{
+								cardquest11 quest11 = Library.CreateCard<cardquest11>();
+								List<BattleAction> actions = new List<BattleAction>();
+								if (args.DamageInfo.Damage > 0 && args.Source != player)
+								{
+									if (gamerun.Money > args.DamageInfo.Damage * quest11.Value2)
+									{
+										actions.Add(new LoseMoneyAction(toolbox.Round(args.DamageInfo.Damage * quest11.Value2)));
+									}
+									else
+									{
+										int remainder = toolbox.Round(args.DamageInfo.Damage * quest11.Value2) - gamerun.Money;
+										if (gamerun.Money > 0)
+										{
+											actions.Add(new LoseMoneyAction(gamerun.Money));
+										}
+										actions.Add(DamageAction.LoseLife(player, remainder));
+									}
+								}
+								return actions;
+							});
 							break;
 						default:
 							break;

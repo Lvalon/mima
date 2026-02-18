@@ -454,3 +454,9 @@ cardquest10:
   Description: "|接受時|：獲得 {Value20} 張|暗影|。\n|放棄時|：移除 {Value20} 張|暗影|。"
   ExtraDescription1: "|挑戰|：{Value20} 張|暗影|將在前進 {Value1} 關後離開牌庫，並給{PlayerName}|獎勵|。"
   ExtraDescription2: '|獎勵|：{Value2} 點生命值和 |n:100| 點<sprite="Point" name="Gold">。'
+
+cardquest11:
+  Name: "序列 11：Gold Rush"
+  Description: "|p:不能放棄|。\n|接受時|：獲得 {Value440} 點<sprite=\"Point\" name=\"Gold\">。"
+  ExtraDescription1: '|挑戰|：在下 {Value1} 場戰鬥內，{PlayerName}受到傷害時失去 {Value2} 倍的<sprite="Point" name="Gold">，如果沒有足夠的<sprite="Point" name="Gold">則失去 {Value2} 倍的生命值。'
+  DetailText: "直接對自己造成的傷害不能觸發|挑戰|效果。"
