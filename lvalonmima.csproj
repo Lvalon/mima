@@ -322,6 +322,9 @@
     <Reference Include="DOTweenPro.Scripts">
       <HintPath>$(GameFolder)/Contents/Resources/Data/Managed/DOTweenPro.Scripts.dll</HintPath>
     </Reference>
+	<Reference Include="YamlDotNet">
+        <HintPath>$(GameFolder)/Contents/Resources/Data/Managed/YamlDotNet.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources/**/*" />
@@ -329,5 +332,9 @@
   <ItemGroup>
     <Folder Include="DirResources/" />
     <Folder Include="Resources/" />
+    <Folder Include="Source/Cards/Token/Quests/" />
   </ItemGroup>
+  <Target Name="RunMakeZip" AfterTargets="Build" Condition="Exists('$(MSBuildProjectDirectory)/makezip.sh')">
+    <Exec Command="sh &quot;$(MSBuildProjectDirectory)/makezip.sh&quot;" WorkingDirectory="$(MSBuildProjectDirectory)" />
+  </Target>
 </Project>

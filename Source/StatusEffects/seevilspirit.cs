@@ -74,9 +74,7 @@ namespace lvalonmima.StatusEffects
 				}
 
 				var eBarImage = eBarGo.GetComponent<Image>();
-				var pulse = eBarGo.GetComponent<EvilBarPulse>();
-				if (pulse == null)
-					pulse = eBarGo.AddComponent<EvilBarPulse>();
+				var pulse = eBarGo.GetComponent<EvilBarPulse>() ?? eBarGo.AddComponent<EvilBarPulse>();
 				pulse.Initialize(eBarImage);
 				int capped = Mathf.Clamp(counterValue, 0, Owner.MaxHp);
 				if (eBarImage != null)

@@ -4,10 +4,60 @@ using LBoL.Core.Battle;
 using LBoL.Core.Battle.BattleActions;
 using LBoL.Core.Cards;
 using LBoL.Core.StatusEffects;
+using LBoLEntitySideloader.CustomKeywords;
 using LBoL.Presentation;
+using lvalonmima.Exhibits;
 
 namespace lvalonmima.Cards.Template
 {
+	public class questCard : lvalonmimaCard
+	{
+		public override void Initialize()
+		{
+			base.Initialize();
+			this.AddCustomKeyword(lvalonmimakeyword.Quest);
+		}
+
+		protected override string GetBaseDescription()
+		{
+			int? quest = GameMaster.Instance?.CurrentGameRun?.Player?.GetExhibit<exquesting>()?.PendingQuestProgress?.GetValueOrDefault(Id, -1);
+			int progress = quest ?? 0;
+
+			string text = BaseDescription;
+			if (!string.IsNullOrEmpty(text))
+				text += "\n";
+
+			if (HasExtraDescription1)
+			{
+				text += RawExtraDescription1;
+			}
+
+			if (HasExtraDescription2)
+			{
+				if (text.Length > 0)
+				{
+					text += "\n";
+				}
+				text += RawExtraDescription2;
+			}
+
+			if (quest != null && quest != -1)
+			{
+				if (text.Length > 0)
+				{
+					text += "\n";
+				}
+				text += "(|c:" + progress + "| / |c:" + Value1 + "|)";
+			}
+
+			if (text.Length == 0)
+			{
+				return base.GetBaseDescription();
+			}
+
+			return StringDecorator.Decorate(FollowByDetailIcon(text));
+		}
+	}
 	public class lvalonmimaCard : Card
 	{
 		public virtual bool playing { get; set; } = false;

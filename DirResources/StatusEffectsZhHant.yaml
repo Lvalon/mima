@@ -76,8 +76,8 @@ seperlereino:
 
 sefuckyou700:
   Description: "當失去 {Count}% 的生命值時，獲得戰鬥勝利。"
-  Brief: "當累計失去 |n:700|% 的生命值時，獲得戰鬥勝利。"
-  Name: 連鎖 7
+  Brief: "當累計失去 |n:1000|% 的生命值時，獲得戰鬥勝利。"
+  Name: 連鎖 10
 
 semicrocosmos:
   Description: "這個回合中，只能打出|技能|牌，每打出一張牌，獲得 |n:1| 點|暫得火力|，|魔爆|和|充能|。"
@@ -115,7 +115,7 @@ seburstwave:
 
 seaccumulate:
   Description: "{PlayerName}的回合開始時，獲得{Mana}，|透支| {Level}，|純化| {Level}，將 {Level} 張|純淨鑽石|洗入抽牌堆。\n如果生效時|< 25%|： {SelfName}不會|透支|和|純化|。\n戰鬥結束時，獲得 {Count} <sprite=\"Point\" name=\"Gold\">。"
-  Brief: "{PlayerName}的回合開始時，獲得{Mana}，|透支|，|純化|，將|純淨鑽石|洗入抽牌堆。\n如果生效時|< 25%|： {SelfName}不會|透支|和|純化|。\n戰鬥結束時，獲得 <sprite=\"Point\" name=\"Gold\">。"
+  Brief: "{PlayerName}的回合開始時，獲得{Mana}，|透支|，|純化|，將|純淨鑽石|洗入抽牌堆。\n如果生效時|< 25%|： {SelfName}不會|透支|和|純化|。\n戰鬥結束時，獲得<sprite=\"Point\" name=\"Gold\">。"
   Name: 積累的幸福
 
 sebackground:
@@ -124,8 +124,8 @@ sebackground:
   Name: 暗湧的怨恨
 
 seconversion:
-  Description: "{PlayerName}的回合開始時，失去敵人數量乘以 {Level} 的生命值並獲得等量的|時域衝擊|。\n如果生效時|< 25%|：{SelName}打出後和此狀態獲得的|時域衝擊|為雙倍。"
-  Brief: "{PlayerName}的回合開始時，失去敵人數量的生命值並獲得等量的|時域衝擊|。\n如果生效時|< 25%|：{SelName}打出後和此狀態獲得的|時域衝擊|為雙倍。"
+  Description: "{PlayerName}的回合開始時，失去敵人數量乘以 {Level} 的生命值並獲得等量的|時域衝擊|。\n如果生效時|< 25%|：{SelfName}打出後和此狀態獲得的|時域衝擊|為雙倍。"
+  Brief: "{PlayerName}的回合開始時，失去敵人數量的生命值並獲得等量的|時域衝擊|。\n如果生效時|< 25%|：{SelfName}打出後和此狀態獲得的|時域衝擊|為雙倍。"
   Name: 深淵轉換實驗室
 
 secardsideload:
@@ -187,3 +187,12 @@ seshinki:
   Description: "回合開始時，從 {Count} 張非普通牌選擇至多 {Level} 張置於抽牌堆頂，它們|暫塑|為{Mana}，具有|填充|、|放逐|、|虛無|。\n不能找到|n:魔界之神神綺|。"
   Brief: "回合開始時，從 |n:7| 張非普通牌選擇至多 |n:3| 張置於抽牌堆頂，它們|暫塑|為{Mana}，具有|填充|、|放逐|、|虛無|。\n不能找到|n:魔界之神神綺|。"
   Name: 魔界製造
+
+sequest:
+  Brief: "任務含有|條件|或|挑戰|，條件達成或在挑戰中存活下來後將獲得|獎勵|。"
+  Name: 任務
+
+sehaunted:
+  Description: "{Ownername}被傷害殺死時，免除死亡並恢復至最大生命值的一半，然後移除{SelfName}。"
+  Brief: "{Ownername}被傷害殺死時，免除死亡並恢復至最大生命值的一半，然後移除{SelfName}。"
+  Name: 活死人

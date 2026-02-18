@@ -25,8 +25,8 @@ sesideload:
   Name: 侧载 X
 
 seevilspirit:
-  Description: "{OwnerName}获得的|格档|和|护盾|将变为对{OwnerName}造成伤害，單次上限为 {bscap} 点伤害。\n当{OwnerName}被击败时，回满生命值，然后所有敌人的生命值和最大生命值降低{OwnerName}的最大生命值的一半。\n当{OwnerName}以卡牌效果、自身状态、展品或自己击败自己时，获得 |n:1| 点最大生命值（每场战斗一次），否则失去一半最大生命值。\n当{OwnerName}的最大生命值少于 |n:6| 点时，死亡。"
-  Brief: "{OwnerName}获得的|格档|和|护盾|将变为对{OwnerName}造成伤害，單次上限为 {bscap} 点伤害。\n当{OwnerName}被击败时，回满生命值，然后所有敌人的生命值和最大生命值降低{OwnerName}的最大生命值的一半。\n当{OwnerName}以卡牌效果、自身状态、展品或自己击败自己时，获得 |n:1| 点最大生命值（每场战斗一次），否则失去一半最大生命值。\n当{OwnerName}的最大生命值少于 |n:6| 点时，死亡。"
+  Description: "{OwnerName}获得的|格档|和|护盾|将变为对{OwnerName}造成伤害，单次上限为 {bscap} 点伤害。\n当{OwnerName}被击败时，回满生命值，然后所有敌人的生命值和最大生命值降低{OwnerName}的最大生命值的一半。\n当{OwnerName}以卡牌效果、自身状态、展品或自己击败自己时，获得 |n:1| 点最大生命值（每场战斗一次），否则失去一半最大生命值。\n当{OwnerName}的最大生命值少于 |n:6| 点时，死亡。"
+  Brief: "{OwnerName}获得的|格档|和|护盾|将变为对{OwnerName}造成伤害，单次上限为 {bscap} 点伤害。\n当{OwnerName}被击败时，回满生命值，然后所有敌人的生命值和最大生命值降低{OwnerName}的最大生命值的一半。\n当{OwnerName}以卡牌效果、自身状态、展品或自己击败自己时，获得 |n:1| 点最大生命值（每场战斗一次），否则失去一半最大生命值。\n当{OwnerName}的最大生命值少于 |n:6| 点时，死亡。"
   Name: 恶灵
 
 setranscendence:
@@ -76,8 +76,8 @@ seperlereino:
 
 sefuckyou700:
   Description: "当失去 {Count}% 的生命值时，获得战斗胜利。"
-  Brief: "当累计失去 |n:700|% 的生命值时，获得战斗胜利。"
-  Name: 连锁 7
+  Brief: "当累计失去 |n:1000|% 的生命值时，获得战斗胜利。"
+  Name: 连锁 10
 
 semicrocosmos:
   Description: "这个回合中，只能打出|技能|牌，每打出一张牌，获得 |n:1| 点|暂得火力|，|魔爆|和|充能|。"
@@ -115,7 +115,7 @@ seburstwave:
 
 seaccumulate:
   Description: "{PlayerName}的回合开始时，获得{Mana}，|透支| {Level}，|纯化| {Level}，将 {Level} 张|纯净钻石|洗入抽牌堆。\n如果生效时|< 25%|： {SelfName}不会|透支|和|纯化|。\n战斗结束时，获得 {Count} <sprite=\"Point\" name=\"Gold\">。"
-  Brief: "{PlayerName}的回合开始时，获得{Mana}，|透支|，|纯化|，将|纯净钻石|洗入抽牌堆。\n如果生效时|< 25%|： {SelfName}不会|透支|和|纯化|。\n战斗结束时，获得 <sprite=\"Point\" name=\"Gold\">。"
+  Brief: "{PlayerName}的回合开始时，获得{Mana}，|透支|，|纯化|，将|纯净钻石|洗入抽牌堆。\n如果生效时|< 25%|： {SelfName}不会|透支|和|纯化|。\n战斗结束时，获得<sprite=\"Point\" name=\"Gold\">。"
   Name: 积累的幸福
 
 sebackground:
@@ -124,8 +124,8 @@ sebackground:
   Name: 暗涌的怨恨
 
 seconversion:
-  Description: "{PlayerName}的回合开始时，失去敌人数量乘以 {Level} 的生命值并获得等量的|时域冲击|。\n如果生效时|< 25%|：{SelName}打出后和此状态获得的|时域冲击|为双倍。"
-  Brief: "{PlayerName}的回合开始时，失去敌人数量的生命值并获得等量的|时域冲击|。\n如果生效时|< 25%|：{SelName}打出后和此状态获得的|时域冲击|为双倍。"
+  Description: "{PlayerName}的回合开始时，失去敌人数量乘以 {Level} 的生命值并获得等量的|时域冲击|。\n如果生效时|< 25%|：{SelfName}打出后和此状态获得的|时域冲击|为双倍。"
+  Brief: "{PlayerName}的回合开始时，失去敌人数量的生命值并获得等量的|时域冲击|。\n如果生效时|< 25%|：{SelfName}打出后和此状态获得的|时域冲击|为双倍。"
   Name: 深渊转换实验室
 
 secardsideload:
@@ -187,3 +187,12 @@ seshinki:
   Description: "回合开始时，从 {Count} 张非普通牌选择至多 {Level} 张置于抽牌堆顶，它们|暂塑|为{Mana}，具有|填充|、|放逐|、|虚无|。\n不能找到|n:魔界之神神绮|。"
   Brief: "回合开始时，从 |n:7| 张非普通牌选择至多 |n:3| 张置于抽牌堆顶，它们|暂塑|为{Mana}，具有|填充|、|放逐|、|虚无|。\n不能找到|n:魔界之神神绮|。"
   Name: 魔界制造
+
+sequest:
+  Brief: "任务含有|条件|或|挑战|，条件达成或在挑战中存活下来后将获得|奖励|。"
+  Name: 任务
+
+sehaunted:
+  Description: "{Ownername}被伤害杀死时，免除死亡并恢复至最大生命值的一半，然后移除{SelfName}。"
+  Brief: "{Ownername}被伤害杀死时，免除死亡并恢复至最大生命值的一半，然后移除{SelfName}。"
+  Name: 活死人

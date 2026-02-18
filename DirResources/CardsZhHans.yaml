@@ -91,7 +91,7 @@ cardextrav:
 
 cardenterzone:
   Name: 进入状态！
-  Description: "所有手牌的费用|暂时降低| {Value1} 点随机法力。\n|过载| {Value2}。"
+  Description: "所有手牌的费用|暂时降低| {Value1} 点随机法力。\n|透支| {Value2}。"
 
 cardwheresleep:
   Name: 我的归宿
@@ -167,7 +167,7 @@ cardindomitable:
 cardentertainment:
   Name: 现代娱乐
   Description: "失去 {Value1} 点生命值。\n获得 {Value10} 点<sprite=\"Point\" name=\"Gold\">。\n获得{Mana}。\n将 {Value2} 张|纯净钻石|洗入抽牌堆。"
-  UpgradedDescription: "失去 {Value1} 点生命值。\n获得 {Value10} 点<sprite=\"Point\" name=\"Gold\"> 和 {Value10} 点<sprite=\"Point\" name=\"Power\">。\n获得{Mana}。\n将 {Value2} 张|纯净钻石|洗入抽牌堆。"
+  UpgradedDescription: "失去 {Value1} 点生命值。\n获得 {Value10} 点<sprite=\"Point\" name=\"Gold\">和 {Value10} 点<sprite=\"Point\" name=\"Power\">。\n获得{Mana}。\n将 {Value2} 张|纯净钻石|洗入抽牌堆。"
 
 cardshepherdg:
   Name: 牧羊娃
@@ -193,7 +193,7 @@ cardbackground:
 
 cardconversion:
   Name: 深渊转换
-  Description: "{PlayerName}的回合开始时，失去敌人数量的生命值并获得等量的|时域冲击|。\n获得 {Value2} 层|时域冲击|。\n如果生效时|< 25%|{hp25ns}：{SelName}打出后和此状态获得的|时域冲击|为双倍。"
+  Description: "{PlayerName}的回合开始时，失去敌人数量的生命值并获得等量的|时域冲击|。\n获得 {Value2} 层|时域冲击|。\n如果生效时|< 25%|{hp25ns}：{SelfName}打出后和此状态获得的|时域冲击|为双倍。"
 
 cardentrance:
   Name: "戏剧性登场"
@@ -373,3 +373,84 @@ cardshinki:
   ExtraDescription1: "{FriendA}进入|超然物外|和|深渊|。"
   ExtraDescription3: "{FriendU}获得|魔界制造|。"
   DetailText: "|e:备选牌|无视法力数量和颜色限制。\n不能找到{SelfName}。"
+
+# roguelike shop cards
+
+cardrerolldiscard:
+  Name: roll了
+  Description: "战斗开始时可把抽牌堆和手牌置入弃牌堆。"
+  ExtraDescription1: "不要把抽牌堆和手牌置入弃牌堆。"
+  ExtraDescription2: "把抽牌堆和手牌置入弃牌堆。"
+
+cardquest1:
+  Name: "序列 1：猎杀时刻"
+  Description: ""
+  ExtraDescription1: "|条件|：|退治| {Value1} 次。"
+  ExtraDescription2: '|奖励|：{Value2} 点<sprite="Point" name="Gold">。'
+
+cardquest2:
+  Name: "序列 2：交换卡片游戏"
+  Description: ""
+  ExtraDescription1: "|条件|：将一张|{cardRarity}||{cardType}|牌加入牌库。"
+  ExtraDescription2: "|奖励|：从牌库随机移除一张|基础|牌。"
+  RarityCommon: "普通"
+  RarityUncommon: "罕见"
+  RarityRandom: "随机稀有度"
+  TypeAttack: "攻击"
+  TypeDefense: "防御"
+  TypeSkill: "技能"
+  TypeAbility: "能力"
+  TypeRandom: "和随机类型"
+  DetailText: "牌库没有|基础|牌时，{SelfName}不会在备选池内。可选中的类型为攻击/防御/技能/能力。能力将要求罕见，其他类型则要求普通。"
+
+cardquest3:
+  Name: "序列 3：虚脱"
+  Description: ""
+  ExtraDescription1: "|挑战|：下 {Value1} 场战斗开始时，失去 |n:1| 点|火力|和|灵力|。"
+  ExtraDescription2: '|奖励|：{Value2} 点<sprite="Point" name="Gold">。'
+
+cardquest4:
+  Name: "序列 4：守护神"
+  Description: "|接受时|：获得|玄爷|。\n|放弃时|：移除|玄爷|。"
+  ExtraDescription1: "|挑战|：|玄爷|将在前进 {Value1} 关后离开牌库，并给{PlayerName}|奖励|。"
+  ExtraDescription2: '|奖励|：{Value2} 点<sprite="Point" name="Power">和 {Value2} 点生命值。'
+cardgenji:
+  Name: 玄爷
+  Description: "<indent=80>|手牌中|：抽牌阶段外不能抽牌。"
+
+cardquest5:
+  Name: "序列 5：地灵殿"
+  Description: ""
+  ExtraDescription1: "|挑战|：下 {Value1} 场战斗内，最左的手牌被打出后将被|放逐|。"
+  ExtraDescription2: "|奖励|：从 {Value2} 张普通或罕见牌中选择 |n:1| 张加入牌库。"
+
+cardquest6:
+  Name: "序列 6：活死人的呼唤"
+  Description: ""
+  ExtraDescription1: "|挑战|：下一场出现了|召唤|敌人的战斗内，|召唤|敌人将获得|活死人|。"
+  ExtraDescription2: "|奖励|：从 {Value2} 张|完全随机|的已升级|魅魔|牌中选择 |n:1| 张加入牌库。"
+
+cardquest7:
+  Name: "序列 7：茶伴"
+  Description: ""
+  ExtraDescription1: "|条件|：在隙间小屋饮茶 {Value1} 次。"
+  ExtraDescription2: '|奖励|：{Value2} 点<sprite="Point" name="Gold">。'
+
+cardquest8:
+  Name: "序列 8：妖妖梦"
+  Description: "|接受时|：获得一张随机的|闪避|牌。"
+  ExtraDescription1: "|条件|：|闪避| {Value1} 次。"
+  ExtraDescription2: "|奖励|：展品|楼观剑|。"
+  DetailText: "已拥有|楼观剑|或备选池内没有|闪避|牌时，{SelfName}不会在备选池内。"
+
+cardquest9:
+  Name: "序列 9：最强"
+  Description: ""
+  ExtraDescription1: "|条件|：造成高于或等于 {Value1} 点直接伤害或生命失去 {Value1} 次。"
+  ExtraDescription2: "|奖励|：将最多 {Value2} 张|冰之翼|加入牌库。"
+
+cardquest10:
+  Name: "序列 10：是这样吗？"
+  Description: "|接受时|：获得 {Value20} 张|暗影|。\n|放弃时|：移除 {Value20} 张|暗影|。"
+  ExtraDescription1: "|挑战|：{Value20} 张|暗影|将在前进 {Value1} 关后离开牌库，并给{PlayerName}|奖励|。"
+  ExtraDescription2: '|奖励|：{Value2} 点生命值和 |n:100| 点<sprite="Point" name="Gold">。'

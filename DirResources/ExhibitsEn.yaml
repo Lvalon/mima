@@ -18,3 +18,9 @@ exmimab:
     When {PlayerName}'s |Evil Spirit| life-related effects would trigger, {PlayerName} enters the |Abyss|, has the life-related effects delayed to the end of round, and will not be defeated until then.
     {SelfName}'s |Karma| is equal to amount of times {PlayerName} has lost life while at |n:0| life each round.
     If {SelfName}'s |Karma| exceeds {PlayerName}'s maximum life, set {PlayerName}'s maximum life to |n:1|.
+exquesting:
+  Name: Quest Board
+  Description: |-
+    Click to open the {SelfName}. |Quests| could be accepted or abandoned in it.
+    Accepted quests will occupy a slot of the {SelfName}, abandoning quests will leave that quest slot empty, and quest slots are updated when {PlayerName} advances a level or finishes a combat.
+    Quest progress is saved at the end of each combat and when advancing a level.

@@ -29,8 +29,8 @@
 /Users/e/Desktop/tachyon transmigration/projects/indev/lvalonmima/bin/Debug/netstandard2.1/UnityEngine.UnityWebRequestAudioModule.dll
 /Users/e/Desktop/tachyon transmigration/projects/indev/lvalonmima/bin/Debug/netstandard2.1/UnityEngine.UnityWebRequestModule.dll
 /Users/e/Desktop/tachyon transmigration/projects/indev/lvalonmima/bin/Debug/netstandard2.1/Untitled.ConfigDataBuilder.Base.dll
-/Users/e/Desktop/tachyon transmigration/projects/indev/lvalonmima/bin/Debug/netstandard2.1/YarnSpinner.dll
 /Users/e/Desktop/tachyon transmigration/projects/indev/lvalonmima/bin/Debug/netstandard2.1/YamlDotNet.dll
+/Users/e/Desktop/tachyon transmigration/projects/indev/lvalonmima/bin/Debug/netstandard2.1/YarnSpinner.dll
 /Users/e/Desktop/tachyon transmigration/projects/indev/lvalonmima/bin/Debug/netstandard2.1/com.rlabrecque.steamworks.net.dll
 /Users/e/Desktop/tachyon transmigration/projects/indev/lvalonmima/bin/Debug/netstandard2.1/Google.Protobuf.dll
 /Users/e/Desktop/tachyon transmigration/projects/indev/lvalonmima/bin/Debug/netstandard2.1/Unity.ResourceManager.dll
@@ -111,7 +111,7 @@
 /Users/e/Desktop/tachyon transmigration/projects/indev/lvalonmima/obj/Debug/netstandard2.1/lvalonmima.AssemblyInfoInputs.cache
 /Users/e/Desktop/tachyon transmigration/projects/indev/lvalonmima/obj/Debug/netstandard2.1/lvalonmima.AssemblyInfo.cs
 /Users/e/Desktop/tachyon transmigration/projects/indev/lvalonmima/obj/Debug/netstandard2.1/lvalonmima.csproj.CoreCompileInputs.cache
+/Users/e/Desktop/tachyon transmigration/projects/indev/lvalonmima/obj/Debug/netstandard2.1/lvalonmima.sourcelink.json
 /Users/e/Desktop/tachyon transmigration/projects/indev/lvalonmima/obj/Debug/netstandard2.1/lvalonmima.csproj.Up2Date
 /Users/e/Desktop/tachyon transmigration/projects/indev/lvalonmima/obj/Debug/netstandard2.1/lvalonmima.dll
 /Users/e/Desktop/tachyon transmigration/projects/indev/lvalonmima/obj/Debug/netstandard2.1/lvalonmima.pdb
-/Users/e/Desktop/tachyon transmigration/projects/indev/lvalonmima/obj/Debug/netstandard2.1/lvalonmima.sourcelink.json

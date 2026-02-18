@@ -140,6 +140,19 @@ namespace lvalonmima.Cards
 						foreach (BattleAction ba in effect2(selector)) yield return ba;
 					}
 				}
+
+				NotifyActivating();
+				EnemyUnit tmp = Battle.RandomAliveEnemy;
+				foreach (BattleAction ba in effect1(new UnitSelector(tmp))) yield return ba;
+				if (Battle.AllAliveEnemies.Count() > 0)
+				{
+					if (!tmp.IsAlive)
+					{
+						tmp = Battle.RandomAliveEnemy;
+					}
+					foreach (BattleAction ba in effect2(new UnitSelector(tmp))) yield return ba;
+				}
+				GameRun.SetHpAndMaxHp(Battle.Player.Hp + Value2, Battle.Player.MaxHp + Value2, true);
 			}
 			finally
 			{

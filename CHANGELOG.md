@@ -1,5 +1,19 @@
 # Changelog / 更新日誌
 
+## [0.1.7] - 2026-1-
+
+### Added / 新增
+
+- New card art by Radal!
+
+- Radal 提供的新卡圖！
+
+### Changes / 改動
+
+- Minor bugfixes.
+
+- 修了點 bug。
+
 ## [0.1.6] - 2026-1-15
 
 ### Changes / 改動
@@ -19,7 +33,7 @@
 ### Changes / 改動
 
 - Halved on-revive aoe damage.
-- Added Karma on MimaB exhibit, she cannot tank damage for an indefinite amount of times in a round now.
+- Added Karma on MimaB exhibit, she cannot tank damage for an indefinite number of times in a round now.
 - Pure Diamond's damage is nerfed from 5 to 3.
 - Minor bugfixes.
 
@@ -88,6 +102,7 @@
 
 - 1.7.0 支援。
 
+[0.1.7]: https://thunderstore.io/package/download/Lvalon/Mima/0.1.7/
 [0.1.6]: https://thunderstore.io/package/download/Lvalon/Mima/0.1.6/
 [0.1.5]: https://thunderstore.io/package/download/Lvalon/Mima/0.1.5/
 [0.1.4]: https://thunderstore.io/package/download/Lvalon/Mima/0.1.4/

@@ -12,7 +12,7 @@ cardpurediamond:
 
 cardmimaexa:
   Name: 鳳凰檔案
-  Description: "|戰鬥開始時|：打出戰場裡所有的|能力|牌。"
+  Description: "|戰鬥開始時|：打出戰場裏所有的|能力|牌。"
   DetailText: "{SelfName}會在擁有展品|轉生|的|魅魔|最大生命值少於 {Value1} 時加入牌庫。"
 
 cardmimaexb:
@@ -91,7 +91,7 @@ cardextrav:
 
 cardenterzone:
   Name: 進入狀態！
-  Description: "所有手牌的費用|暫時降低| {Value1} 點隨機法力。\n|過載| {Value2}。"
+  Description: "所有手牌的費用|暫時降低| {Value1} 點隨機法力。\n|透支| {Value2}。"
 
 cardwheresleep:
   Name: 我的歸宿
@@ -106,7 +106,7 @@ cardsharppeak:
   Description: "|每支付{Mana}|：失去 {Value1} 點生命值，|透支| {Value1}，獲得 {Value2} 層|充能|。"
 
 cardbirdq:
-  Name: 話題裡的小鳥
+  Name: 話題裏的小鳥
   Description: "選擇至多 {Value1} 張手牌|淨化|。\n將 {Value1} 張|純淨鑽石|洗入抽牌堆。\n如果|< 50%|{hp50ns}：洗入多 {Value1} 張|純淨鑽石|。"
 
 cardfromhell:
@@ -167,7 +167,7 @@ cardindomitable:
 cardentertainment:
   Name: 現代娛樂
   Description: "失去 {Value1} 點生命值。\n獲得 {Value10} 點<sprite=\"Point\" name=\"Gold\">。\n獲得{Mana}。\n將 {Value2} 張|純淨鑽石|洗入抽牌堆。"
-  UpgradedDescription: "失去 {Value1} 點生命值。\n獲得 {Value10} 點<sprite=\"Point\" name=\"Gold\"> 和 {Value10} 點<sprite=\"Point\" name=\"Power\">。\n獲得{Mana}。\n將 {Value2} 張|純淨鑽石|洗入抽牌堆。"
+  UpgradedDescription: "失去 {Value1} 點生命值。\n獲得 {Value10} 點<sprite=\"Point\" name=\"Gold\">和 {Value10} 點<sprite=\"Point\" name=\"Power\">。\n獲得{Mana}。\n將 {Value2} 張|純淨鑽石|洗入抽牌堆。"
 
 cardshepherdg:
   Name: 牧羊娃
@@ -193,7 +193,7 @@ cardbackground:
 
 cardconversion:
   Name: 深淵轉換
-  Description: "{PlayerName}的回合開始時，失去敵人數量的生命值並獲得等量的|時域衝擊|。\n獲得 {Value2} 層|時域衝擊|。\n如果生效時|< 25%|{hp25ns}：{SelName}打出後和此狀態獲得的|時域衝擊|為雙倍。"
+  Description: "{PlayerName}的回合開始時，失去敵人數量的生命值並獲得等量的|時域衝擊|。\n獲得 {Value2} 層|時域衝擊|。\n如果生效時|< 25%|{hp25ns}：{SelfName}打出後和此狀態獲得的|時域衝擊|為雙倍。"
 
 cardentrance:
   Name: "戲劇性登場"
@@ -251,7 +251,7 @@ cardimplodemagic:
   UpgradedExtraDescription2: "|側載 {svalue}|：攻擊變為|精準|並受|魔爆|加成。"
 
 cardflameon:
-  Name: 著火
+  Name: 着火
   Description: "獲得 {Value1} 層|充能|。\n造成 {Damage} 點傷害。\n|退治|時，失去 {Value2} 點生命值，獲得 {Value3} 點<sprite=\"Point\" name=\"Power\">。"
   UpgradedDescription: "獲得 {Value1} 層|充能|。\n施加 |n:1| 層|易傷|。\n造成 {Damage} 點傷害。\n|退治|時，失去 {Value2} 點生命值，獲得 {Value3} 點<sprite=\"Point\" name=\"Power\">。"
 
@@ -306,8 +306,8 @@ cardyukionna:
 
 carddoubleit:
   Name: 加倍，再給...
-  Description: "失去 {Value2} 點生命值。\n目標失去 {Value1} 點生命值。\n加倍並再次生效於這次效果處理內，一個沒被指定的敵人上。\n|退治|時，獲得等於再次生效次數除以 |n:3| 的最大生命值。"
-  UpgradedDescription: "失去 {Value2} 點生命值。\n目標失去 {Value1} 點生命值。\n加倍並再次生效於這次效果處理內，一個沒被指定|兩次|的敵人上。\n|退治|時，獲得等於再次生效次數除以 |n:3| 的最大生命值。"
+  Description: "失去 {Value2} 點生命值。\n目標失去 {Value1} 點生命值。\n加倍並再次生效於今次效果處理內，一個沒被指定的敵人上。\n|退治|時，獲得等於再次生效次數除以 |n:3| 的最大生命值。"
+  UpgradedDescription: "失去 {Value2} 點生命值。\n目標失去 {Value1} 點生命值。\n加倍並再次生效於今次效果處理內，一個沒被指定|兩次|的敵人上。\n|退治|時，獲得等於再次生效次數除以 |n:3| 的最大生命值。"
   DetailText: "當一名敵人被指定後（升級後則是指定兩次後），{SelfName}不會再指定該敵人。"
 
 cardtruefalse:
@@ -373,3 +373,84 @@ cardshinki:
   ExtraDescription1: "{FriendA}進入|超然物外|和|深淵|。"
   ExtraDescription3: "{FriendU}獲得|魔界製造|。"
   DetailText: "|e:備選牌|無視法力數量和顏色限制。\n不能找到{SelfName}。"
+
+# roguelike shop cards
+
+cardrerolldiscard:
+  Name: roll了
+  Description: "戰鬥開始時可把抽牌堆和手牌置入棄牌堆。"
+  ExtraDescription1: "不要把抽牌堆和手牌置入棄牌堆。"
+  ExtraDescription2: "把抽牌堆和手牌置入棄牌堆。"
+
+cardquest1:
+  Name: "序列 1：獵殺時刻"
+  Description: ""
+  ExtraDescription1: "|條件|：|退治| {Value1} 次。"
+  ExtraDescription2: '|獎勵|：{Value2} 點<sprite="Point" name="Gold">。'
+
+cardquest2:
+  Name: "序列 2：交換卡片遊戲"
+  Description: ""
+  ExtraDescription1: "|條件|：將一張|{cardRarity}||{cardType}|牌加入牌庫。"
+  ExtraDescription2: "|獎勵|：從牌庫隨機移除一張|基礎|牌。"
+  RarityCommon: "普通"
+  RarityUncommon: "罕見"
+  RarityRandom: "隨機稀有度"
+  TypeAttack: "攻擊"
+  TypeDefense: "防禦"
+  TypeSkill: "技能"
+  TypeAbility: "能力"
+  TypeRandom: "和隨機類型"
+  DetailText: "牌庫沒有|基礎|牌時，{SelfName}不會在備選池內。可選中的類型為攻擊/防禦/技能/能力。能力將要求罕見，其他類型則要求普通。"
+
+cardquest3:
+  Name: "序列 3：虛脫"
+  Description: ""
+  ExtraDescription1: "|挑戰|：下 {Value1} 場戰鬥開始時，失去 |n:1| 點|火力|和|靈力|。"
+  ExtraDescription2: '|獎勵|：{Value2} 點<sprite="Point" name="Gold">。'
+
+cardquest4:
+  Name: "序列 4：守護神"
+  Description: "|接受時|：獲得|玄爺|。\n|放棄時|：移除|玄爺|。"
+  ExtraDescription1: "|挑戰|：|玄爺|將在前進 {Value1} 關後離開牌庫，並給{PlayerName}|獎勵|。"
+  ExtraDescription2: '|獎勵|：{Value2} 點<sprite="Point" name="Power">和 {Value2} 點生命值。'
+cardgenji:
+  Name: 玄爺
+  Description: "<indent=80>|手牌中|：抽牌階段外不能抽牌。"
+
+cardquest5:
+  Name: "序列 5：地靈殿"
+  Description: ""
+  ExtraDescription1: "|挑戰|：下 {Value1} 場戰鬥內，最左的手牌被打出後將被|放逐|。"
+  ExtraDescription2: "|獎勵|：從 {Value2} 張普通或罕見牌中選擇 |n:1| 張加入牌庫。"
+
+cardquest6:
+  Name: "序列 6：活死人的呼喚"
+  Description: ""
+  ExtraDescription1: "|挑戰|：下一場出現了|召喚|敵人的戰鬥內，|召喚|敵人將獲得|活死人|。"
+  ExtraDescription2: "|獎勵|：從 {Value2} 張|完全隨機|的已升級|魅魔|牌中選擇 |n:1| 張加入牌庫。"
+
+cardquest7:
+  Name: "序列 7：茶伴"
+  Description: ""
+  ExtraDescription1: "|條件|：在隙間小屋飲茶 {Value1} 次。"
+  ExtraDescription2: '|獎勵|：{Value2} 點<sprite="Point" name="Gold">。'
+
+cardquest8:
+  Name: "序列 8：妖妖夢"
+  Description: "|接受時|：獲得一張隨機的|閃避|牌。"
+  ExtraDescription1: "|條件|：|閃避| {Value1} 次。"
+  ExtraDescription2: "|獎勵|：展品|樓觀劍|。"
+  DetailText: "已擁有|樓觀劍|或備選池內沒有|閃避|牌時，{SelfName}不會在備選池內。"
+
+cardquest9:
+  Name: "序列 9：最強"
+  Description: ""
+  ExtraDescription1: "|條件|：造成高於或等於 {Value1} 點直接傷害或生命失去 {Value1} 次。"
+  ExtraDescription2: "|獎勵|：將最多 {Value2} 張|冰之翼|加入牌庫。"
+
+cardquest10:
+  Name: "序列 10：是這樣嗎？"
+  Description: "|接受時|：獲得 {Value20} 張|暗影|。\n|放棄時|：移除 {Value20} 張|暗影|。"
+  ExtraDescription1: "|挑戰|：{Value20} 張|暗影|將在前進 {Value1} 關後離開牌庫，並給{PlayerName}|獎勵|。"
+  ExtraDescription2: '|獎勵|：{Value2} 點生命值和 |n:100| 點<sprite="Point" name="Gold">。'

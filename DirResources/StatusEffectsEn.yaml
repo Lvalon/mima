@@ -76,8 +76,8 @@ seperlereino:
 
 sefuckyou700:
   Description: "When {Count}% life is lost, win the battle."
-  Brief: "When |n:700|% life has been lost accumulatively, win the battle."
-  Name: Chain Link 7
+  Brief: "When |n:1000|% life has been lost accumulatively, win the battle."
+  Name: Chain Link 10
 
 semicrocosmos:
   Description: "Only |Skill| cards can be played, gain |n:1| |Temporary Firepower|, |Magical Burst| and |Charge| whenever a card is played."
@@ -175,8 +175,8 @@ senopeace:
   Name: Infiltration Complete
 
 seabyssdweller:
-  Description: "Cards will be moved to the discard pile after being |Exiled|.\n{SelfName} lasts {Level:plural one='until end of turn' other='for the next % turns'}."
-  Brief: "Cards will be moved to the discard pile after being |Exiled|."
+  Description: "Cards will be moved and hand to the discard pile after being |Exiled|.\n{SelfName} lasts {Level:plural one='until end of turn' other='for the next % turns'}."
+  Brief: "Cards will be moved and hand to the discard pile after being |Exiled|."
   Name: Abyss Dwelling
 
 secdarkness:
@@ -188,3 +188,12 @@ seshinki:
   Description: "At the start of turn, choose up to {Level} of {Count} non-Common cards to add to the top of the draw pile, they |temporarily cost| {Mana} and have |Replenish|, |Exile| and |Ethereal|.\n|n:Shinki, God of Makai| cannot be produced by this effect."
   Brief: "At the start of turn, choose up to |n:3| of |n:7| non-Common cards to add to the top of the draw pile, they |temporarily cost| {Mana} and have |Replenish|, |Exile| and |Ethereal|.\n|n:Shinki, God of Makai| cannot be produced by this effect."
   Name: Makai Creation
+
+sequest:
+  Brief: "Quests have |Conditions| or |Challenges|. When they are fulfilled or endured |Rewards| will be given."
+  Name: Quest
+
+sehaunted:
+  Description: "The next time {OwnerName} would be defeated by taking damage, heal to half of maximium life instead, then remove {SelfName}."
+  Brief: "The next time {OwnerName} would be defeated by taking damage, heal to half of maximium life instead, then remove {SelfName}."
+  Name: Haunted

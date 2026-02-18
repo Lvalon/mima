@@ -44,7 +44,7 @@ namespace lvalonmima.Cards.Template
 			}
 		}
 
-		public static int GetUniqueIndex(CardConfig config)
+		public static int GetUniqueIndex(CardConfig config, int quest = -1)
 		{
 			/*
             Generate a unique card ID based on the original offset, the card's rarity, colors and the type:
@@ -70,6 +70,10 @@ namespace lvalonmima.Cards.Template
 
 			//token check
 			id -= config.IsPooled ? 0 : 500000;
+
+			//quest check
+			if (quest != -1)
+				return id + 10000000 + quest;
 
 			//Off-color check
 			//id += config.Colors.Any(x => offColors.Any(y => y == x)) ? 6000000 : 5000000;

@@ -40,7 +40,7 @@ namespace lvalonmima.StatusEffects
 				{
 					NotifyActivating();
 					yield return DamageAction.LoseLife(Battle.Player, Level);
-					yield return new DamageAction(Battle.Player, args.Target, DamageInfo.Reaction(Level), "Poison");
+					yield return new DamageAction(Battle.Player, args.Target, DamageInfo.Attack(Level), "Poison");
 				}
 			}
 		}

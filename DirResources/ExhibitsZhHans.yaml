@@ -18,3 +18,10 @@ exmimab:
     {PlayerName}的|恶灵|生命值相关效果触发时，进入|深渊|，延迟{PlayerName}的|恶灵|生命值相关效果至这轮结束时触发，且在触发该效果前不会被击败。
     {SelfName}的|业报|为每轮玩家在 |n:0| 点生命值时失去生命的次数。
     如果{SelfName}的|业报|大于{PlayerName}的最大生命值，{PlayerName}的最大生命值变为 |n:1|。
+
+exquesting:
+  Name: 任务栏
+  Description: |-
+    点击以开启{SelfName}。可在{SelfName}里接取或放弃|任务|。
+    被接取的任务将占用{SelfName}的一个栏位，放弃的任务将留下空的任务栏位，另外任务栏位也会在{PlayerName}前进一关或战斗结束时刷新。
+    任务进度会在战斗结束时和前进一关时保存。

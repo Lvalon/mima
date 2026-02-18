@@ -1,3 +1,4 @@
+using LBoL.Base;
 using LBoL.ConfigData;
 using LBoLEntitySideloader;
 using LBoLEntitySideloader.Entities;
@@ -26,9 +27,19 @@ namespace lvalonmima.Cards.Template
 			return lvalonmimaLocalization.CardsBatchLoc.AddEntity(this);
 		}
 
-		public CardConfig GetCardDefaultConfig()
+		public CardConfig GetCardDefaultConfig(bool quest = false)
 		{
-			return lvalonmimaDefaultConfig.CardDefaultConfig();
+			CardConfig config = lvalonmimaDefaultConfig.CardDefaultConfig();
+			if (quest)
+			{
+				config.Owner = null;
+				config.IsPooled = false;
+				config.Cost = new ManaGroup() { Any = 0 };
+				config.Type = CardType.Ability;
+				config.TargetType = TargetType.Nobody;
+				config.IsUpgradable = false;
+			}
+			return config;
 		}
 	}
 

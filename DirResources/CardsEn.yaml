@@ -329,7 +329,7 @@ cardintoxicated:
 
 cardabyssdweller:
   Name: Abyss Dweller
-  Description: "Deal {Damage} damage.\n|Expel|: Lose {Value1} life, until end of turn, cards will be moved to the discard pile after being |Exiled|."
+  Description: "Deal {Damage} damage.\n|Expel|: Lose {Value1} life, until end of turn, cards will be moved and hand to the discard pile after being |Exiled|."
 
 cardbigbang:
   Name: The Big Bang
@@ -373,3 +373,84 @@ cardshinki:
   ExtraDescription1: "{FriendA}Enter |Transcendence| and the |Abyss|."
   ExtraDescription3: "{FriendU}Gain |Makai Creation|."
   DetailText: "These |e:alternate cards| ignore total mana and mana color restrictions.\n{SelfName} cannot be produced by this effect."
+
+# roguelike shop cards
+
+cardrerolldiscard:
+  Name: Reroll
+  Description: "At the start of combat, the |Challenger| may send all cards in the draw pile and hand to the discard pile."
+  ExtraDescription1: "Don't send all cards in the draw pile and hand to the discard pile."
+  ExtraDescription2: "Send all cards in the draw pile and hand to the discard pile."
+
+cardquest1:
+  Name: "1. Youkai Hunter"
+  Description: ""
+  ExtraDescription1: "|Condition|: |Expel| {Value1} time{Value1:plural one='' other='s'}."
+  ExtraDescription2: '|Reward|: {Value2} <sprite="Point" name="Gold">.'
+
+cardquest2:
+  Name: "2. Trading Card Game"
+  Description: ""
+  ExtraDescription1: "|Condition|: Add a |{cardRarity}| |{cardType}| card to the library."
+  ExtraDescription2: "|Reward|: Remove a random |Basic| card from the library."
+  RarityCommon: "Common"
+  RarityUncommon: "Uncommon"
+  RarityRandom: "random rarity"
+  TypeAttack: "Attack"
+  TypeDefense: "Defense"
+  TypeSkill: "Skill"
+  TypeAbility: "Ability"
+  TypeRandom: "and random type"
+  DetailText: "{SelfName} cannot be randomly generated if the library has no |Basic| cards.\nPossible types are Attack/Defense/Skill/Ability. Ability requires Uncommon, where other types require Common."
+
+cardquest3:
+  Name: "3. Fatique"
+  Description: ""
+  ExtraDescription1: "|Challenge|: At the start of the next {Value1} combat{Value1:plural one='' other='s'}, lose |n:1| |Firepower| and |Spirit|."
+  ExtraDescription2: '|Reward|: {Value2} <sprite="Point" name="Gold">.'
+
+cardquest4:
+  Name: "4. The Guardian"
+  Description: "|When accepted|: Gain |Genji|.\n|When abandoned|: Remove |Genji|."
+  ExtraDescription1: "|Challenge|: |Genji| leaves the library after advancing {Value1} level{Value1:plural one='' other='s'} to |Reward| {PlayerName}."
+  ExtraDescription2: '|Reward|: {Value2} <sprite="Point" name="Power"> and {Value2} life.'
+cardgenji:
+  Name: Genji
+  Description: "<indent=80>|While in hand|: Cards cannot be drawn outside the draw step."
+
+cardquest5:
+  Name: "5. Subterranean Animism"
+  Description: ""
+  ExtraDescription1: "|Challenge|: During the next {Value1} combat{Value1:plural one='' other='s'}, leftmost cards played will be |Exiled|."
+  ExtraDescription2: "|Reward|: Choose |n:1| of {Value2} Uncommon or Common cards to add to the library."
+
+cardquest6:
+  Name: "6. Call of the Haunted"
+  Description: ""
+  ExtraDescription1: "|Challenge|: The next combat with |Summon| enemies will have them gain |Haunted|."
+  ExtraDescription2: "|Reward|: Choose up to |n:1| of {Value2} |completely random| upgraded |Mima| cards to add to the library."
+
+cardquest7:
+  Name: "7. Tea Partner"
+  Description: ""
+  ExtraDescription1: "|Condition|: Drink tea at a gap {Value1} time{Value1:plural one='' other='s'}."
+  ExtraDescription2: '|Reward|: {Value2} <sprite="Point" name="Gold">.'
+
+cardquest8:
+  Name: "8. Perfect Cherry Blossom"
+  Description: "|When accepted|: Gain a random card with |Graze|."
+  ExtraDescription1: "|Condition|: |Graze| {Value1} time{Value1:plural one='' other='s'}."
+  ExtraDescription2: "|Reward|: The |Roukanken| exhibit."
+  DetailText: "{SelfName} cannot be randomly generated if no card with |Graze| could be generated, or if |Roukanken| is already obtained."
+
+cardquest9:
+  Name: "9. The Strongest"
+  Description: ""
+  ExtraDescription1: "|Condition|: Inflict {Value1} or more direct damage or life loss {Value1} time{Value1:plural one='' other='s'}."
+  ExtraDescription2: "|Reward|: Add up to {Value2} |Ice Wing{Value2:plural one='' other='s'}| to the library."
+
+cardquest10:
+  Name: "10. Is That So?"
+  Description: "|When accepted|: Gain {Value20} |Shadow{Value20:plural one='' other='s'}|.\n|When abandoned|: Remove {Value20} |Shadow{Value20:plural one='' other='s'}|."
+  ExtraDescription1: "|Challenge|: The |Shadow{Value20:plural one='' other='s'}| leave the library after advancing {Value1} level{Value1:plural one='' other='s'} to |Reward| {PlayerName}."
+  ExtraDescription2: '|Reward|: {Value2} life and |n:100| <sprite="Point" name="Gold">.'

@@ -1,11 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Emit;
+using System.Text;
 using DG.Tweening;
 using HarmonyLib;
+using LBoL.Base.Extensions;
 using LBoL.Core;
 using LBoL.Core.Battle;
 using LBoL.Core.Battle.BattleActionRecord;
+using LBoL.Core.Battle.BattleActions;
+using LBoL.Core.Units;
 using LBoL.Presentation;
 using LBoL.Presentation.UI.ExtraWidgets;
 using LBoL.Presentation.UI.Panels;
@@ -14,6 +19,8 @@ using lvalonmima.Cards;
 using lvalonmima.Exhibits;
 using lvalonmima.GunName;
 using lvalonmima.lvalonmimaUlt;
+using lvalonmima.Source.Patches;
+using TMPro;
 using UnityEngine;
 
 namespace lvalonmima.Patches

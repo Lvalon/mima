@@ -21,6 +21,8 @@ using LBoL.Presentation.Units;
 using LBoL.Presentation.UI.Panels;
 using System.Collections;
 using LBoL.Presentation.UI.ExtraWidgets;
+using lvalonmima.Source.Patches;
+using LBoLEntitySideloader.CustomHandlers;
 
 
 namespace lvalonmima
@@ -74,8 +76,25 @@ namespace lvalonmima
 
 			CardIndexGenerator.PromiseClearIndexSet();
 			EntityManager.RegisterSelf();
+			new LiteProfileSaveData().RegisterSelf(PInfo.GUID);
+			// new CustomSaveData().RegisterSelf(PInfo.GUID);
 
 			harmony.PatchAll();
+
+			CHandlerManager.RegisterGameEventHandler(
+				gr => gr.StationEntered,
+				ShopModHandlers.StationEntered
+				);
+			CHandlerManager.RegisterGameEventHandler(
+				gr => gr.StationEntered,
+				ShopModHandlers.StationEnteredBlitz,
+				GameEventPriority.Highest
+				);
+			CHandlerManager.RegisterGameEventHandler(
+				gr => gr.DeckCardsAdded,
+				ShopModHandlers.DeckCardsAdded
+				);
+			ShopModHandlers.addreactors();
 
 			//if (BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey(AddWatermark.API.GUID))
 			//    WatermarkWrapper.ActivateWatermark();
@@ -88,6 +107,10 @@ namespace lvalonmima
 		{
 			if (harmony != null)
 				harmony.UnpatchSelf();
+		}
+		public void Reload(BepInEx.PluginInfo scriptEngineInfo, bool hardReload = false)
+		{
+			MiniTracker.DestroySelf();
 		}
 		public static bool u50 = false;
 		public static bool u25 = false;

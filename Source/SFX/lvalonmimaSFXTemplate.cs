@@ -82,7 +82,7 @@ namespace lvalonmima.SFX.Template
 			{
 				if (!manager._sfxTable.TryGetValue(sfxName, out var value))
 				{
-					Debug.LogWarning("Sfx with name " + sfxName + " not found");
+					BepinexPlugin.log.LogWarning("Sfx with name " + sfxName + " not found");
 				}
 				else if (AudioSettings.dspTime > value.PreviousPlayTime + value.ReplayLimit)
 				{
@@ -158,7 +158,7 @@ namespace lvalonmima.SFX.Template
 			}
 			else
 			{
-				Debug.LogWarning("一个音效的预定下次播放时间，早于当前时间，舍弃这次预定。");
+				BepinexPlugin.log.LogWarning("一个音效的预定下次播放时间，早于当前时间，舍弃这次预定。");
 			}
 		}
 

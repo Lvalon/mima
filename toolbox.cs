@@ -78,10 +78,7 @@ namespace lvalonmima
 		}
 		static public Card[] RollCardsCustomIgnore(RandomGen rng, CardWeightTable weightTable, int count, ManaGroup? manaLimit = null, bool colorLimit = false, bool applyFactors = false, bool battleRolling = false, bool ensureCount = false, Predicate<Card> filter = null)
 		{
-			GameRunController gr = GameMaster.Instance?.CurrentGameRun;
-			if (gr == null)
-				throw new InvalidOperationException("Rolling cards when run is not started.");
-
+			GameRunController gr = (GameMaster.Instance?.CurrentGameRun) ?? throw new InvalidOperationException("Rolling cards when run is not started.");
 			UniqueRandomPool<Type> innitialPool = gr.CreateValidCardsPool(weightTable, manaLimit, colorLimit, applyFactors, battleRolling, null);
 
 			UniqueRandomPool<Card> filteredPool = new UniqueRandomPool<Card>();
@@ -100,10 +97,7 @@ namespace lvalonmima
 		}
 		static public Card[] RollCardsCustom(RandomGen rng, CardWeightTable weightTable, int count, ManaGroup? manaLimit = null, bool colorLimit = false, bool applyFactors = false, bool battleRolling = false, bool ensureCount = false, Predicate<Card> filter = null)
 		{
-			GameRunController gr = GameMaster.Instance?.CurrentGameRun;
-			if (gr == null)
-				throw new InvalidOperationException("Rolling cards when run is not started.");
-
+			GameRunController gr = (GameMaster.Instance?.CurrentGameRun) ?? throw new InvalidOperationException("Rolling cards when run is not started.");
 			UniqueRandomPool<Type> innitialPool = gr.CreateValidCardsPool(weightTable, manaLimit, colorLimit, applyFactors, battleRolling, null);
 
 			UniqueRandomPool<Card> filteredPool = new UniqueRandomPool<Card>();
@@ -122,10 +116,7 @@ namespace lvalonmima
 		}
 		static public Card[] RepeatableAllCards(RandomGen rng, CardWeightTable weightTable, int count, bool ensureCount = false, Predicate<Card> filter = null)
 		{
-			GameRunController gr = GameMaster.Instance?.CurrentGameRun;
-			if (gr == null)
-				throw new InvalidOperationException("Rolling cards when run is not started.");
-
+			GameRunController gr = (GameMaster.Instance?.CurrentGameRun) ?? throw new InvalidOperationException("Rolling cards when run is not started.");
 			UniqueRandomPool<Type> innitialPool = CreateAllCardsPool(weightTable, null);
 
 			RepeatableRandomPool<Card> filteredPool = new RepeatableRandomPool<Card>();
@@ -144,10 +135,7 @@ namespace lvalonmima
 		}
 		static public Card[] UniqueAllCards(RandomGen rng, CardWeightTable weightTable, int count, bool ensureCount = false, Predicate<Card> filter = null)
 		{
-			GameRunController gr = GameMaster.Instance?.CurrentGameRun;
-			if (gr == null)
-				throw new InvalidOperationException("Rolling cards when run is not started.");
-
+			GameRunController gr = (GameMaster.Instance?.CurrentGameRun) ?? throw new InvalidOperationException("Rolling cards when run is not started.");
 			UniqueRandomPool<Type> innitialPool = CreateAllCardsPool(weightTable, null);
 
 			UniqueRandomPool<Card> filteredPool = new UniqueRandomPool<Card>();
@@ -254,9 +242,22 @@ namespace lvalonmima
 		}
 
 		//v2
-		public static Card createcardwithid(String id)
+		public static Card createcardwithid(string id)
 		{
-			return TypeFactory<Card>.CreateInstance(TypeFactory<Card>.TryGetType(id));
+			var type = TypeFactory<Card>.TryGetType(id);
+			if (type == null)
+				return null;
+			return TypeFactory<Card>.CreateInstance(type);
+		}
+
+		public static Exhibit CreateExhibitById(string id)
+		{
+			if (string.IsNullOrEmpty(id))
+				return null;
+			var type = TypeFactory<Exhibit>.TryGetType(id);
+			if (type == null)
+				return null;
+			return TypeFactory<Exhibit>.CreateInstance(type);
 		}
 
 
