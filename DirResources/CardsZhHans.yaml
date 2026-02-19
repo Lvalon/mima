@@ -460,3 +460,32 @@ cardquest11:
   Description: "|p:不能放弃|。\n|接受时|：获得 {Value440} 点<sprite=\"Point\" name=\"Gold\">。"
   ExtraDescription1: '|挑战|：在下 {Value1} 场战斗内，{PlayerName}受到伤害时失去 {Value2} 倍的<sprite="Point" name="Gold">，如果没有足够的<sprite="Point" name="Gold">则失去 {Value2} 倍的生命值。'
   DetailText: "直接对自己造成的伤害不能触发|挑战|效果。"
+
+cardquest12:
+  Name: "序列 12：未确认幻想物体"
+  Description: ""
+  ExtraDescription1: "|挑战|：下 {Value1} 场战斗开始时，将 {Value30} 张随机的牌变化为相同稀有度的牌。"
+  ExtraDescription2: "|奖励|：从牌库选择至多 {Value2} 张牌变化为稀有度高一级的牌。"
+
+cardquest13:
+  Name: "序列 13：倒霉"
+  Description: "|接受时|：获得一张随机|厄运|。"
+  ExtraDescription1: "|条件|：获得 {Value1} 张|厄运|。"
+  ExtraDescription2: "|奖励|：移除牌库中所有|厄运|，获得展品|雏人偶|。"
+  DetailText: "已拥有|雏人偶|时，{SelfName}不会在备选池内。"
+
+cardquest14:
+  Name: "序列 14：穿针引线"
+  Description: ""
+  ExtraDescription1: "|条件|：在未曾洗牌和抽牌堆为空的情况下结束战斗。"
+  ExtraDescription2: "|奖励|：相当于牌库数量的最大生命值。从牌库选择至多 {Value2} 张牌|升级|。"
+
+cardquest15:
+  Name: "序列 15：洁净世界"
+  Description: ""
+  ExtraDescription1: |-
+    |挑战|：下 {Value1} 场战斗结束时，
+    若战场上未被|放逐|的牌少于 {Value2} 张则失去 {Value2} 点生命值；
+    若战场上没有|能力|牌则失去所有<sprite="Point" name="Power">；
+    若战斗结束时的回合打出多于 {Value10} 张牌则失去所有<sprite="Point" name="Gold">。
+  ExtraDescription2: '|奖励|：{Value2} 点最大生命值，恢复满生命值，牌库每有一张|能力|牌获得 {Value2} 点<sprite="Point" name="Power">。'

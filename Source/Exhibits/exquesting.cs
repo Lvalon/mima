@@ -364,6 +364,10 @@ namespace lvalonmima.Exhibits
 			{
 				conditionalExcludes.Add(nameof(cardquest8));
 			}
+			if (gameRun.Player.HasExhibit<ChuRenou>())
+			{
+				conditionalExcludes.Add(nameof(cardquest13));
+			}
 
 			try
 			{

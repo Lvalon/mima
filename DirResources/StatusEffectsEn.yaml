@@ -75,8 +75,8 @@ seperlereino:
   Name: Transmigrating to Perlereino
 
 sefuckyou700:
-  Description: "When {Count}% life is lost, win the battle."
-  Brief: "When |n:1000|% life has been lost accumulatively, win the battle."
+  Description: "When {Count}% life is lost, win the combat."
+  Brief: "When |n:1000|% life has been lost accumulatively, win the combat."
   Name: Chain Link 10
 
 semicrocosmos:

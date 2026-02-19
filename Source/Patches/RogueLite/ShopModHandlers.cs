@@ -39,6 +39,7 @@ namespace lvalonmima.Source.Patches
 		private static int LastAppliedSeeOrder = 0;
 		private static HashSet<string> battleChallenges = new HashSet<string>();
 		private static List<Card> quest5ToRmv;
+		private static int quest15played;
 
 		public static Dictionary<string, int> ReadQuestProgressFromRun(GameRunController gameRun)
 		{
@@ -447,17 +448,12 @@ namespace lvalonmima.Source.Patches
 			List<Card> reqQuests = new List<Card>()
 			{
 				Library.CreateCard<cardquest2>(),
+				Library.CreateCard<cardquest13>(),
 			};
 			foreach (Card card in reqQuests)
 			{
 				string questCardId = card?.Id;
-				if (string.IsNullOrEmpty(questCardId))
-					continue;
-
-				if (exhibit.IsQuestCardSoldOut(questCardId))
-					continue;
-
-				if (exhibit.IsQuestCardCompleted(questCardId))
+				if (string.IsNullOrEmpty(questCardId) || exhibit.IsQuestCardSoldOut(questCardId) || exhibit.IsQuestCardCompleted(questCardId))
 					continue;
 
 				if (exhibit.PendingQuestProgress.TryGetValue(questCardId, out int progress) && progress < card.Config.Value1)
@@ -468,45 +464,70 @@ namespace lvalonmima.Source.Patches
 							if (!gameRun.BaseDeck.Any(c => c.IsBasic))
 								continue;
 							break;
-					}
-
-					string requiredType = exhibit.TryGetQuestRequirement(questCardId, out string encodedRequirement) ? encodedRequirement : null;
-					if (string.IsNullOrEmpty(requiredType))
-						continue;
-					requiredType = requiredType.Split('!').LastOrDefault(); // { "TypeAttack", "TypeDefense", "TypeSkill", "TypeAbility" };
-
-					bool triggering = false;
-
-					switch (requiredType)
-					{
-						case "TypeAttack":
-							if (args.Cards.Any(c => c.Config.Type == CardType.Attack && c.Config.Rarity == Rarity.Common))
-								triggering = true;
-							break;
-						case "TypeDefense":
-							if (args.Cards.Any(c => c.Config.Type == CardType.Defense && c.Config.Rarity == Rarity.Common))
-								triggering = true;
-							break;
-						case "TypeSkill":
-							if (args.Cards.Any(c => c.Config.Type == CardType.Skill && c.Config.Rarity == Rarity.Common))
-								triggering = true;
-							break;
-						case "TypeAbility":
-							if (args.Cards.Any(c => c.Config.Type == CardType.Ability && c.Config.Rarity == Rarity.Uncommon))
-								triggering = true;
+						case nameof(cardquest13):
+							if (!gameRun.BaseDeck.Any(c => c.CardType == CardType.Misfortune && !c.Unremovable))
+								continue;
 							break;
 						default:
 							break;
 					}
 
-					if (!triggering)
-						continue;
+					int adding = 0;
 
-					gameRun.RemoveDeckCard(gameRun.BaseDeck.Where(c => c.IsBasic).Sample(gameRun.CardRng));
-					exhibit.PendingQuestProgress[questCardId] = progress + 1;
+					switch (questCardId)
+					{
+						case nameof(cardquest2):
+							string requiredType = exhibit.TryGetQuestRequirement(questCardId, out string encodedRequirement) ? encodedRequirement : null;
+							if (string.IsNullOrEmpty(requiredType))
+								continue;
+							requiredType = requiredType.Split('!').LastOrDefault(); // { "TypeAttack", "TypeDefense", "TypeSkill", "TypeAbility" };
+							switch (requiredType)
+							{
+								case "TypeAttack":
+									if (args.Cards.Any(c => c.Config.Type == CardType.Attack && c.Config.Rarity == Rarity.Common))
+										adding++;
+									break;
+								case "TypeDefense":
+									if (args.Cards.Any(c => c.Config.Type == CardType.Defense && c.Config.Rarity == Rarity.Common))
+										adding++;
+									break;
+								case "TypeSkill":
+									if (args.Cards.Any(c => c.Config.Type == CardType.Skill && c.Config.Rarity == Rarity.Common))
+										adding++;
+									break;
+								case "TypeAbility":
+									if (args.Cards.Any(c => c.Config.Type == CardType.Ability && c.Config.Rarity == Rarity.Uncommon))
+										adding++;
+									break;
+								default:
+									break;
+							}
+							break;
+						case nameof(cardquest13):
+							adding += args.Cards.Count(c => c.CardType == CardType.Misfortune);
+							break;
+						default:
+							break;
+					}
+					if (adding == 0)
+						continue;
+					exhibit.PendingQuestProgress[questCardId] = progress + adding;
 					questProgressChanged = true;
 					if (exhibit.PendingQuestProgress[questCardId] >= card.Config.Value1)
 					{
+						switch (questCardId)
+						{
+							case nameof(cardquest2):
+								gameRun.RemoveDeckCard(gameRun.BaseDeck.Where(c => c.IsBasic).Sample(gameRun.CardRng));
+								break;
+							case nameof(cardquest13):
+								gameRun.RemoveDeckCards(gameRun.BaseDeck.Where(c => c.CardType == CardType.Misfortune && !c.Unremovable));
+								if (!gameRun.Player.HasExhibit<ChuRenou>())
+									GameMaster.DebugGainExhibit(Library.CreateExhibit<ChuRenou>());
+								break;
+							default:
+								break;
+						}
 						exhibit.FinalizeQuestByCardId(questCardId);
 						exhibit.MarkQuestCompleted(questCardId);
 						questProgressChanged = true;
@@ -993,6 +1014,16 @@ namespace lvalonmima.Source.Patches
 								return actions;
 							});
 							break;
+						case nameof(cardquest14):
+							battleChallenges.Add(id);
+							player.HandleBattleEvent(gamerun.Battle.Reshuffled, args => { battleChallenges.Remove(id); });
+							break;
+						case nameof(cardquest15):
+							battleChallenges.Add(id);
+							quest15played = 0;
+							player.HandleBattleEvent(gamerun.Battle.CardUsed, args => { quest15played++; });
+							player.HandleBattleEvent(player.TurnStarting, args => { quest15played = 0; });
+							break;
 						default:
 							break;
 					}
@@ -1092,6 +1123,7 @@ namespace lvalonmima.Source.Patches
 			}
 
 			HashSet<Card> willFinish = new HashSet<Card>();
+			List<Card> prematureRemove = new List<Card>();
 
 			foreach (var card in challengeQuests) // check which one will finish first
 			{
@@ -1113,7 +1145,19 @@ namespace lvalonmima.Source.Patches
 				{
 					willFinish.Add(card);
 				}
+
+				if (card.Id == nameof(cardquest15)) //handle unconditional effects
+				{
+					cardquest15 quest15 = Library.CreateCard<cardquest15>();
+					if (battle.EnumerateAllCardsButExile().Count() < quest15.Value2)
+						yield return new DamageAction(battle.Player, new List<Unit> { battle.Player }, DamageInfo.HpLose(quest15.Value2, true));
+					if (!battle.EnumerateAllCards().Any(c => c.CardType == CardType.Ability))
+						yield return new LosePowerAction(battle.Player.Power);
+					if (quest15played > quest15.Value10)
+						yield return new LoseMoneyAction(battle.GameRun.Money);
+				}
 			}
+
 
 			foreach (Card card in willFinish) // resolve rewards
 			{
@@ -1155,10 +1199,66 @@ namespace lvalonmima.Source.Patches
 							battle.GameRun.AddDeckCards(selectedCards2, true);
 						}
 						break;
+					case nameof(cardquest12):
+						SelectCardInteraction interaction3 = new SelectCardInteraction(0, 1, gameRun.BaseDeck.Where(card => !card.Unremovable && card.Config.Rarity != Rarity.Rare), SelectedCardHandling.DoNothing)
+						{
+							CanCancel = true,
+							Description = TypeFactory<Card>.LocalizeProperty(card.Id, "Name", true, true)
+						};
+						yield return new InteractionAction(interaction3, false);
+						IReadOnlyList<Card> selectedCards3 = interaction3.SelectedCards;
+						if (selectedCards3 != null)
+						{
+							List<Rarity> allowed = new List<Rarity>() { Rarity.Uncommon, Rarity.Rare, Rarity.Mythic };
+							if (selectedCards3[0].Config.Rarity == Rarity.Uncommon)
+								allowed = new List<Rarity>() { Rarity.Rare };
+							if (selectedCards3[0].Config.Rarity == Rarity.Common)
+								allowed = new List<Rarity>() { Rarity.Uncommon };
+							Card toAdd = battle.GameRun.RollCards(battle.GameRun.CardRng, new CardWeightTable(RarityWeightTable.EnemyCard, OwnerWeightTable.Valid, CardTypeWeightTable.CanBeLoot), 1, false, false, config => allowed.Contains(config.Rarity))[0];
+							if (toAdd != null)
+							{
+								battle.GameRun.RemoveDeckCard(selectedCards3[0]);
+								battle.GameRun.AddDeckCard(toAdd, true);
+							}
+						}
+						break;
+					case nameof(cardquest14):
+						if (battle.DrawZone.Count() == 0)
+						{
+							gameRun.GainMaxHp(gameRun.BaseDeck.Count());
+							List<Card> array3 = gameRun.BaseDeck.Where(c => c.CanUpgradeAndPositive).ToList();
+							if (array3.Count > 0)
+							{
+								SelectCardInteraction interaction4 = new SelectCardInteraction(0, 1, array3, SelectedCardHandling.DoNothing)
+								{
+									CanCancel = true,
+									Description = TypeFactory<Card>.LocalizeProperty(card.Id, "Name", true, true)
+								};
+								yield return new InteractionAction(interaction4, false);
+								if (interaction4?.SelectedCards?[0] != null)
+									gameRun.UpgradeDeckCard(interaction4.SelectedCards[0], true);
+							}
+						}
+						else
+						{
+							prematureRemove.Add(card);
+						}
+						break;
+					case nameof(cardquest15):
+						cardquest15 quest15 = Library.CreateCard<cardquest15>();
+						gameRun.GainMaxHp(quest15.Value2);
+						gameRun.SetHpAndMaxHp(gameRun.Player.MaxHp, gameRun.Player.MaxHp, true);
+						int toGain = gameRun.BaseDeck.Count(c => c.CardType == CardType.Ability) * quest15.Value2;
+						if (toGain > 0)
+							yield return new GainPowerAction(toGain);
+						break;
+
 					default:
 						break;
 				}
 			}
+
+			challengeQuests.RemoveAll(c => prematureRemove.Contains(c));
 
 			foreach (Card card in challengeQuests) // resolve append/finish
 			{
@@ -1243,6 +1343,17 @@ namespace lvalonmima.Source.Patches
 						battleChallenges.Add(id);
 						yield return new ApplyStatusEffectAction<FirepowerNegative>(battle.Player, 1);
 						yield return new ApplyStatusEffectAction<SpiritNegative>(battle.Player, 1);
+						break;
+					case nameof(cardquest12):
+						battleChallenges.Add(id);
+						cardquest12 quest12 = Library.CreateCard<cardquest12>();
+						List<Card> toConvert = battle.EnumerateAllCards().SampleManyOrAll(quest12.Value30, battle.GameRun.BattleCardRng).ToList();
+						foreach (Card card in toConvert)
+						{
+							Card toAdd = battle.RollCards(new CardWeightTable(RarityWeightTable.BattleCard, OwnerWeightTable.Valid, CardTypeWeightTable.CanBeLoot), 1, config => config.Rarity == card.Config.Rarity)[0];
+							if (card != null && toAdd != null && battle.EnumerateAllCards().Contains(card))
+								yield return new TransformCardAction(card, toAdd);
+						}
 						break;
 					default:
 						break;

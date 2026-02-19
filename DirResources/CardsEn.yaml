@@ -42,7 +42,7 @@ cardalgophobia:
 cardperlereino:
   Name: Transmigrating to Perlereino
   Description: "|Transcendence|'s effect also triggers when a card is played.\nEnter |Transcendence|."
-  UpgradedDescription: "|Transcendence|'s effect also triggers when a card is played.\nEnter |Transcendence|.\nWhen {Value2}% life has been lost accumulatively, win the battle."
+  UpgradedDescription: "|Transcendence|'s effect also triggers when a card is played.\nEnter |Transcendence|.\nWhen {Value2}% life has been lost accumulatively, win the combat."
 
 cardmicrocosmos:
   Name: Micro Cosmos
@@ -460,3 +460,32 @@ cardquest11:
   Description: "|p:Cannot be abandoned.|\n|When accepted|: Gain {Value440} <sprite=\"Point\" name=\"Gold\">."
   ExtraDescription1: '|Challenge|: During the next {Value1} combat{Value1:plural one='''' other=''s''}, when {PlayerName} takes damage, lose {Value2} time{Value2:plural one='''' other=''s''} that much <sprite="Point" name="Gold">, and if there aren''''t enough <sprite="Point" name="Gold"> to lose, lose {Value2} time{Value2:plural one='''' other=''s''} that much life.'
   DetailText: "Directly self-inflicted damage cannot trigger the |Challenge| effect."
+
+cardquest12:
+  Name: "12. Unidentified Fantastic Object"
+  Description: ""
+  ExtraDescription1: "|Challenge|: At the start of the next {Value1} combat{Value1:plural one='' other='s'}, transform up to {Value30} random card{Value30:plural one='' other='s'} to cards of the same rarity."
+  ExtraDescription2: "|Reward|: Choose up to {Value2} card{Value2:plural one='' other='s'} in the library, transform {Value2:plural one='it into a card with rarity that is |n:1| level higher' other='them into cards with rarities that are |n:1| level higher'}."
+
+cardquest13:
+  Name: "13. Tough Luck"
+  Description: "|When accepted|: Gain a random |Misfortune|."
+  ExtraDescription1: "|Condition|: Gain {Value1} |Misfortune{Value1:plural one='' other='s'}|."
+  ExtraDescription2: "|Reward|: Remove all |Misfortune{Value2:plural one='' other='s'}| from the library, gain |Hina Doll|."
+  DetailText: "{SelfName} cannot be randomly generated if |Hina Doll| is already obtained."
+
+cardquest14:
+  Name: "14. Threading the Needle"
+  Description: ""
+  ExtraDescription1: "|Condition|: End a combat without shuffling, and with the draw pile being empty."
+  ExtraDescription2: "|Reward|: Maximum life equal to the library size. Choose up to {Value2} card{Value2:plural one='' other='s'} in the library, |upgrade| {Value2:plural one='it' other='them'}."
+
+cardquest15:
+  Name: "15. Clear World"
+  Description: ""
+  ExtraDescription1: |-
+    |Challenge|: At the end of the next {Value1} combat{Value1:plural one='' other='s'}, lose:
+    {Value2} life if there are less than {Value2} non-|Exiled| cards on the battlefield;
+    All <sprite="Point" name="Power"> if there are no |Ability| cards on the battlefield;
+    All <sprite="Point" name="Gold"> if more than {Value10} card{Value10:plural one='' other='s'} are played in the turn the combat ends.
+  ExtraDescription2: '|Reward|: {Value2} maximum life, heal to maximum life, gain {Value2} <sprite="Point" name="Power"> for each |Ability| card in the library.'

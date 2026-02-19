@@ -69,3 +69,7 @@ Roguelite Shop:
 9. The Strongest: https://www.pixiv.net/en/artworks/70611521 (ういrふぃ８え８w８ぢ)
 10. Is That So?: https://www.reddit.com/r/touhou/comments/x5ewe5/daily_rumia_550_that_tree_came_outta_nowhere/ (Redlikeroses7)
 11. Gold Rush: https://www.pixiv.net/en/artworks/47122213 ((仮))
+12. Unidentified Fantastic Object: https://www.pixiv.net/en/artworks/47486749 (なまうに)
+13. Tough Luck: https://www.pixiv.net/en/artworks/33957221 (はるときくれ)
+14. Threading the Needle: https://www.pixiv.net/en/artworks/55506209 (しょぺ@冬Z04b)
+15. Clear World: https://www.pixiv.net/en/artworks/8683175 (ZOIYA)

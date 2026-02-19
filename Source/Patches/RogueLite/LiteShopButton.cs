@@ -1537,7 +1537,7 @@ namespace lvalonmima.Source.Patches
 			[(Locale.En, $"{ShopPrefix}{BattlePrefix}rolldiscard")] = "Reroll",
 			[(Locale.En, $"{ShopPrefix}{BattlePrefix}rolldiscard.Desc")] = "At the start of combat, the |Challenger| may send all cards in the draw pile and hand to the discard pile.",
 			[(Locale.En, $"{ShopPrefix}{BattlePrefix}hacks")] = "At the End of Turn",
-			[(Locale.En, $"{ShopPrefix}{BattlePrefix}hacks.Desc")] = "At the end of the |Challenger|'s first turn, there is a {0}% chance to play |c:1| random |Ability| card in the battlefield.",
+			[(Locale.En, $"{ShopPrefix}{BattlePrefix}hacks.Desc")] = "At the end of the |Challenger|'s first turn, there is a {0}% chance to play |c:1| random |Ability| card on the battlefield.",
 			[(Locale.En, $"{ShopPrefix}{BattlePrefix}hacks.Next")] = "<b>|c:Next|</b>: {1}% chance",
 			[(Locale.En, $"{ShopPrefix}{BattlePrefix}ChallengerModeWatermark.HoverHint")] = "Challenger mode (Mouseover item for details)",
 

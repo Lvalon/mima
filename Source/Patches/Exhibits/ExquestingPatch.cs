@@ -997,6 +997,9 @@ namespace lvalonmima.Patches.Exhibits
 							case nameof(cardquest11):
 								panel.GameRun.GainMoney(Library.CreateCard<cardquest11>().Value440);
 								break;
+							case nameof(cardquest13):
+								panel.GameRun.AddDeckCard(panel.GameRun.GetRandomCurseCard(panel.GameRun.CardRng), true);
+								break;
 							default:
 								break;
 						}
