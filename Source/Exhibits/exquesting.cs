@@ -894,8 +894,9 @@ namespace lvalonmima.Exhibits
 			Dictionary<string, int> runProgress = ShopModHandlers.ReadQuestProgressFromRun(GameRun);
 			Dictionary<string, string> runRequirements = ShopModHandlers.ReadQuestRequirementsFromRun(GameRun);
 			HashSet<string> runCompleted = ShopModHandlers.ReadCompletedQuestCardsFromRun(GameRun);
+			Dictionary<string, int> runModifiers = ShopModHandlers.ReadQuestModifiersFromRun(GameRun);
 			Dictionary<string, int> liteModifiers = ShopModHandlers.ReadQuestModifiersFromLiteShop();
-			BepinexPlugin.log.LogInfo($"[EXQUESTING SAVE] Sync runFlags reason={reason} runProgress=[{string.Join(", ", runProgress.Select(kvp => $"{kvp.Key}:{kvp.Value}"))}] runRequirements={runRequirements.Count} runCompleted={runCompleted.Count}");
+			BepinexPlugin.log.LogInfo($"[EXQUESTING SAVE] Sync runFlags reason={reason} runProgress=[{string.Join(", ", runProgress.Select(kvp => $"{kvp.Key}:{kvp.Value}"))}] runRequirements={runRequirements.Count} runCompleted={runCompleted.Count} runModifiers={runModifiers.Count}");
 
 			Dictionary<string, int> sourceProgress = runProgress;
 			Dictionary<string, string> sourceRequirements = runRequirements;
@@ -957,7 +958,7 @@ namespace lvalonmima.Exhibits
 				}
 			}
 
-			if (sourceProgress.Count > 0 || sourceRequirements.Count > 0 || sourceCompleted.Count > 0 || liteModifiers.Count > 0)
+			if (sourceProgress.Count > 0 || sourceRequirements.Count > 0 || sourceCompleted.Count > 0 || runModifiers.Count > 0 || liteModifiers.Count > 0)
 			{
 				BepinexPlugin.log.LogInfo($"[EXQUESTING SAVE] Sync source decision reason={reason} source={sourceName} selectedProgress={sourceProgress.Count} selectedRequirements={sourceRequirements.Count} selectedCompleted={sourceCompleted.Count}");
 				foreach (var kvp in sourceProgress)
@@ -978,9 +979,18 @@ namespace lvalonmima.Exhibits
 					}
 				}
 
-				foreach (var kvp in liteModifiers)
+				// prefer run-sourced modifiers, then fall back / merge lite-shop modifiers
+				foreach (var kvp in runModifiers)
 				{
 					if (!string.IsNullOrEmpty(kvp.Key))
+					{
+						PendingQuestModifiers[kvp.Key] = kvp.Value;
+					}
+				}
+
+				foreach (var kvp in liteModifiers)
+				{
+					if (!string.IsNullOrEmpty(kvp.Key) && !PendingQuestModifiers.ContainsKey(kvp.Key))
 					{
 						PendingQuestModifiers[kvp.Key] = kvp.Value;
 					}

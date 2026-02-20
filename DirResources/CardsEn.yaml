@@ -495,3 +495,15 @@ cardquest16:
   Description: ""
   ExtraDescription1: "|Condition|: End {Value1} combat{Value1:plural one='' other='s'}'{Value1:plural one='s' other=''} first turn without drawing cards outside the draw step and with at least an |Ability| card in the draw pile."
   ExtraDescription2: "|p:Permanent Reward|: At the end of {PlayerName}'s first turn, if cards weren't drawn outside the draw step and at least an |Ability| card is in the draw pile, play a random |Ability| card in the draw pile."
+
+cardquest17:
+  Name: "17. One and Only"
+  Description: ""
+  ExtraDescription1: "|Challenge|: During the next {Value1} combat{Value1:plural one='' other='s'}, the first card played must be the leftmost playable (ignoring cost) card."
+  ExtraDescription2: "|p:Permanent Reward|: At the start of {PlayerName}'s first turn, the leftmost playable card |temporarily costs| {Mana} to play."
+
+cardquest18:
+  Name: "18. Growing Up"
+  Description: ""
+  ExtraDescription1: "|Condition|: |Upgrade| {Value1} card{Value1:plural one='' other='s'} in the library."
+  ExtraDescription2: "|Reward|: |Upgrade| {Value2} random card{Value2:plural one='' other='s'} in the library."

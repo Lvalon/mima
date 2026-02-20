@@ -73,3 +73,6 @@ Roguelite Shop:
 13. Tough Luck: https://www.pixiv.net/en/artworks/33957221 (はるときくれ)
 14. Threading the Needle: https://www.pixiv.net/en/artworks/55506209 (しょぺ@冬Z04b)
 15. Clear World: https://www.pixiv.net/en/artworks/8683175 (ZOIYA)
+16. End of turn: https://lbol-logs.github.io (ev)
+17. One and Only: https://x.com/nodg671/status/1638507274867200001 (ノドグロ＠原稿)
+18. Growing Up: https://danbooru.donmai.us/posts/1529661 (yezhi na)

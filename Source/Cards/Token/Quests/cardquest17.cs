@@ -7,30 +7,34 @@ using lvalonmima.StatusEffects;
 
 namespace lvalonmima.Cards
 {
-	public sealed class cardquest16Def : lvalonmimaCardTemplate
+	public sealed class cardquest17Def : lvalonmimaCardTemplate
 	{
 		public override CardConfig MakeConfig()
 		{
 			CardConfig config = GetCardDefaultConfig(true);
-			config.Colors = new List<ManaColor>() { ManaColor.Blue, ManaColor.Black };
+			config.Colors = new List<ManaColor>() { ManaColor.White, ManaColor.Black };
 			config.Rarity = Rarity.Uncommon;
 
-			config.Value1 = 13;
+			config.Value1 = 10;
 			config.Value2 = 1;
+
+			config.Mana = new ManaGroup { Any = 0 };
 
 			config.Keywords = Keyword.Forbidden;
 
+			config.RelativeKeyword = Keyword.TempMorph;
+
 			config.RelativeEffects = new List<string>() { nameof(sequest) };
 
-			config.Illustrator = "ev";
+			config.Illustrator = "ノドグロ＠原稿";
 
-			config.Index = CardIndexGenerator.GetUniqueIndex(config, 16);
+			config.Index = CardIndexGenerator.GetUniqueIndex(config, 17);
 			return config;
 		}
 	}
 
-	[EntityLogic(typeof(cardquest16Def))]
-	public sealed class cardquest16 : questCard
+	[EntityLogic(typeof(cardquest17Def))]
+	public sealed class cardquest17 : questCard
 	{
 	}
 }

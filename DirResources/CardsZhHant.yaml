@@ -494,4 +494,16 @@ cardquest16:
   Name: "序列 16：回合結束時"
   Description: ""
   ExtraDescription1: "|條件|：在 {Value1} 場戰鬥的第一回合結束時，沒有在抽牌階段外抽牌，且抽牌堆內至少有 |n:1| 張|能力|牌。"
-  ExtraDescription2: "|p:永久獎勵|：第一回合結束時，若沒有在抽牌階段外抽牌，且抽牌堆內至少有 |n:1| 張|能力|牌，則打出抽牌堆內的一張隨機|能力|牌。"
+  ExtraDescription2: "|p:永久獎勵|：{PlayerName}的第一回合結束時，若沒有在抽牌階段外抽牌，且抽牌堆內至少有 |n:1| 張|能力|牌，則打出抽牌堆內的一張隨機|能力|牌。"
+
+cardquest17:
+  Name: "序列 17：命中注定"
+  Description: ""
+  ExtraDescription1: "|挑戰|：下 {Value1} 場戰鬥內打出的第一張牌必須為最左的可打出（無視費用）手牌。"
+  ExtraDescription2: "|p:永久獎勵|：{PlayerName}的第一回合開始時，最左的可打出手牌|暫塑|為{Mana}。"
+
+cardquest18:
+  Name: "序列 18：成長需苦幹"
+  Description: ""
+  ExtraDescription1: "|條件|：|升級|牌庫中的牌 {Value1} 次。"
+  ExtraDescription2: "|獎勵|：|升級|牌庫中的隨機 {Value2} 張牌。"

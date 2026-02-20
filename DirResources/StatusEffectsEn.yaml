@@ -197,3 +197,8 @@ sehaunted:
   Description: "The next time {OwnerName} would be defeated by taking damage, heal to half of maximium life instead, then remove {SelfName}."
   Brief: "The next time {OwnerName} would be defeated by taking damage, heal to half of maximium life instead, then remove {SelfName}."
   Name: Haunted
+
+seplayleft:
+  Description: "Only the leftmost playable (ignoring cost) card can be played.\nAfter playing a card, remove {SelfName}."
+  Brief: "Only the leftmost playable (ignoring cost) card can be played.\nAfter playing a card, remove {SelfName}."
+  Name: One and Only

@@ -34,6 +34,7 @@ namespace lvalonmima.Source.Patches
 		private const string QuestProgressFlagPrefix = "exquesting.quest:";
 		private const string QuestRequirementFlagPrefix = "exquesting.requirement:";
 		private const string QuestCompletedFlagPrefix = "exquesting.completed:";
+		private const string QuestModifierFlagPrefix = "exquesting.modifier:";
 		private static GameRunController CachedGameRun;
 		private static float LastAppliedShopDiscountFactor = 1f;
 		private static int LastAppliedSeeOrder = 0;
@@ -140,6 +141,36 @@ namespace lvalonmima.Source.Patches
 			return result;
 		}
 
+		public static Dictionary<string, int> ReadQuestModifiersFromRun(GameRunController gameRun)
+		{
+			var result = new Dictionary<string, int>(StringComparer.Ordinal);
+			if (gameRun?.ExtraFlags == null)
+			{
+				BepinexPlugin.log.LogInfo("[EXQUESTING SAVE] ReadQuestModifiersFromRun: no GameRun/ExtraFlags.");
+				return result;
+			}
+
+			foreach (string flag in gameRun.ExtraFlags)
+			{
+				if (string.IsNullOrEmpty(flag) || !flag.StartsWith(QuestModifierFlagPrefix, StringComparison.Ordinal))
+					continue;
+
+				string payload = flag[QuestModifierFlagPrefix.Length..];
+				int split = payload.LastIndexOf('=');
+				if (split <= 0 || split >= payload.Length - 1)
+					continue;
+
+				string cardId = payload[..split];
+				string stackText = payload[(split + 1)..];
+				if (string.IsNullOrEmpty(cardId) || !int.TryParse(stackText, out int stack))
+					continue;
+
+				result[cardId] = Math.Max(0, stack);
+			}
+
+			BepinexPlugin.log.LogInfo($"[EXQUESTING SAVE] ReadQuestModifiersFromRun: entries={result.Count} [{string.Join(", ", result.Select(kvp => $"{kvp.Key}:{kvp.Value}"))}]");
+			return result;
+		}
 		public static Dictionary<string, int> ReadQuestProgressFromLiteShop()
 		{
 			var result = new Dictionary<string, int>(StringComparer.Ordinal);
@@ -265,6 +296,11 @@ namespace lvalonmima.Source.Patches
 					!string.IsNullOrEmpty(flag) &&
 					flag.StartsWith(QuestCompletedFlagPrefix, StringComparison.Ordinal));
 
+				// remove old modifier flags as well
+				gameRun.ExtraFlags.RemoveWhere(flag =>
+					!string.IsNullOrEmpty(flag) &&
+					flag.StartsWith(QuestModifierFlagPrefix, StringComparison.Ordinal));
+
 				if (pendingQuestProgress != null)
 				{
 					foreach (var kvp in pendingQuestProgress)
@@ -290,6 +326,21 @@ namespace lvalonmima.Source.Patches
 					foreach (string questCardId in completedToPersist)
 					{
 						gameRun.ExtraFlags.Add($"{QuestCompletedFlagPrefix}{questCardId}");
+					}
+				}
+
+				// persist modifiers to run flags when requested
+				Dictionary<string, int> modifiersToWrite = questModifiers != null
+					? new Dictionary<string, int>(questModifiers, StringComparer.Ordinal)
+					: gameRun?.Player?.GetExhibit<exquesting>()?.PendingQuestModifiers;
+
+				if (modifiersToWrite != null)
+				{
+					foreach (var kvp in modifiersToWrite)
+					{
+						if (string.IsNullOrEmpty(kvp.Key))
+							continue;
+						gameRun.ExtraFlags.Add($"{QuestModifierFlagPrefix}{kvp.Key}={Math.Max(0, kvp.Value)}");
 					}
 				}
 			}
@@ -720,6 +771,28 @@ namespace lvalonmima.Source.Patches
 				ResetQuestStateForNewRun(gameRun, shop);
 			}
 
+			// If LiteShop already recorded a different station than the one we're entering,
+			// persist any runtime exquesting pending progress from the previous station so it
+			// isn't lost when exquesting.SyncPendingQuestProgressFromPersistence runs for the new station.
+			if (shop.BPProgress != null && gameRun?.Player?.HasExhibit<exquesting>() == true)
+			{
+				int recordedStage = int.MinValue, recordedLevel = int.MinValue;
+				shop.BPProgress.TryGetValue("stage", out recordedStage);
+				shop.BPProgress.TryGetValue("level", out recordedLevel);
+
+				if (recordedStage != stageIndex || recordedLevel != stationLevel)
+				{
+					exquesting prevExhibit = gameRun.Player.GetExhibit<exquesting>();
+					if (prevExhibit != null && prevExhibit.PendingQuestProgress != null && prevExhibit.PendingQuestProgress.Count > 0)
+					{
+						// Persist runtime pending progress from the station we're leaving so it won't be
+						// overwritten by the persistence sync on the station we're entering.
+						PersistQuestProgress(gameRun, prevExhibit.PendingQuestProgress, syncToLiteShop: true, saveToDisk: false, questRequirements: prevExhibit.QuestRequirements, completedQuestCards: prevExhibit.CompletedQuestCards, writeToRunFlags: true, questModifiers: prevExhibit.PendingQuestModifiers);
+						BepinexPlugin.log.LogInfo($"[EXQUESTING SAVE] StationEntered persisted runtime pending from previous station: [{FormatQuestProgress(prevExhibit.PendingQuestProgress)}]");
+					}
+				}
+			}
+
 			shop.BPProgress ??= new Dictionary<string, int>();
 			shop.BPProgress["stage"] = stageIndex;
 			shop.BPProgress["level"] = stationLevel;
@@ -1106,13 +1179,23 @@ namespace lvalonmima.Source.Patches
 										if (exhibit.PendingQuestProgress[quest16.Id] >= quest16.Config.Value1)
 										{
 											exhibit.PendingQuestModifiers.TryGetValue(quest16.Id, out int stack);
-											exhibit.PendingQuestModifiers[quest16.Id] = stack + 1;
+											exhibit.PendingQuestModifiers[quest16.Id] = ++stack;
 											exhibit.FinalizeQuestByCardId(quest16.Id);
 											exhibit.MarkQuestCompleted(quest16.Id);
 										}
 									}
 								}
 								isTurn1 = false;
+							});
+							break;
+						case nameof(cardquest17):
+							battleChallenges.Add(id);
+							player.HandleBattleEvent(player.TurnStarted, args =>
+							{
+								if (player.TurnCounter == 1)
+								{
+									gamerun.Battle.React(new ApplyStatusEffectAction<seplayleft>(player, 0), exhibit, ActionCause.Exhibit);
+								}
 							});
 							break;
 						default:
@@ -1146,6 +1229,20 @@ namespace lvalonmima.Source.Patches
 					}
 				}
 				isTurn1A = false;
+			}, GameEventPriority.ConfigDefault + 1); //presumably slower than quest16 completion
+
+			//quest 17
+			player.HandleBattleEvent(player.TurnStarted, args =>
+			{
+				if (player.TurnCounter == 1 && shop != null && shop.QuestModifiers.TryGetValue(nameof(cardquest17), out int stack))
+				{
+					for (int i = 0; i < stack; i++)
+					{
+						Card toChange = gamerun.Battle.HandZone.FirstOrDefault(c => !c.IsForbidden && c.CanUse);
+						if (toChange != null && !toChange.IsXCost)
+							toChange.SetTurnCost(new ManaGroup { Any = 0 });
+					}
+				}
 			});
 
 			player.ReactBattleEvent(gamerun.Battle.BattleStarted, args => OnBattleStarted(args, gamerun.Battle));
@@ -1388,6 +1485,15 @@ namespace lvalonmima.Source.Patches
 				exhibit.PendingQuestProgress[card.Id] = ++progress;
 				if (progress >= card.Config.Value1)
 				{
+					switch (card.Id) // add perma effs
+					{
+						case nameof(cardquest17):
+							exhibit.PendingQuestModifiers.TryGetValue(card.Id, out int stack);
+							exhibit.PendingQuestModifiers[card.Id] = ++stack;
+							break;
+						default:
+							break;
+					}
 					exhibit.FinalizeQuestByCardId(card.Id);
 					exhibit.MarkQuestCompleted(card.Id);
 				}
@@ -1728,6 +1834,33 @@ namespace lvalonmima.Source.Patches
 			if (gameRun.TrueEndingProviders != null && gameRun.TrueEndingProviders.Count > 0)
 				return;
 			__result = "Free Choice";
+		}
+	}
+
+	[HarmonyPatch(typeof(Card), nameof(Card.Upgrade))]
+	class Card_Upgrade_Patch
+	{
+		static void Postfix(Card __instance)
+		{
+			GameRunController gameRun = GameMaster.Instance?.CurrentGameRun;
+			var shop = MiniTracker.Instance?.CustomGrSaveData?.GetShopForCurrentProfile();
+			if (gameRun != null && shop != null && gameRun.Player.HasExhibit<exquesting>() && gameRun.BaseDeck.Contains(__instance))
+			{
+				exquesting exhibit = gameRun.Player.GetExhibit<exquesting>();
+				var quest18 = Library.CreateCard<cardquest18>();
+				if (exhibit.PendingQuestProgress.TryGetValue(quest18.Id, out int progress) && progress < quest18.Config.Value1)
+				{
+					exhibit.PendingQuestProgress[quest18.Id] = ++progress;
+					if (exhibit.PendingQuestProgress[quest18.Id] >= quest18.Config.Value1)
+					{
+						List<Card> toUpgrade = gameRun.BaseDeck.Where(c => c.CanUpgradeAndPositive).SampleManyOrAll(quest18.Config.Value2 ?? 3, gameRun.CardRng).ToList();
+						if (toUpgrade.Count > 0)
+							gameRun.UpgradeDeckCards(toUpgrade, true);
+						exhibit.FinalizeQuestByCardId(quest18.Id);
+						exhibit.MarkQuestCompleted(quest18.Id);
+					}
+				}
+			}
 		}
 	}
 }

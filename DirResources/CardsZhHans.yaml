@@ -495,3 +495,15 @@ cardquest16:
   Description: ""
   ExtraDescription1: "|条件|：在 {Value1} 场战斗的第一回合结束时，没有在抽牌阶段外抽牌，且抽牌堆内至少有 |n:1| 张|能力|牌。"
   ExtraDescription2: "|p:永久奖励|：第一回合结束时，若没有在抽牌阶段外抽牌，且抽牌堆内至少有 |n:1| 张|能力|牌，则打出抽牌堆内的一张随机|能力|牌。"
+
+cardquest17:
+  Name: "序列 17：命中注定"
+  Description: ""
+  ExtraDescription1: "|挑战|：下 {Value1} 场战斗内打出的第一张牌必须为最左的可打出（无视费用）手牌。"
+  ExtraDescription2: "|p:永久奖励|：{PlayerName}的第一回合开始时，最左的可打出手牌|暂塑|为{Mana}。"
+
+cardquest18:
+  Name: "序列 18：成长需苦干"
+  Description: ""
+  ExtraDescription1: "|条件|：|升级|牌库中的牌 {Value1} 次。"
+  ExtraDescription2: "|奖励|：|升级|牌库中的随机 {Value2} 张牌。"

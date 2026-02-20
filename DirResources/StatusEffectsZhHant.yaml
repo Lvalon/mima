@@ -196,3 +196,8 @@ sehaunted:
   Description: "{Ownername}被傷害殺死時，免除死亡並恢復至最大生命值的一半，然後移除{SelfName}。"
   Brief: "{Ownername}被傷害殺死時，免除死亡並恢復至最大生命值的一半，然後移除{SelfName}。"
   Name: 活死人
+
+seplayleft:
+  Description: "只能打出最左的可打出（無視費用）手牌。\n打出牌後移除{SelfName}。"
+  Brief: "只能打出最左的可打出（無視費用）手牌。\n打出牌後移除{SelfName}。"
+  Name: 命中注定
