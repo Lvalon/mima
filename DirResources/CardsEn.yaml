@@ -489,3 +489,9 @@ cardquest15:
     All <sprite="Point" name="Power"> if there are no |Ability| cards on the battlefield;
     All <sprite="Point" name="Gold"> if more than {Value10} card{Value10:plural one='' other='s'} are played in the turn the combat ends.
   ExtraDescription2: '|Reward|: {Value2} maximum life, heal to maximum life, gain {Value2} <sprite="Point" name="Power"> for each |Ability| card in the library.'
+
+cardquest16:
+  Name: "16. End of Turn"
+  Description: ""
+  ExtraDescription1: "|Condition|: End {Value1} combat{Value1:plural one='' other='s'}'{Value1:plural one='s' other=''} first turn without drawing cards outside the draw step and with at least an |Ability| card in the draw pile."
+  ExtraDescription2: "|p:Permanent Reward|: At the end of {PlayerName}'s first turn, if cards weren't drawn outside the draw step and at least an |Ability| card is in the draw pile, play a random |Ability| card in the draw pile."

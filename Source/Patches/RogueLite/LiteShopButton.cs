@@ -1536,7 +1536,7 @@ namespace lvalonmima.Source.Patches
 			[(Locale.En, $"{ShopPrefix}{BattlePrefix}seedraw.Desc")] = "The draw pile can now be viewed in actual order.",
 			[(Locale.En, $"{ShopPrefix}{BattlePrefix}rolldiscard")] = "Reroll",
 			[(Locale.En, $"{ShopPrefix}{BattlePrefix}rolldiscard.Desc")] = "At the start of combat, the |Challenger| may send all cards in the draw pile and hand to the discard pile.",
-			[(Locale.En, $"{ShopPrefix}{BattlePrefix}hacks")] = "At the End of Turn",
+			[(Locale.En, $"{ShopPrefix}{BattlePrefix}hacks")] = "End of turn",
 			[(Locale.En, $"{ShopPrefix}{BattlePrefix}hacks.Desc")] = "At the end of the |Challenger|'s first turn, there is a {0}% chance to play |c:1| random |Ability| card on the battlefield.",
 			[(Locale.En, $"{ShopPrefix}{BattlePrefix}hacks.Next")] = "<b>|c:Next|</b>: {1}% chance",
 			[(Locale.En, $"{ShopPrefix}{BattlePrefix}ChallengerModeWatermark.HoverHint")] = "Challenger mode (Mouseover item for details)",
@@ -1664,7 +1664,7 @@ namespace lvalonmima.Source.Patches
 			[(Locale.ZhHant, $"{ShopPrefix}{BattlePrefix}rolldiscard")] = "roll了",
 			[(Locale.ZhHant, $"{ShopPrefix}{BattlePrefix}rolldiscard.Desc")] = "戰鬥開始時可把抽牌堆的牌置入棄牌堆。",
 			[(Locale.ZhHant, $"{ShopPrefix}{BattlePrefix}hacks")] = "回合結束時",
-			[(Locale.ZhHant, $"{ShopPrefix}{BattlePrefix}hacks.Desc")] = "玩家的第一個回合結束時，有 {0}% 機率可以打出戰場上的 |c:1| 張隨機能力牌。",
+			[(Locale.ZhHant, $"{ShopPrefix}{BattlePrefix}hacks.Desc")] = "玩家的第一回合結束時，有 {0}% 機率可以打出戰場上的 |c:1| 張隨機能力牌。",
 			[(Locale.ZhHant, $"{ShopPrefix}{BattlePrefix}hacks.Next")] = "<b>|c:下一級|</b>：{1}% 機率",
 			[(Locale.ZhHant, $"{ShopPrefix}{BattlePrefix}ChallengerModeWatermark.HoverHint")] = "挑戰者模式（将滑鼠悬停在字條上查看效果）",
 
@@ -1792,7 +1792,7 @@ namespace lvalonmima.Source.Patches
 			[(Locale.ZhHans, $"{ShopPrefix}{BattlePrefix}rolldiscard")] = "roll了",
 			[(Locale.ZhHans, $"{ShopPrefix}{BattlePrefix}rolldiscard.Desc")] = "战斗开始时可把抽牌堆的牌置入弃牌堆。",
 			[(Locale.ZhHans, $"{ShopPrefix}{BattlePrefix}hacks")] = "回合结束时",
-			[(Locale.ZhHans, $"{ShopPrefix}{BattlePrefix}hacks.Desc")] = "玩家的第一个回合结束时，有 {0}% 概率可以打出战场上的 |c:1| 张随机能力牌。",
+			[(Locale.ZhHans, $"{ShopPrefix}{BattlePrefix}hacks.Desc")] = "玩家的第一回合结束时，有 {0}% 概率可以打出战场上的 |c:1| 张随机能力牌。",
 			[(Locale.ZhHans, $"{ShopPrefix}{BattlePrefix}hacks.Next")] = "<b>|c:下一级|</b>：{1}% 概率",
 			[(Locale.ZhHans, $"{ShopPrefix}{BattlePrefix}ChallengerModeWatermark.HoverHint")] = "挑战者模式（将鼠标悬停在字条上查看效果）",
 

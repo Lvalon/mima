@@ -694,6 +694,7 @@ namespace lvalonmima.Source.Patches
 			Dictionary<string, int> originalQuestProgress = null;
 			Dictionary<string, string> originalQuestRequirements = null;
 			HashSet<string> originalCompletedQuestCards = null;
+			Dictionary<string, int> originalQuestModifiers = null;
 			try
 			{
 				if (shop != null)
@@ -710,6 +711,10 @@ namespace lvalonmima.Source.Patches
 						? new HashSet<string>(shop.QuestCompletedCards.Where(id => !string.IsNullOrEmpty(id)), StringComparer.Ordinal)
 						: new HashSet<string>(StringComparer.Ordinal);
 
+					originalQuestModifiers = shop.QuestModifiers != null
+						? new Dictionary<string, int>(shop.QuestModifiers, StringComparer.Ordinal)
+						: new Dictionary<string, int>(StringComparer.Ordinal);
+
 					Dictionary<string, int> persistedProgress = originalQuestProgress
 						.Where(kvp => !string.IsNullOrEmpty(kvp.Key))
 						.ToDictionary(kvp => kvp.Key, kvp => Math.Max(0, kvp.Value), StringComparer.Ordinal);
@@ -724,11 +729,16 @@ namespace lvalonmima.Source.Patches
 						originalCompletedQuestCards.Where(id => !string.IsNullOrEmpty(id)),
 						StringComparer.Ordinal);
 
+					Dictionary<string, int> persistedModifiers = originalQuestModifiers
+						.Where(kvp => !string.IsNullOrEmpty(kvp.Key))
+						.ToDictionary(kvp => kvp.Key, kvp => kvp.Value, StringComparer.Ordinal);
+
 					shop.QuestProgress = persistedProgress;
 					shop.QuestRequirements = persistedRequirements;
 					shop.QuestCompletedCards = persistedCompleted;
+					shop.QuestModifiers = persistedModifiers;
 
-					BepinexPlugin.log.LogInfo($"[EXQUESTING SAVE] ShopSaveLoader.Save snapshot: runtimeProgress={originalQuestProgress.Count}, persistedProgress={persistedProgress.Count}, runtimeRequirements={originalQuestRequirements.Count}, persistedRequirements={persistedRequirements.Count}, runtimeCompleted={originalCompletedQuestCards.Count}, persistedCompleted={persistedCompleted.Count}");
+					BepinexPlugin.log.LogInfo($"[EXQUESTING SAVE] ShopSaveLoader.Save snapshot: runtimeProgress={originalQuestProgress.Count}, persistedProgress={persistedProgress.Count}, runtimeRequirements={originalQuestRequirements.Count}, persistedRequirements={persistedRequirements.Count}, runtimeCompleted={originalCompletedQuestCards.Count}, persistedCompleted={persistedCompleted.Count}, runtimeModifiers={originalQuestModifiers.Count}, persistedModifiers={persistedModifiers.Count}");
 				}
 
 				// csd.Save(); // Note: csd.Save() adds BluePoints from current run, usually not desired if just saving shop state from menu.
@@ -756,6 +766,7 @@ namespace lvalonmima.Source.Patches
 					shop.QuestProgress = originalQuestProgress ?? new Dictionary<string, int>(StringComparer.Ordinal);
 					shop.QuestRequirements = originalQuestRequirements ?? new Dictionary<string, string>(StringComparer.Ordinal);
 					shop.QuestCompletedCards = originalCompletedQuestCards ?? new HashSet<string>(StringComparer.Ordinal);
+					shop.QuestModifiers = originalQuestModifiers ?? new Dictionary<string, int>(StringComparer.Ordinal);
 				}
 			}
 		}
@@ -1067,6 +1078,7 @@ namespace lvalonmima.Source.Patches
 				shop.QuestProgress = new Dictionary<string, int>(StringComparer.Ordinal);
 				shop.QuestRequirements = new Dictionary<string, string>(StringComparer.Ordinal);
 				shop.QuestCompletedCards = new HashSet<string>(StringComparer.Ordinal);
+				shop.QuestModifiers = new Dictionary<string, int>(StringComparer.Ordinal);
 			}
 
 			MiniTracker.Instance.CustomGrSaveData.Save(0, false);

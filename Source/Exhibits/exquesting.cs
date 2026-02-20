@@ -48,6 +48,7 @@ namespace lvalonmima.Exhibits
 		public HashSet<int> SoldOutQuestSlots = new HashSet<int>();
 		private static readonly int[] VisibleQuestSlots = { 1, 2, 3, 5, 6, 7 };
 		public static readonly string[] CardQuest2TypeKeys = { "TypeAttack", "TypeDefense", "TypeSkill", "TypeAbility" };
+		public Dictionary<string, int> PendingQuestModifiers = new Dictionary<string, int>();
 
 		private string FormatPendingQuestProgress()
 		{
@@ -875,22 +876,25 @@ namespace lvalonmima.Exhibits
 
 		public void SyncPendingQuestProgressFromPersistence(string reason)
 		{
-			BepinexPlugin.log.LogInfo($"[EXQUESTING SAVE] Sync begin reason={reason}, pendingBefore=[{FormatPendingQuestProgress()}], completedBefore=[{FormatCompletedQuestCards()}], rolledBefore=[{FormatRolledQuestSlots()}], requirementsBefore={QuestRequirements?.Count ?? 0}");
+			BepinexPlugin.log.LogInfo($"[EXQUESTING SAVE] Sync begin reason={reason}, pendingBefore=[{FormatPendingQuestProgress()}], completedBefore=[{FormatCompletedQuestCards()}], rolledBefore=[{FormatRolledQuestSlots()}], requirementsBefore={QuestRequirements?.Count ?? 0}, modifiersBefore={PendingQuestModifiers?.Count ?? 0}");
 			bool allowRecoveryRoll = string.Equals(reason, "OnStationEntered", StringComparison.Ordinal)
 				|| string.Equals(reason, "OnExhibitClicked", StringComparison.Ordinal);
 			Dictionary<string, int> previousPendingProgress = new Dictionary<string, int>(PendingQuestProgress, StringComparer.Ordinal);
 			Dictionary<string, string> previousQuestRequirements = new Dictionary<string, string>(QuestRequirements, StringComparer.Ordinal);
 			HashSet<string> previousCompletedQuestCards = new HashSet<string>(CompletedQuestCards, StringComparer.Ordinal);
+			Dictionary<string, int> previousPendingQuestModifiers = new Dictionary<string, int>(PendingQuestModifiers, StringComparer.Ordinal);
 			Dictionary<string, string> rolledRequirementSnapshot = CaptureCurrentRolledRequirements();
 			PendingQuestProgress.Clear();
 			QuestRequirements.Clear();
 			CompletedQuestCards.Clear();
+			PendingQuestModifiers.Clear();
 			bool useRestoreSnapshot = string.Equals(reason, "CreateExhibitWidget", StringComparison.Ordinal)
 				&& ShopSaveLoader.ConsumePendingRestoreQuestHydration();
 
 			Dictionary<string, int> runProgress = ShopModHandlers.ReadQuestProgressFromRun(GameRun);
 			Dictionary<string, string> runRequirements = ShopModHandlers.ReadQuestRequirementsFromRun(GameRun);
 			HashSet<string> runCompleted = ShopModHandlers.ReadCompletedQuestCardsFromRun(GameRun);
+			Dictionary<string, int> liteModifiers = ShopModHandlers.ReadQuestModifiersFromLiteShop();
 			BepinexPlugin.log.LogInfo($"[EXQUESTING SAVE] Sync runFlags reason={reason} runProgress=[{string.Join(", ", runProgress.Select(kvp => $"{kvp.Key}:{kvp.Value}"))}] runRequirements={runRequirements.Count} runCompleted={runCompleted.Count}");
 
 			Dictionary<string, int> sourceProgress = runProgress;
@@ -953,7 +957,7 @@ namespace lvalonmima.Exhibits
 				}
 			}
 
-			if (sourceProgress.Count > 0 || sourceRequirements.Count > 0 || sourceCompleted.Count > 0)
+			if (sourceProgress.Count > 0 || sourceRequirements.Count > 0 || sourceCompleted.Count > 0 || liteModifiers.Count > 0)
 			{
 				BepinexPlugin.log.LogInfo($"[EXQUESTING SAVE] Sync source decision reason={reason} source={sourceName} selectedProgress={sourceProgress.Count} selectedRequirements={sourceRequirements.Count} selectedCompleted={sourceCompleted.Count}");
 				foreach (var kvp in sourceProgress)
@@ -971,6 +975,14 @@ namespace lvalonmima.Exhibits
 					if (!string.IsNullOrEmpty(questCardId))
 					{
 						CompletedQuestCards.Add(questCardId);
+					}
+				}
+
+				foreach (var kvp in liteModifiers)
+				{
+					if (!string.IsNullOrEmpty(kvp.Key))
+					{
+						PendingQuestModifiers[kvp.Key] = kvp.Value;
 					}
 				}
 
@@ -1010,6 +1022,15 @@ namespace lvalonmima.Exhibits
 					BepinexPlugin.log.LogInfo($"[EXQUESTING SAVE] Sync OnStationEntered preserved runtime completed cards=[{string.Join(", ", previousCompletedQuestCards)}]");
 				}
 
+				if (string.Equals(reason, "OnStationEntered", StringComparison.Ordinal) && PendingQuestModifiers.Count == 0 && previousPendingQuestModifiers.Count > 0)
+				{
+					foreach (var kvp in previousPendingQuestModifiers)
+					{
+						PendingQuestModifiers[kvp.Key] = kvp.Value;
+					}
+					BepinexPlugin.log.LogInfo($"[EXQUESTING SAVE] Sync OnStationEntered preserved runtime modifiers because persisted modifiers were empty count={PendingQuestModifiers.Count}");
+				}
+
 				if (CompletedQuestCards.Count > 0)
 				{
 					foreach (string completedId in CompletedQuestCards)
@@ -1029,19 +1050,23 @@ namespace lvalonmima.Exhibits
 
 				CleanupStaleQuestRequirements();
 
-				BepinexPlugin.log.LogInfo($"[EXQUESTING SAVE] Sync source={sourceName} reason={reason} entries={PendingQuestProgress.Count}, completed={CompletedQuestCards.Count}, pending=[{FormatPendingQuestProgress()}], completedCards=[{FormatCompletedQuestCards()}], rolled=[{FormatRolledQuestSlots()}], requirements={QuestRequirements.Count}");
-				bool syncLiteShop = !string.Equals(sourceName, "RunFlags", StringComparison.Ordinal) || PendingQuestProgress.Count > 0 || CompletedQuestCards.Count > 0;
-				ShopModHandlers.PersistQuestProgress(GameRun, PendingQuestProgress, syncToLiteShop: syncLiteShop, saveToDisk: false, questRequirements: QuestRequirements, completedQuestCards: CompletedQuestCards, writeToRunFlags: false);
+				BepinexPlugin.log.LogInfo($"[EXQUESTING SAVE] Sync source={sourceName} reason={reason} entries={PendingQuestProgress.Count}, completed={CompletedQuestCards.Count}, pending=[{FormatPendingQuestProgress()}], completedCards=[{FormatCompletedQuestCards()}], rolled=[{FormatRolledQuestSlots()}], requirements={QuestRequirements.Count}, modifiers={PendingQuestModifiers.Count}");
+				bool syncLiteShop = !string.Equals(sourceName, "RunFlags", StringComparison.Ordinal)
+					|| PendingQuestProgress.Count > 0
+					|| CompletedQuestCards.Count > 0
+					|| PendingQuestModifiers.Count > 0;
+				ShopModHandlers.PersistQuestProgress(GameRun, PendingQuestProgress, syncToLiteShop: syncLiteShop, saveToDisk: false, questRequirements: QuestRequirements, completedQuestCards: CompletedQuestCards, writeToRunFlags: false, questModifiers: PendingQuestModifiers);
 				return;
 			}
 
 			RestoreCurrentRolledRequirements(rolledRequirementSnapshot);
 
-			if (previousPendingProgress.Count > 0 || previousQuestRequirements.Count > 0 || previousCompletedQuestCards.Count > 0)
+			if (previousPendingProgress.Count > 0 || previousQuestRequirements.Count > 0 || previousCompletedQuestCards.Count > 0 || previousPendingQuestModifiers.Count > 0)
 			{
 				PendingQuestProgress.Clear();
 				QuestRequirements.Clear();
 				CompletedQuestCards.Clear();
+				PendingQuestModifiers.Clear();
 				foreach (var kvp in previousPendingProgress)
 				{
 					PendingQuestProgress[kvp.Key] = kvp.Value;
@@ -1060,6 +1085,11 @@ namespace lvalonmima.Exhibits
 					}
 				}
 
+				foreach (var kvp in previousPendingQuestModifiers)
+				{
+					PendingQuestModifiers[kvp.Key] = kvp.Value;
+				}
+
 				if (CompletedQuestCards.Count > 0)
 				{
 					foreach (string completedId in CompletedQuestCards)
@@ -1071,19 +1101,38 @@ namespace lvalonmima.Exhibits
 
 				RestoreCurrentRolledRequirements(rolledRequirementSnapshot);
 				CleanupStaleQuestRequirements();
-				BepinexPlugin.log.LogInfo($"[EXQUESTING SAVE] Sync source=EmptyPreservePrevious reason={reason} preservedPending=[{FormatPendingQuestProgress()}], preservedCompleted=[{FormatCompletedQuestCards()}], requirements={QuestRequirements.Count}");
+				BepinexPlugin.log.LogInfo($"[EXQUESTING SAVE] Sync source=EmptyPreservePrevious reason={reason} preservedPending=[{FormatPendingQuestProgress()}], preservedCompleted=[{FormatCompletedQuestCards()}], requirements={QuestRequirements.Count}, modifiers={PendingQuestModifiers.Count}");
 				return;
 			}
 
 			CleanupStaleQuestRequirements();
 
-			BepinexPlugin.log.LogInfo($"[EXQUESTING SAVE] Sync source=Empty reason={reason} entries={PendingQuestProgress.Count}, completed={CompletedQuestCards.Count}, pending=[{FormatPendingQuestProgress()}], completedCards=[{FormatCompletedQuestCards()}], rolled=[{FormatRolledQuestSlots()}], requirements={QuestRequirements.Count}");
-			ShopModHandlers.PersistQuestProgress(GameRun, PendingQuestProgress, syncToLiteShop: false, saveToDisk: false, questRequirements: QuestRequirements, completedQuestCards: CompletedQuestCards, writeToRunFlags: false);
+			BepinexPlugin.log.LogInfo($"[EXQUESTING SAVE] Sync source=Empty reason={reason} entries={PendingQuestProgress.Count}, completed={CompletedQuestCards.Count}, pending=[{FormatPendingQuestProgress()}], completedCards=[{FormatCompletedQuestCards()}], rolled=[{FormatRolledQuestSlots()}], requirements={QuestRequirements.Count}, modifiers={PendingQuestModifiers.Count}");
+			ShopModHandlers.PersistQuestProgress(GameRun, PendingQuestProgress, syncToLiteShop: false, saveToDisk: false, questRequirements: QuestRequirements, completedQuestCards: CompletedQuestCards, writeToRunFlags: false, questModifiers: PendingQuestModifiers);
 		}
 
 		protected override string GetBaseDescription()
 		{
-			return base.GetBaseDescription() + QuestDescriptions();
+			return base.GetBaseDescription() + QuestDescriptions() + BuffDescriptions();
+		}
+
+		private string BuffDescriptions()
+		{
+			var buffs = PendingQuestModifiers;
+			BepinexPlugin.log.LogInfo($"[EXQUESTING UI] showingshowing QuestModifiers content foreach buff in buffs=[{(buffs != null ? string.Join(", ", buffs.Select(kvp => $"{kvp.Key}:{kvp.Value}")) : "null")}]");
+			if (buffs == null || buffs.Count == 0)
+			{
+				return string.Empty;
+			}
+			StringBuilder sb = new StringBuilder();
+			foreach (var buff in buffs)
+			{
+				Card buffCard = Library.TryCreateCard(buff.Key, false);
+				if (buffCard == null)
+					continue;
+				sb.Append("\n").Append(buff.Value + "× ").Append(ResolveQuestExtraDescription(buffCard, 2));
+			}
+			return StringDecorator.Decorate(sb.ToString());
 		}
 
 		private string QuestDescriptions()
@@ -1183,7 +1232,7 @@ namespace lvalonmima.Exhibits
 			RollQuestCards(preserveAccepted);
 			BepinexPlugin.log.LogInfo($"[EXQUESTING SAVE] OnStationEntered rolled preserveAccepted={preserveAccepted}, pending=[{FormatPendingQuestProgress()}], rolled=[{FormatRolledQuestSlots()}]");
 			RefreshRolledQuestRequirementsForSave();
-			ShopModHandlers.PersistQuestProgress(GameRun, PendingQuestProgress, syncToLiteShop: true, saveToDisk: true, questRequirements: QuestRequirements, completedQuestCards: CompletedQuestCards);
+			ShopModHandlers.PersistQuestProgress(GameRun, PendingQuestProgress, syncToLiteShop: true, saveToDisk: true, questRequirements: QuestRequirements, completedQuestCards: CompletedQuestCards, questModifiers: PendingQuestModifiers);
 		}
 	}
 }

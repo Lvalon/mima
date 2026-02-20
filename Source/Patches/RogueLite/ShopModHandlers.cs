@@ -40,6 +40,11 @@ namespace lvalonmima.Source.Patches
 		private static HashSet<string> battleChallenges = new HashSet<string>();
 		private static List<Card> quest5ToRmv;
 		private static int quest15played;
+		private static bool isTurn1;
+		private static bool isTurn1A;
+		private static bool turn1Drawn;
+		private static bool turn1DrawnA;
+		private static bool quest16active;
 
 		public static Dictionary<string, int> ReadQuestProgressFromRun(GameRunController gameRun)
 		{
@@ -75,7 +80,7 @@ namespace lvalonmima.Source.Patches
 
 		public static void PersistQuestProgress(GameRunController gameRun, IDictionary<string, int> pendingQuestProgress, bool syncToLiteShop, bool saveToDisk)
 		{
-			PersistQuestProgress(gameRun, pendingQuestProgress, syncToLiteShop, saveToDisk, null, null, writeToRunFlags: true);
+			PersistQuestProgress(gameRun, pendingQuestProgress, syncToLiteShop, saveToDisk, null, null, writeToRunFlags: true, questModifiers: null);
 		}
 
 		public static Dictionary<string, string> ReadQuestRequirementsFromRun(GameRunController gameRun)
@@ -201,16 +206,50 @@ namespace lvalonmima.Source.Patches
 			return result;
 		}
 
-		public static void PersistQuestProgress(GameRunController gameRun, IDictionary<string, int> pendingQuestProgress, bool syncToLiteShop, bool saveToDisk, IDictionary<string, string> questRequirements, ISet<string> completedQuestCards = null, bool writeToRunFlags = true)
+		public static Dictionary<string, int> ReadQuestModifiersFromLiteShop()
+		{
+			var result = new Dictionary<string, int>(StringComparer.Ordinal);
+			var shop = MiniTracker.Instance?.CustomGrSaveData?.GetShopForCurrentProfile();
+			if (shop?.QuestModifiers == null)
+			{
+				BepinexPlugin.log.LogInfo("[EXQUESTING SAVE] ReadQuestModifiersFromLiteShop: no profile or quest modifiers.");
+				return result;
+			}
+
+			foreach (var kvp in shop.QuestModifiers)
+			{
+				if (string.IsNullOrEmpty(kvp.Key))
+					continue;
+
+				result[kvp.Key] = kvp.Value;
+			}
+
+			BepinexPlugin.log.LogInfo($"[EXQUESTING SAVE] ReadQuestModifiersFromLiteShop: entries={result.Count} [{string.Join(", ", result.Select(kvp => $"{kvp.Key}:{kvp.Value}"))}]");
+			return result;
+		}
+
+		public static void PersistQuestProgress(GameRunController gameRun, IDictionary<string, int> pendingQuestProgress, bool syncToLiteShop, bool saveToDisk, IDictionary<string, string> questRequirements, ISet<string> completedQuestCards = null, bool writeToRunFlags = true, IDictionary<string, int> questModifiers = null)
 		{
 			HashSet<string> completedToPersist = completedQuestCards == null
 				? new HashSet<string>(StringComparer.Ordinal)
 				: new HashSet<string>(completedQuestCards.Where(id => !string.IsNullOrEmpty(id)), StringComparer.Ordinal);
 
+			Dictionary<string, int> modifiersToPersist = null;
+			if (questModifiers != null)
+			{
+				modifiersToPersist = new Dictionary<string, int>(StringComparer.Ordinal);
+				foreach (var kvp in questModifiers)
+				{
+					if (string.IsNullOrEmpty(kvp.Key))
+						continue;
+					modifiersToPersist[kvp.Key] = kvp.Value;
+				}
+			}
+
 			IEnumerable<string> completedForLog = completedQuestCards != null
 				? (IEnumerable<string>)completedQuestCards
 				: Array.Empty<string>();
-			BepinexPlugin.log.LogInfo($"[EXQUESTING SAVE] PersistQuestProgress: syncToLiteShop={syncToLiteShop}, saveToDisk={saveToDisk}, writeToRunFlags={writeToRunFlags}, entries={(pendingQuestProgress?.Count ?? 0)} [{FormatQuestProgress(pendingQuestProgress)}], reqEntries={(questRequirements?.Count ?? 0)}, completedEntries={(completedQuestCards?.Count ?? 0)} [{string.Join(", ", completedForLog)}], completedPersisted={completedToPersist.Count}");
+			BepinexPlugin.log.LogInfo($"[EXQUESTING SAVE] PersistQuestProgress: syncToLiteShop={syncToLiteShop}, saveToDisk={saveToDisk}, writeToRunFlags={writeToRunFlags}, entries={(pendingQuestProgress?.Count ?? 0)} [{FormatQuestProgress(pendingQuestProgress)}], reqEntries={(questRequirements?.Count ?? 0)}, completedEntries={(completedQuestCards?.Count ?? 0)} [{string.Join(", ", completedForLog)}], completedPersisted={completedToPersist.Count}, modifierEntries={(modifiersToPersist?.Count ?? -1)}");
 
 			if (writeToRunFlags && gameRun?.ExtraFlags != null)
 			{
@@ -269,6 +308,19 @@ namespace lvalonmima.Source.Patches
 						: new Dictionary<string, string>(questRequirements, StringComparer.Ordinal);
 
 					shop.QuestCompletedCards = new HashSet<string>(completedToPersist, StringComparer.Ordinal);
+
+					if (modifiersToPersist != null)
+					{
+						shop.QuestModifiers = new Dictionary<string, int>(modifiersToPersist, StringComparer.Ordinal);
+					}
+					else
+					{
+						var mods = gameRun?.Player?.GetExhibit<exquesting>()?.PendingQuestModifiers;
+						if (mods != null)
+							shop.QuestModifiers = new Dictionary<string, int>(mods, StringComparer.Ordinal);
+						else if (shop.QuestModifiers == null)
+							shop.QuestModifiers = new Dictionary<string, int>(StringComparer.Ordinal);
+					}
 				}
 			}
 
@@ -423,7 +475,7 @@ namespace lvalonmima.Source.Patches
 
 			// Persist post-resolution state to avoid regression on immediate reload.
 			BepinexPlugin.log.LogInfo($"[EXQUESTING SAVE] CoResolveCompletedQuestEffectsOnStationEnter persisting pendingEntries={(exhibit.PendingQuestProgress?.Count ?? 0)} completedEntries={(exhibit.CompletedQuestCards?.Count ?? 0)}");
-			PersistQuestProgress(gameRun, exhibit.PendingQuestProgress, syncToLiteShop: true, saveToDisk: true, questRequirements: exhibit.QuestRequirements, completedQuestCards: exhibit.CompletedQuestCards);
+			PersistQuestProgress(gameRun, exhibit.PendingQuestProgress, syncToLiteShop: true, saveToDisk: true, questRequirements: exhibit.QuestRequirements, completedQuestCards: exhibit.CompletedQuestCards, questModifiers: exhibit.PendingQuestModifiers);
 		}
 
 		private static string FormatQuestProgress(IEnumerable<KeyValuePair<string, int>> data)
@@ -539,7 +591,7 @@ namespace lvalonmima.Source.Patches
 
 			if (questProgressChanged)
 			{
-				PersistQuestProgress(gameRun, exhibit.PendingQuestProgress, syncToLiteShop: false, saveToDisk: false, questRequirements: exhibit.QuestRequirements, completedQuestCards: exhibit.CompletedQuestCards, writeToRunFlags: false);
+				PersistQuestProgress(gameRun, exhibit.PendingQuestProgress, syncToLiteShop: false, saveToDisk: false, questRequirements: exhibit.QuestRequirements, completedQuestCards: exhibit.CompletedQuestCards, writeToRunFlags: false, questModifiers: exhibit.PendingQuestModifiers);
 			}
 		}
 
@@ -627,7 +679,7 @@ namespace lvalonmima.Source.Patches
 
 			if (questProgressChanged)
 			{
-				PersistQuestProgress(gameRun, exhibit.PendingQuestProgress, syncToLiteShop: true, saveToDisk: true, questRequirements: exhibit.QuestRequirements, completedQuestCards: exhibit.CompletedQuestCards);
+				PersistQuestProgress(gameRun, exhibit.PendingQuestProgress, syncToLiteShop: true, saveToDisk: true, questRequirements: exhibit.QuestRequirements, completedQuestCards: exhibit.CompletedQuestCards, questModifiers: exhibit.PendingQuestModifiers);
 			}
 		}
 
@@ -764,6 +816,7 @@ namespace lvalonmima.Source.Patches
 				shop.QuestProgress = new Dictionary<string, int>(StringComparer.Ordinal);
 				shop.QuestRequirements = new Dictionary<string, string>(StringComparer.Ordinal);
 				shop.QuestCompletedCards = new HashSet<string>(StringComparer.Ordinal);
+				shop.QuestModifiers = new Dictionary<string, int>(StringComparer.Ordinal);
 			}
 
 			if (gameRun?.ExtraFlags != null)
@@ -939,6 +992,7 @@ namespace lvalonmima.Source.Patches
 			quest5ToRmv = new List<Card>();
 			GameRunController gamerun = GameMaster.Instance.CurrentGameRun;
 			PlayerUnit player = gamerun.Battle.Player;
+			var shop = MiniTracker.Instance?.CustomGrSaveData?.GetShopForCurrentProfile();
 
 			exquesting exhibit = null;
 			if (player.HasExhibit<exquesting>())
@@ -1024,11 +1078,75 @@ namespace lvalonmima.Source.Patches
 							player.HandleBattleEvent(gamerun.Battle.CardUsed, args => { quest15played++; });
 							player.HandleBattleEvent(player.TurnStarting, args => { quest15played = 0; });
 							break;
+						case nameof(cardquest16):
+							quest16active = true;
+							player.HandleBattleEvent(gamerun.Battle.CardDrawn, args =>
+							{
+								if (args.Cause != ActionCause.TurnStart  //draw in turn
+								&& (args.Cause != ActionCause.Card || !(args.ActionSource is Card card && card.IsReplenish) || gamerun.Battle.Player.IsInTurn))
+								{
+									turn1Drawn = true;
+									quest16active = false;
+								}
+							});
+							player.HandleBattleEvent(player.TurnStarted, args => { if (player.TurnCounter == 1) { isTurn1 = true; turn1Drawn = false; } });
+							player.HandleBattleEvent(player.TurnEnded, args =>
+							{
+								if (!isTurn1 //turn 1 ending without ability
+								|| turn1Drawn || !gamerun.Battle.DrawZone.Any(c => c.CardType == CardType.Ability))
+									quest16active = false;
+
+								if (gamerun.Battle.Player.HasExhibit<exquesting>() && quest16active)
+								{
+									exquesting exhibit = gamerun.Battle.Player.GetExhibit<exquesting>();
+									var quest16 = Library.CreateCard<cardquest16>();
+									if (exhibit.PendingQuestProgress.TryGetValue(quest16.Id, out int progress) && progress < quest16.Config.Value1)
+									{
+										exhibit.PendingQuestProgress[quest16.Id] = ++progress;
+										if (exhibit.PendingQuestProgress[quest16.Id] >= quest16.Config.Value1)
+										{
+											exhibit.PendingQuestModifiers.TryGetValue(quest16.Id, out int stack);
+											exhibit.PendingQuestModifiers[quest16.Id] = stack + 1;
+											exhibit.FinalizeQuestByCardId(quest16.Id);
+											exhibit.MarkQuestCompleted(quest16.Id);
+										}
+									}
+								}
+								isTurn1 = false;
+							});
+							break;
 						default:
 							break;
 					}
 				}
 			}
+
+			//quest 16
+			player.HandleBattleEvent(gamerun.Battle.CardDrawn, args =>
+			{
+				if (args.Cause != ActionCause.TurnStart  //draw in turn
+				&& (args.Cause != ActionCause.Card || !(args.ActionSource is Card card && card.IsReplenish) || gamerun.Battle.Player.IsInTurn))
+				{
+					turn1DrawnA = true;
+				}
+			});
+			player.HandleBattleEvent(player.TurnStarted, args => { if (player.TurnCounter == 1) { isTurn1A = true; turn1DrawnA = false; } });
+			player.HandleBattleEvent(player.TurnEnded, args =>
+			{
+				if (isTurn1A && !turn1DrawnA && gamerun.Battle.DrawZone.Any(c => c.CardType == CardType.Ability)
+				&& shop != null && shop.QuestModifiers.TryGetValue(nameof(cardquest16), out int stack))
+				{
+					for (int i = 0; i < stack; i++)
+					{
+						Card toPlay = gamerun.Battle.DrawZone.Where(c => c.CardType == CardType.Ability).SampleOrDefault(gamerun.BattleCardRng);
+						if (toPlay != null && toPlay.Zone == CardZone.Draw)
+						{
+							gamerun.Battle.React(new PlayCardAction(toPlay), exhibit, ActionCause.Exhibit);
+						}
+					}
+				}
+				isTurn1A = false;
+			});
 
 			player.ReactBattleEvent(gamerun.Battle.BattleStarted, args => OnBattleStarted(args, gamerun.Battle));
 			player.ReactBattleEvent(gamerun.Battle.BattleEnding, args => OnBattleEnding(args, gamerun.Battle));
@@ -1102,13 +1220,14 @@ namespace lvalonmima.Source.Patches
 			exhibit.CleanupStaleQuestRequirements();
 
 			exhibit.RollQuestCards(preserveAcceptedSlots: true);
-			PersistQuestProgress(battle?.GameRun, exhibit.PendingQuestProgress, syncToLiteShop: true, saveToDisk: true, questRequirements: exhibit.QuestRequirements, completedQuestCards: exhibit.CompletedQuestCards);
+			PersistQuestProgress(battle?.GameRun, exhibit.PendingQuestProgress, syncToLiteShop: true, saveToDisk: true, questRequirements: exhibit.QuestRequirements, completedQuestCards: exhibit.CompletedQuestCards, questModifiers: exhibit.PendingQuestModifiers);
 		}
 
 		private static IEnumerable<BattleAction> HandleEndBattleChallenges(GameEventArgs args, BattleController battle, exquesting exhibit)
 		{
 			GameRunController gameRun = battle.GameRun;
 			List<Card> challengeQuests = new List<Card>();
+			var shop = MiniTracker.Instance?.CustomGrSaveData?.GetShopForCurrentProfile();
 			foreach (string cards in battleChallenges)
 			{
 				Card card = Library.CreateCard(cards);
@@ -1157,7 +1276,6 @@ namespace lvalonmima.Source.Patches
 						yield return new LoseMoneyAction(battle.GameRun.Money);
 				}
 			}
-
 
 			foreach (Card card in willFinish) // resolve rewards
 			{
@@ -1252,7 +1370,6 @@ namespace lvalonmima.Source.Patches
 						if (toGain > 0)
 							yield return new GainPowerAction(toGain);
 						break;
-
 					default:
 						break;
 				}

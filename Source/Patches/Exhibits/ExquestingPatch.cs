@@ -1020,7 +1020,7 @@ namespace lvalonmima.Patches.Exhibits
 					}
 
 					exhibit.CleanupStaleQuestRequirements();
-					ShopModHandlers.PersistQuestProgress(GameMaster.Instance?.CurrentGameRun, exhibit.PendingQuestProgress, syncToLiteShop: false, saveToDisk: false, questRequirements: exhibit.QuestRequirements, completedQuestCards: exhibit.CompletedQuestCards, writeToRunFlags: false);
+					ShopModHandlers.PersistQuestProgress(GameMaster.Instance?.CurrentGameRun, exhibit.PendingQuestProgress, syncToLiteShop: false, saveToDisk: false, questRequirements: exhibit.QuestRequirements, completedQuestCards: exhibit.CompletedQuestCards, writeToRunFlags: false, questModifiers: exhibit.PendingQuestModifiers);
 				}
 				// panel.GameRun.AddDeckCards(interaction.SelectedCards, true, null);
 				// item.IsSoldOut = true;

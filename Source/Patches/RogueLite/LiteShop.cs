@@ -93,6 +93,7 @@ namespace lvalonmima.Source.Patches
 		public bool ChallengerModeEnabled { get; set; }
 		public Dictionary<string, int> BPProgress { get; set; }
 		public Dictionary<string, List<(string, int)>> RunModifiersByTimestamp { get; set; }
+		public Dictionary<string, int> QuestModifiers { get; set; }
 
 		public Dictionary<string, ShopItem> Items { get; private set; }
 		[YamlIgnore]
@@ -131,6 +132,7 @@ namespace lvalonmima.Source.Patches
 			ChallengerModeEnabled = false;
 			BPProgress = new Dictionary<string, int>();
 			RunModifiersByTimestamp = new Dictionary<string, List<(string, int)>>();
+			QuestModifiers = new Dictionary<string, int>();
 			Items = new Dictionary<string, ShopItem>();
 			AddItem(new ShopItem(init + "fp", new List<int> { 240, 1200, 3600 }, 0));
 			AddItem(new ShopItem(init + "sp", new List<int> { 160, 800, 2400 }, 0));
@@ -186,7 +188,10 @@ namespace lvalonmima.Source.Patches
 				BPProgress = saved?.BPProgress != null
 					? new Dictionary<string, int>(saved.BPProgress)
 					: new Dictionary<string, int>(),
-				RunModifiersByTimestamp = saved?.RunModifiersByTimestamp ?? new Dictionary<string, List<(string, int)>>()
+				RunModifiersByTimestamp = saved?.RunModifiersByTimestamp ?? new Dictionary<string, List<(string, int)>>(),
+				QuestModifiers = saved?.QuestModifiers != null
+					? new Dictionary<string, int>(saved.QuestModifiers)
+					: new Dictionary<string, int>()
 			};
 
 			if (saved?.Items == null)

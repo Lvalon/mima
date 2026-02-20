@@ -489,3 +489,9 @@ cardquest15:
     若战场上没有|能力|牌则失去所有<sprite="Point" name="Power">；
     若战斗结束时的回合打出多于 {Value10} 张牌则失去所有<sprite="Point" name="Gold">。
   ExtraDescription2: '|奖励|：{Value2} 点最大生命值，恢复满生命值，牌库每有一张|能力|牌获得 {Value2} 点<sprite="Point" name="Power">。'
+
+cardquest16:
+  Name: "序列 16：回合结束时"
+  Description: ""
+  ExtraDescription1: "|条件|：在 {Value1} 场战斗的第一回合结束时，没有在抽牌阶段外抽牌，且抽牌堆内至少有 |n:1| 张|能力|牌。"
+  ExtraDescription2: "|p:永久奖励|：第一回合结束时，若没有在抽牌阶段外抽牌，且抽牌堆内至少有 |n:1| 张|能力|牌，则打出抽牌堆内的一张随机|能力|牌。"
