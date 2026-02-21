@@ -6,6 +6,7 @@ using LBoL.ConfigData;
 using LBoL.Core;
 using LBoL.Core.Battle;
 using LBoL.Core.Battle.BattleActions;
+using LBoL.Core.Battle.Interactions;
 using LBoL.Core.Cards;
 using LBoL.Core.StatusEffects;
 using LBoL.Core.Units;
@@ -13,33 +14,40 @@ using LBoLEntitySideloader.Attributes;
 
 namespace lvalonmima.StatusEffects
 {
-	public sealed class seplayleftDef : lvalonmimaStatusEffectTemplate
+	public sealed class sedefenseplayedDef : lvalonmimaStatusEffectTemplate
 	{
 		public override StatusEffectConfig MakeConfig()
 		{
 			StatusEffectConfig config = GetDefaultStatusEffectConfig();
 			config.Type = StatusEffectType.Special;
+			config.HasCount = true;
 			return config;
 		}
 	}
 
-	[EntityLogic(typeof(seplayleftDef))]
-	public sealed class seplayleft : StatusEffect
+	[EntityLogic(typeof(sedefenseplayedDef))]
+	public sealed class sedefenseplayed : StatusEffect
 	{
-		public override bool ForceNotShowDownText => true;
 		protected override void OnAdded(Unit unit)
 		{
-			ReactOwnerEvent(Battle.CardUsed, OnCardUsed);
+			Count = 0;
+			HandleOwnerEvent(Battle.CardUsed, OnCardUsed);
 		}
 
-		private IEnumerable<BattleAction> OnCardUsed(CardUsingEventArgs args)
+		private void OnCardUsed(CardUsingEventArgs args)
 		{
-			yield return new RemoveStatusEffectAction(this);
-		}
-
-		public override bool ShouldPreventCardUsage(Card card)
-		{
-			return card != Battle.HandZone.FirstOrDefault(c => !c.IsForbidden && c.CanUse);
+			if (args.Card.CardType == CardType.Defense)
+			{
+				Count++;
+				if (Count == Level)
+				{
+					Highlight = true;
+				}
+				else
+				{
+					Highlight = false;
+				}
+			}
 		}
 	}
 }

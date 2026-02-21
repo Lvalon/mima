@@ -28,6 +28,15 @@ namespace lvalonmima.Patches
 	[HarmonyPatch]
 	class CustomGameEventManager
 	{
+		[HarmonyPatch(typeof(GameRunController), "InternalGainPower")]
+		private class GameRunController_InternalGainPower_Patch
+		{
+
+			private static void Prefix(GameRunController __instance, ref int power)
+			{
+				power *= 1 + (GameMaster.Instance?.CurrentGameRun?.Battle?.ExileZone.Count(c => c.Id == nameof(cardstone4)) ?? 0);
+			}
+		}
 		[HarmonyPatch(typeof(PopupHud), nameof(PopupHud.PopupFromScene))]
 		public static class PopupHud_PopupFromScene_Patch
 		{

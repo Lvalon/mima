@@ -507,3 +507,41 @@ cardquest18:
   Description: ""
   ExtraDescription1: "|條件|：|升級|牌庫中的牌 {Value1} 次。"
   ExtraDescription2: "|獎勵|：|升級|牌庫中的隨機 {Value2} 張牌。"
+
+cardquest19:
+  Name: "序列 19：貴客"
+  Description: ""
+  ExtraDescription1: "|條件|：在商店購買商品 {Value1} 次。"
+  ExtraDescription2: "|獎勵|：展品|會員卡|。"
+  DetailText: "已擁有|會員卡|時，{SelfName}不會在備選池內。"
+
+cardquest20:
+  Name: "序列 20：多餘的異變石"
+  Description: ""
+  ExtraDescription1: "|條件|：將{cardName}加入牌庫。"
+  ExtraDescription2: "|獎勵|：將隨機 {Value2} 張|異變石|加入牌庫。"
+  RandomCard: "隨機一張在備選池的卡牌"
+
+cardstone1:
+  Name: 雪風的雪魔
+  Description: "|戰鬥開始時|：|放逐|{SelfName}，打出一張|暴風雪|。"
+
+cardstone2:
+  Name: 沉底的地靈
+  Description: "|戰鬥開始時|：打出{SelfName}。\n每當{PlayerName}|閃避|傷害時，獲得 {Value1} 點|格檔|。"
+  DetailText: "牌庫沒有|閃避|牌時，{SelfName}不會在備選池內。"
+
+cardstone3:
+  Name: 须臾之月
+  Description: "|戰鬥開始時|：|放逐|{SelfName}，放逐所有|漫漫長夜|。"
+  DetailText: "如果難題|長夜的疲累|沒被啟用，{SelfName}不會在備選池內。"
+
+cardstone4:
+  Name: 紅色狂暴
+  Description: "|戰鬥開始時|：|放逐|{SelfName}。\n|在放逐區時|：獲得 |n:100%| 額外的<sprite=\"Point\" name=\"Power\">。"
+
+cardquest21:
+  Name: "序列 21：魔法數字"
+  Description: ""
+  ExtraDescription1: "|條件|：在 {Value1} 場戰鬥中剛好打出一種卡牌種類的牌 {Value9} 次。"
+  ExtraDescription2: '|獎勵|：{Value2} 點<sprite="Point" name="Gold">。'

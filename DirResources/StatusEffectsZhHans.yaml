@@ -201,3 +201,41 @@ seplayleft:
   Description: "只能打出最左的可打出（无视费用）手牌。\n打出牌后移除{SelfName}。"
   Brief: "只能打出最左的可打出（无视费用）手牌。\n打出牌后移除{SelfName}。"
   Name: 命中注定
+
+seistone:
+  Description: "这是一张|异变石|牌。|异变石|不能被|升级|。"
+  Brief: "这是一张|异变石|牌。|异变石|不能被|升级|。"
+  Name: 异变石
+
+sestone2:
+  Description: "每当{PlayerName}|闪避|伤害时，获得 {Level} 点|格档|。"
+  Brief: "每当{PlayerName}|闪避|伤害时，获得若干点|格档|。"
+  Name: 沉底的地灵
+
+seattackplayed:
+  Description: "已打出 {Count} 张|攻击|牌。"
+  Name: 已打出攻击牌
+
+sedefenseplayed:
+  Description: "已打出 {Count} 张|防御|牌。"
+  Name: 已打出防御牌
+
+seskillplayed:
+  Description: "已打出 {Count} 张|技能|牌。"
+  Name: 已打出技能牌
+
+seabilityplayed:
+  Description: "已打出 {Count} 张|能力|牌。"
+  Name: 已打出能力牌
+
+sestatusplayed:
+  Description: "已打出 {Count} 张|状态|牌。"
+  Name: 已打出状态牌
+
+semisfortuneplayed:
+  Description: "已打出 {Count} 张|厄运|牌。"
+  Name: 已打出厄运牌
+
+setoolplayed:
+  Description: "已打出 {Count} 张|道具|牌。"
+  Name: 已打出道具牌

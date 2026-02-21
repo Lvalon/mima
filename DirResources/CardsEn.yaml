@@ -507,3 +507,41 @@ cardquest18:
   Description: ""
   ExtraDescription1: "|Condition|: |Upgrade| {Value1} card{Value1:plural one='' other='s'} in the library."
   ExtraDescription2: "|Reward|: |Upgrade| {Value2} random card{Value2:plural one='' other='s'} in the library."
+
+cardquest19:
+  Name: "19. Loyal Customer"
+  Description: ""
+  ExtraDescription1: "|Condition|: |Purchase| {Value1} item{Value1:plural one='' other='s'} from Takane's shop."
+  ExtraDescription2: "|Reward|: The |Membership Card| exhibit."
+  DetailText: "{SelfName} cannot be randomly generated if the |Membership Card| exhibit is already obtained."
+
+cardquest20:
+  Name: "20. Spare Incident Stones"
+  Description: ""
+  ExtraDescription1: "|Condition|: Add {cardName} to the library."
+  ExtraDescription2: "|Reward|: Add {Value2} random |Incident Stone{Value2:plural one='' other='s'}| to add to the library."
+  RandomCard: "a random card in pool"
+
+cardstone1:
+  Name: Snow Devil
+  Description: "|At the start of combat|: |Exile| {SelfName}, play a |Blizzard|."
+
+cardstone2:
+  Name: Sneaky Subterranean
+  Description: "|At the start of combat|: Play {SelfName}.\nWhenever {PlayerName} |Grazes| an attack, gain {Value1} |Block|."
+  DetailText: "{SelfName} cannot be randomly generated if no cards with |Graze| are in the library."
+
+cardstone3:
+  Name: Perishable Moon
+  Description: "|At the start of combat|: |Exile| {SelfName}, exile all |Long Nights|."
+  DetailText: "{SelfName} cannot be randomly generated if the |Nighttime Fatigue| request is inactive."
+
+cardstone4:
+  Name: Red Berserk
+  Description: "|At the start of combat|: |Exile| {SelfName}.\n|While exiled|: Gain |n:100%| additional <sprite=\"Point\" name=\"Power\">."
+
+cardquest21:
+  Name: "21. Magical Numbers"
+  Description: ""
+  ExtraDescription1: "|Condition|: Play cards of a card type exactly {Value9} time{Value9:plural one='' other='s'} in {Value1} combat{Value1:plural one='' other='s'}."
+  ExtraDescription2: '|Reward|: {Value2} <sprite="Point" name="Gold">.'

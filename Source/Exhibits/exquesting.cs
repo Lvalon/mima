@@ -139,6 +139,7 @@ namespace lvalonmima.Exhibits
 			return questCardId switch
 			{
 				nameof(cardquest2) => quest2(),
+				nameof(cardquest20) => GameRun.RollCards(GameRun.CardRng, new CardWeightTable(RarityWeightTable.EnemyCard, OwnerWeightTable.Valid, CardTypeWeightTable.CanBeLoot), 1, false, false, null)[0].Id,
 				_ => string.Empty,
 			};
 			string quest2()
@@ -185,7 +186,9 @@ namespace lvalonmima.Exhibits
 					continue;
 				}
 
-				if (!string.Equals(card.Id, nameof(cardquest2), StringComparison.Ordinal))
+				List<string> requiredCards = new List<string>() { nameof(cardquest2), nameof(cardquest20) };
+
+				if (!requiredCards.Contains(card.Id))
 				{
 					continue;
 				}
@@ -293,7 +296,9 @@ namespace lvalonmima.Exhibits
 					continue;
 				}
 
-				if (!string.Equals(card.Id, nameof(cardquest2), StringComparison.Ordinal))
+				List<string> requiredCards = new List<string>() { nameof(cardquest2), nameof(cardquest20) };
+
+				if (!requiredCards.Contains(card.Id))
 				{
 					continue;
 				}
@@ -368,6 +373,10 @@ namespace lvalonmima.Exhibits
 			if (gameRun.Player.HasExhibit<ChuRenou>())
 			{
 				conditionalExcludes.Add(nameof(cardquest13));
+			}
+			if (gameRun.Player.HasExhibit<Huiyuanka>())
+			{
+				conditionalExcludes.Add(nameof(cardquest19));
 			}
 
 			try

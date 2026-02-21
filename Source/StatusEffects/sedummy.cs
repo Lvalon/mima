@@ -56,5 +56,14 @@ namespace lvalonmima.StatusEffects
 	public sealed class sequest : StatusEffect
 	{
 	}
+	public sealed class seistoneDef : lvalonmimaStatusEffectTemplate
+	{
+		public override Sprite LoadSprite() => null;
+	}
+
+	[EntityLogic(typeof(seistoneDef))]
+	public sealed class seistone : StatusEffect
+	{
+	}
 }
 

@@ -552,6 +552,7 @@ namespace lvalonmima.Source.Patches
 			{
 				Library.CreateCard<cardquest2>(),
 				Library.CreateCard<cardquest13>(),
+				Library.CreateCard<cardquest20>(),
 			};
 			foreach (Card card in reqQuests)
 			{
@@ -609,6 +610,10 @@ namespace lvalonmima.Source.Patches
 						case nameof(cardquest13):
 							adding += args.Cards.Count(c => c.CardType == CardType.Misfortune);
 							break;
+						case nameof(cardquest20) when exhibit.TryGetQuestRequirement(questCardId, out string req):
+							if (args.Cards.Any(c => c.Id == req))
+								adding++;
+							break;
 						default:
 							break;
 					}
@@ -627,6 +632,19 @@ namespace lvalonmima.Source.Patches
 								gameRun.RemoveDeckCards(gameRun.BaseDeck.Where(c => c.CardType == CardType.Misfortune && !c.Unremovable));
 								if (!gameRun.Player.HasExhibit<ChuRenou>())
 									GameMaster.DebugGainExhibit(Library.CreateExhibit<ChuRenou>());
+								break;
+							case nameof(cardquest20):
+								List<Card> stones = new List<Card>()
+								{
+									Library.CreateCard<cardstone1>(),
+									// Library.CreateCard<cardstone2>(),
+									Library.CreateCard<cardstone4>(),
+								};
+								if (gameRun.BaseDeck.Any(c => (c.Config.RelativeEffects.Contains(nameof(Graze)) && !c.IsUpgraded) || (c.Config.UpgradedRelativeEffects.Contains(nameof(Graze)) && c.IsUpgraded)))
+									stones.Add(Library.CreateCard<cardstone2>());
+								if (gameRun.Puzzles.HasFlag(PuzzleFlag.NightMana))
+									stones.Add(Library.CreateCard<cardstone3>());
+								gameRun.AddDeckCards(stones.SampleManyOrAll(card.Config.Value2 ?? 2, gameRun.CardRng), true);
 								break;
 							default:
 								break;
@@ -1198,6 +1216,18 @@ namespace lvalonmima.Source.Patches
 								}
 							});
 							break;
+						case nameof(cardquest21):
+							battleChallenges.Add(id);
+							cardquest21 quest21 = Library.CreateCard<cardquest21>();
+							gamerun.Battle.React(new ApplyStatusEffectAction<seattackplayed>(player, quest21.Value9), exhibit, ActionCause.Exhibit);
+							gamerun.Battle.React(new ApplyStatusEffectAction<sedefenseplayed>(player, quest21.Value9), exhibit, ActionCause.Exhibit);
+							gamerun.Battle.React(new ApplyStatusEffectAction<seskillplayed>(player, quest21.Value9), exhibit, ActionCause.Exhibit);
+							gamerun.Battle.React(new ApplyStatusEffectAction<seabilityplayed>(player, quest21.Value9), exhibit, ActionCause.Exhibit);
+							gamerun.Battle.React(new ApplyStatusEffectAction<sefriendplayed>(player, quest21.Value9), exhibit, ActionCause.Exhibit);
+							gamerun.Battle.React(new ApplyStatusEffectAction<sestatusplayed>(player, quest21.Value9), exhibit, ActionCause.Exhibit);
+							gamerun.Battle.React(new ApplyStatusEffectAction<semisfortuneplayed>(player, quest21.Value9), exhibit, ActionCause.Exhibit);
+							gamerun.Battle.React(new ApplyStatusEffectAction<setoolplayed>(player, quest21.Value9), exhibit, ActionCause.Exhibit);
+							break;
 						default:
 							break;
 					}
@@ -1467,6 +1497,9 @@ namespace lvalonmima.Source.Patches
 						if (toGain > 0)
 							yield return new GainPowerAction(toGain);
 						break;
+					case nameof(cardquest21):
+						yield return new GainMoneyAction((int)card.Config.Value2);
+						break;
 					default:
 						break;
 				}
@@ -1604,6 +1637,39 @@ namespace lvalonmima.Source.Patches
 					case "battle.heal":
 						if (battle.Player.IsAlive)
 							yield return new HealAction(battle.Player, battle.Player, item.CurrentTier);
+						break;
+				}
+			}
+
+			if (!battle.Player.HasExhibit<exquesting>())
+				yield break;
+			var exhibit = battle.Player.GetExhibit<exquesting>();
+
+			foreach (string id in exhibit.PendingQuestProgress.Keys)
+			{
+				switch (id)
+				{
+					case nameof(cardquest21):
+						cardquest21 card = Library.CreateCard<cardquest21>();
+						StatusEffect atk = battle.Player.GetStatusEffect<seattackplayed>();
+						StatusEffect def = battle.Player.GetStatusEffect<sedefenseplayed>();
+						StatusEffect skill = battle.Player.GetStatusEffect<seskillplayed>();
+						StatusEffect ability = battle.Player.GetStatusEffect<seabilityplayed>();
+						StatusEffect friend = battle.Player.GetStatusEffect<sefriendplayed>();
+						StatusEffect status = battle.Player.GetStatusEffect<sestatusplayed>();
+						StatusEffect misfortune = battle.Player.GetStatusEffect<semisfortuneplayed>();
+						StatusEffect tool = battle.Player.GetStatusEffect<setoolplayed>();
+						if (atk != null && atk.Count != card.Value9
+						&& def != null && def.Count != card.Value9
+						&& skill != null && skill.Count != card.Value9
+						&& ability != null && ability.Count != card.Value9
+						&& friend != null && friend.Count != card.Value9
+						&& status != null && status.Count != card.Value9
+						&& misfortune != null && misfortune.Count != card.Value9
+						&& tool != null && tool.Count != card.Value9)
+							battleChallenges.Remove(id);
+						break;
+					default:
 						break;
 				}
 			}
@@ -1858,6 +1924,58 @@ namespace lvalonmima.Source.Patches
 							gameRun.UpgradeDeckCards(toUpgrade, true);
 						exhibit.FinalizeQuestByCardId(quest18.Id);
 						exhibit.MarkQuestCompleted(quest18.Id);
+					}
+				}
+			}
+		}
+	}
+
+	[HarmonyPatch(typeof(ShopPanel), nameof(ShopPanel.BuyCard))]
+	class ShopPanel_BuyCard_Quest_Patch
+	{
+		static void Postfix(ShopPanel __instance, int index)
+		{
+			Card card = __instance.ShopStation?.ShopCards[index]?.Content;
+			GameRunController gameRun = GameMaster.Instance?.CurrentGameRun;
+			var shop = MiniTracker.Instance?.CustomGrSaveData?.GetShopForCurrentProfile();
+			if (card != null && gameRun != null && shop != null && !card.Config.RelativeEffects.Any(e => e == nameof(sequest)) && gameRun.Player.HasExhibit<exquesting>())
+			{
+				exquesting exhibit = gameRun.Player.GetExhibit<exquesting>();
+				var quest19 = Library.CreateCard<cardquest19>();
+				if (exhibit.PendingQuestProgress.TryGetValue(quest19.Id, out int progress) && progress < quest19.Config.Value1)
+				{
+					exhibit.PendingQuestProgress[quest19.Id] = ++progress;
+					if (exhibit.PendingQuestProgress[quest19.Id] >= quest19.Config.Value1)
+					{
+						if (!gameRun.Player.HasExhibit<Huiyuanka>())
+							GameMaster.DebugGainExhibit(Library.CreateExhibit<Huiyuanka>());
+						exhibit.FinalizeQuestByCardId(quest19.Id);
+						exhibit.MarkQuestCompleted(quest19.Id);
+					}
+				}
+			}
+		}
+	}
+	[HarmonyPatch(typeof(ShopPanel), nameof(ShopPanel.BuyExhibit))]
+	class ShopPanel_BuyExhibit_Quest_Patch
+	{
+		static void Postfix()
+		{
+			GameRunController gameRun = GameMaster.Instance?.CurrentGameRun;
+			var shop = MiniTracker.Instance?.CustomGrSaveData?.GetShopForCurrentProfile();
+			if (gameRun != null && shop != null && gameRun.Player.HasExhibit<exquesting>())
+			{
+				exquesting exhibit = gameRun.Player.GetExhibit<exquesting>();
+				var quest19 = Library.CreateCard<cardquest19>();
+				if (exhibit.PendingQuestProgress.TryGetValue(quest19.Id, out int progress) && progress < quest19.Config.Value1)
+				{
+					exhibit.PendingQuestProgress[quest19.Id] = ++progress;
+					if (exhibit.PendingQuestProgress[quest19.Id] >= quest19.Config.Value1)
+					{
+						if (!gameRun.Player.HasExhibit<Huiyuanka>())
+							GameMaster.DebugGainExhibit(Library.CreateExhibit<Huiyuanka>());
+						exhibit.FinalizeQuestByCardId(quest19.Id);
+						exhibit.MarkQuestCompleted(quest19.Id);
 					}
 				}
 			}

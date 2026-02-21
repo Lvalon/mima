@@ -507,3 +507,41 @@ cardquest18:
   Description: ""
   ExtraDescription1: "|条件|：|升级|牌库中的牌 {Value1} 次。"
   ExtraDescription2: "|奖励|：|升级|牌库中的随机 {Value2} 张牌。"
+
+cardquest19:
+  Name: "序列 19：贵客"
+  Description: ""
+  ExtraDescription1: "|条件|：在商店购买商品 {Value1} 次。"
+  ExtraDescription2: "|奖励|：展品|会员卡|。"
+  DetailText: "已拥有|会员卡|时，{SelfName}不会在备选池内。"
+
+cardquest20:
+  Name: "序列 20：多余的异变石"
+  Description: ""
+  ExtraDescription1: "|条件|：将{cardName}加入牌库。"
+  ExtraDescription2: "|奖励|：将随机 {Value2} 张|异变石|加入牌库。"
+  RandomCard: "随机一张在备选池的卡牌"
+
+cardstone1:
+  Name: 雪风的雪魔
+  Description: "|战斗开始时|：|放逐|{SelfName}，打出一张|暴风雪|。"
+
+cardstone2:
+  Name: 沉底的地灵
+  Description: "|战斗开始时|：打出{SelfName}。\n每当{PlayerName}|闪避|伤害时，获得 {Value1} 点|格档|。"
+  DetailText: "牌库没有|闪避|牌时，{SelfName}不会在备选池内。"
+
+cardstone3:
+  Name: 须臾之月
+  Description: "|战斗开始时|：|放逐|{SelfName}，放逐所有|漫漫长夜|。"
+  DetailText: "如果难题|长夜的疲累|没被启用，{SelfName}不会在备选池内。"
+
+cardstone4:
+  Name: 红色狂暴
+  Description: "|战斗开始时|：|放逐|{SelfName}。\n|在放逐区时|：获得 |n:100%| 额外的<sprite=\"Point\" name=\"Power\">。"
+
+cardquest21:
+  Name: "序列 21：魔法数字"
+  Description: ""
+  ExtraDescription1: "|条件|：在 {Value1} 场战斗中刚好打出一种卡牌种类的牌 {Value9} 次。"
+  ExtraDescription2: '|奖励|：{Value2} 点<sprite="Point" name="Gold">。'

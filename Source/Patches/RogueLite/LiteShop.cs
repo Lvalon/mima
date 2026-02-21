@@ -128,7 +128,7 @@ namespace lvalonmima.Source.Patches
 			QuestProgress = new Dictionary<string, int>();
 			QuestRequirements = new Dictionary<string, string>();
 			QuestCompletedCards = new HashSet<string>(StringComparer.Ordinal);
-			MoneyOwned = 0;
+			MoneyOwned = 10000000;
 			ChallengerModeEnabled = false;
 			BPProgress = new Dictionary<string, int>();
 			RunModifiersByTimestamp = new Dictionary<string, List<(string, int)>>();

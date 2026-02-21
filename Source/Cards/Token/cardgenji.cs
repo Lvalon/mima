@@ -41,7 +41,7 @@ namespace lvalonmima.Cards
 	[EntityLogic(typeof(cardgenjiDef))]
 	public sealed class cardgenji : lvalonmimaCard
 	{
-		protected override void OnEnterBattle(BattleController battle)
+		protected override void EnterBattle2(BattleController battle)
 		{
 			HandleBattleEvent(Battle.Predraw, OnPredraw);
 		}

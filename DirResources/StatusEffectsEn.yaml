@@ -202,3 +202,45 @@ seplayleft:
   Description: "Only the leftmost playable (ignoring cost) card can be played.\nAfter playing a card, remove {SelfName}."
   Brief: "Only the leftmost playable (ignoring cost) card can be played.\nAfter playing a card, remove {SelfName}."
   Name: One and Only
+
+seistone:
+  Description: "This is an |Incident Stone| card. |Incident Stones| cannot be upgraded."
+  Brief: "This is an |Incident Stone| card. |Incident Stones| cannot be upgraded."
+  Name: Incident Stone
+
+sestone2:
+  Description: "Whenever {PlayerName} |Grazes| an attack, gain {Level} |Block|."
+  Brief: "Whenever {PlayerName} |Grazes| an attack, gain |Block|."
+  Name: Sneaky Subterranean
+
+seattackplayed:
+  Description: "{Count} |Attack| cards are played."
+  Name: Attack Cards Played
+
+sedefenseplayed:
+  Description: "{Count} |Defense| cards are played."
+  Name: Defense Cards Played
+
+seskillplayed:
+  Description: "{Count} |Skill| cards are played."
+  Name: Skill Cards Played
+
+seabilityplayed:
+  Description: "{Count} |Ability| cards are played."
+  Name: Ability Cards Played
+
+sefriendplayed:
+  Description: "{Count} |Teammate| cards are played."
+  Name: Teammate Cards Played
+
+sestatusplayed:
+  Description: "{Count} |Status| cards are played."
+  Name: Status Cards Played
+
+semisfortuneplayed:
+  Description: "{Count} |Misfortune| cards are played."
+  Name: Misfortune Cards Played
+
+setoolplayed:
+  Description: "{Count} |Tool| cards are played."
+  Name: Tool Cards Played
