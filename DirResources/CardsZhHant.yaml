@@ -561,6 +561,13 @@ cardquest23:
 
 cardquest24:
   Name: "序列 24：絕命導爆！"
-  Description: "|接受期間|：{PlayerName}造成的傷害將被|保留|至敵人的回合開始時觸發。"
-  ExtraDescription1: "|條件|：敵人結算超過其 |n:50%| 生命值的|保留傷害| {Value1} 次。"
+  Description: "|接受期間|：{PlayerName}造成的傷害和生命失去將被|保留|至敵人的回合開始時觸發。"
+  ExtraDescription1: "|條件|：|保留傷害|生效時，其儲存的傷害超過其擁有者 |n:50%| 生命值 {Value1} 次。"
   ExtraDescription2: "|p:永久獎勵|：敵人受到傷害的 |n:10%| 將同時施加|延遲傷害|。"
+
+cardquest25:
+  Name: "序列 25：五等份的巫女"
+  Description: ""
+  ExtraDescription1: "|條件|：在 {Value1} 場戰鬥中，打出|能力|牌，受到傷害和恢復生命值，獲得|格檔|和|護盾|。"
+  ExtraDescription2: "|p:永久獎勵|：每張戰鬥中，打出的第 |n:1| 張能力將再次被打出。"
+  DetailText: "牌庫沒有|護盾|牌時，{SelfName}不會在備選池內。"

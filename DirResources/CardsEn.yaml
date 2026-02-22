@@ -561,6 +561,13 @@ cardquest23:
 
 cardquest24:
   Name: "24. Detonate!"
-  Description: "|While accepted|: {PlayerName}'s damage dealt are |held| until the start of the start of the enemy's turn."
-  ExtraDescription1: "|Condition|: Enemies resolve |Held Damage| that is over |n:50%| of their maximum life {Value1} time{Value1:plural one='' other='s'}."
+  Description: "|While accepted|: {PlayerName}'s damage dealt and life loss caused are |held| until the start of the start of the enemy's turn."
+  ExtraDescription1: "|Condition|: |Held Damage| has recorded damage that is over |n:50%| of its owner's maximum life {Value1} time{Value1:plural one='' other='s'}."
   ExtraDescription2: "|p:Permanent Reward|: Enemies gain |Delayed Damage| equal to |n:10%| of their damage taken."
+
+cardquest25:
+  Name: "25. Quintessential Miko"
+  Description: ""
+  ExtraDescription1: "|Condition|: Play an |Ability| card, take damage and gain life, gain |Block| and |Barrier| in a combat {Value1} time{Value1:plural one='' other='s'}."
+  ExtraDescription2: "|p:Permanent Reward|: The |n:first| |Ability| card played each combat is played again."
+  DetailText: "{SelfName} cannot be randomly generated if the library has no |Barrier| cards."

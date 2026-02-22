@@ -214,35 +214,35 @@ sestone2:
   Name: Sneaky Subterranean
 
 seattackplayed:
-  Description: "{Count} |Attack| cards are played."
+  Description: "{Count} |Attack| card{Count:plural one=' is' other='s are'} played."
   Name: Attack Cards Played
 
 sedefenseplayed:
-  Description: "{Count} |Defense| cards are played."
+  Description: "{Count} |Defense| card{Count:plural one=' is' other='s are'} played."
   Name: Defense Cards Played
 
 seskillplayed:
-  Description: "{Count} |Skill| cards are played."
+  Description: "{Count} |Skill| card{Count:plural one=' is' other='s are'} played."
   Name: Skill Cards Played
 
 seabilityplayed:
-  Description: "{Count} |Ability| cards are played."
+  Description: "{Count} |Ability| card{Count:plural one=' is' other='s are'} played."
   Name: Ability Cards Played
 
 sefriendplayed:
-  Description: "{Count} |Teammate| cards are played."
+  Description: "{Count} |Teammate| card{Count:plural one=' is' other='s are'} played."
   Name: Teammate Cards Played
 
 sestatusplayed:
-  Description: "{Count} |Status| cards are played."
+  Description: "{Count} |Status| card{Count:plural one=' is' other='s are'} played."
   Name: Status Cards Played
 
 semisfortuneplayed:
-  Description: "{Count} |Misfortune| cards are played."
+  Description: "{Count} |Misfortune| card{Count:plural one=' is' other='s are'} played."
   Name: Misfortune Cards Played
 
 setoolplayed:
-  Description: "{Count} |Tool| cards are played."
+  Description: "{Count} |Tool| card{Count:plural one=' is' other='s are'} played."
   Name: Tool Cards Played
 
 selifediff:
@@ -258,3 +258,19 @@ sedelaydamage:
   Description: "At the start of {OwnerName}'s turn, take {Level} damage, then remove {SelfName}."
   Brief: "At the start of {OwnerName}'s turn, take damage, then remove {SelfName}."
   Name: Delayed Damage
+
+sedamagereceived:
+  Description: "{OwnerName} has received {Count} damage this combat."
+  Name: Damage Received
+
+sehealreceived:
+  Description: "{OwnerName} has gained {Count} life this combat."
+  Name: Life Gained
+
+seblockgained:
+  Description: "{OwnerName} has gained {Level} |Block| and {Count} |Barrier| this combat."
+  Name: "Block/Barrier Gained"
+
+sequest25:
+  Description: "The next {Level} |Ability| card{Level:plural one='' other='s'} played {Level:plural one='is' other='are'} played again."
+  Name: Quintessential Miko

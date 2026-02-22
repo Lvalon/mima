@@ -16,7 +16,7 @@ using lvalonmima.Exhibits;
 
 namespace lvalonmima.StatusEffects
 {
-	public sealed class seabilityplayedDef : lvalonmimaStatusEffectTemplate
+	public sealed class sehealreceivedDef : lvalonmimaStatusEffectTemplate
 	{
 		public override StatusEffectConfig MakeConfig()
 		{
@@ -27,34 +27,25 @@ namespace lvalonmima.StatusEffects
 		}
 	}
 
-	[EntityLogic(typeof(seabilityplayedDef))]
-	public sealed class seabilityplayed : StatusEffect
+	[EntityLogic(typeof(sehealreceivedDef))]
+	public sealed class sehealreceived : StatusEffect
 	{
+		public override bool ForceNotShowDownText => true;
 		protected override void OnAdded(Unit unit)
 		{
 			Count = 0;
-			HandleOwnerEvent(Battle.CardUsed, OnCardUsed);
+			HandleOwnerEvent(unit.HealingReceived, OnHealReceived, GameEventPriority.Lowest - 100);
 		}
 
-		private void OnCardUsed(CardUsingEventArgs args)
+		private void OnHealReceived(HealEventArgs args)
 		{
-			if (args.Card.CardType == CardType.Ability)
+			if (args.Amount > 0)
 			{
-				Count++;
-				if (Count == Level)
-				{
-					Highlight = true;
-				}
-				else
-				{
-					Highlight = false;
-				}
-
-				if (Battle.Player.HasExhibit<exquesting>() && Count == 1) // only trigger on the first ability played each combat
+				Count += (int)args.Amount;
+				if (Battle.Player.HasExhibit<exquesting>() && Count == (int)args.Amount)
 				{
 					exquesting exhibit = Battle.Player.GetExhibit<exquesting>();
 					cardquest25 card = Library.CreateCard<cardquest25>();
-					Highlight = false;
 					if (exhibit.PendingQuestProgress.TryGetValue(card.Id, out var progress)
 					&& Battle.Player.TryGetStatusEffect(out seabilityplayed abilityPlayed) && abilityPlayed.Count > 0
 					&& Battle.Player.TryGetStatusEffect(out sedamagereceived damageReceived) && damageReceived.Count > 0
@@ -72,7 +63,6 @@ namespace lvalonmima.StatusEffects
 					}
 				}
 			}
-
 		}
 	}
 }

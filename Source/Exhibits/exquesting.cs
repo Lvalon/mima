@@ -378,6 +378,10 @@ namespace lvalonmima.Exhibits
 			{
 				conditionalExcludes.Add(nameof(cardquest19));
 			}
+			if (!gameRun.BaseDeck.Any(c => (c.Config.RelativeKeyword.HasFlag(Keyword.Shield) && !c.IsUpgraded) || (c.Config.UpgradedRelativeKeyword.HasFlag(Keyword.Shield) && c.IsUpgraded)))
+			{
+				conditionalExcludes.Add(nameof(cardquest25));
+			}
 
 			try
 			{

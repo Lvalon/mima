@@ -1247,6 +1247,12 @@ namespace lvalonmima.Source.Patches
 								return new List<BattleAction>() { new ApplyStatusEffectAction<seholddamage>(args.Unit, 0) };
 							});
 							break;
+						case nameof(cardquest25):
+							gamerun.Battle.React(new ApplyStatusEffectAction<seabilityplayed>(player, 0), exhibit, ActionCause.Exhibit);
+							gamerun.Battle.React(new ApplyStatusEffectAction<sedamagereceived>(player, 0), exhibit, ActionCause.Exhibit);
+							gamerun.Battle.React(new ApplyStatusEffectAction<sehealreceived>(player, 0), exhibit, ActionCause.Exhibit);
+							gamerun.Battle.React(new ApplyStatusEffectAction<seblockgained>(player, 0), exhibit, ActionCause.Exhibit);
+							break;
 						default:
 							break;
 					}
@@ -1316,9 +1322,15 @@ namespace lvalonmima.Source.Patches
 				return Enumerable.Empty<BattleAction>();
 			});
 
+			if (shop != null && shop.QuestModifiers.TryGetValue(nameof(cardquest25), out int stack25))
+			{
+				if (stack25 > 0)
+					gamerun.Battle.React(new ApplyStatusEffectAction<sequest25>(player, stack25), exhibit, ActionCause.Exhibit);
+			}
+
 			player.ReactBattleEvent(gamerun.Battle.BattleStarted, args => OnBattleStarted(args, gamerun.Battle));
 			player.ReactBattleEvent(gamerun.Battle.BattleEnding, args => OnBattleEnding(args, gamerun.Battle));
-			player.ReactBattleEvent(gamerun.Battle.BattleEnded, args => OnBattleEnded(args, gamerun.Battle));
+			player.ReactBattleEvent(gamerun.Battle.BattleEnded, args => OnBattleEnded(args, gamerun.Battle), GameEventPriority.ConfigDefault + 100);
 			player.ReactBattleEvent(gamerun.Battle.Player.TurnStarted, args => OnPlayerTurnStarted(args, gamerun.Battle));
 
 			player.ReactBattleEvent(gamerun.Battle.EnemyDied, args => OnEnemyDied(args, gamerun.Battle));

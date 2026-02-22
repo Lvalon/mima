@@ -253,3 +253,19 @@ sedelaydamage:
   Description: "{OwnerName}的回合開始時，受到 {Level} 點傷害，然後移除{SelfName}。"
   Brief: "{OwnerName}的回合開始時，受到若干點傷害，然後移除{SelfName}。"
   Name: 延遲傷害
+
+sedamagereceived:
+  Description: "{OwnerName}在這場戰鬥內受到的傷害為 {Count} 點。"
+  Name: 受到的傷害
+
+sehealreceived:
+  Description: "{OwnerName}在這場戰鬥內恢復的生命值為 {Count} 點。"
+  Name: 恢復的生命值
+
+seblockgained:
+  Description: "{OwnerName}在這場戰鬥內獲得的|格檔|為 {Level} 點，|護盾|為 {Count} 點。"
+  Name: "獲得的格檔/護盾"
+
+sequest25:
+  Description: "下 {Level} 張|能力|牌將再次被打出。"
+  Name: 五等份的巫女

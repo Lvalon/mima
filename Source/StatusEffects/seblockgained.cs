@@ -1,0 +1,72 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using LBoL.Base;
+using LBoL.ConfigData;
+using LBoL.Core;
+using LBoL.Core.Battle;
+using LBoL.Core.Battle.BattleActions;
+using LBoL.Core.Battle.Interactions;
+using LBoL.Core.Cards;
+using LBoL.Core.StatusEffects;
+using LBoL.Core.Units;
+using LBoLEntitySideloader.Attributes;
+using lvalonmima.Cards;
+using lvalonmima.Exhibits;
+
+namespace lvalonmima.StatusEffects
+{
+	public sealed class seblockgainedDef : lvalonmimaStatusEffectTemplate
+	{
+		public override StatusEffectConfig MakeConfig()
+		{
+			StatusEffectConfig config = GetDefaultStatusEffectConfig();
+			config.Type = StatusEffectType.Special;
+			config.HasCount = true;
+			return config;
+		}
+	}
+
+	[EntityLogic(typeof(seblockgainedDef))]
+	public sealed class seblockgained : StatusEffect
+	{
+		protected override void OnAdded(Unit unit)
+		{
+			Count = 0;
+			HandleOwnerEvent(unit.BlockShieldGained, OnBlockShieldGained, GameEventPriority.Lowest - 100);
+		}
+
+		private void OnBlockShieldGained(BlockShieldEventArgs args)
+		{
+			bool preShield = Count > 0;
+			bool preBlock = Level > 0;
+			int shield = (int)args.Shield;
+			int block = (int)args.Block;
+			bool firstShield = shield > 0 && !preShield;
+			bool firstBlock = block > 0 && !preBlock;
+			bool finalOne = (firstShield && preBlock) || (firstBlock && preShield) || (firstShield && firstBlock && !preShield && !preBlock);
+			Level += block;
+			Count += shield;
+			if (Battle.Player.HasExhibit<exquesting>() && finalOne)
+			{ // only trigger when block/shield is first gained respectively while others have already progressed
+				exquesting exhibit = Battle.Player.GetExhibit<exquesting>();
+				cardquest25 card = Library.CreateCard<cardquest25>();
+				if (exhibit.PendingQuestProgress.TryGetValue(card.Id, out var progress)
+				&& Battle.Player.TryGetStatusEffect(out seabilityplayed abilityPlayed) && abilityPlayed.Count > 0
+				&& Battle.Player.TryGetStatusEffect(out sedamagereceived damageReceived) && damageReceived.Count > 0
+				&& Battle.Player.TryGetStatusEffect(out sehealreceived healReceived) && healReceived.Count > 0
+				&& Battle.Player.TryGetStatusEffect(out seblockgained blockGained) && blockGained.Count > 0 && blockGained.Level > 0) // has all SE
+				{
+					exhibit.PendingQuestProgress[card.Id] = ++progress; // count progress
+					if (progress >= card.Config.Value1) //reached goal
+					{
+						exhibit.PendingQuestModifiers.TryGetValue(card.Id, out int stack);
+						exhibit.PendingQuestModifiers[card.Id] = ++stack; // add modifier
+						exhibit.FinalizeQuestByCardId(card.Id); // finish quest
+						exhibit.MarkQuestCompleted(card.Id);
+					}
+				}
+			}
+		}
+	}
+}

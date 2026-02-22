@@ -86,3 +86,4 @@ Roguelite Shop:
 22. Weight Training: https://www.instagram.com/reimu.yuyuko.combo/p/CyodNTzv2I7/?img_index=1 (reimu.yuyuko.combo)
 23. Diverging Paths: https://www.pixiv.net/en/artworks/100919766 (米诺)
 24. Detonate!: https://www.pixiv.net/en/artworks/125739166 (海源)
+25. Quintessential Miko: https://x.com/reimu_tyuki/status/1689235753153523712 (もちこ)
