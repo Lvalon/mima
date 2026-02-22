@@ -244,3 +244,7 @@ semisfortuneplayed:
 setoolplayed:
   Description: "{Count} |Tool| cards are played."
   Name: Tool Cards Played
+
+selifediff:
+  Description: "{OwnerName} entered the battle with {Level} life, and has {Count} life currently."
+Name: Life On Entering Battle

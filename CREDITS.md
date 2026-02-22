@@ -83,3 +83,5 @@ Roguelite Shop:
     20.3. Perishable Night: https://www.pixiv.net/en/artworks/49915759 (一碗清汤荞麦面丶)
     20.4. Red Berserk: https://www.pixiv.net/en/artworks/57645313 (「楽園」Eredhen)
 21. Magical Numbers: https://www.newgrounds.com/art/view/unkky/cirno-whats-9-10 (Unkky)
+22. Weight Training: https://www.instagram.com/reimu.yuyuko.combo/p/CyodNTzv2I7/?img_index=1 (reimu.yuyuko.combo)
+23. Diverging Paths: https://www.pixiv.net/en/artworks/100919766 (米诺)

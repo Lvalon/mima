@@ -1168,6 +1168,17 @@ namespace lvalonmima.Exhibits
 				if (goal == -1)
 					continue;
 				string prog = " (|c:" + progress + "| / |c:" + goal + "|)";
+
+				if (card.Id == nameof(cardquest23))
+				{
+					if (progress > 0)
+						prog = " (|f:" + progress + "|)";
+					if (progress < 0)
+						prog = " (|u:" + progress + "|)";
+					if (progress == 0)
+						prog = " (|" + progress + "|)"; ;
+				}
+
 				prog = StringDecorator.Decorate(prog);
 				string extraDescription = ResolveQuestExtraDescription(card, 1); // desc 1 for condition
 				if (string.IsNullOrEmpty(extraDescription))

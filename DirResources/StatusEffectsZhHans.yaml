@@ -239,3 +239,7 @@ semisfortuneplayed:
 setoolplayed:
   Description: "已打出 {Count} 张|道具|牌。"
   Name: 已打出道具牌
+
+selifediff:
+  Description: "{OwnerName}进入战斗时的生命值为 {Level}，目前生命值为 {Count}。"
+  Name: 进入战斗时的生命值

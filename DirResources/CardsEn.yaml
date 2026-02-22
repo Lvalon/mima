@@ -545,3 +545,16 @@ cardquest21:
   Description: ""
   ExtraDescription1: "|Condition|: Play cards of a card type exactly {Value9} time{Value9:plural one='' other='s'} in {Value1} combat{Value1:plural one='' other='s'}."
   ExtraDescription2: '|Reward|: {Value2} <sprite="Point" name="Gold">.'
+
+cardquest22:
+  Name: "22. Weight Training"
+  Description: ""
+  ExtraDescription1: "|Challenge|: At the start of the next {Value1} combat{Value1:plural one='' other='s'}, |Mana Freeze| {Mana2}."
+  ExtraDescription2: "|p:Permanent Reward|: At the start of {PlayerName}'s turn, gain {Mana}."
+
+cardquest23:
+  Name: "23. Diverging Paths"
+  Description: "Whether {PlayerName} ends combat with more or less life than start of combat is recorded."
+  ExtraDescription1: "|Condition|: End the trend of life change record."
+  ExtraDescription2: "|Reward (||u:Less life||)|: Gain {Value1} maximum life per combat recoded.\n|Reward (||f:More life||)|: Gain {Value2} <sprite=\"Point\" name=\"Gold\"> per combat recoded."
+  DetailText: "Trend is not ended when life remains the same."

@@ -17,6 +17,7 @@ using LBoL.Core.StatusEffects;
 using LBoL.Core.Units;
 using LBoL.EntityLib.Cards.Character.Cirno;
 using LBoL.EntityLib.Exhibits.Common;
+using LBoL.EntityLib.StatusEffects.Marisa;
 using LBoL.Presentation;
 using LBoL.Presentation.UI.Panels;
 using LBoLEntitySideloader.CustomHandlers;
@@ -71,7 +72,7 @@ namespace lvalonmima.Source.Patches
 				if (string.IsNullOrEmpty(cardId) || !int.TryParse(progressText, out int progress))
 					continue;
 
-				result[cardId] = Math.Max(0, progress);
+				result[cardId] = progress;
 			}
 
 			BepinexPlugin.log.LogInfo($"[EXQUESTING SAVE] ReadQuestProgressFromRun: entries={result.Count} [{FormatQuestProgress(result)}]");
@@ -165,7 +166,7 @@ namespace lvalonmima.Source.Patches
 				if (string.IsNullOrEmpty(cardId) || !int.TryParse(stackText, out int stack))
 					continue;
 
-				result[cardId] = Math.Max(0, stack);
+				result[cardId] = stack;
 			}
 
 			BepinexPlugin.log.LogInfo($"[EXQUESTING SAVE] ReadQuestModifiersFromRun: entries={result.Count} [{string.Join(", ", result.Select(kvp => $"{kvp.Key}:{kvp.Value}"))}]");
@@ -186,7 +187,7 @@ namespace lvalonmima.Source.Patches
 				if (string.IsNullOrEmpty(kvp.Key))
 					continue;
 
-				result[kvp.Key] = Math.Max(0, kvp.Value);
+				result[kvp.Key] = kvp.Value;
 			}
 
 			BepinexPlugin.log.LogInfo($"[EXQUESTING SAVE] ReadQuestProgressFromLiteShop: entries={result.Count} [{FormatQuestProgress(result)}]");
@@ -307,7 +308,7 @@ namespace lvalonmima.Source.Patches
 					{
 						if (string.IsNullOrEmpty(kvp.Key))
 							continue;
-						gameRun.ExtraFlags.Add($"{QuestProgressFlagPrefix}{kvp.Key}={Math.Max(0, kvp.Value)}");
+						gameRun.ExtraFlags.Add($"{QuestProgressFlagPrefix}{kvp.Key}={kvp.Value}");
 					}
 				}
 
@@ -340,7 +341,7 @@ namespace lvalonmima.Source.Patches
 					{
 						if (string.IsNullOrEmpty(kvp.Key))
 							continue;
-						gameRun.ExtraFlags.Add($"{QuestModifierFlagPrefix}{kvp.Key}={Math.Max(0, kvp.Value)}");
+						gameRun.ExtraFlags.Add($"{QuestModifierFlagPrefix}{kvp.Key}={kvp.Value}");
 					}
 				}
 			}
@@ -1228,6 +1229,14 @@ namespace lvalonmima.Source.Patches
 							gamerun.Battle.React(new ApplyStatusEffectAction<semisfortuneplayed>(player, quest21.Value9), exhibit, ActionCause.Exhibit);
 							gamerun.Battle.React(new ApplyStatusEffectAction<setoolplayed>(player, quest21.Value9), exhibit, ActionCause.Exhibit);
 							break;
+						case nameof(cardquest22):
+							battleChallenges.Add(id);
+							cardquest22 quest22 = Library.CreateCard<cardquest22>();
+							gamerun.Battle.React(new ApplyStatusEffectAction<ManaFreezed>(player, quest22.Mana2.Total), exhibit, ActionCause.Exhibit);
+							break;
+						case nameof(cardquest23):
+							gamerun.Battle.React(new ApplyStatusEffectAction<selifediff>(player, gamerun.Battle.Player.Hp), exhibit, ActionCause.Exhibit);
+							break;
 						default:
 							break;
 					}
@@ -1273,6 +1282,16 @@ namespace lvalonmima.Source.Patches
 							toChange.SetTurnCost(new ManaGroup { Any = 0 });
 					}
 				}
+			});
+
+			//quest 22
+			player.ReactBattleEvent(player.TurnStarted, args =>
+			{
+				if (shop != null && shop.QuestModifiers.TryGetValue(nameof(cardquest22), out int stack))
+				{
+					return new List<BattleAction>() { new GainManaAction(new ManaGroup { Philosophy = stack }) };
+				}
+				return Enumerable.Empty<BattleAction>();
 			});
 
 			player.ReactBattleEvent(gamerun.Battle.BattleStarted, args => OnBattleStarted(args, gamerun.Battle));
@@ -1339,6 +1358,45 @@ namespace lvalonmima.Source.Patches
 			foreach (BattleAction ba in HandleEndBattleChallenges(args, battle, exhibit))
 			{
 				yield return ba;
+			}
+
+			// handle dynamic ending req: quest 23
+			if (battle.Player.TryGetStatusEffect(out selifediff se) && exhibit.PendingQuestProgress.TryGetValue(nameof(cardquest23), out int progress))
+			{
+				bool shouldFinish = false;
+				if (progress == 0) // init
+				{
+					if (se.Count > se.Level)
+						exhibit.PendingQuestProgress[nameof(cardquest23)] += 1;
+					if (se.Count < se.Level)
+						exhibit.PendingQuestProgress[nameof(cardquest23)] -= 1;
+				}
+				else if (progress > 0)
+				{
+					if (se.Count > se.Level)
+						exhibit.PendingQuestProgress[nameof(cardquest23)] += 1;
+					if (se.Count < se.Level)
+					{
+						yield return new GainMoneyAction(Library.CreateCard<cardquest23>().Value2 * exhibit.PendingQuestProgress[nameof(cardquest23)]);
+						shouldFinish = true;
+					}
+				}
+				else if (progress < 0)
+				{
+					if (se.Count < se.Level)
+						exhibit.PendingQuestProgress[nameof(cardquest23)] -= 1;
+					if (se.Count > se.Level)
+					{
+						battle.GameRun.GainMaxHp(Library.CreateCard<cardquest23>().Value1 * -exhibit.PendingQuestProgress[nameof(cardquest23)]);
+						shouldFinish = true;
+					}
+				}
+
+				if (shouldFinish)
+				{
+					exhibit.FinalizeQuestByCardId(nameof(cardquest23));
+					exhibit.MarkQuestCompleted(nameof(cardquest23));
+				}
 			}
 
 			exhibit.UnlockCompletedQuestSlots();
@@ -1523,6 +1581,10 @@ namespace lvalonmima.Source.Patches
 						case nameof(cardquest17):
 							exhibit.PendingQuestModifiers.TryGetValue(card.Id, out int stack);
 							exhibit.PendingQuestModifiers[card.Id] = ++stack;
+							break;
+						case nameof(cardquest22):
+							exhibit.PendingQuestModifiers.TryGetValue(card.Id, out int stack22);
+							exhibit.PendingQuestModifiers[card.Id] = ++stack22;
 							break;
 						default:
 							break;

@@ -545,3 +545,16 @@ cardquest21:
   Description: ""
   ExtraDescription1: "|條件|：在 {Value1} 場戰鬥中剛好打出一種卡牌種類的牌 {Value9} 次。"
   ExtraDescription2: '|獎勵|：{Value2} 點<sprite="Point" name="Gold">。'
+
+cardquest22:
+  Name: "序列 22：負重訓練"
+  Description: ""
+  ExtraDescription1: "|挑戰|：下 {Value1} 場戰鬥開始時，|法力凍結|{Mana2}。"
+  ExtraDescription2: "|p:永久獎勵|：{PlayerName}的回合開始時，獲得{Mana}。"
+
+cardquest23:
+  Name: "序列 23：分道揚鑣"
+  Description: "{PlayerName}在戰鬥結束時，其生命值比戰鬥開始時更高或更低將會被記錄。"
+  ExtraDescription1: "|條件|：中斷被記錄的生命值變化傾向。"
+  ExtraDescription2: "|獎勵（||u:傾向更低||）|：每記錄一場戰鬥獲得 {Value1} 點最大生命值。\n|獎勵（||f:傾向更高||）|：每記錄一場戰鬥獲得 {Value2} 點<sprite=\"Point\" name=\"Gold\">。"
+  DetailText: "生命值沒改變時不算作傾向中斷。"

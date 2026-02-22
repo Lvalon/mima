@@ -717,7 +717,7 @@ namespace lvalonmima.Source.Patches
 
 					Dictionary<string, int> persistedProgress = originalQuestProgress
 						.Where(kvp => !string.IsNullOrEmpty(kvp.Key))
-						.ToDictionary(kvp => kvp.Key, kvp => Math.Max(0, kvp.Value), StringComparer.Ordinal);
+						.ToDictionary(kvp => kvp.Key, kvp => kvp.Value, StringComparer.Ordinal);
 
 					Dictionary<string, string> persistedRequirements = originalQuestRequirements
 						.Where(kvp => !string.IsNullOrEmpty(kvp.Key)
