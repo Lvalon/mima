@@ -274,3 +274,7 @@ seblockgained:
 sequest25:
   Description: "The next {Level} |Ability| card{Level:plural one='' other='s'} played {Level:plural one='is' other='are'} played again."
   Name: Quintessential Miko
+
+sequest26:
+  Description: "Until {PlayerName}'s turn ends with a card in hand, {PlayerName} takes no damage."
+  Name: "null"

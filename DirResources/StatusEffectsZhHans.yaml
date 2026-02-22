@@ -269,3 +269,7 @@ seblockgained:
 sequest25:
   Description: "下 {Level} 张|能力|牌将再次被打出。"
   Name: 五等份的巫女
+
+sequest26:
+  Description: "{PlayerName}在有手牌时结束回合前，不会受到伤害。"
+  Name: "空值"

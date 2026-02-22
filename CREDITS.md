@@ -87,3 +87,5 @@ Roguelite Shop:
 23. Diverging Paths: https://www.pixiv.net/en/artworks/100919766 (米诺)
 24. Detonate!: https://www.pixiv.net/en/artworks/125739166 (海源)
 25. Quintessential Miko: https://x.com/reimu_tyuki/status/1689235753153523712 (もちこ)
+
+∅. null: https://x.com/bankedfireXXX/status/1539953920256376832/photo/1 (うずみび)

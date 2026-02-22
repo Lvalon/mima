@@ -360,7 +360,7 @@ namespace lvalonmima.Exhibits
 			Card[] rolledCards = null;
 			bool runNotReadyFallback = false;
 
-			List<string> conditionalExcludes = new List<string>();
+			HashSet<string> conditionalExcludes = new HashSet<string>();
 			if (!gameRun.BaseDeck.Any(c => c.IsBasic))
 			{
 				conditionalExcludes.Add(nameof(cardquest2));
@@ -381,6 +381,13 @@ namespace lvalonmima.Exhibits
 			if (!gameRun.BaseDeck.Any(c => (c.Config.RelativeKeyword.HasFlag(Keyword.Shield) && !c.IsUpgraded) || (c.Config.UpgradedRelativeKeyword.HasFlag(Keyword.Shield) && c.IsUpgraded)))
 			{
 				conditionalExcludes.Add(nameof(cardquest25));
+			}
+			var mods = MiniTracker.Instance?.CustomGrSaveData?.GetShopForCurrentProfile()?.QuestModifiers ?? new Dictionary<string, int>();
+			foreach (string id in PendingQuestModifiers.Keys.Concat(mods.Keys))
+			{
+				Card card = Library.TryCreateCard(id, false);
+				if (card != null && card.Config.Rarity == Rarity.Rare)
+					conditionalExcludes.Add(id);
 			}
 
 			try

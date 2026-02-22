@@ -38,6 +38,7 @@ namespace lvalonmima.StatusEffects
 			{
 				yield break;
 			}
+			NotifyActivating();
 			Card token = args.Card.CloneTwiceToken();
 			token.IsPlayTwiceToken = true;
 			token.PlayTwiceSourceCard = args.Card;

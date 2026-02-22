@@ -504,6 +504,13 @@ namespace lvalonmima.Source.Patches
 						}
 						consumedCompleted.Add(questCardId);
 						break;
+					case nameof(cardquest26) when gameRun.CurrentStation.Type == StationType.Boss:
+						// exhibit.PendingQuestModifiers.TryGetValue(questCardId, out int stack);
+						// exhibit.PendingQuestModifiers[questCardId] = ++stack;
+						consumedCompleted.Add(questCardId);
+						break;
+					default:
+						break;
 				}
 			}
 
@@ -692,6 +699,7 @@ namespace lvalonmima.Source.Patches
 			{
 				Library.CreateCard<cardquest4>(),
 				Library.CreateCard<cardquest10>(),
+				Library.CreateCard<cardquest26>(),
 			};
 			bool questProgressChanged = false;
 			foreach (var card in stationQuests)
@@ -738,6 +746,17 @@ namespace lvalonmima.Source.Patches
 								SourceType = VisualSourceType.Entity,
 								Source = exhibit,
 							});
+							exhibit.FinalizeQuestByCardId(questCardId);
+							exhibit.MarkQuestCompleted(questCardId);
+						}
+						break;
+					case nameof(cardquest26) when gameRun.CurrentStation.Type == StationType.Boss:
+						exhibit.PendingQuestProgress[questCardId] = ++progress;
+						questProgressChanged = true;
+						if (progress >= card.Config.Value1)
+						{
+							exhibit.PendingQuestModifiers.TryGetValue(card.Id, out int stack);
+							exhibit.PendingQuestModifiers[card.Id] = ++stack;
 							exhibit.FinalizeQuestByCardId(questCardId);
 							exhibit.MarkQuestCompleted(questCardId);
 						}
@@ -1253,6 +1272,21 @@ namespace lvalonmima.Source.Patches
 							gamerun.Battle.React(new ApplyStatusEffectAction<sehealreceived>(player, 0), exhibit, ActionCause.Exhibit);
 							gamerun.Battle.React(new ApplyStatusEffectAction<seblockgained>(player, 0), exhibit, ActionCause.Exhibit);
 							break;
+						case nameof(cardquest26):
+							player.HandleBattleEvent(player.DamageReceived, args =>
+							{
+								if (args.Source != player && args.DamageInfo.Damage > 0)
+								{
+									if (gamerun.Battle.Player.HasExhibit<exquesting>())
+									{
+										exquesting exhibit = gamerun.Battle.Player.GetExhibit<exquesting>();
+										var quest26 = Library.CreateCard<cardquest26>();
+										exhibit.FinalizeQuestByCardId(quest26.Id);
+										exhibit.MarkQuestCompleted(quest26.Id);
+									}
+								}
+							});
+							break;
 						default:
 							break;
 					}
@@ -1261,13 +1295,13 @@ namespace lvalonmima.Source.Patches
 
 			//quest 16
 			player.HandleBattleEvent(gamerun.Battle.CardDrawn, args =>
-			{
-				if (args.Cause != ActionCause.TurnStart  //draw in turn
-				&& (args.Cause != ActionCause.Card || !(args.ActionSource is Card card && card.IsReplenish) || gamerun.Battle.Player.IsInTurn))
 				{
-					turn1DrawnA = true;
-				}
-			});
+					if (args.Cause != ActionCause.TurnStart  //draw in turn
+					&& (args.Cause != ActionCause.Card || !(args.ActionSource is Card card && card.IsReplenish) || gamerun.Battle.Player.IsInTurn))
+					{
+						turn1DrawnA = true;
+					}
+				});
 			player.HandleBattleEvent(player.TurnStarted, args => { if (player.TurnCounter == 1) { isTurn1A = true; turn1DrawnA = false; } });
 			player.HandleBattleEvent(player.TurnEnded, args =>
 			{
@@ -1322,10 +1356,18 @@ namespace lvalonmima.Source.Patches
 				return Enumerable.Empty<BattleAction>();
 			});
 
+			//quest 25
 			if (shop != null && shop.QuestModifiers.TryGetValue(nameof(cardquest25), out int stack25))
 			{
 				if (stack25 > 0)
 					gamerun.Battle.React(new ApplyStatusEffectAction<sequest25>(player, stack25), exhibit, ActionCause.Exhibit);
+			}
+
+			//quest 26
+			if (shop != null && shop.QuestModifiers.TryGetValue(nameof(cardquest26), out int stack26))
+			{
+				if (stack26 > 0)
+					gamerun.Battle.React(new ApplyStatusEffectAction<sequest26>(player, stack26), exhibit, ActionCause.Exhibit);
 			}
 
 			player.ReactBattleEvent(gamerun.Battle.BattleStarted, args => OnBattleStarted(args, gamerun.Battle));

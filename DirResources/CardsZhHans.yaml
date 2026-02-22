@@ -571,3 +571,10 @@ cardquest25:
   ExtraDescription1: "|条件|：在 {Value1} 场战斗中，打出|能力|牌，受到伤害和恢复生命值，获得|格档|和|护盾|。"
   ExtraDescription2: "|p:永久奖励|：每张战斗中，打出的第 |n:1| 张能力将再次被打出。"
   DetailText: "牌库没有|护盾|牌时，{SelfName}不会在备选池内。"
+
+cardquest26:
+  Name: "序列 ∅：空值"
+  Description: "如果{PlayerName}在战斗中受到伤害，|p:放弃|{SelfName}。"
+  ExtraDescription1: "|条件|：抵达这一幕的首领敌人。"
+  ExtraDescription2: "|p:永久奖励|：每场战斗中，{PlayerName}不会受到伤害，直至{PlayerName}的回合开始，而上回合结束时持有手牌。"
+  DetailText: "直接对自己造成的伤害不会|p:放弃|{SelfName}。\n{SelfName}被完成后将脱离备选池。"

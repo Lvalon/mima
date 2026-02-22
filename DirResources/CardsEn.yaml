@@ -571,3 +571,10 @@ cardquest25:
   ExtraDescription1: "|Condition|: Play an |Ability| card, take damage and gain life, gain |Block| and |Barrier| in a combat {Value1} time{Value1:plural one='' other='s'}."
   ExtraDescription2: "|p:Permanent Reward|: The |n:first| |Ability| card played each combat is played again."
   DetailText: "{SelfName} cannot be randomly generated if the library has no |Barrier| cards."
+
+cardquest26:
+  Name: "∅. null"
+  Description: "If {PlayerName} takes damage in combat, |p:abandon| {SelfName}."
+  ExtraDescription1: "|Condition|: Reach the boss of this Act."
+  ExtraDescription2: "|p:Permanent Reward|: In each combat, {PlayerName} takes no damage until {PlayerName}'s turn starts while their last turn has ended with a card in hand."
+  DetailText: "Directly self-inflicted damage will not trigger |p:abandonment|.\n{SelfName} cannot be randomly generated if it has been completed."
