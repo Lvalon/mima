@@ -558,3 +558,9 @@ cardquest23:
   ExtraDescription1: "|條件|：中斷被記錄的生命值變化傾向。"
   ExtraDescription2: "|獎勵（||u:傾向更低||）|：每記錄一場戰鬥獲得 {Value1} 點最大生命值。\n|獎勵（||f:傾向更高||）|：每記錄一場戰鬥獲得 {Value2} 點<sprite=\"Point\" name=\"Gold\">。"
   DetailText: "生命值沒改變時不算作傾向中斷。"
+
+cardquest24:
+  Name: "序列 24：絕命導爆！"
+  Description: "|接受期間|：{PlayerName}造成的傷害將被|保留|至敵人的回合開始時觸發。"
+  ExtraDescription1: "|條件|：敵人結算超過其 |n:50%| 生命值的|保留傷害| {Value1} 次。"
+  ExtraDescription2: "|p:永久獎勵|：敵人受到傷害的 |n:10%| 將同時施加|延遲傷害|。"

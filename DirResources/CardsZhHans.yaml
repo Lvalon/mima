@@ -558,3 +558,9 @@ cardquest23:
   ExtraDescription1: "|条件|：中断被记录的生命值变化倾向。"
   ExtraDescription2: "|奖励（||u:倾向更低||）|：每记录一场战斗获得 {Value1} 点最大生命值。\n|奖励（||f:倾向更高||）|：每记录一场战斗获得 {Value2} 点<sprite=\"Point\" name=\"Gold\">。"
   DetailText: "生命值没改变时不算作倾向中断。"
+
+cardquest24:
+  Name: "序列 24：绝命导爆！"
+  Description: "|接受期间|：{PlayerName}造成的伤害将被|保留|至敌人的回合开始时触发。"
+  ExtraDescription1: "|条件|：敌人结算超过其 |n:50%| 生命值的|保留伤害| {Value1} 次。"
+  ExtraDescription2: "|p:永久奖励|：敌人受到伤害的 |n:10%| 将同时施加|延迟伤害|。"

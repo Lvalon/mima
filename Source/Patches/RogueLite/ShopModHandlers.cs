@@ -1237,6 +1237,16 @@ namespace lvalonmima.Source.Patches
 						case nameof(cardquest23):
 							gamerun.Battle.React(new ApplyStatusEffectAction<selifediff>(player, gamerun.Battle.Player.Hp), exhibit, ActionCause.Exhibit);
 							break;
+						case nameof(cardquest24):
+							foreach (EnemyUnit enemy in gamerun.Battle.AllAliveEnemies)
+							{
+								gamerun.Battle.React(new ApplyStatusEffectAction<seholddamage>(enemy, 0), exhibit, ActionCause.Exhibit);
+							}
+							player.ReactBattleEvent(gamerun.Battle.EnemySpawned, args =>
+							{
+								return new List<BattleAction>() { new ApplyStatusEffectAction<seholddamage>(args.Unit, 0) };
+							});
+							break;
 						default:
 							break;
 					}
@@ -1290,6 +1300,18 @@ namespace lvalonmima.Source.Patches
 				if (shop != null && shop.QuestModifiers.TryGetValue(nameof(cardquest22), out int stack))
 				{
 					return new List<BattleAction>() { new GainManaAction(new ManaGroup { Philosophy = stack }) };
+				}
+				return Enumerable.Empty<BattleAction>();
+			});
+
+			//quest 24
+			player.ReactBattleEvent(player.DamageDealt, args =>
+			{
+				if (args.Source == player && args.Target != player && args.DamageInfo.Damage > 0 && shop != null && shop.QuestModifiers.TryGetValue(nameof(cardquest24), out int stack))
+				{
+					int toDeal = toolbox.Round(0.1f * args.DamageInfo.Damage * stack);
+					if (toDeal > 0)
+						return new List<BattleAction>() { new ApplyStatusEffectAction<sedelaydamage>(args.Target, toDeal) };
 				}
 				return Enumerable.Empty<BattleAction>();
 			});

@@ -556,5 +556,11 @@ cardquest23:
   Name: "23. Diverging Paths"
   Description: "Whether {PlayerName} ends combat with more or less life than start of combat is recorded."
   ExtraDescription1: "|Condition|: End the trend of life change record."
-  ExtraDescription2: "|Reward (||u:Less life||)|: Gain {Value1} maximum life per combat recoded.\n|Reward (||f:More life||)|: Gain {Value2} <sprite=\"Point\" name=\"Gold\"> per combat recoded."
+  ExtraDescription2: "|Reward (||u:Less life||)|: {Value1} maximum life per combat recoded.\n|Reward (||f:More life||)|: {Value2} <sprite=\"Point\" name=\"Gold\"> per combat recoded."
   DetailText: "Trend is not ended when life remains the same."
+
+cardquest24:
+  Name: "24. Detonate!"
+  Description: "|While accepted|: {PlayerName}'s damage dealt are |held| until the start of the start of the enemy's turn."
+  ExtraDescription1: "|Condition|: Enemies resolve |Held Damage| that is over |n:50%| of their maximum life {Value1} time{Value1:plural one='' other='s'}."
+  ExtraDescription2: "|p:Permanent Reward|: Enemies gain |Delayed Damage| equal to |n:10%| of their damage taken."

@@ -85,3 +85,4 @@ Roguelite Shop:
 21. Magical Numbers: https://www.newgrounds.com/art/view/unkky/cirno-whats-9-10 (Unkky)
 22. Weight Training: https://www.instagram.com/reimu.yuyuko.combo/p/CyodNTzv2I7/?img_index=1 (reimu.yuyuko.combo)
 23. Diverging Paths: https://www.pixiv.net/en/artworks/100919766 (米诺)
+24. Detonate!: https://www.pixiv.net/en/artworks/125739166 (海源)

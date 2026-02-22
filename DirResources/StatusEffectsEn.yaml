@@ -247,4 +247,14 @@ setoolplayed:
 
 selifediff:
   Description: "{OwnerName} entered the battle with {Level} life, and has {Count} life currently."
-Name: Life On Entering Battle
+  Name: Life On Entering Battle
+
+seholddamage:
+  Description: "Negate and record all the life loss and damage {OwnerName} would take before their turn.\nAt the start of {OwnerName}'s turn, take {Count} damage and clear the record."
+  Brief: "Negate and record all the life loss and damage {OwnerName} would take before their turn.\nAt the start of {OwnerName}'s turn, take the recorded damage and clear the record."
+  Name: Held Damage
+
+sedelaydamage:
+  Description: "At the start of {OwnerName}'s turn, take {Level} damage, then remove {SelfName}."
+  Brief: "At the start of {OwnerName}'s turn, take damage, then remove {SelfName}."
+  Name: Delayed Damage

@@ -243,3 +243,13 @@ setoolplayed:
 selifediff:
   Description: "{OwnerName}進入戰鬥時的生命值為 {Level}，目前生命值為 {Count}。"
   Name: 進入戰鬥時的生命值
+
+seholddamage:
+  Description: "無效化並記錄這輪內{OwnerName}所有失去的生命值和受到的傷害。\n{OwnerName}的回合開始時受到 {Conut} 點傷害，然後清空記錄。"
+  Brief: "無效化並記錄這輪內{OwnerName}所有失去的生命值和受到的傷害。\n{OwnerName}的回合開始時受到記錄總和的傷害，然後清空記錄。"
+  Name: 保留傷害
+
+sedelaydamage:
+  Description: "{OwnerName}的回合開始時，受到 {Level} 點傷害，然後移除{SelfName}。"
+  Brief: "{OwnerName}的回合開始時，受到若干點傷害，然後移除{SelfName}。"
+  Name: 延遲傷害
