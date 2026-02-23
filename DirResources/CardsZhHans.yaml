@@ -576,7 +576,7 @@ cardquest26:
   Name: "序列 ∅：空值"
   Description: "如果{PlayerName}在战斗中受到伤害，|p:放弃|{SelfName}。"
   ExtraDescription1: "|条件|：抵达这一幕的首领敌人。"
-  ExtraDescription2: "|p:永久奖励|：每场战斗中，{PlayerName}不会受到伤害，直至{PlayerName}的回合开始，而上回合结束时持有手牌。"
+  ExtraDescription2: "|p:永久奖励|：每场战斗中，{PlayerName}不会受到未被阻挡的伤害，直至{PlayerName}的回合开始，而上回合结束时持有手牌。"
   DetailText: "直接对自己造成的伤害不会|p:放弃|{SelfName}。\n{SelfName}被完成后将脱离备选池。"
 
 cardquest27:
@@ -592,3 +592,17 @@ cardquest28:
   ExtraDescription1: "|条件|：抵达这一幕的首领敌人。"
   ExtraDescription2: "|p:永久奖励|：所有临时增加的非|厄运|非|状态|卡牌费用降低随机 {Value1} 点，失去|虚无|。"
   DetailText: "原卡牌为|存在于牌仓中的牌|的|复制|牌不算为存在于牌库中。\n{SelfName}被完成后将脱离备选池。"
+
+cardquest29:
+  Name: "序列 ∞：无限神力"
+  Description: "|接受期间|：敌人受到未被阻挡的伤害后将获得该敌人|受到未被阻挡的伤害的次数|等量的|格挡|，在该敌人的回合结束时重置。"
+  ExtraDescription1: "|条件|：抵达这一幕的首领敌人。"
+  ExtraDescription2: "|p:永久奖励|：每当{PlayerName}对敌人造成伤害时，获得 {Value2} 点|暂得火力|。"
+  DetailText: "{SelfName}被完成后将脱离备选池。"
+
+cardquest30:
+  Name: "序列 ε：此时此刻"
+  Description: "|接受期间|：在{PlayerName}的第 {Value2} 至 {Value7} 回合中的一个随机回合开始时，获得一个|额外回合|。该回合的下回合开始时，{PlayerName}获得|须臾锁|；再下回合开始时，这场战斗内的敌人获得|须臾锁|。\n|结束战斗时{PlayerName}没有须臾锁|：|p:放弃|{SelfName}。"
+  ExtraDescription1: "|条件|：抵达这一幕的首领敌人。"
+  ExtraDescription2: "|p:永久奖励|：战斗开始时，获得|「永夜返」|。"
+  DetailText: "{SelfName}被完成后将脱离备选池。"

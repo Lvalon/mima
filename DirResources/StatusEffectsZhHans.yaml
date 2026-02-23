@@ -271,7 +271,7 @@ sequest25:
   Name: 五等份的巫女
 
 sequest26:
-  Description: "{PlayerName}在有手牌时结束回合前，不会受到伤害。"
+  Description: "{PlayerName}在有手牌时结束回合前，不会受到未被阻挡的伤害。"
   Name: "空值"
 
 sequest27:
@@ -281,3 +281,16 @@ sequest27:
 sequest28:
   Description: "所有临时增加的非|厄运|非|状态|卡牌费用降低随机 {Level} 点，且失去|虚无|。"
   Name: "我思故我在"
+
+seharden:
+  Description: "{OwnerName}受到未被阻挡的伤害后，获得{OwnerName}|受到未被阻挡的伤害的次数|等量的|格挡|，在{OwnerName}的回合结束时重置。"
+  Name: 硬化
+
+sequest29:
+  Description: "每当{PlayerName}对敌人造成伤害时，获得 {Level} 点|暂得火力|。"
+  Name: "无限神力"
+
+selockinstance:
+  Description: "{OwnerName}不会受到伤害。"
+  Brief: "{OwnerName}不会受到伤害。"
+  Name: "须臾锁"

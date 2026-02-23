@@ -576,7 +576,7 @@ cardquest26:
   Name: "∅. null"
   Description: "If {PlayerName} takes damage in combat, |p:abandon| {SelfName}."
   ExtraDescription1: "|Condition|: Reach the boss of this Act."
-  ExtraDescription2: "|p:Permanent Reward|: In each combat, {PlayerName} takes no damage until {PlayerName}'s turn starts while their last turn has ended with a card in hand."
+  ExtraDescription2: "|p:Permanent Reward|: In each combat, {PlayerName} takes no unblocked damage until {PlayerName}'s turn starts while their last turn has ended with a card in hand."
   DetailText: "Directly self-inflicted damage will not trigger |p:abandonment|.\n{SelfName} cannot be randomly generated if it has been completed."
 
 cardquest27:
@@ -592,3 +592,17 @@ cardquest28:
   ExtraDescription1: "|Condition|: Reach the boss of this Act."
   ExtraDescription2: "|p:Permanent Reward|: Non-|Misfortune| non-|Status| cards added during combat cost {Value1} random mana less to play and lose |Ethereal|."
   DetailText: "|Copies| of cards that are in the library are not counted as being in the library.\n{SelfName} cannot be randomly generated if it has been completed."
+
+cardquest29:
+  Name: "∞. Infinite Might"
+  Description: "|While accepted|: After an enemy takes unblocked damage, they gain |Block| equal to |number of times they have taken unblocked damage|, resets at the end of their turn."
+  ExtraDescription1: "|Condition|: Reach the boss of this Act."
+  ExtraDescription2: "|p:Permanent Reward|: Whenever {PlayerName} deals damage to an enemy, gain {Value2} |Temporary Firepower|."
+  DetailText: "{SelfName} cannot be randomly generated if it has been completed."
+
+cardquest30:
+  Name: "ε. At This Instance"
+  Description: "|While accepted|: At the start of a random turn from {PlayerName}'s turn {Value2} to turn {Value7}, gain an |Extra Turn|. Then, at the start of the next turn, {PlayerName} gains |Instance-Locked|; at the start of the turn after, all enemies in this combat gain |Instance-Locked|.\n|If {PlayerName} ends the combat without Instance-Locked|: |p:Abandon| {SelfName}."
+  ExtraDescription1: "|Condition|: Reach the boss of this Act."
+  ExtraDescription2: '|p:Permanent Reward|: At the start of combat, gain |"End of Imperishable Night"|.'
+  DetailText: "{SelfName} cannot be randomly generated if it has been completed."

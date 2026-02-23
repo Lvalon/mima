@@ -395,7 +395,7 @@ namespace lvalonmima.Exhibits
 			{
 				rolledCards = toolbox.UniqueAllCards(
 					gameRun.CardRng,
-					new CardWeightTable(new RarityWeightTable(5f, 3f, levelDeduct, 0f), OwnerWeightTable.AllOnes, CardTypeWeightTable.AllOnes),
+					new CardWeightTable(new RarityWeightTable(10f, 5f, levelDeduct, 0f), OwnerWeightTable.AllOnes, CardTypeWeightTable.AllOnes),
 					count,
 					false,
 					c => c != null

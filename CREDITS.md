@@ -93,3 +93,5 @@ Roguelite Shop:
 Burden of π (Status Effect): https://pngtree.com/freepng/3d-beautifully-designed-pi-symbol-in-a-gold-frame-national-day-ornamental-math-icon_20705976.html
 Garden of π (Status Effect): https://ctleng.com/wp-content/uploads/2018/11/Pie-with-Pi-Symbol-transparent-background.png
 i. I Think Therefore I Am: https://www.pixiv.net/en/artworks/84271686 (狼巴子原型机)
+∞. Infinite Might: https://x.com/ehokun/status/818334747239665664/photo/1 (会帆)
+ε. At This Instance: https://www.pixiv.net/en/artworks/52120896 (lyiet)

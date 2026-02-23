@@ -49,6 +49,7 @@ namespace lvalonmima.Source.Patches
 		private static bool turn1Drawn;
 		private static bool turn1DrawnA;
 		private static bool quest16active;
+		private static int quest30TriggerTurn;
 
 		public static Dictionary<string, int> ReadQuestProgressFromRun(GameRunController gameRun)
 		{
@@ -682,6 +683,12 @@ namespace lvalonmima.Source.Patches
 					case nameof(cardquest28) when gameRun.CurrentStation.Type == StationType.Boss:
 						consumedCompleted.Add(questCardId);
 						break;
+					case nameof(cardquest29) when gameRun.CurrentStation.Type == StationType.Boss:
+						consumedCompleted.Add(questCardId);
+						break;
+					case nameof(cardquest30) when gameRun.CurrentStation.Type == StationType.Boss:
+						consumedCompleted.Add(questCardId);
+						break;
 					default:
 						break;
 				}
@@ -875,6 +882,8 @@ namespace lvalonmima.Source.Patches
 				Library.CreateCard<cardquest26>(),
 				Library.CreateCard<cardquest27>(),
 				Library.CreateCard<cardquest28>(),
+				Library.CreateCard<cardquest29>(),
+				Library.CreateCard<cardquest30>(),
 			};
 			bool questProgressChanged = false;
 			foreach (var card in stationQuests)
@@ -948,6 +957,28 @@ namespace lvalonmima.Source.Patches
 						}
 						break;
 					case nameof(cardquest28) when gameRun.CurrentStation.Type == StationType.Boss:
+						exhibit.PendingQuestProgress[questCardId] = ++progress;
+						questProgressChanged = true;
+						if (progress >= card.Config.Value1)
+						{
+							exhibit.PendingQuestModifiers.TryGetValue(card.Id, out int stack);
+							exhibit.PendingQuestModifiers[card.Id] = ++stack;
+							exhibit.FinalizeQuestByCardId(questCardId);
+							exhibit.MarkQuestCompleted(questCardId);
+						}
+						break;
+					case nameof(cardquest29) when gameRun.CurrentStation.Type == StationType.Boss:
+						exhibit.PendingQuestProgress[questCardId] = ++progress;
+						questProgressChanged = true;
+						if (progress >= card.Config.Value1)
+						{
+							exhibit.PendingQuestModifiers.TryGetValue(card.Id, out int stack);
+							exhibit.PendingQuestModifiers[card.Id] = ++stack;
+							exhibit.FinalizeQuestByCardId(questCardId);
+							exhibit.MarkQuestCompleted(questCardId);
+						}
+						break;
+					case nameof(cardquest30) when gameRun.CurrentStation.Type == StationType.Boss:
 						exhibit.PendingQuestProgress[questCardId] = ++progress;
 						questProgressChanged = true;
 						if (progress >= card.Config.Value1)
@@ -1488,6 +1519,42 @@ namespace lvalonmima.Source.Patches
 						case nameof(cardquest27):
 							gamerun.Battle.React(new ApplyStatusEffectAction<sepie>(player, Library.CreateCard<cardquest27>().Value2), exhibit, ActionCause.Exhibit);
 							break;
+						case nameof(cardquest29):
+							foreach (EnemyUnit enemy in gamerun.Battle.AllAliveEnemies)
+							{
+								gamerun.Battle.React(new ApplyStatusEffectAction<seharden>(enemy, 0), exhibit, ActionCause.Exhibit);
+							}
+							player.ReactBattleEvent(gamerun.Battle.EnemySpawned, args =>
+							{
+								return new List<BattleAction>() { new ApplyStatusEffectAction<seharden>(args.Unit, 0) };
+							});
+							break;
+						case nameof(cardquest30):
+							cardquest30 quest30 = Library.CreateCard<cardquest30>();
+							quest30TriggerTurn = gamerun.BattleRng.NextInt(quest30.Value2, quest30.Value7); // this shits inclusive? wtf ok
+							player.ReactBattleEvent(player.TurnStarted, args =>
+							{
+								List<BattleAction> actions = new List<BattleAction>();
+								if (player.TurnCounter == quest30TriggerTurn)
+								{
+									actions.Add(new ApplyStatusEffectAction<ExtraTurn>(player, 1));
+								}
+								if (player.TurnCounter == quest30TriggerTurn + 1)
+									actions.Add(new ApplyStatusEffectAction<selockinstance>(player, 0));
+								if (player.TurnCounter == quest30TriggerTurn + 2)
+								{
+									foreach (EnemyUnit enemy in gamerun.Battle.AllAliveEnemies)
+									{
+										actions.Add(new ApplyStatusEffectAction<selockinstance>(enemy, 0));
+									}
+									player.ReactBattleEvent(gamerun.Battle.EnemySpawned, args =>
+									{
+										return new List<BattleAction>() { new ApplyStatusEffectAction<selockinstance>(args.Unit, 0) };
+									});
+								}
+								return actions;
+							});
+							break;
 						default:
 							break;
 					}
@@ -1583,6 +1650,20 @@ namespace lvalonmima.Source.Patches
 			{
 				if (stack28 > 0)
 					gamerun.Battle.React(new ApplyStatusEffectAction<sequest28>(player, stack28), exhibit, ActionCause.Exhibit);
+			}
+
+			//quest 29
+			if (shop != null && shop.QuestModifiers.TryGetValue(nameof(cardquest29), out int stack29))
+			{
+				if (stack29 > 0)
+					gamerun.Battle.React(new ApplyStatusEffectAction<sequest29>(player, stack29), exhibit, ActionCause.Exhibit);
+			}
+
+			//quest 30
+			if (shop != null && shop.QuestModifiers.TryGetValue(nameof(cardquest30), out int stack30))
+			{
+				if (stack30 > 0)
+					gamerun.Battle.React(new ApplyStatusEffectAction<SuperExtraTurn>(player, stack30), exhibit, ActionCause.Exhibit);
 			}
 
 			player.ReactBattleEvent(gamerun.Battle.BattleStarted, args => OnBattleStarted(args, gamerun.Battle));
@@ -2031,25 +2112,33 @@ namespace lvalonmima.Source.Patches
 						{
 							exhibit.PendingQuestProgress.Remove(id);
 							// also clear any rolled slot that currently shows this quest so the slot is free for future rolls
-							try
+							List<int> slotsToClear = new List<int>();
+							foreach (var kvp in exhibit.RolledQuestCards ?? new Dictionary<int, Card>())
 							{
-								List<int> slotsToClear = new List<int>();
-								foreach (var kvp in exhibit.RolledQuestCards ?? new Dictionary<int, Card>())
-								{
-									if (kvp.Value != null && string.Equals(kvp.Value.Id, id, StringComparison.Ordinal))
-										slotsToClear.Add(kvp.Key);
-								}
-								foreach (int slot in slotsToClear)
-								{
-									exhibit.RolledQuestCards.Remove(slot);
-									// remember this quest id so the immediate re-roll won't pick it again
-									exhibit.RecentlyClearedRolledQuestIds.Add(id);
-									BepinexPlugin.log.LogInfo($"[EXQUESTING SAVE] Cleared rolled slot={slot} for failed quest={id}");
-								}
+								if (kvp.Value != null && string.Equals(kvp.Value.Id, id, StringComparison.Ordinal))
+									slotsToClear.Add(kvp.Key);
 							}
-							catch (Exception ex)
+							foreach (int slot in slotsToClear)
 							{
-								BepinexPlugin.log.LogInfo($"[EXQUESTING SAVE] Failed clearing rolled slots for quest {id}: {ex.Message}");
+								exhibit.RolledQuestCards.Remove(slot);
+							}
+						}
+						break;
+					case nameof(cardquest30):
+						if (exhibit.PendingQuestProgress.ContainsKey(id)
+						&& (battle.Player.TurnCounter <= quest30TriggerTurn || (battle.Player.TurnCounter == quest30TriggerTurn && !battle.Player.IsInTurn))) // before extra turn
+						{
+							exhibit.PendingQuestProgress.Remove(id);
+							// also clear any rolled slot that currently shows this quest so the slot is free for future rolls
+							List<int> slotsToClear = new List<int>();
+							foreach (var kvp in exhibit.RolledQuestCards ?? new Dictionary<int, Card>())
+							{
+								if (kvp.Value != null && string.Equals(kvp.Value.Id, id, StringComparison.Ordinal))
+									slotsToClear.Add(kvp.Key);
+							}
+							foreach (int slot in slotsToClear)
+							{
+								exhibit.RolledQuestCards.Remove(slot);
 							}
 						}
 						break;

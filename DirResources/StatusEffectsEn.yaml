@@ -276,7 +276,7 @@ sequest25:
   Name: Quintessential Miko
 
 sequest26:
-  Description: "Until {PlayerName}'s turn ends with a card in hand, {PlayerName} takes no damage."
+  Description: "Until {PlayerName}'s turn ends with a card in hand, {PlayerName} takes no unblocked damage."
   Name: "null"
 
 sepie:
@@ -290,3 +290,16 @@ sequest27:
 sequest28:
   Description: "Non-|Misfortune| non-|Status| cards added during combat cost {Level} random mana less to play and lose |Ethereal|."
   Name: "I Think Therefore I Am"
+
+seharden:
+  Description: "After {OwnerName} takes unblocked damage, gain |Block| equal to |number of times they have taken unblocked damage|, resets at the end of their turn.\n({Count} |Block|)"
+  Name: Harden
+
+sequest29:
+  Description: "Whenever {OwnerName} deals damage to an enemy, gain {Level} |Temporary Firepower|."
+  Name: Infinite Might
+
+selockinstance:
+  Description: "{OwnerName} takes no damage."
+  Brief: "{OwnerName} takes no damage."
+  Name: "Instance-Locked"
