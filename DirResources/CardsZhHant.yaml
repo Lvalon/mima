@@ -485,16 +485,16 @@ cardquest15:
   Description: ""
   ExtraDescription1: |-
     |挑戰|：下 {Value1} 場戰鬥結束時，
-    若戰場上未被|放逐|的牌少於 {Value2} 張則失去 {Value2} 點生命值；
-    若戰場上沒有|能力|牌則失去所有<sprite="Point" name="Power">；
-    若戰鬥結束時的回合打出多於 {Value10} 張牌則失去所有<sprite="Point" name="Gold">。
+    如果戰場上未被|放逐|的牌少於 {Value2} 張則失去 {Value2} 點生命值；
+    如果戰場上沒有|能力|牌則失去所有<sprite="Point" name="Power">；
+    如果戰鬥結束時的回合打出多於 {Value10} 張牌則失去所有<sprite="Point" name="Gold">。
   ExtraDescription2: '|獎勵|：{Value2} 點最大生命值，恢復滿生命值，牌庫每有一張|能力|牌獲得 {Value2} 點<sprite="Point" name="Power">。'
 
 cardquest16:
   Name: "序列 16：回合結束時"
   Description: ""
   ExtraDescription1: "|條件|：在 {Value1} 場戰鬥的第一回合結束時，沒有在抽牌階段外抽牌，且抽牌堆內至少有 |n:1| 張|能力|牌。"
-  ExtraDescription2: "|p:永久獎勵|：{PlayerName}的第一回合結束時，若沒有在抽牌階段外抽牌，且抽牌堆內至少有 |n:1| 張|能力|牌，則打出抽牌堆內的一張隨機|能力|牌。"
+  ExtraDescription2: "|p:永久獎勵|：{PlayerName}的第一回合結束時，如果沒有在抽牌階段外抽牌，且抽牌堆內至少有 |n:1| 張|能力|牌，則打出抽牌堆內的一張隨機|能力|牌。"
 
 cardquest17:
   Name: "序列 17：命中注定"
@@ -578,3 +578,17 @@ cardquest26:
   ExtraDescription1: "|條件|：抵達這一幕的首領敵人。"
   ExtraDescription2: "|p:永久獎勵|：每場戰鬥中，{PlayerName}不會受到傷害，直至{PlayerName}的回合開始，而上回合結束時持有手牌。"
   DetailText: "直接對自己造成的傷害不會|p:放棄|{SelfName}。\n{SelfName}被完成後將脫離備選池。"
+
+cardquest27:
+  Name: "序列 π：π 之境界"
+  Description: "|接受期間|：打出牌後，受到當前回合|已打出牌數|對應的|π的位數|的傷害。"
+  ExtraDescription1: "|條件|：抵達這一幕的首領敵人。"
+  ExtraDescription2: "|p:永久獎勵|：打出牌後，恢復當前回合|已打出牌數|對應的|π的位數|的生命值。"
+  DetailText: "|π的位數|從 |n:3| 開始，對應回合打出的第一張牌。\n{SelfName}被完成後將脫離備選池。"
+
+cardquest28:
+  Name: "序列 i：我思故我在"
+  Description: "|接受期間|：如果結束戰鬥前打出的最後一張牌存在於牌庫中，|p:放棄|{SelfName}。"
+  ExtraDescription1: "|條件|：抵達這一幕的首領敌人。"
+  ExtraDescription2: "|p:永久獎勵|：所有臨時增加的非|厄運|非|狀態|卡牌費用降低隨機 {Value1} 點，失去|虛無|。"
+  DetailText: "原卡牌為|存在於牌倉中的牌|的|複製|牌不算為存在於牌庫中。\n{SelfName}被完成後將脫離備選池。"

@@ -578,3 +578,17 @@ cardquest26:
   ExtraDescription1: "|Condition|: Reach the boss of this Act."
   ExtraDescription2: "|p:Permanent Reward|: In each combat, {PlayerName} takes no damage until {PlayerName}'s turn starts while their last turn has ended with a card in hand."
   DetailText: "Directly self-inflicted damage will not trigger |p:abandonment|.\n{SelfName} cannot be randomly generated if it has been completed."
+
+cardquest27:
+  Name: "π. Garden of π"
+  Description: "|While accepted|: After playing a card, take damage equal to the |digit of π| corresponding to the |number of cards played that turn|."
+  ExtraDescription1: "|Condition|: Reach the boss of this Act."
+  ExtraDescription2: "|p:Permanent Reward|: After playing a card, gain life equal to the |digit of π| corresponding to the |number of cards played that turn|."
+  DetailText: "|Digits of π| are counted starting from |n:3| for the first card played that turn.\n{SelfName} cannot be randomly generated if it has been completed."
+
+cardquest28:
+  Name: "i. I Think Therefore I Am"
+  Description: "|While accepted|: If the last card played before end of battle is in the library, |p:abandon| {SelfName}."
+  ExtraDescription1: "|Condition|: Reach the boss of this Act."
+  ExtraDescription2: "|p:Permanent Reward|: Non-|Misfortune| non-|Status| cards added during combat cost {Value1} random mana less to play and lose |Ethereal|."
+  DetailText: "|Copies| of cards that are in the library are not counted as being in the library.\n{SelfName} cannot be randomly generated if it has been completed."

@@ -89,3 +89,7 @@ Roguelite Shop:
 25. Quintessential Miko: https://x.com/reimu_tyuki/status/1689235753153523712 (もちこ)
 
 ∅. null: https://x.com/bankedfireXXX/status/1539953920256376832/photo/1 (うずみび)
+π. Garden of π: https://www.pixiv.net/en/artworks/49182636 (めろん２２)
+Burden of π (Status Effect): https://pngtree.com/freepng/3d-beautifully-designed-pi-symbol-in-a-gold-frame-national-day-ornamental-math-icon_20705976.html
+Garden of π (Status Effect): https://ctleng.com/wp-content/uploads/2018/11/Pie-with-Pi-Symbol-transparent-background.png
+i. I Think Therefore I Am: https://www.pixiv.net/en/artworks/84271686 (狼巴子原型机)

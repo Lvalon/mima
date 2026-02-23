@@ -273,3 +273,15 @@ sequest25:
 sequest26:
   Description: "{PlayerName}在有手牌時結束回合前，不會受到傷害。"
   Name: "空值"
+
+sepie:
+  Description: "打出牌後，受到當前回合|已打出牌數|對應的|π的位數|的傷害。\n({Count} 點傷害)"
+  Name: "π 的分量"
+
+sequest27:
+  Description: "打出牌後，恢復當前回合|已打出牌數|對應的|π的位數|的生命值。\n({Count} 點生命值)"
+  Name: "π 之境界"
+
+sequest28:
+  Description: "所有臨時增加的非|厄運|非|狀態|卡牌費用降低隨機 {Level} 點，且失去|虛無|。"
+  Name: "我思故我在"

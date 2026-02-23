@@ -278,3 +278,15 @@ sequest25:
 sequest26:
   Description: "Until {PlayerName}'s turn ends with a card in hand, {PlayerName} takes no damage."
   Name: "null"
+
+sepie:
+  Description: "After playing a card, take damage equal to the |digit of π| corresponding to the |number of cards played that turn|.\n({Count} damage)"
+  Name: "Burden of π"
+
+sequest27:
+  Description: "After playing a card, gain life equal to the |digit of π| corresponding to the |number of cards played that turn|.\n({Count} life)"
+  Name: "Garden of π"
+
+sequest28:
+  Description: "Non-|Misfortune| non-|Status| cards added during combat cost {Level} random mana less to play and lose |Ethereal|."
+  Name: "I Think Therefore I Am"

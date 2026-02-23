@@ -46,6 +46,8 @@ namespace lvalonmima.Exhibits
 		private readonly HashSet<string> FreshlyCompletedQuestCards = new HashSet<string>(StringComparer.Ordinal);
 		public Dictionary<int, Card> RolledQuestCards = new Dictionary<int, Card>();
 		public HashSet<int> SoldOutQuestSlots = new HashSet<int>();
+		// Temporarily track quest IDs whose rolled slots were just cleared so we avoid re-rolling them immediately
+		public HashSet<string> RecentlyClearedRolledQuestIds = new HashSet<string>(StringComparer.Ordinal);
 		private static readonly int[] VisibleQuestSlots = { 1, 2, 3, 5, 6, 7 };
 		public static readonly string[] CardQuest2TypeKeys = { "TypeAttack", "TypeDefense", "TypeSkill", "TypeAbility" };
 		public Dictionary<string, int> PendingQuestModifiers = new Dictionary<string, int>();
@@ -354,9 +356,8 @@ namespace lvalonmima.Exhibits
 				return result;
 			}
 
-			int stationLevel = gameRun.CurrentStation?.Level ?? -1;
-			float levelDeduct = (15 - stationLevel) % 15;
-			levelDeduct /= 15f;
+			int stationLevel = Math.Max(0, gameRun.CurrentStation?.Level ?? 0);
+			float levelDeduct = 1f - stationLevel % 16 / 16f;
 			Card[] rolledCards = null;
 			bool runNotReadyFallback = false;
 
@@ -394,7 +395,7 @@ namespace lvalonmima.Exhibits
 			{
 				rolledCards = toolbox.UniqueAllCards(
 					gameRun.CardRng,
-					new CardWeightTable(new RarityWeightTable(3f, 2f, levelDeduct, 0f), OwnerWeightTable.AllOnes, CardTypeWeightTable.AllOnes),
+					new CardWeightTable(new RarityWeightTable(5f, 3f, levelDeduct, 0f), OwnerWeightTable.AllOnes, CardTypeWeightTable.AllOnes),
 					count,
 					false,
 					c => c != null
@@ -631,6 +632,18 @@ namespace lvalonmima.Exhibits
 				{
 					excludedQuestCardIds.Add(acceptedCard.Id);
 				}
+			}
+
+			// Also exclude any quests that were just cleared from rolled slots during this runtime
+			if (RecentlyClearedRolledQuestIds != null && RecentlyClearedRolledQuestIds.Count > 0)
+			{
+				foreach (var id in RecentlyClearedRolledQuestIds)
+				{
+					if (!string.IsNullOrEmpty(id))
+						excludedQuestCardIds.Add(id);
+				}
+				// clear after applying exclusion so it's only a one-roll protection
+				RecentlyClearedRolledQuestIds.Clear();
 			}
 
 			BepinexPlugin.log.LogInfo($"[EXQUESTING SAVE] RollQuestCards acceptedSlots={acceptedSlotCards.Count}, openVisibleSlots={slotsToPopulate.Count}, excludedQuestIds=[{string.Join(",", excludedQuestCardIds)}]");
@@ -916,6 +929,11 @@ namespace lvalonmima.Exhibits
 			HashSet<string> runCompleted = ShopModHandlers.ReadCompletedQuestCardsFromRun(GameRun);
 			Dictionary<string, int> runModifiers = ShopModHandlers.ReadQuestModifiersFromRun(GameRun);
 			Dictionary<string, int> liteModifiers = ShopModHandlers.ReadQuestModifiersFromLiteShop();
+			// also read rolled/sold snapshot presence so we can restore rolled slots even when no progress/requirements/completed exist
+			Dictionary<int, string> runRolled = ShopModHandlers.ReadRolledQuestCardsFromRun(GameRun);
+			Dictionary<int, string> liteRolled = ShopModHandlers.ReadRolledQuestCardsFromLiteShop();
+			HashSet<int> runSold = ShopModHandlers.ReadSoldQuestSlotsFromRun(GameRun);
+			HashSet<int> liteSold = ShopModHandlers.ReadSoldQuestSlotsFromLiteShop();
 			BepinexPlugin.log.LogInfo($"[EXQUESTING SAVE] Sync runFlags reason={reason} runProgress=[{string.Join(", ", runProgress.Select(kvp => $"{kvp.Key}:{kvp.Value}"))}] runRequirements={runRequirements.Count} runCompleted={runCompleted.Count} runModifiers={runModifiers.Count}");
 
 			Dictionary<string, int> sourceProgress = runProgress;
@@ -978,7 +996,7 @@ namespace lvalonmima.Exhibits
 				}
 			}
 
-			if (sourceProgress.Count > 0 || sourceRequirements.Count > 0 || sourceCompleted.Count > 0 || runModifiers.Count > 0 || liteModifiers.Count > 0)
+			if (sourceProgress.Count > 0 || sourceRequirements.Count > 0 || sourceCompleted.Count > 0 || runModifiers.Count > 0 || liteModifiers.Count > 0 || runRolled.Count > 0 || liteRolled.Count > 0)
 			{
 				BepinexPlugin.log.LogInfo($"[EXQUESTING SAVE] Sync source decision reason={reason} source={sourceName} selectedProgress={sourceProgress.Count} selectedRequirements={sourceRequirements.Count} selectedCompleted={sourceCompleted.Count}");
 				foreach (var kvp in sourceProgress)
@@ -1014,6 +1032,47 @@ namespace lvalonmima.Exhibits
 					{
 						PendingQuestModifiers[kvp.Key] = kvp.Value;
 					}
+				}
+
+				// Restore rolled quest slots and sold slots from chosen persistence source (run flags or lite shop)
+				try
+				{
+					Dictionary<int, string> sourceRolled = string.Equals(sourceName, "RunFlags", StringComparison.Ordinal) || sourceName.StartsWith("RunFlags", StringComparison.Ordinal)
+						? ShopModHandlers.ReadRolledQuestCardsFromRun(GameRun)
+						: ShopModHandlers.ReadRolledQuestCardsFromLiteShop();
+					HashSet<int> sourceSold = string.Equals(sourceName, "RunFlags", StringComparison.Ordinal) || sourceName.StartsWith("RunFlags", StringComparison.Ordinal)
+						? ShopModHandlers.ReadSoldQuestSlotsFromRun(GameRun)
+						: ShopModHandlers.ReadSoldQuestSlotsFromLiteShop();
+
+					RolledQuestCards.Clear();
+					SoldOutQuestSlots.Clear();
+					foreach (var kvp in sourceRolled)
+					{
+						if (kvp.Value == null)
+							continue;
+						Card card = toolbox.createcardwithid(kvp.Value);
+						if (card != null)
+						{
+							card.GameRun = GameRun ?? GameMaster.Instance?.CurrentGameRun;
+							RolledQuestCards[kvp.Key] = card;
+						}
+						else
+						{
+							BepinexPlugin.log.LogInfo($"[EXQUESTING SAVE] Sync could not create rolled card id={kvp.Value} for slot={kvp.Key}");
+						}
+					}
+
+					if (sourceSold != null)
+					{
+						foreach (int slot in sourceSold)
+						{
+							SoldOutQuestSlots.Add(slot);
+						}
+					}
+				}
+				catch (Exception ex)
+				{
+					BepinexPlugin.log.LogInfo($"[EXQUESTING SAVE] Sync rolled restore failed: {ex.Message}");
 				}
 
 				bool preserveRuntimePendingOnStationEntered =

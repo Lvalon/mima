@@ -85,6 +85,9 @@ namespace lvalonmima.Source.Patches
 
 	public class LiteShop //per-profile
 	{
+		public Dictionary<int, string> QuestRolledSlots { get; set; }
+		public HashSet<int> QuestSoldSlots { get; set; }
+
 		public Dictionary<string, int> QuestProgress { get; set; }
 		public Dictionary<string, string> QuestRequirements { get; set; }
 		public HashSet<string> QuestCompletedCards { get; set; }
@@ -125,6 +128,8 @@ namespace lvalonmima.Source.Patches
 
 		public LiteShop()
 		{
+			QuestRolledSlots = new Dictionary<int, string>();
+			QuestSoldSlots = new HashSet<int>();
 			QuestProgress = new Dictionary<string, int>();
 			QuestRequirements = new Dictionary<string, string>();
 			QuestCompletedCards = new HashSet<string>(StringComparer.Ordinal);
@@ -193,6 +198,11 @@ namespace lvalonmima.Source.Patches
 					? new Dictionary<string, int>(saved.QuestModifiers)
 					: new Dictionary<string, int>()
 			};
+
+			if (saved?.QuestRolledSlots != null)
+				latest.QuestRolledSlots = new Dictionary<int, string>(saved.QuestRolledSlots);
+			if (saved?.QuestSoldSlots != null)
+				latest.QuestSoldSlots = new HashSet<int>(saved.QuestSoldSlots);
 
 			if (saved?.Items == null)
 				return latest;

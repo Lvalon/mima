@@ -19,7 +19,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("lvalonmima")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+067af26f5e7be27dec117ab41d7fe070dca6c2f8")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f06f4658506eaaec66e57707c68c035817b315d2")]
 [assembly: System.Reflection.AssemblyProductAttribute("lvalonmima")]
 [assembly: System.Reflection.AssemblyTitleAttribute("lvalonmima")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

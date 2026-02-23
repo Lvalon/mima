@@ -36,6 +36,8 @@ namespace lvalonmima.Source.Patches
 		private const string QuestRequirementFlagPrefix = "exquesting.requirement:";
 		private const string QuestCompletedFlagPrefix = "exquesting.completed:";
 		private const string QuestModifierFlagPrefix = "exquesting.modifier:";
+		private const string QuestRolledFlagPrefix = "exquesting.rolled:"; // format: exquesting.rolled:slot=cardId
+		private const string QuestSoldFlagPrefix = "exquesting.sold:";   // format: exquesting.sold:slot
 		private static GameRunController CachedGameRun;
 		private static float LastAppliedShopDiscountFactor = 1f;
 		private static int LastAppliedSeeOrder = 0;
@@ -117,6 +119,60 @@ namespace lvalonmima.Source.Patches
 			return result;
 		}
 
+		public static Dictionary<int, string> ReadRolledQuestCardsFromRun(GameRunController gameRun)
+		{
+			var result = new Dictionary<int, string>();
+			if (gameRun?.ExtraFlags == null)
+			{
+				BepinexPlugin.log.LogInfo("[EXQUESTING SAVE] ReadRolledQuestCardsFromRun: no GameRun/ExtraFlags.");
+				return result;
+			}
+
+			foreach (string flag in gameRun.ExtraFlags)
+			{
+				if (string.IsNullOrEmpty(flag) || !flag.StartsWith(QuestRolledFlagPrefix, StringComparison.Ordinal))
+					continue;
+
+				string payload = flag[QuestRolledFlagPrefix.Length..];
+				int split = payload.IndexOf('=');
+				if (split <= 0 || split >= payload.Length - 1)
+					continue;
+
+				string slotText = payload[..split];
+				string cardId = payload[(split + 1)..];
+				if (!int.TryParse(slotText, out int slot))
+					continue;
+
+				result[slot] = cardId;
+			}
+
+			BepinexPlugin.log.LogInfo($"[EXQUESTING SAVE] ReadRolledQuestCardsFromRun: entries={result.Count}");
+			return result;
+		}
+
+		public static HashSet<int> ReadSoldQuestSlotsFromRun(GameRunController gameRun)
+		{
+			var result = new HashSet<int>();
+			if (gameRun?.ExtraFlags == null)
+			{
+				BepinexPlugin.log.LogInfo("[EXQUESTING SAVE] ReadSoldQuestSlotsFromRun: no GameRun/ExtraFlags.");
+				return result;
+			}
+
+			foreach (string flag in gameRun.ExtraFlags)
+			{
+				if (string.IsNullOrEmpty(flag) || !flag.StartsWith(QuestSoldFlagPrefix, StringComparison.Ordinal))
+					continue;
+
+				string payload = flag[QuestSoldFlagPrefix.Length..];
+				if (int.TryParse(payload, out int slot))
+					result.Add(slot);
+			}
+
+			BepinexPlugin.log.LogInfo($"[EXQUESTING SAVE] ReadSoldQuestSlotsFromRun: entries={result.Count}");
+			return result;
+		}
+
 		public static HashSet<string> ReadCompletedQuestCardsFromRun(GameRunController gameRun)
 		{
 			var result = new HashSet<string>(StringComparer.Ordinal);
@@ -139,6 +195,45 @@ namespace lvalonmima.Source.Patches
 			}
 
 			BepinexPlugin.log.LogInfo($"[EXQUESTING SAVE] ReadCompletedQuestCardsFromRun: entries={result.Count} [{string.Join(", ", result)}]");
+			return result;
+		}
+
+		public static Dictionary<int, string> ReadRolledQuestCardsFromLiteShop()
+		{
+			var result = new Dictionary<int, string>();
+			var shop = MiniTracker.Instance?.CustomGrSaveData?.GetShopForCurrentProfile();
+			if (shop == null)
+			{
+				BepinexPlugin.log.LogInfo("[EXQUESTING SAVE] ReadRolledQuestCardsFromLiteShop: no profile or lite shop.");
+				return result;
+			}
+			if (shop.QuestRolledSlots == null)
+				return result;
+
+			foreach (var kvp in shop.QuestRolledSlots)
+			{
+				if (kvp.Value == null)
+					continue;
+				result[kvp.Key] = kvp.Value;
+			}
+			BepinexPlugin.log.LogInfo($"[EXQUESTING SAVE] ReadRolledQuestCardsFromLiteShop: entries={result.Count}");
+			return result;
+		}
+
+		public static HashSet<int> ReadSoldQuestSlotsFromLiteShop()
+		{
+			var result = new HashSet<int>();
+			var shop = MiniTracker.Instance?.CustomGrSaveData?.GetShopForCurrentProfile();
+			if (shop == null)
+			{
+				BepinexPlugin.log.LogInfo("[EXQUESTING SAVE] ReadSoldQuestSlotsFromLiteShop: no profile or lite shop.");
+				return result;
+			}
+			if (shop.QuestSoldSlots == null)
+				return result;
+			foreach (int slot in shop.QuestSoldSlots)
+				result.Add(slot);
+			BepinexPlugin.log.LogInfo($"[EXQUESTING SAVE] ReadSoldQuestSlotsFromLiteShop: entries={result.Count}");
 			return result;
 		}
 
@@ -297,6 +392,15 @@ namespace lvalonmima.Source.Patches
 					!string.IsNullOrEmpty(flag) &&
 					flag.StartsWith(QuestCompletedFlagPrefix, StringComparison.Ordinal));
 
+				// remove old rolled / sold flags as well
+				gameRun.ExtraFlags.RemoveWhere(flag =>
+					!string.IsNullOrEmpty(flag) &&
+					flag.StartsWith(QuestRolledFlagPrefix, StringComparison.Ordinal));
+
+				gameRun.ExtraFlags.RemoveWhere(flag =>
+					!string.IsNullOrEmpty(flag) &&
+					flag.StartsWith(QuestSoldFlagPrefix, StringComparison.Ordinal));
+
 				// remove old modifier flags as well
 				gameRun.ExtraFlags.RemoveWhere(flag =>
 					!string.IsNullOrEmpty(flag) &&
@@ -344,6 +448,34 @@ namespace lvalonmima.Source.Patches
 						gameRun.ExtraFlags.Add($"{QuestModifierFlagPrefix}{kvp.Key}={kvp.Value}");
 					}
 				}
+
+				// persist current rolled slots and sold slots from runtime exhibit if available
+				try
+				{
+					exquesting runtimeExhibit = gameRun?.Player?.GetExhibit<exquesting>();
+					if (runtimeExhibit != null && runtimeExhibit.RolledQuestCards != null)
+					{
+						foreach (var kvp in runtimeExhibit.RolledQuestCards)
+						{
+							if (kvp.Value == null || string.IsNullOrEmpty(kvp.Value.Id))
+								continue;
+							gameRun.ExtraFlags.Add($"{QuestRolledFlagPrefix}{kvp.Key}={kvp.Value.Id}");
+						}
+					}
+					if (runtimeExhibit != null && runtimeExhibit.SoldOutQuestSlots != null)
+					{
+						foreach (int slot in runtimeExhibit.SoldOutQuestSlots)
+						{
+							gameRun.ExtraFlags.Add($"{QuestSoldFlagPrefix}{slot}");
+						}
+					}
+				}
+				catch (Exception ex)
+				{
+					BepinexPlugin.log.LogInfo($"[EXQUESTING SAVE] Persist rolled/sold flags failed: {ex.Message}");
+				}
+
+
 			}
 
 			if (syncToLiteShop)
@@ -372,6 +504,41 @@ namespace lvalonmima.Source.Patches
 							shop.QuestModifiers = new Dictionary<string, int>(mods, StringComparer.Ordinal);
 						else if (shop.QuestModifiers == null)
 							shop.QuestModifiers = new Dictionary<string, int>(StringComparer.Ordinal);
+					}
+
+					// Persist rolled slots and sold slots to lite shop
+					try
+					{
+						exquesting runtimeExhibit = gameRun?.Player?.GetExhibit<exquesting>();
+						if (runtimeExhibit != null && runtimeExhibit.RolledQuestCards != null)
+						{
+							shop.QuestRolledSlots = runtimeExhibit.RolledQuestCards.ToDictionary(k => k.Key, v => v.Value?.Id);
+						}
+						else
+						{
+							shop.QuestRolledSlots = new Dictionary<int, string>();
+						}
+
+						if (runtimeExhibit != null && runtimeExhibit.SoldOutQuestSlots != null)
+						{
+							shop.QuestSoldSlots = new HashSet<int>(runtimeExhibit.SoldOutQuestSlots);
+						}
+						else
+						{
+							shop.QuestSoldSlots = new HashSet<int>();
+						}
+					}
+					catch (Exception ex)
+					{
+						BepinexPlugin.log.LogInfo($"[EXQUESTING SAVE] Persist to lite shop rolled/sold failed: {ex.Message}");
+					}
+
+					// persist rolled and sold slots into lite shop as well
+					var exhibit = gameRun?.Player?.GetExhibit<exquesting>();
+					if (exhibit != null)
+					{
+						shop.QuestRolledSlots = exhibit.RolledQuestCards?.ToDictionary(k => k.Key, v => v.Value?.Id) ?? new Dictionary<int, string>();
+						shop.QuestSoldSlots = exhibit.SoldOutQuestSlots != null ? new HashSet<int>(exhibit.SoldOutQuestSlots) : new HashSet<int>();
 					}
 				}
 			}
@@ -507,6 +674,12 @@ namespace lvalonmima.Source.Patches
 					case nameof(cardquest26) when gameRun.CurrentStation.Type == StationType.Boss:
 						// exhibit.PendingQuestModifiers.TryGetValue(questCardId, out int stack);
 						// exhibit.PendingQuestModifiers[questCardId] = ++stack;
+						consumedCompleted.Add(questCardId);
+						break;
+					case nameof(cardquest27) when gameRun.CurrentStation.Type == StationType.Boss:
+						consumedCompleted.Add(questCardId);
+						break;
+					case nameof(cardquest28) when gameRun.CurrentStation.Type == StationType.Boss:
 						consumedCompleted.Add(questCardId);
 						break;
 					default:
@@ -700,6 +873,8 @@ namespace lvalonmima.Source.Patches
 				Library.CreateCard<cardquest4>(),
 				Library.CreateCard<cardquest10>(),
 				Library.CreateCard<cardquest26>(),
+				Library.CreateCard<cardquest27>(),
+				Library.CreateCard<cardquest28>(),
 			};
 			bool questProgressChanged = false;
 			foreach (var card in stationQuests)
@@ -751,6 +926,28 @@ namespace lvalonmima.Source.Patches
 						}
 						break;
 					case nameof(cardquest26) when gameRun.CurrentStation.Type == StationType.Boss:
+						exhibit.PendingQuestProgress[questCardId] = ++progress;
+						questProgressChanged = true;
+						if (progress >= card.Config.Value1)
+						{
+							exhibit.PendingQuestModifiers.TryGetValue(card.Id, out int stack);
+							exhibit.PendingQuestModifiers[card.Id] = ++stack;
+							exhibit.FinalizeQuestByCardId(questCardId);
+							exhibit.MarkQuestCompleted(questCardId);
+						}
+						break;
+					case nameof(cardquest27) when gameRun.CurrentStation.Type == StationType.Boss:
+						exhibit.PendingQuestProgress[questCardId] = ++progress;
+						questProgressChanged = true;
+						if (progress >= card.Config.Value1)
+						{
+							exhibit.PendingQuestModifiers.TryGetValue(card.Id, out int stack);
+							exhibit.PendingQuestModifiers[card.Id] = ++stack;
+							exhibit.FinalizeQuestByCardId(questCardId);
+							exhibit.MarkQuestCompleted(questCardId);
+						}
+						break;
+					case nameof(cardquest28) when gameRun.CurrentStation.Type == StationType.Boss:
 						exhibit.PendingQuestProgress[questCardId] = ++progress;
 						questProgressChanged = true;
 						if (progress >= card.Config.Value1)
@@ -1109,7 +1306,8 @@ namespace lvalonmima.Source.Patches
 			if (player.HasExhibit<exquesting>())
 			{
 				exhibit = player.GetExhibit<exquesting>();
-				foreach (string id in exhibit.PendingQuestProgress.Keys)
+				var pendingKeys = exhibit.PendingQuestProgress != null ? exhibit.PendingQuestProgress.Keys.ToList() : new List<string>();
+				foreach (string id in pendingKeys)
 				{
 					switch (id)
 					{
@@ -1287,6 +1485,9 @@ namespace lvalonmima.Source.Patches
 								}
 							});
 							break;
+						case nameof(cardquest27):
+							gamerun.Battle.React(new ApplyStatusEffectAction<sepie>(player, Library.CreateCard<cardquest27>().Value2), exhibit, ActionCause.Exhibit);
+							break;
 						default:
 							break;
 					}
@@ -1368,6 +1569,20 @@ namespace lvalonmima.Source.Patches
 			{
 				if (stack26 > 0)
 					gamerun.Battle.React(new ApplyStatusEffectAction<sequest26>(player, stack26), exhibit, ActionCause.Exhibit);
+			}
+
+			//quest 27
+			if (shop != null && shop.QuestModifiers.TryGetValue(nameof(cardquest27), out int stack27))
+			{
+				if (stack27 > 0)
+					gamerun.Battle.React(new ApplyStatusEffectAction<sequest27>(player, stack27), exhibit, ActionCause.Exhibit);
+			}
+
+			//quest 28
+			if (shop != null && shop.QuestModifiers.TryGetValue(nameof(cardquest28), out int stack28))
+			{
+				if (stack28 > 0)
+					gamerun.Battle.React(new ApplyStatusEffectAction<sequest28>(player, stack28), exhibit, ActionCause.Exhibit);
 			}
 
 			player.ReactBattleEvent(gamerun.Battle.BattleStarted, args => OnBattleStarted(args, gamerun.Battle));
@@ -1729,7 +1944,8 @@ namespace lvalonmima.Source.Patches
 			if (!battle.Player.HasExhibit<exquesting>())
 				yield break;
 			var exhibit = battle.Player.GetExhibit<exquesting>();
-			foreach (string id in exhibit.PendingQuestProgress.Keys)
+			var pendingKeys = exhibit.PendingQuestProgress != null ? exhibit.PendingQuestProgress.Keys.ToList() : new List<string>();
+			foreach (string id in pendingKeys)
 			{
 				switch (id)
 				{
@@ -1783,7 +1999,8 @@ namespace lvalonmima.Source.Patches
 				yield break;
 			var exhibit = battle.Player.GetExhibit<exquesting>();
 
-			foreach (string id in exhibit.PendingQuestProgress.Keys)
+			var pendingKeys = exhibit.PendingQuestProgress != null ? exhibit.PendingQuestProgress.Keys.ToList() : new List<string>();
+			foreach (string id in pendingKeys)
 			{
 				switch (id)
 				{
@@ -1806,6 +2023,35 @@ namespace lvalonmima.Source.Patches
 						&& misfortune != null && misfortune.Count != card.Value9
 						&& tool != null && tool.Count != card.Value9)
 							battleChallenges.Remove(id);
+						break;
+					case nameof(cardquest28):
+						if (exhibit.PendingQuestProgress.ContainsKey(id)
+						&& battle.BattleCardUsageHistory.Last() != null //not having played card doesnt remove
+						&& battle.GameRun.GetDeckCardByInstanceId(battle.BattleCardUsageHistory.Last().InstanceId) != null) // flag existing
+						{
+							exhibit.PendingQuestProgress.Remove(id);
+							// also clear any rolled slot that currently shows this quest so the slot is free for future rolls
+							try
+							{
+								List<int> slotsToClear = new List<int>();
+								foreach (var kvp in exhibit.RolledQuestCards ?? new Dictionary<int, Card>())
+								{
+									if (kvp.Value != null && string.Equals(kvp.Value.Id, id, StringComparison.Ordinal))
+										slotsToClear.Add(kvp.Key);
+								}
+								foreach (int slot in slotsToClear)
+								{
+									exhibit.RolledQuestCards.Remove(slot);
+									// remember this quest id so the immediate re-roll won't pick it again
+									exhibit.RecentlyClearedRolledQuestIds.Add(id);
+									BepinexPlugin.log.LogInfo($"[EXQUESTING SAVE] Cleared rolled slot={slot} for failed quest={id}");
+								}
+							}
+							catch (Exception ex)
+							{
+								BepinexPlugin.log.LogInfo($"[EXQUESTING SAVE] Failed clearing rolled slots for quest {id}: {ex.Message}");
+							}
+						}
 						break;
 					default:
 						break;

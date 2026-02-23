@@ -21,6 +21,7 @@ using lvalonmima.Source.Patches;
 using System.Linq;
 using LBoL.Core.Randoms;
 using LBoL.Core.StatusEffects;
+using LBoL.Base;
 
 namespace lvalonmima.Patches.Exhibits
 {
@@ -761,7 +762,7 @@ namespace lvalonmima.Patches.Exhibits
 			cardWidget.RefreshStatus();
 			cardWidget.SetProperties();
 
-			CardWidget.EdgeStatus edgeStatus = accepted ? CardWidget.EdgeStatus.AffordKicker : CardWidget.EdgeStatus.None;
+			CardWidget.EdgeStatus edgeStatus = accepted ? (cardWidget.Card.Config.Rarity == Rarity.Rare ? CardWidget.EdgeStatus.HighKicker : CardWidget.EdgeStatus.AffordKicker) : CardWidget.EdgeStatus.None;
 			TrySetCardWidgetEdge(shopCard, edgeStatus);
 		}
 
