@@ -395,7 +395,7 @@ namespace lvalonmima.Exhibits
 			{
 				rolledCards = toolbox.UniqueAllCards(
 					gameRun.CardRng,
-					new CardWeightTable(new RarityWeightTable(10f, 5f, levelDeduct, 0f), OwnerWeightTable.AllOnes, CardTypeWeightTable.AllOnes),
+					new CardWeightTable(new RarityWeightTable(15f, 10f, levelDeduct, 0f), OwnerWeightTable.AllOnes, CardTypeWeightTable.AllOnes),
 					count,
 					false,
 					c => c != null
@@ -1221,6 +1221,8 @@ namespace lvalonmima.Exhibits
 					continue;
 				sb.Append("\n").Append(buff.Value + "× ").Append(ResolveQuestExtraDescription(buffCard, 2));
 			}
+			if (!string.IsNullOrWhiteSpace(sb.ToString()))
+				return StringDecorator.Decorate("\n" + sb.ToString());
 			return StringDecorator.Decorate(sb.ToString());
 		}
 
@@ -1234,6 +1236,13 @@ namespace lvalonmima.Exhibits
 				if (card == null)
 					continue;
 				card.GameRun = GameMaster.Instance?.CurrentGameRun;
+
+				if (card.Config.Rarity == Rarity.Rare)
+				{
+					sb.Append("\n").Append(ResolveQuestExtraDescription(card, 0));
+					continue;
+				}
+
 				int goal = card.Config.Value1 ?? -1;
 				if (goal == -1)
 					continue;
@@ -1255,6 +1264,8 @@ namespace lvalonmima.Exhibits
 					continue;
 				sb.Append("\n").Append(extraDescription).Append(prog); // effect + progress
 			}
+			if (!string.IsNullOrWhiteSpace(sb.ToString()))
+				return StringDecorator.Decorate("\n" + sb.ToString());
 			return StringDecorator.Decorate(sb.ToString());
 		}
 
@@ -1265,7 +1276,7 @@ namespace lvalonmima.Exhibits
 
 			try
 			{
-				string field = "ExtraDescription" + desc;
+				string field = desc != 0 ? "ExtraDescription" + desc : "Description";
 				string rawText = TypeFactory<Card>.LocalizeProperty(card.Id, field, true, true);
 				if (string.IsNullOrEmpty(rawText))
 					return string.Empty;

@@ -1556,6 +1556,14 @@ namespace lvalonmima.Source.Patches
 			[(Locale.En, "BluePoint.hurryact1.Description")] = "Lose after Level 4 and within Act 1.",
 			[(Locale.En, "BluePoint.hurryact2.Name")] = "Half-phantom T-Shirted",
 			[(Locale.En, "BluePoint.hurryact2.Description")] = "Lose in Act 2.",
+			[(Locale.En, "BluePoint.hurryact3.Name")] = "So close, yet so far",
+			[(Locale.En, "BluePoint.hurryact3.Description")] = "Lose in Act 3.",
+			[(Locale.En, "BluePoint.hurryact3win.Name")] = "In another castle?",
+			[(Locale.En, "BluePoint.hurryact3win.Description")] = "Resolve the incident in Act 3.",
+			[(Locale.En, "BluePoint.hurryact4.Name")] = "We'll get 'em next time",
+			[(Locale.En, "BluePoint.hurryact4.Description")] = "Lose in Act 4.",
+			[(Locale.En, "BluePoint.hurryact4win.Name")] = "Triumph Resolve",
+			[(Locale.En, "BluePoint.hurryact4win.Description")] = "Resolve the incident perfectly.",
 
 			// UI Text
 			[(Locale.En, $"{ShopPrefix}ChallengerModeHistory.Active")] = "Challenger Mode Active",
@@ -1682,6 +1690,14 @@ namespace lvalonmima.Source.Patches
 			[(Locale.ZhHant, "BluePoint.hurryact1.Description")] = "在第一幕內但第四關外失敗。",
 			[(Locale.ZhHant, "BluePoint.hurryact2.Name")] = "半靈 T 恤說是",
 			[(Locale.ZhHant, "BluePoint.hurryact2.Description")] = "在第二幕裡失敗。",
+			[(Locale.ZhHant, "BluePoint.hurryact3.Name")] = "這麼近，那麼遠",
+			[(Locale.ZhHant, "BluePoint.hurryact3.Description")] = "在第三幕裡失敗。",
+			[(Locale.ZhHant, "BluePoint.hurryact3win.Name")] = "在另一個城堡嗎？",
+			[(Locale.ZhHant, "BluePoint.hurryact3win.Description")] = "在第三幕解決異變。",
+			[(Locale.ZhHant, "BluePoint.hurryact4.Name")] = "屢敗屢戰",
+			[(Locale.ZhHant, "BluePoint.hurryact4.Description")] = "在第四幕失敗。",
+			[(Locale.ZhHant, "BluePoint.hurryact4win.Name")] = "凱旋而歸",
+			[(Locale.ZhHant, "BluePoint.hurryact4win.Description")] = "在第四幕完美解決異變。",
 
 			// UI Text
 			[(Locale.ZhHant, $"{ShopPrefix}ChallengerModeHistory.Active")] = "挑戰者模式已啟用",
@@ -1810,6 +1826,14 @@ namespace lvalonmima.Source.Patches
 			[(Locale.ZhHans, "BluePoint.hurryact1.Description")] = "在第一幕内但第四关外失败。",
 			[(Locale.ZhHans, "BluePoint.hurryact2.Name")] = "半灵 T 恤说是",
 			[(Locale.ZhHans, "BluePoint.hurryact2.Description")] = "在第二幕里失败。",
+			[(Locale.ZhHans, "BluePoint.hurryact3.Name")] = "这么近，那么远",
+			[(Locale.ZhHans, "BluePoint.hurryact3.Description")] = "在第三幕里失败。",
+			[(Locale.ZhHans, "BluePoint.hurryact3win.Name")] = "在另一个城堡吗？",
+			[(Locale.ZhHans, "BluePoint.hurryact3win.Description")] = "在第三幕解决异变。",
+			[(Locale.ZhHans, "BluePoint.hurryact4.Name")] = "屡败屡战",
+			[(Locale.ZhHans, "BluePoint.hurryact4.Description")] = "在第四幕失败。",
+			[(Locale.ZhHans, "BluePoint.hurryact4win.Name")] = "凯旋而归",
+			[(Locale.ZhHans, "BluePoint.hurryact4win.Description")] = "在第四幕完美解决异变。",
 
 			// UI Text
 			[(Locale.ZhHans, $"{ShopPrefix}Money")] = "金钱：{0} <sprite=\"Point\" name=\"Point\">",

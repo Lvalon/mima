@@ -41,7 +41,7 @@ namespace lvalonmima.Cards.Template
 				text += RawExtraDescription2;
 			}
 
-			if (quest != null && quest != -1)
+			if (quest != null && quest != -1 && Config.Rarity != LBoL.Base.Rarity.Rare)
 			{
 				if (text.Length > 0)
 				{

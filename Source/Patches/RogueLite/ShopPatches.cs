@@ -909,7 +909,7 @@ namespace lvalonmima.Source.Patches
 	{
 		private const string BluePointPrefix = "BluePoint.";
 
-		static void Postfix(ref GameStatisticData __result, GameRunController gameRun)
+		static void Postfix(ref GameStatisticData __result, GameRunController gameRun, GameResultType resultType)
 		{
 			SystemBoard_OnEnterGameRun_Patch.DisableWatermarkAll();
 			if (__result == null)
@@ -961,6 +961,10 @@ namespace lvalonmima.Source.Patches
 					"hurryact1level4" => -10,
 					"hurryact1" => -1,
 					"hurryact2" => 100,
+					"hurryact3" => 500,
+					"hurryact3win" => 1000,
+					"hurryact4" => 1500,
+					"hurryact4win" => 2500,
 					_ => 0
 				};
 
@@ -988,6 +992,24 @@ namespace lvalonmima.Source.Patches
 					case "hurryact2":
 						if (indexSTAGE != 1)
 							skipReward = true;
+						break;
+					case "hurryact3":
+						if (indexSTAGE != 2 || resultType != GameResultType.Failure)
+							skipReward = true;
+						break;
+					case "hurryact3win":
+						if (indexSTAGE != 2 || resultType != GameResultType.NormalEnd)
+							skipReward = true;
+						break;
+					case "hurryact4":
+						if (indexSTAGE != 3 || (resultType != GameResultType.TrueEndFail && resultType != GameResultType.Failure))
+							skipReward = true;
+						break;
+					case "hurryact4win":
+						if (indexSTAGE != 3 || resultType != GameResultType.TrueEnd)
+							skipReward = true;
+						break;
+					default:
 						break;
 				}
 
