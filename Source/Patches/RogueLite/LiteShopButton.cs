@@ -1543,6 +1543,9 @@ namespace lvalonmima.Source.Patches
 
 			[(Locale.En, $"{ShopPrefix}{AlterPrefix}freechoice")] = "I Knew It",
 			[(Locale.En, $"{ShopPrefix}{AlterPrefix}freechoice.Desc")] = "The |Challenger| can successfully identify the true culprit without needing any items.",
+			[(Locale.En, $"{ShopPrefix}{AlterPrefix}blankcard")] = "Unlimited Experience",
+			[(Locale.En, $"{ShopPrefix}{AlterPrefix}blankcard.Desc")] = "Cards of all colors are added to the card pool.",
+
 			[(Locale.En, $"{ShopPrefix}{DifficultyPrefix}reverse")] = "Normalize",
 			[(Locale.En, $"{ShopPrefix}{DifficultyPrefix}reverse.Desc")] = "|Challenge Mode| will not swap the Enemy Phase and Player Phase anymore, but <sprite=\"Point\" name=\"Point\"> cannot be saved if the |Challenger| loses, and only |c:50|% of the <sprite=\"Point\" name=\"Point\"> will be saved.",
 			[(Locale.En, $"{ShopPrefix}refund")] = "Refund All",
@@ -1678,6 +1681,11 @@ namespace lvalonmima.Source.Patches
 
 			[(Locale.ZhHant, $"{ShopPrefix}{AlterPrefix}freechoice")] = "我就知道",
 			[(Locale.ZhHant, $"{ShopPrefix}{AlterPrefix}freechoice.Desc")] = "不需要搜索真兇用的道具也能成功搜索真兇。",
+			[(Locale.ZhHant, $"{ShopPrefix}{AlterPrefix}wings")] = "送你一對翼",
+			[(Locale.ZhHant, $"{ShopPrefix}{AlterPrefix}wings.Desc")] = "選擇下一關時可以無視路線。",
+			[(Locale.ZhHant, $"{ShopPrefix}{AlterPrefix}blankcard")] = "無限體驗",
+			[(Locale.ZhHant, $"{ShopPrefix}{AlterPrefix}blankcard.Desc")] = "獎勵和售賣的卡牌從所有顏色中隨機。",
+
 			[(Locale.ZhHant, $"{ShopPrefix}{DifficultyPrefix}reverse")] = "正常化",
 			[(Locale.ZhHant, $"{ShopPrefix}{DifficultyPrefix}reverse.Desc")] = "|挑戰者模式|不會再逆轉行動順序，不過遊戲勝利時只會儲存 |c:50|% 的<sprite=\"Point\" name=\"Point\">，且遊戲失敗時不會儲存<sprite=\"Point\" name=\"Point\">。",
 			[(Locale.ZhHant, $"{ShopPrefix}refund")] = "全部退款",
@@ -1748,8 +1756,6 @@ namespace lvalonmima.Source.Patches
 			[(Locale.ZhHans, $"{ShopPrefix}{AlterPrefix}Desc")] = "|设定更改|能扭曲和更改部分游戏设定，让|挑战者|从中得益。",
 			[(Locale.ZhHans, $"{ShopPrefix}Loadout")] = "当前配置",
 			[(Locale.ZhHans, $"{ShopPrefix}Loadout.None")] = "无！",
-			[(Locale.ZhHans, $"{ShopPrefix}ChallengerModeHistory.Active")] = "挑战者模式已启用",
-			[(Locale.ZhHans, $"{ShopPrefix}ChallengerModeHistory.Title")] = "挑战者模式",
 
 			[(Locale.ZhHans, $"{ShopPrefix}{InitPrefix}fp")] = "攻哈",
 			[(Locale.ZhHans, $"{ShopPrefix}{InitPrefix}fp.Desc")] = "战斗开始时获得 {0} 点|火力|。",
@@ -1814,6 +1820,11 @@ namespace lvalonmima.Source.Patches
 
 			[(Locale.ZhHans, $"{ShopPrefix}{AlterPrefix}freechoice")] = "我就知道",
 			[(Locale.ZhHans, $"{ShopPrefix}{AlterPrefix}freechoice.Desc")] = "不需要搜索真凶用的道具也能成功搜索真凶。",
+			[(Locale.ZhHans, $"{ShopPrefix}{AlterPrefix}wings")] = "送你一对翼",
+			[(Locale.ZhHans, $"{ShopPrefix}{AlterPrefix}wings.Desc")] = "选择下一关时可以无视路线。",
+			[(Locale.ZhHans, $"{ShopPrefix}{AlterPrefix}blankcard")] = "无限体验",
+			[(Locale.ZhHans, $"{ShopPrefix}{AlterPrefix}blankcard.Desc")] = "奖励和售卖的卡牌从所有颜色中随机。",
+
 			[(Locale.ZhHans, $"{ShopPrefix}{DifficultyPrefix}reverse")] = "正常化",
 			[(Locale.ZhHans, $"{ShopPrefix}{DifficultyPrefix}reverse.Desc")] = "|挑战者模式|不会再逆转行动顺序，不过游戏胜利时只会储存 |c:50|% 的<sprite=\"Point\" name=\"Point\">，且游戏失败时不会储存<sprite=\"Point\" name=\"Point\">。",
 			[(Locale.ZhHans, $"{ShopPrefix}refund")] = "全部退款",
@@ -1836,6 +1847,8 @@ namespace lvalonmima.Source.Patches
 			[(Locale.ZhHans, "BluePoint.hurryact4win.Description")] = "在第四幕完美解决异变。",
 
 			// UI Text
+			[(Locale.ZhHans, $"{ShopPrefix}ChallengerModeHistory.Active")] = "挑战者模式已启用",
+			[(Locale.ZhHans, $"{ShopPrefix}ChallengerModeHistory.Title")] = "挑战者模式",
 			[(Locale.ZhHans, $"{ShopPrefix}Money")] = "金钱：{0} <sprite=\"Point\" name=\"Point\">",
 			[(Locale.ZhHans, $"{ShopPrefix}Tier")] = "<b>|f:等级|</b>：{0} / {1}",
 			[(Locale.ZhHans, $"{ShopPrefix}NextTier")] = " ── {0} <sprite=\"Point\" name=\"Point\">",

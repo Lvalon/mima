@@ -27,6 +27,17 @@ using lvalonmima.StatusEffects;
 
 namespace lvalonmima.Source.Patches
 {
+	public class RogueliteCrosser : IMapModeOverrider
+	{
+		public GameRunMapMode? MapMode => GameRunMapMode.Crossing;
+		private static readonly RogueliteCrosser _instance = new RogueliteCrosser();
+		static RogueliteCrosser() { }
+		private RogueliteCrosser() { }
+		public static RogueliteCrosser Instance => _instance;
+		public void OnEnteredWithMode()
+		{
+		}
+	}
 	public class ShopModHandlers
 	{
 		private static readonly Dictionary<string, int> BaseScPowerCosts = new Dictionary<string, int>();
@@ -41,6 +52,7 @@ namespace lvalonmima.Source.Patches
 		private static GameRunController CachedGameRun;
 		private static float LastAppliedShopDiscountFactor = 1f;
 		private static int LastAppliedSeeOrder = 0;
+		private static int LastAppliedBlankCard = 0;
 		private static HashSet<string> battleChallenges = new HashSet<string>();
 		private static List<Card> quest5ToRmv;
 		private static int quest15played;
@@ -1008,6 +1020,7 @@ namespace lvalonmima.Source.Patches
 				CachedGameRun = gameRun;
 				LastAppliedShopDiscountFactor = 1f;
 				LastAppliedSeeOrder = 0;
+				LastAppliedBlankCard = 0;
 			}
 			// reset stuff
 			if (LastAppliedShopDiscountFactor > 0f)
@@ -1015,6 +1028,8 @@ namespace lvalonmima.Source.Patches
 			if (gameRun?.Player?.Us?.Config != null)
 				gameRun.Player.Us.Config.PowerCost = GetBaseScPowerCost(gameRun);
 			gameRun.CanViewDrawZoneActualOrder -= LastAppliedSeeOrder;
+			if (LastAppliedBlankCard > 0)
+				gameRun.RewardAndShopCardColorLimitFlag -= LastAppliedBlankCard;
 			// 1-0
 			var shop = MiniTracker.Instance?.CustomGrSaveData?.GetShopForCurrentProfile();
 			if (shop == null)
@@ -1106,6 +1121,7 @@ namespace lvalonmima.Source.Patches
 			bool appliedShopDiscount = false;
 			bool appliedScDiscount = false;
 			bool appliedSeeOrder = false;
+			bool appliedBlankCard = false;
 			foreach (string itemId in shop.AllItems)
 			{
 				ShopItem item = shop.GetItem(itemId);
@@ -1140,6 +1156,21 @@ namespace lvalonmima.Source.Patches
 							LastAppliedSeeOrder = item.CurrentTier;
 							BepinexPlugin.log.LogInfo($"[Lvalon's Roguelite Shop] Applied See Order: {gameRun.CanViewDrawZoneActualOrder}");
 							appliedSeeOrder = true;
+						}
+						break;
+					case "alter.wings":
+						if (!gameRun._mapModeOverriders.Contains(RogueliteCrosser.Instance))
+						{
+							gameRun._mapModeOverriders.Add(RogueliteCrosser.Instance);
+						}
+						break;
+					case "alter.blankcard":
+						if (!appliedBlankCard)
+						{
+							gameRun.RewardAndShopCardColorLimitFlag += 1;
+							LastAppliedBlankCard = 1;
+							BepinexPlugin.log.LogInfo($"[Lvalon's Roguelite Shop] Applied Blank Card: {gameRun.RewardAndShopCardColorLimitFlag}");
+							appliedBlankCard = true;
 						}
 						break;
 				}

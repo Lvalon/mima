@@ -133,22 +133,22 @@ namespace lvalonmima.Source.Patches
 			QuestProgress = new Dictionary<string, int>();
 			QuestRequirements = new Dictionary<string, string>();
 			QuestCompletedCards = new HashSet<string>(StringComparer.Ordinal);
-			MoneyOwned = 10000000;
+			MoneyOwned = 0;
 			ChallengerModeEnabled = false;
 			BPProgress = new Dictionary<string, int>();
 			RunModifiersByTimestamp = new Dictionary<string, List<(string, int)>>();
 			QuestModifiers = new Dictionary<string, int>();
 			Items = new Dictionary<string, ShopItem>();
-			AddItem(new ShopItem(init + "fp", new List<int> { 240, 1200, 3600 }, 0));
-			AddItem(new ShopItem(init + "sp", new List<int> { 160, 800, 2400 }, 0));
-			AddItem(new ShopItem(init + "hp", new List<int> { 200, 480, 1100, 2400, 4800 }, 0, 10));
+			AddItem(new ShopItem(init + "fp", new List<int> { 240, 1200, 3600, 14400, 28800 }, 0));
+			AddItem(new ShopItem(init + "sp", new List<int> { 160, 800, 2400, 9600, 19200 }, 0));
+			AddItem(new ShopItem(init + "hp", new List<int> { 200, 480, 1100, 2400, 4800, 9600, 14400, 19200, 24000, 28800 }, 0, 10));
 			AddItem(new ShopItem(init + "gold", new List<int> { 100, 200, 400, 800, 1600, 2400, 4800, 7200, 9600, 12000 }, 0, 10));
 			AddItem(new ShopItem(init + "card", new List<int> { 36000 }, 0));
 			AddItem(new ShopItem(init + "exhibit", new List<int> { 6000 }, 0));
 			AddItem(new ShopItem(init + "solo", new List<int> { 9000 }, 0, 1));
 
-			AddItem(new ShopItem(discount + "sc", new List<int> { 500, 5000 }, 0, 10));
-			AddItem(new ShopItem(discount + "shop", new List<int> { 1200, 5000, 7500, 15000 }, 0, 5));
+			AddItem(new ShopItem(discount + "sc", new List<int> { 500, 5000, 10000, 25000, 50000 }, 0, 10));
+			AddItem(new ShopItem(discount + "shop", new List<int> { 1200, 5000, 7500, 15000, 30000 }, 0, 5));
 			AddItem(new ShopItem(discount + "upgrade", new List<int> { 2500, 10000 }, 0, 25));
 			AddItem(new ShopItem(discount + "remove", new List<int> { 10000 }, 0, 25));
 
@@ -158,12 +158,14 @@ namespace lvalonmima.Source.Patches
 
 			AddItem(new ShopItem(battle + "block", new List<int> { 200, 500, 1200, 2750, 6000 }, 0, 2));
 			AddItem(new ShopItem(battle + "graze", new List<int> { 10000 }, 0));
-			AddItem(new ShopItem(battle + "heal", new List<int> { 100, 250, 800, 2400, 5700 }, 0));
+			AddItem(new ShopItem(battle + "heal", new List<int> { 100, 250, 800, 2400, 5700, 10000, 15000, 20000, 25000, 30000 }, 0));
 			AddItem(new ShopItem(battle + "seedraw", new List<int> { 1000 }, 0));
 			AddItem(new ShopItem(battle + "rolldiscard", new List<int> { 5000 }, 0, 1));
 			AddItem(new ShopItem(battle + "hacks", new List<int> { 1300 }, 0, 13));
 
 			AddItem(new ShopItem(alter + "freechoice", new List<int> { 12000 }, 0));
+			AddItem(new ShopItem(alter + "wings", new List<int> { 12000 }, 0));
+			AddItem(new ShopItem(alter + "blankcard", new List<int> { 24000 }, 0));
 
 			AddItem(new ShopItem(difficulty + "reverse", new List<int> { 0 }, 0));
 
