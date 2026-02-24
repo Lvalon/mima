@@ -34,9 +34,7 @@ namespace lvalonmima.Patches.Exhibits
 		{
 			if (exhibit is exquesting exquestingExhibit)
 			{
-				BepinexPlugin.log.LogInfo($"[EXQUESTING SAVE] CreateExhibitWidget using runtime state pending={exquestingExhibit.PendingQuestProgress.Count}, req={exquestingExhibit.QuestRequirements.Count}, rolled={exquestingExhibit.RolledQuestCards.Count}, soldOut={exquestingExhibit.SoldOutQuestSlots.Count}");
 
-				BepinexPlugin.log.LogInfo("[EXQUESTING UI] Detected exquesting being added to UI. Hijacking its click event.");
 				FieldInfo fieldInfo = AccessTools.Field(typeof(ExhibitWidget), "ExhibitClicked");
 				fieldInfo?.SetValue(__result, null);
 				__result.ExhibitClicked -= ExquestingUiLauncher.OnExhibitClicked;
@@ -110,7 +108,6 @@ namespace lvalonmima.Patches.Exhibits
 		{
 			if (__instance.GetComponent<ExquestingPanelMarker>() != null)
 			{
-				BepinexPlugin.log.LogDebug("[EXQUESTING UI] ShopPanel hide transition started; deferring custom layout restore until OnHided.");
 			}
 		}
 
@@ -141,7 +138,6 @@ namespace lvalonmima.Patches.Exhibits
 				return true;
 			}
 
-			BepinexPlugin.log.LogInfo("[EXQUESTING UI] Blocked SettingPanel open while Exquesting shop is active.");
 			return false;
 		}
 	}
@@ -176,14 +172,12 @@ namespace lvalonmima.Patches.Exhibits
 				_initialHadNextButton = true;
 				_initialNextButtonActive = vnPanel.nextButton.gameObject.activeSelf;
 				_initialStateCaptured = true;
-				BepinexPlugin.log.LogInfo($"[EXQUESTING UI] Remembering VnPanel.nextButton state: {_initialNextButtonActive}");
 			}
 			else
 			{
 				_initialHadNextButton = false;
 				_initialNextButtonActive = false;
 				_initialStateCaptured = true;
-				BepinexPlugin.log.LogInfo("[EXQUESTING UI] No VnPanel.nextButton present at open; will force-hide on close.");
 			}
 		}
 
@@ -194,7 +188,6 @@ namespace lvalonmima.Patches.Exhibits
 				return;
 			}
 
-			BepinexPlugin.log.LogInfo("[EXQUESTING UI] Applying custom empty shop layout.");
 
 			panel._quotedSomething = true;
 
@@ -307,7 +300,6 @@ namespace lvalonmima.Patches.Exhibits
 				return;
 			}
 
-			BepinexPlugin.log.LogInfo("[EXQUESTING UI] Restoring shop layout from custom empty mode.");
 			foreach (KeyValuePair<GameObject, bool> kv in _originalActiveStates)
 			{
 				kv.Key?.SetActive(kv.Value);
@@ -839,9 +831,8 @@ namespace lvalonmima.Patches.Exhibits
 					}
 				}
 			}
-			catch (global::System.Exception ex)
+			catch (System.Exception)
 			{
-				BepinexPlugin.log.LogDebug($"[EXQUESTING UI] Failed to invoke ShopCard refresh methods: {ex.Message}");
 			}
 		}
 
@@ -943,7 +934,6 @@ namespace lvalonmima.Patches.Exhibits
 
 				if (cardId == "")
 				{
-					BepinexPlugin.log.LogWarning("[EXQUESTING UI] Clicked card has no ID, cannot track quest progress.");
 				}
 
 				if (!interaction.IsCanceled && interaction.SelectedCards.Count > 0)
@@ -977,7 +967,6 @@ namespace lvalonmima.Patches.Exhibits
 						exhibit.MarkQuestSlotSoldOut(index);
 						item.IsSoldOut = true;
 						RefreshCustomSlotVisual(panel, index);
-						BepinexPlugin.log.LogInfo($"[EXQUESTING SAVE] UI action=Abandon quest={cardId}");
 					}
 					else
 					{
@@ -1013,11 +1002,9 @@ namespace lvalonmima.Patches.Exhibits
 						string lockedRequirement = exhibit.EnsureRequirementLockedForQuest(cardId);
 						if (!string.IsNullOrEmpty(lockedRequirement))
 						{
-							BepinexPlugin.log.LogInfo($"[EXQUESTING SAVE] UI action=LockRequirement quest={cardId} requirement={lockedRequirement}");
 						}
 
 						RefreshAcceptedSlotVisual(panel, index);
-						BepinexPlugin.log.LogInfo($"[EXQUESTING SAVE] UI action=Accept quest={cardId}");
 					}
 
 					exhibit.CleanupStaleQuestRequirements();
@@ -1060,52 +1047,43 @@ namespace lvalonmima.Patches.Exhibits
 			object battleObj = instance?.CurrentGameRun?.Battle;
 			if (battleObj != null)
 			{
-				BepinexPlugin.log.LogInfo("[EXQUESTING UI] In battle, exquesting click ignored.");
 				return;
 			}
 
 			if (IsInteractionActive())
 			{
-				BepinexPlugin.log.LogInfo("[EXQUESTING UI] Interaction active, exquesting click ignored.");
 				return;
 			}
 
-			BepinexPlugin.log.LogInfo("[EXQUESTING UI] Exhibit clicked - opening empty shop UI.");
 			ExquestingPanelController.SetInitialState();
 			GameRunController run = instance?.CurrentGameRun;
 			if (run == null)
 			{
-				BepinexPlugin.log.LogError("Cannot open exquesting panel: GameRun is not active.");
 				return;
 			}
 
 			exquesting exhibit = run.Player?.GetExhibit<exquesting>();
 			if (exhibit != null)
 			{
-				BepinexPlugin.log.LogInfo($"[EXQUESTING SAVE] OnExhibitClicked using runtime state pending={exhibit.PendingQuestProgress.Count}, req={exhibit.QuestRequirements.Count}, rolled={exhibit.RolledQuestCards.Count}, soldOut={exhibit.SoldOutQuestSlots.Count}");
 			}
 			else
 			{
-				BepinexPlugin.log.LogError("Cannot open exquesting panel: Exhibit instance not found.");
 				return;
 			}
 
 			ShopPanel panel = UiManager.GetPanel<ShopPanel>();
 			if (panel == null)
 			{
-				BepinexPlugin.log.LogError("ShopPanel is not loaded.");
 				return;
 			}
 
 			if (panel.IsVisible && panel.GetComponent<ExquestingPanelMarker>() == null)
 			{
-				BepinexPlugin.log.LogInfo("[EXQUESTING UI] Native ShopPanel is open; exquesting click ignored.");
 				return;
 			}
 
 			if (panel.IsVisible)
 			{
-				BepinexPlugin.log.LogInfo("[EXQUESTING UI] ShopPanel already visible, click ignored.");
 				return;
 			}
 
@@ -1138,7 +1116,6 @@ namespace lvalonmima.Patches.Exhibits
 			}
 			else
 			{
-				BepinexPlugin.log.LogError("ShopPanel is not loaded.");
 			}
 		}
 

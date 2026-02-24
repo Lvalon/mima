@@ -39,10 +39,8 @@ namespace lvalonmima.Source.Patches
 		{
 			if (s_loadedFromDiskCustomGrSaveData != null && !ReferenceEquals(s_loadedFromDiskCustomGrSaveData, data))
 			{
-				BepinexPlugin.log.LogWarning("[Lvalon's Roguelite Shop] A disk-registered LiteProfileSaveData was already registered; ignoring duplicate.");
 				return;
 			}
-			BepinexPlugin.log.LogInfo("[Lvalon's Roguelite Shop] Registered disk-loaded LiteProfileSaveData.");
 			s_loadedFromDiskCustomGrSaveData = data;
 		}
 
@@ -50,10 +48,8 @@ namespace lvalonmima.Source.Patches
 		{
 			if (CustomGrSaveData != null && !ReferenceEquals(CustomGrSaveData, data))
 			{
-				BepinexPlugin.log.LogError("[Lvalon's Roguelite Shop] Failed to register LiteProfileSaveData. An instance is already registered.");
 				return;
 			}
-			BepinexPlugin.log.LogInfo($"[Lvalon's Roguelite Shop] SetActive LiteProfileSaveData. Instance: {data.GetHashCode()}");
 			CustomGrSaveData = data;
 		}
 
@@ -61,7 +57,6 @@ namespace lvalonmima.Source.Patches
 		{
 			if (CustomGrSaveData == null && s_loadedFromDiskCustomGrSaveData != null)
 			{
-				BepinexPlugin.log.LogInfo("[Lvalon's Roguelite Shop] Merging loaded from disk into active.");
 				CustomGrSaveData = s_loadedFromDiskCustomGrSaveData;
 			}
 		}

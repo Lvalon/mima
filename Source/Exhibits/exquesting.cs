@@ -328,7 +328,6 @@ namespace lvalonmima.Exhibits
 			}
 
 			bool preserveAccepted = PendingQuestProgress != null && PendingQuestProgress.Count > 0;
-			BepinexPlugin.log.LogInfo($"[EXQUESTING SAVE] EnsureRolledQuestCards rolling preserveAccepted={preserveAccepted}, pendingCount={PendingQuestProgress?.Count ?? 0}");
 			RollQuestCards(preserveAccepted);
 		}
 
@@ -347,8 +346,6 @@ namespace lvalonmima.Exhibits
 			if (gameRun == null) // fallback
 			{
 				NeedsDeferredOpenSlotReroll = true;
-				BepinexPlugin.log.LogInfo($"[EXQUESTING SAVE] RollQuestCardsForSlots marked deferred reroll reason=GameRunNull count={count}");
-				BepinexPlugin.log.LogInfo($"[EXQUESTING SAVE] RollQuestCardsForSlots fallback reason=GameRunNull count={count}");
 				for (int i = 0; i < count; i++)
 				{
 					result.Add(Library.CreateCard<cardmimaexa>());
@@ -404,12 +401,10 @@ namespace lvalonmima.Exhibits
 						&& !excludedQuestCardIds.Contains(c.Id)
 						&& !conditionalExcludes.Contains(c.Id));
 			}
-			catch (InvalidOperationException ex)
+			catch (InvalidOperationException)
 			{
 				runNotReadyFallback = true;
 				NeedsDeferredOpenSlotReroll = true;
-				BepinexPlugin.log.LogInfo($"[EXQUESTING SAVE] RollQuestCardsForSlots marked deferred reroll reason=RunNotStarted count={count}");
-				BepinexPlugin.log.LogWarning($"[EXQUESTING SAVE] RollQuestCardsForSlots fallback reason=RunNotStarted count={count} stationLevel={stationLevel} error={ex.Message}");
 			}
 
 			if (!runNotReadyFallback)
@@ -460,7 +455,6 @@ namespace lvalonmima.Exhibits
 		{
 			if (acceptedSlotCards == null || slotsToPopulate == null || !PendingQuestProgress.Any())
 			{
-				BepinexPlugin.log.LogInfo($"[EXQUESTING SAVE] RestoreAcceptedSlotsFromPendingProgress skipped: acceptedSlotCardsNull={acceptedSlotCards == null}, slotsNull={slotsToPopulate == null}, pendingCount={PendingQuestProgress?.Count ?? 0}");
 				return;
 			}
 
@@ -478,21 +472,18 @@ namespace lvalonmima.Exhibits
 				string questCardId = kvp.Key;
 				if (string.IsNullOrEmpty(questCardId) || assignedQuestIds.Contains(questCardId))
 				{
-					BepinexPlugin.log.LogInfo($"[EXQUESTING SAVE] RestoreAcceptedSlotsFromPendingProgress skip quest={questCardId ?? "<null>"} alreadyAssigned={assignedQuestIds.Contains(questCardId ?? string.Empty)}");
 					continue;
 				}
 
 				int slot = GetNextOpenVisibleSlot(slotsToPopulate);
 				if (slot < 0)
 				{
-					BepinexPlugin.log.LogInfo($"[EXQUESTING SAVE] RestoreAcceptedSlotsFromPendingProgress no open visible slot for quest={questCardId}");
 					break;
 				}
 
 				Card restoredCard = Library.TryCreateCard(questCardId, false);
 				if (restoredCard == null)
 				{
-					BepinexPlugin.log.LogWarning($"[EXQUESTING SAVE] RestoreAcceptedSlotsFromPendingProgress failed to create card for quest={questCardId}");
 					continue;
 				}
 
@@ -500,29 +491,24 @@ namespace lvalonmima.Exhibits
 				acceptedSlotCards[slot] = restoredCard;
 				slotsToPopulate.Remove(slot);
 				assignedQuestIds.Add(questCardId);
-				BepinexPlugin.log.LogInfo($"[EXQUESTING SAVE] RestoreAcceptedSlotsFromPendingProgress restored quest={questCardId} to slot={slot}");
 			}
 
-			BepinexPlugin.log.LogInfo($"[EXQUESTING SAVE] RestoreAcceptedSlotsFromPendingProgress result acceptedSlots={acceptedSlotCards.Count}, remainingOpenSlots={string.Join(",", slotsToPopulate)}");
 		}
 
 		private bool ShouldRecoverRolledCardsAfterSync()
 		{
 			if (GameRun == null)
 			{
-				BepinexPlugin.log.LogInfo("[EXQUESTING SAVE] ShouldRecoverRolledCardsAfterSync=false reason=GameRunNull");
 				return false;
 			}
 
 			if (NeedsDeferredOpenSlotReroll)
 			{
-				BepinexPlugin.log.LogInfo("[EXQUESTING SAVE] ShouldRecoverRolledCardsAfterSync=true reason=DeferredOpenSlotReroll");
 				return true;
 			}
 
 			if (RolledQuestCards == null || RolledQuestCards.Count == 0)
 			{
-				BepinexPlugin.log.LogInfo("[EXQUESTING SAVE] ShouldRecoverRolledCardsAfterSync=true reason=NoRolledCards");
 				return true;
 			}
 
@@ -553,19 +539,16 @@ namespace lvalonmima.Exhibits
 
 				if (!foundAcceptedSlot)
 				{
-					BepinexPlugin.log.LogInfo($"[EXQUESTING SAVE] ShouldRecoverRolledCardsAfterSync=true reason=MissingAcceptedQuest quest={questCardId}");
 					return true;
 				}
 			}
 
-			BepinexPlugin.log.LogInfo("[EXQUESTING SAVE] ShouldRecoverRolledCardsAfterSync=false reason=AllAcceptedFound");
 			return false;
 		}
 
 
 		public void RollQuestCards(bool preserveAcceptedSlots)
 		{
-			BepinexPlugin.log.LogInfo($"[EXQUESTING SAVE] RollQuestCards begin preserveAcceptedSlots={preserveAcceptedSlots}, pending=[{FormatPendingQuestProgress()}], completed=[{FormatCompletedQuestCards()}], previousRolled=[{FormatRolledQuestSlots()}]");
 			Dictionary<int, Card> previousCards = new Dictionary<int, Card>(RolledQuestCards);
 			HashSet<int> previousSoldOutSlots = new HashSet<int>(SoldOutQuestSlots);
 			List<int> slotsToPopulate = new List<int>();
@@ -646,7 +629,6 @@ namespace lvalonmima.Exhibits
 				RecentlyClearedRolledQuestIds.Clear();
 			}
 
-			BepinexPlugin.log.LogInfo($"[EXQUESTING SAVE] RollQuestCards acceptedSlots={acceptedSlotCards.Count}, openVisibleSlots={slotsToPopulate.Count}, excludedQuestIds=[{string.Join(",", excludedQuestCardIds)}]");
 
 			List<Card> rolledForOpenSlots = RollQuestCardsForSlots(slotsToPopulate.Count, excludedQuestCardIds);
 			for (int i = 0; i < slotsToPopulate.Count; i++)
@@ -656,13 +638,11 @@ namespace lvalonmima.Exhibits
 				Card finalCard = rolledCard ?? Library.CreateCard<cardmimaexa>();
 				finalCard.GameRun = GameRun;
 				RolledQuestCards[slot] = finalCard;
-				BepinexPlugin.log.LogInfo($"[EXQUESTING SAVE] RollQuestCards assigned slot={slot} card={finalCard?.Id ?? "<null>"}");
 			}
 
 			PreRollQuestRequirementsForRolledCards(useGameRunRng: true);
 			CleanupStaleQuestRequirements();
 
-			BepinexPlugin.log.LogInfo($"[EXQUESTING UI] Rolled quest cards for station. entries={RolledQuestCards.Count}, slots=[{FormatRolledQuestSlots()}]");
 		}
 
 		public Card GetRolledQuestCard(int slotIndex)
@@ -802,7 +782,6 @@ namespace lvalonmima.Exhibits
 			}
 
 			CompletedQuestCards.Clear();
-			BepinexPlugin.log.LogInfo($"[EXQUESTING SAVE] FlushCompletedQuestStateAfterFullSave cleared completed=[{string.Join(", ", completedSnapshot)}]");
 		}
 
 		public void FinalizeQuestByCardId(string questCardId)
@@ -885,7 +864,6 @@ namespace lvalonmima.Exhibits
 		public List<ShopItem<Card>> BuildRolledShopCards(GameRunController run)
 		{
 			EnsureRolledQuestCards();
-			BepinexPlugin.log.LogInfo($"[EXQUESTING SAVE] BuildRolledShopCards begin pending=[{FormatPendingQuestProgress()}], rolled=[{FormatRolledQuestSlots()}]");
 			List<ShopItem<Card>> shopCards = new List<ShopItem<Card>>(10);
 			for (int i = 0; i < 10; i++)
 			{
@@ -909,7 +887,6 @@ namespace lvalonmima.Exhibits
 
 		public void SyncPendingQuestProgressFromPersistence(string reason)
 		{
-			BepinexPlugin.log.LogInfo($"[EXQUESTING SAVE] Sync begin reason={reason}, pendingBefore=[{FormatPendingQuestProgress()}], completedBefore=[{FormatCompletedQuestCards()}], rolledBefore=[{FormatRolledQuestSlots()}], requirementsBefore={QuestRequirements?.Count ?? 0}, modifiersBefore={PendingQuestModifiers?.Count ?? 0}");
 			bool allowRecoveryRoll = string.Equals(reason, "OnStationEntered", StringComparison.Ordinal)
 				|| string.Equals(reason, "OnExhibitClicked", StringComparison.Ordinal);
 			Dictionary<string, int> previousPendingProgress = new Dictionary<string, int>(PendingQuestProgress, StringComparer.Ordinal);
@@ -934,13 +911,11 @@ namespace lvalonmima.Exhibits
 			Dictionary<int, string> liteRolled = ShopModHandlers.ReadRolledQuestCardsFromLiteShop();
 			HashSet<int> runSold = ShopModHandlers.ReadSoldQuestSlotsFromRun(GameRun);
 			HashSet<int> liteSold = ShopModHandlers.ReadSoldQuestSlotsFromLiteShop();
-			BepinexPlugin.log.LogInfo($"[EXQUESTING SAVE] Sync runFlags reason={reason} runProgress=[{string.Join(", ", runProgress.Select(kvp => $"{kvp.Key}:{kvp.Value}"))}] runRequirements={runRequirements.Count} runCompleted={runCompleted.Count} runModifiers={runModifiers.Count}");
 
 			Dictionary<string, int> sourceProgress = runProgress;
 			Dictionary<string, string> sourceRequirements = runRequirements;
 			HashSet<string> sourceCompleted = runCompleted;
 			string sourceName = "RunFlags";
-			BepinexPlugin.log.LogInfo($"[EXQUESTING SAVE] Sync candidates reason={reason} useRestoreSnapshot={useRestoreSnapshot} runProgress={runProgress.Count} runRequirements={runRequirements.Count} runCompleted={runCompleted.Count}");
 			bool allowLiteFallback = !string.Equals(reason, "OnStationEntered", StringComparison.Ordinal);
 
 			if (useRestoreSnapshot)
@@ -948,7 +923,6 @@ namespace lvalonmima.Exhibits
 				Dictionary<string, int> liteProgress = ShopModHandlers.ReadQuestProgressFromLiteShop();
 				Dictionary<string, string> liteRequirements = ShopModHandlers.ReadQuestRequirementsFromLiteShop();
 				HashSet<string> liteCompleted = ShopModHandlers.ReadCompletedQuestCardsFromLiteShop();
-				BepinexPlugin.log.LogInfo($"[EXQUESTING SAVE] Sync restore snapshot reason={reason} liteProgress=[{string.Join(", ", liteProgress.Select(kvp => $"{kvp.Key}:{kvp.Value}"))}] liteRequirements={liteRequirements.Count} liteCompleted={liteCompleted.Count} runProgress={runProgress.Count} runRequirements={runRequirements.Count} runCompleted={runCompleted.Count}");
 
 				bool runHasQuestState = runProgress.Count > 0 || runRequirements.Count > 0 || runCompleted.Count > 0;
 				if (runHasQuestState)
@@ -972,7 +946,6 @@ namespace lvalonmima.Exhibits
 				Dictionary<string, int> liteProgress = ShopModHandlers.ReadQuestProgressFromLiteShop();
 				Dictionary<string, string> liteRequirements = ShopModHandlers.ReadQuestRequirementsFromLiteShop();
 				HashSet<string> liteCompleted = ShopModHandlers.ReadCompletedQuestCardsFromLiteShop();
-				BepinexPlugin.log.LogInfo($"[EXQUESTING SAVE] Sync lite candidates reason={reason} liteProgress={liteProgress.Count} liteRequirements={liteRequirements.Count} liteCompleted={liteCompleted.Count} runProgress={runProgress.Count} runRequirements={runRequirements.Count} runCompleted={runCompleted.Count}");
 				if (liteProgress.Count > 0)
 				{
 					sourceProgress = liteProgress;
@@ -998,7 +971,6 @@ namespace lvalonmima.Exhibits
 
 			if (sourceProgress.Count > 0 || sourceRequirements.Count > 0 || sourceCompleted.Count > 0 || runModifiers.Count > 0 || liteModifiers.Count > 0 || runRolled.Count > 0 || liteRolled.Count > 0)
 			{
-				BepinexPlugin.log.LogInfo($"[EXQUESTING SAVE] Sync source decision reason={reason} source={sourceName} selectedProgress={sourceProgress.Count} selectedRequirements={sourceRequirements.Count} selectedCompleted={sourceCompleted.Count}");
 				foreach (var kvp in sourceProgress)
 				{
 					PendingQuestProgress[kvp.Key] = kvp.Value;
@@ -1058,7 +1030,6 @@ namespace lvalonmima.Exhibits
 						}
 						else
 						{
-							BepinexPlugin.log.LogInfo($"[EXQUESTING SAVE] Sync could not create rolled card id={kvp.Value} for slot={kvp.Key}");
 						}
 					}
 
@@ -1070,9 +1041,8 @@ namespace lvalonmima.Exhibits
 						}
 					}
 				}
-				catch (Exception ex)
+				catch (Exception)
 				{
-					BepinexPlugin.log.LogInfo($"[EXQUESTING SAVE] Sync rolled restore failed: {ex.Message}");
 				}
 
 				bool preserveRuntimePendingOnStationEntered =
@@ -1096,7 +1066,6 @@ namespace lvalonmima.Exhibits
 						}
 					}
 
-					BepinexPlugin.log.LogInfo($"[EXQUESTING SAVE] Sync OnStationEntered preserved runtime pending because source had requirements-only fallback pending=[{FormatPendingQuestProgress()}]");
 				}
 
 				if (string.Equals(reason, "OnStationEntered", StringComparison.Ordinal) && previousCompletedQuestCards.Count > 0)
@@ -1108,7 +1077,6 @@ namespace lvalonmima.Exhibits
 							CompletedQuestCards.Add(questCardId);
 						}
 					}
-					BepinexPlugin.log.LogInfo($"[EXQUESTING SAVE] Sync OnStationEntered preserved runtime completed cards=[{string.Join(", ", previousCompletedQuestCards)}]");
 				}
 
 				if (string.Equals(reason, "OnStationEntered", StringComparison.Ordinal) && PendingQuestModifiers.Count == 0 && previousPendingQuestModifiers.Count > 0)
@@ -1117,7 +1085,6 @@ namespace lvalonmima.Exhibits
 					{
 						PendingQuestModifiers[kvp.Key] = kvp.Value;
 					}
-					BepinexPlugin.log.LogInfo($"[EXQUESTING SAVE] Sync OnStationEntered preserved runtime modifiers because persisted modifiers were empty count={PendingQuestModifiers.Count}");
 				}
 
 				if (CompletedQuestCards.Count > 0)
@@ -1133,13 +1100,11 @@ namespace lvalonmima.Exhibits
 
 				if (allowRecoveryRoll && ShouldRecoverRolledCardsAfterSync())
 				{
-					BepinexPlugin.log.LogInfo($"[EXQUESTING SAVE] Sync triggering RollQuestCards(preserveAcceptedSlots=true) reason={reason}");
 					RollQuestCards(true);
 				}
 
 				CleanupStaleQuestRequirements();
 
-				BepinexPlugin.log.LogInfo($"[EXQUESTING SAVE] Sync source={sourceName} reason={reason} entries={PendingQuestProgress.Count}, completed={CompletedQuestCards.Count}, pending=[{FormatPendingQuestProgress()}], completedCards=[{FormatCompletedQuestCards()}], rolled=[{FormatRolledQuestSlots()}], requirements={QuestRequirements.Count}, modifiers={PendingQuestModifiers.Count}");
 				bool syncLiteShop = !string.Equals(sourceName, "RunFlags", StringComparison.Ordinal)
 					|| PendingQuestProgress.Count > 0
 					|| CompletedQuestCards.Count > 0
@@ -1190,13 +1155,11 @@ namespace lvalonmima.Exhibits
 
 				RestoreCurrentRolledRequirements(rolledRequirementSnapshot);
 				CleanupStaleQuestRequirements();
-				BepinexPlugin.log.LogInfo($"[EXQUESTING SAVE] Sync source=EmptyPreservePrevious reason={reason} preservedPending=[{FormatPendingQuestProgress()}], preservedCompleted=[{FormatCompletedQuestCards()}], requirements={QuestRequirements.Count}, modifiers={PendingQuestModifiers.Count}");
 				return;
 			}
 
 			CleanupStaleQuestRequirements();
 
-			BepinexPlugin.log.LogInfo($"[EXQUESTING SAVE] Sync source=Empty reason={reason} entries={PendingQuestProgress.Count}, completed={CompletedQuestCards.Count}, pending=[{FormatPendingQuestProgress()}], completedCards=[{FormatCompletedQuestCards()}], rolled=[{FormatRolledQuestSlots()}], requirements={QuestRequirements.Count}, modifiers={PendingQuestModifiers.Count}");
 			ShopModHandlers.PersistQuestProgress(GameRun, PendingQuestProgress, syncToLiteShop: false, saveToDisk: false, questRequirements: QuestRequirements, completedQuestCards: CompletedQuestCards, writeToRunFlags: false, questModifiers: PendingQuestModifiers);
 		}
 
@@ -1208,7 +1171,6 @@ namespace lvalonmima.Exhibits
 		private string BuffDescriptions()
 		{
 			var buffs = PendingQuestModifiers;
-			BepinexPlugin.log.LogInfo($"[EXQUESTING UI] showingshowing QuestModifiers content foreach buff in buffs=[{(buffs != null ? string.Join(", ", buffs.Select(kvp => $"{kvp.Key}:{kvp.Value}")) : "null")}]");
 			if (buffs == null || buffs.Count == 0)
 			{
 				return string.Empty;
@@ -1282,9 +1244,8 @@ namespace lvalonmima.Exhibits
 					return string.Empty;
 				return rawText.RuntimeFormat(card.FormatWrapper);
 			}
-			catch (Exception ex)
+			catch (Exception)
 			{
-				BepinexPlugin.log.LogWarning($"[EXQUESTING UI] Failed to resolve quest description for card '{card.Id}' (ExtraDescription{desc}): {ex.Message}");
 				return string.Empty;
 			}
 		}
@@ -1294,12 +1255,10 @@ namespace lvalonmima.Exhibits
 			if (ShopSaveLoader.GetGameRunRestoreInProgress())
 			{
 				DeferredRestoreHydration.Add(this);
-				BepinexPlugin.log.LogInfo("[EXQUESTING SAVE] OnAdded deferred hydration until GameRunController.Restore postfix.");
 			}
 			else
 			{
 				SyncPendingQuestProgressFromPersistence("OnAdded");
-				BepinexPlugin.log.LogInfo($"[EXQUESTING SAVE] OnAdded registered state only pending=[{FormatPendingQuestProgress()}], requirements={QuestRequirements.Count}");
 			}
 
 			HandleGameRunEvent(GameRun.StationEntered, OnStationEntered, GameEventPriority.Lowest);
@@ -1324,24 +1283,19 @@ namespace lvalonmima.Exhibits
 				}
 
 				exhibit.SyncPendingQuestProgressFromPersistence("OnAddedDeferredAfterRestoreHydrateOnly");
-				BepinexPlugin.log.LogInfo($"[EXQUESTING SAVE] OnAddedDeferredAfterRestoreHydrateOnly complete pending=[{exhibit.FormatPendingQuestProgress()}], requirements={exhibit.QuestRequirements.Count}");
 			}
 		}
 
 		private void OnStationEntered(StationEventArgs args)
 		{
-			BepinexPlugin.log.LogInfo("[EXQUESTING SAVE] OnStationEntered begin: hydrate quest state first, then roll with accepted-slot lock.");
 			SyncPendingQuestProgressFromPersistence("OnStationEntered");
 			UnlockCompletedQuestSlots();
-			BepinexPlugin.log.LogInfo($"[EXQUESTING SAVE] OnStationEntered post-sync pending=[{FormatPendingQuestProgress()}], completed=[{FormatCompletedQuestCards()}], requirements={QuestRequirements.Count}");
 			ShopModHandlers.QueueResolveCompletedQuestEffectsOnStationEnter(GameRun, this);
 			if (CompletedQuestCards.Count > 0)
 			{
-				BepinexPlugin.log.LogInfo($"[EXQUESTING SAVE] OnStationEntered preserving completed cards for deferred resolution=[{FormatCompletedQuestCards()}]");
 			}
 			bool preserveAccepted = PendingQuestProgress.Count > 0;
 			RollQuestCards(preserveAccepted);
-			BepinexPlugin.log.LogInfo($"[EXQUESTING SAVE] OnStationEntered rolled preserveAccepted={preserveAccepted}, pending=[{FormatPendingQuestProgress()}], rolled=[{FormatRolledQuestSlots()}]");
 			RefreshRolledQuestRequirementsForSave();
 			ShopModHandlers.PersistQuestProgress(GameRun, PendingQuestProgress, syncToLiteShop: true, saveToDisk: true, questRequirements: QuestRequirements, completedQuestCards: CompletedQuestCards, questModifiers: PendingQuestModifiers);
 		}

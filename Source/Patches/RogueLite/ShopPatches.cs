@@ -138,9 +138,8 @@ namespace lvalonmima.Source.Patches
 				_watermarkDisabled = false;
 				UpdateChallengerModeWatermark(__instance);
 			}
-			catch (Exception ex)
+			catch (Exception)
 			{
-				BepinexPlugin.log?.LogError($"[Challenger Watermark] {ex}");
 			}
 		}
 
@@ -155,9 +154,8 @@ namespace lvalonmima.Source.Patches
 						SetWatermarkActive(board, false, null);
 				}
 			}
-			catch (Exception ex)
+			catch (Exception)
 			{
-				BepinexPlugin.log?.LogError($"[Challenger Watermark] Disable failed: {ex}");
 			}
 		}
 
@@ -683,11 +681,9 @@ namespace lvalonmima.Source.Patches
 			var filePath = GetSaveFilePath();
 			if (_loadFailed && File.Exists(filePath))
 			{
-				BepinexPlugin.log.LogWarning("[Lvalon's Roguelite Shop] Previous load failed; skipping save to avoid overwriting existing data.");
 				return;
 			}
 
-			BepinexPlugin.log.LogInfo("[Lvalon's Roguelite Shop] Saving shop data to disk...");
 			var customData = MiniTracker.Instance.CustomGrSaveData;
 			var csd = customData;
 			var shop = customData?.GetShopForCurrentProfile();
@@ -738,7 +734,6 @@ namespace lvalonmima.Source.Patches
 					shop.QuestCompletedCards = persistedCompleted;
 					shop.QuestModifiers = persistedModifiers;
 
-					BepinexPlugin.log.LogInfo($"[EXQUESTING SAVE] ShopSaveLoader.Save snapshot: runtimeProgress={originalQuestProgress.Count}, persistedProgress={persistedProgress.Count}, runtimeRequirements={originalQuestRequirements.Count}, persistedRequirements={persistedRequirements.Count}, runtimeCompleted={originalCompletedQuestCards.Count}, persistedCompleted={persistedCompleted.Count}, runtimeModifiers={originalQuestModifiers.Count}, persistedModifiers={persistedModifiers.Count}");
 				}
 
 				// csd.Save(); // Note: csd.Save() adds BluePoints from current run, usually not desired if just saving shop state from menu.
@@ -753,11 +748,9 @@ namespace lvalonmima.Source.Patches
 				var encryptedData = Encrypt(data);
 
 				WriteSaveData(SaveFileName, encryptedData);
-				BepinexPlugin.log.LogInfo("[Lvalon's Roguelite Shop] Save complete (encrypted).");
 			}
-			catch (Exception ex)
+			catch (Exception)
 			{
-				BepinexPlugin.log.LogError($"[Lvalon's Roguelite Shop] Error while saving custom save data: {ex}");
 			}
 			finally
 			{
@@ -773,12 +766,10 @@ namespace lvalonmima.Source.Patches
 
 		public static void Load(string location)
 		{
-			BepinexPlugin.log.LogInfo($"[Lvalon's Roguelite Shop] Attempting to load shop data from context: {location}");
 			_pendingRestoreQuestHydration = string.Equals(location, "GameRunController.Restore", StringComparison.Ordinal);
 			var customData = MiniTracker.Instance.CustomGrSaveData ?? MiniTracker.LoadedFromDiskCustomGrSaveData;
 			if (customData == null)
 			{
-				BepinexPlugin.log.LogError("[Lvalon's Roguelite Shop] CustomGrSaveData is null during load. Cannot determine type or converters.");
 				_pendingRestoreQuestHydration = false;
 				return;
 			}
@@ -792,14 +783,12 @@ namespace lvalonmima.Source.Patches
 
 			if (!File.Exists(filePath))
 			{
-				BepinexPlugin.log.LogInfo($"[Lvalon's Roguelite Shop] Save file not found at {filePath}");
 				_pendingRestoreQuestHydration = false;
 				return;
 			}
 
 			try
 			{
-				BepinexPlugin.log.LogInfo($"[Lvalon's Roguelite Shop] Found save file. Deserializing...");
 				var deBuilder = new DeserializerBuilder().IgnoreUnmatchedProperties();
 				csd.TypeConverters().Do((tc) => { deBuilder = deBuilder.WithTypeConverter(tc); });
 
@@ -819,13 +808,11 @@ namespace lvalonmima.Source.Patches
 
 				loadedData.Restore();
 				_loadFailed = false;
-				BepinexPlugin.log.LogInfo("[Lvalon's Roguelite Shop] Load complete and restored.");
 			}
-			catch (Exception ex)
+			catch (Exception)
 			{
 				_loadFailed = true;
 				_pendingRestoreQuestHydration = false;
-				BepinexPlugin.log.LogError($"[Lvalon's Roguelite Shop] Error while loading custom save data {filePath}: {ex}");
 			}
 		}
 	}
@@ -848,7 +835,6 @@ namespace lvalonmima.Source.Patches
 		static void Postfix()
 		{
 			// 2do maybe. Optimize memory usage by not storing container values statically.
-			BepinexPlugin.log.LogInfo("[Lvalon's Roguelite Shop] GameRunController.Save called.");
 			var customData = MiniTracker.Instance.CustomGrSaveData;
 
 			customData.Save(0, false);
@@ -887,7 +873,6 @@ namespace lvalonmima.Source.Patches
 	{
 		static void Postfix(GameStatisticData data)
 		{
-			BepinexPlugin.log.LogInfo("[Lvalon's Roguelite Shop] CoAbandonGameRun called.");
 			var customData = MiniTracker.Instance.CustomGrSaveData;
 			try
 			{
@@ -897,9 +882,8 @@ namespace lvalonmima.Source.Patches
 				// Serialize to disk
 				ShopSaveLoader.Save();
 			}
-			catch (Exception ex)
+			catch (Exception)
 			{
-				BepinexPlugin.log.LogError($"[Lvalon's Roguelite Shop] Error while saving custom save data (Abandon): {ex}");
 			}
 		}
 	}
@@ -975,7 +959,6 @@ namespace lvalonmima.Source.Patches
 				{
 					shop.BPProgress.TryGetValue("stage", out indexSTAGE);
 					shop.BPProgress.TryGetValue("level", out levelSTATION);
-					BepinexPlugin.log.LogInfo($"[Lvalon's Roguelite Shop] {fullId} BPProgress stage={indexSTAGE} level={levelSTATION}");
 				}
 
 				bool skipReward = false;
@@ -1016,7 +999,6 @@ namespace lvalonmima.Source.Patches
 				if (skipReward)
 					continue;
 
-				BepinexPlugin.log.LogInfo($"[Lvalon's Roguelite Shop] Adding score entry for {fullId} with base delta {delta} and diffMult {diffMult}");
 
 				EnsureLocalizationKey(fullId + ".Name");
 				EnsureLocalizationKey(fullId + ".Description");
@@ -1144,9 +1126,8 @@ namespace lvalonmima.Source.Patches
 				shop.RunModifiersByTimestamp[record.SaveTimestamp] = modifiers;
 				ShopSaveLoader.Save();
 			}
-			catch (Exception ex)
+			catch (Exception)
 			{
-				BepinexPlugin.log.LogError($"[Lvalon's Roguelite Shop] Failed to store run modifiers: {ex}");
 			}
 		}
 	}
@@ -1160,9 +1141,8 @@ namespace lvalonmima.Source.Patches
 			{
 				HistoryPanelChallengerHistory.EnsureChallengerHistoryUi(__instance);
 			}
-			catch (Exception ex)
+			catch (Exception)
 			{
-				BepinexPlugin.log.LogError($"[Lvalon's Roguelite Shop] Failed to setup history UI: {ex}");
 			}
 		}
 	}
@@ -1176,9 +1156,8 @@ namespace lvalonmima.Source.Patches
 			{
 				HistoryPanelChallengerHistory.UpdateChallengerHistoryUi(__instance, record);
 			}
-			catch (Exception ex)
+			catch (Exception)
 			{
-				BepinexPlugin.log.LogError($"[Lvalon's Roguelite Shop] Failed to update history UI: {ex}");
 			}
 		}
 	}
@@ -1405,7 +1384,6 @@ namespace lvalonmima.Source.Patches
 	// 		}
 	// 		catch (Exception)
 	// 		{
-	// 			BepinexPlugin.log.LogError($"Error while deleting custom save data");
 	// 		}
 	// 	}
 	// }

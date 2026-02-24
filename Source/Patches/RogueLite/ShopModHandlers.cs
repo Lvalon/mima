@@ -68,7 +68,6 @@ namespace lvalonmima.Source.Patches
 			var result = new Dictionary<string, int>(StringComparer.Ordinal);
 			if (gameRun?.ExtraFlags == null)
 			{
-				BepinexPlugin.log.LogInfo("[EXQUESTING SAVE] ReadQuestProgressFromRun: no GameRun/ExtraFlags.");
 				return result;
 			}
 
@@ -90,7 +89,6 @@ namespace lvalonmima.Source.Patches
 				result[cardId] = progress;
 			}
 
-			BepinexPlugin.log.LogInfo($"[EXQUESTING SAVE] ReadQuestProgressFromRun: entries={result.Count} [{FormatQuestProgress(result)}]");
 
 			return result;
 		}
@@ -105,7 +103,6 @@ namespace lvalonmima.Source.Patches
 			var result = new Dictionary<string, string>(StringComparer.Ordinal);
 			if (gameRun?.ExtraFlags == null)
 			{
-				BepinexPlugin.log.LogInfo("[EXQUESTING SAVE] ReadQuestRequirementsFromRun: no GameRun/ExtraFlags.");
 				return result;
 			}
 
@@ -127,7 +124,6 @@ namespace lvalonmima.Source.Patches
 				result[cardId] = encodedRequirement;
 			}
 
-			BepinexPlugin.log.LogInfo($"[EXQUESTING SAVE] ReadQuestRequirementsFromRun: entries={result.Count}");
 
 			return result;
 		}
@@ -137,7 +133,6 @@ namespace lvalonmima.Source.Patches
 			var result = new Dictionary<int, string>();
 			if (gameRun?.ExtraFlags == null)
 			{
-				BepinexPlugin.log.LogInfo("[EXQUESTING SAVE] ReadRolledQuestCardsFromRun: no GameRun/ExtraFlags.");
 				return result;
 			}
 
@@ -159,7 +154,6 @@ namespace lvalonmima.Source.Patches
 				result[slot] = cardId;
 			}
 
-			BepinexPlugin.log.LogInfo($"[EXQUESTING SAVE] ReadRolledQuestCardsFromRun: entries={result.Count}");
 			return result;
 		}
 
@@ -168,7 +162,6 @@ namespace lvalonmima.Source.Patches
 			var result = new HashSet<int>();
 			if (gameRun?.ExtraFlags == null)
 			{
-				BepinexPlugin.log.LogInfo("[EXQUESTING SAVE] ReadSoldQuestSlotsFromRun: no GameRun/ExtraFlags.");
 				return result;
 			}
 
@@ -182,7 +175,6 @@ namespace lvalonmima.Source.Patches
 					result.Add(slot);
 			}
 
-			BepinexPlugin.log.LogInfo($"[EXQUESTING SAVE] ReadSoldQuestSlotsFromRun: entries={result.Count}");
 			return result;
 		}
 
@@ -191,7 +183,6 @@ namespace lvalonmima.Source.Patches
 			var result = new HashSet<string>(StringComparer.Ordinal);
 			if (gameRun?.ExtraFlags == null)
 			{
-				BepinexPlugin.log.LogInfo("[EXQUESTING SAVE] ReadCompletedQuestCardsFromRun: no GameRun/ExtraFlags.");
 				return result;
 			}
 
@@ -207,7 +198,6 @@ namespace lvalonmima.Source.Patches
 				result.Add(questCardId);
 			}
 
-			BepinexPlugin.log.LogInfo($"[EXQUESTING SAVE] ReadCompletedQuestCardsFromRun: entries={result.Count} [{string.Join(", ", result)}]");
 			return result;
 		}
 
@@ -217,7 +207,6 @@ namespace lvalonmima.Source.Patches
 			var shop = MiniTracker.Instance?.CustomGrSaveData?.GetShopForCurrentProfile();
 			if (shop == null)
 			{
-				BepinexPlugin.log.LogInfo("[EXQUESTING SAVE] ReadRolledQuestCardsFromLiteShop: no profile or lite shop.");
 				return result;
 			}
 			if (shop.QuestRolledSlots == null)
@@ -229,7 +218,6 @@ namespace lvalonmima.Source.Patches
 					continue;
 				result[kvp.Key] = kvp.Value;
 			}
-			BepinexPlugin.log.LogInfo($"[EXQUESTING SAVE] ReadRolledQuestCardsFromLiteShop: entries={result.Count}");
 			return result;
 		}
 
@@ -239,14 +227,12 @@ namespace lvalonmima.Source.Patches
 			var shop = MiniTracker.Instance?.CustomGrSaveData?.GetShopForCurrentProfile();
 			if (shop == null)
 			{
-				BepinexPlugin.log.LogInfo("[EXQUESTING SAVE] ReadSoldQuestSlotsFromLiteShop: no profile or lite shop.");
 				return result;
 			}
 			if (shop.QuestSoldSlots == null)
 				return result;
 			foreach (int slot in shop.QuestSoldSlots)
 				result.Add(slot);
-			BepinexPlugin.log.LogInfo($"[EXQUESTING SAVE] ReadSoldQuestSlotsFromLiteShop: entries={result.Count}");
 			return result;
 		}
 
@@ -255,7 +241,6 @@ namespace lvalonmima.Source.Patches
 			var result = new Dictionary<string, int>(StringComparer.Ordinal);
 			if (gameRun?.ExtraFlags == null)
 			{
-				BepinexPlugin.log.LogInfo("[EXQUESTING SAVE] ReadQuestModifiersFromRun: no GameRun/ExtraFlags.");
 				return result;
 			}
 
@@ -277,7 +262,6 @@ namespace lvalonmima.Source.Patches
 				result[cardId] = stack;
 			}
 
-			BepinexPlugin.log.LogInfo($"[EXQUESTING SAVE] ReadQuestModifiersFromRun: entries={result.Count} [{string.Join(", ", result.Select(kvp => $"{kvp.Key}:{kvp.Value}"))}]");
 			return result;
 		}
 		public static Dictionary<string, int> ReadQuestProgressFromLiteShop()
@@ -286,7 +270,6 @@ namespace lvalonmima.Source.Patches
 			var shop = MiniTracker.Instance?.CustomGrSaveData?.GetShopForCurrentProfile();
 			if (shop?.QuestProgress == null)
 			{
-				BepinexPlugin.log.LogInfo("[EXQUESTING SAVE] ReadQuestProgressFromLiteShop: no profile or quest progress.");
 				return result;
 			}
 
@@ -298,7 +281,6 @@ namespace lvalonmima.Source.Patches
 				result[kvp.Key] = kvp.Value;
 			}
 
-			BepinexPlugin.log.LogInfo($"[EXQUESTING SAVE] ReadQuestProgressFromLiteShop: entries={result.Count} [{FormatQuestProgress(result)}]");
 			return result;
 		}
 
@@ -308,7 +290,6 @@ namespace lvalonmima.Source.Patches
 			var shop = MiniTracker.Instance?.CustomGrSaveData?.GetShopForCurrentProfile();
 			if (shop?.QuestRequirements == null)
 			{
-				BepinexPlugin.log.LogInfo("[EXQUESTING SAVE] ReadQuestRequirementsFromLiteShop: no profile or quest requirements.");
 				return result;
 			}
 
@@ -320,7 +301,6 @@ namespace lvalonmima.Source.Patches
 				result[kvp.Key] = kvp.Value;
 			}
 
-			BepinexPlugin.log.LogInfo($"[EXQUESTING SAVE] ReadQuestRequirementsFromLiteShop: entries={result.Count}");
 			return result;
 		}
 
@@ -330,7 +310,6 @@ namespace lvalonmima.Source.Patches
 			var shop = MiniTracker.Instance?.CustomGrSaveData?.GetShopForCurrentProfile();
 			if (shop?.QuestCompletedCards == null)
 			{
-				BepinexPlugin.log.LogInfo("[EXQUESTING SAVE] ReadCompletedQuestCardsFromLiteShop: no profile or completed quests.");
 				return result;
 			}
 
@@ -342,7 +321,6 @@ namespace lvalonmima.Source.Patches
 				}
 			}
 
-			BepinexPlugin.log.LogInfo($"[EXQUESTING SAVE] ReadCompletedQuestCardsFromLiteShop: entries={result.Count} [{string.Join(", ", result)}]");
 			return result;
 		}
 
@@ -352,7 +330,6 @@ namespace lvalonmima.Source.Patches
 			var shop = MiniTracker.Instance?.CustomGrSaveData?.GetShopForCurrentProfile();
 			if (shop?.QuestModifiers == null)
 			{
-				BepinexPlugin.log.LogInfo("[EXQUESTING SAVE] ReadQuestModifiersFromLiteShop: no profile or quest modifiers.");
 				return result;
 			}
 
@@ -364,7 +341,6 @@ namespace lvalonmima.Source.Patches
 				result[kvp.Key] = kvp.Value;
 			}
 
-			BepinexPlugin.log.LogInfo($"[EXQUESTING SAVE] ReadQuestModifiersFromLiteShop: entries={result.Count} [{string.Join(", ", result.Select(kvp => $"{kvp.Key}:{kvp.Value}"))}]");
 			return result;
 		}
 
@@ -389,7 +365,6 @@ namespace lvalonmima.Source.Patches
 			IEnumerable<string> completedForLog = completedQuestCards != null
 				? (IEnumerable<string>)completedQuestCards
 				: Array.Empty<string>();
-			BepinexPlugin.log.LogInfo($"[EXQUESTING SAVE] PersistQuestProgress: syncToLiteShop={syncToLiteShop}, saveToDisk={saveToDisk}, writeToRunFlags={writeToRunFlags}, entries={(pendingQuestProgress?.Count ?? 0)} [{FormatQuestProgress(pendingQuestProgress)}], reqEntries={(questRequirements?.Count ?? 0)}, completedEntries={(completedQuestCards?.Count ?? 0)} [{string.Join(", ", completedForLog)}], completedPersisted={completedToPersist.Count}, modifierEntries={(modifiersToPersist?.Count ?? -1)}");
 
 			if (writeToRunFlags && gameRun?.ExtraFlags != null)
 			{
@@ -483,9 +458,8 @@ namespace lvalonmima.Source.Patches
 						}
 					}
 				}
-				catch (Exception ex)
+				catch (Exception)
 				{
-					BepinexPlugin.log.LogInfo($"[EXQUESTING SAVE] Persist rolled/sold flags failed: {ex.Message}");
 				}
 
 
@@ -541,9 +515,8 @@ namespace lvalonmima.Source.Patches
 							shop.QuestSoldSlots = new HashSet<int>();
 						}
 					}
-					catch (Exception ex)
+					catch (Exception)
 					{
-						BepinexPlugin.log.LogInfo($"[EXQUESTING SAVE] Persist to lite shop rolled/sold failed: {ex.Message}");
 					}
 
 					// persist rolled and sold slots into lite shop as well
@@ -567,12 +540,10 @@ namespace lvalonmima.Source.Patches
 		{
 			if (gameRun == null || exhibit == null || exhibit.CompletedQuestCards == null || exhibit.CompletedQuestCards.Count == 0)
 			{
-				BepinexPlugin.log.LogInfo($"[EXQUESTING SAVE] QueueResolveCompletedQuestEffectsOnStationEnter skipped gameRunNull={gameRun == null} exhibitNull={exhibit == null} completedCount={(exhibit?.CompletedQuestCards?.Count ?? 0)}");
 				return;
 			}
 
 			HashSet<string> completedSnapshot = new HashSet<string>(exhibit.CompletedQuestCards, StringComparer.Ordinal);
-			BepinexPlugin.log.LogInfo($"[EXQUESTING SAVE] QueueResolveCompletedQuestEffectsOnStationEnter queued completed=[{string.Join(", ", completedSnapshot)}]");
 			GameMaster.Instance?.StartCoroutine(CoResolveCompletedQuestEffectsOnStationEnter(gameRun, exhibit, completedSnapshot));
 		}
 
@@ -583,7 +554,6 @@ namespace lvalonmima.Source.Patches
 
 			// Run after station enter initialization so vanilla restore/state hydration does not overwrite effects.
 			yield return null;
-			BepinexPlugin.log.LogInfo($"[EXQUESTING SAVE] CoResolveCompletedQuestEffectsOnStationEnter begin completed=[{string.Join(", ", completedSnapshot)}], baseDeckCount={(gameRun.BaseDeck?.Count ?? -1)}");
 			HashSet<string> consumedCompleted = new HashSet<string>(StringComparer.Ordinal);
 
 			foreach (string questCardId in completedSnapshot)
@@ -593,7 +563,6 @@ namespace lvalonmima.Source.Patches
 
 				if (exhibit.IsFreshlyCompletedQuestCard(questCardId))
 				{
-					BepinexPlugin.log.LogInfo($"[EXQUESTING SAVE] CoResolveCompletedQuestEffectsOnStationEnter skip fresh completion quest={questCardId}; preserving for restart replay.");
 					exhibit.ClearFreshQuestCompletion(questCardId);
 					continue;
 				}
@@ -610,7 +579,6 @@ namespace lvalonmima.Source.Patches
 							{
 								if (attempt > 0)
 								{
-									BepinexPlugin.log.LogInfo($"[EXQUESTING SAVE] CoResolveCompletedQuestEffectsOnStationEnter quest4 found cardgenji after retries attempt={attempt}");
 								}
 								break;
 							}
@@ -628,11 +596,9 @@ namespace lvalonmima.Source.Patches
 							gameRun.RemoveDeckCard(genji);
 							gameRun.GainPower((int)card.Config.Value2);
 							gameRun.Heal((int)card.Config.Value2);
-							BepinexPlugin.log.LogInfo($"[EXQUESTING SAVE] CoResolveCompletedQuestEffectsOnStationEnter quest4 applied value2={card.Config.Value2} hp={hpBefore}->{gameRun.Player?.Hp ?? -1} maxHp={maxHpBefore}->{gameRun.Player?.MaxHp ?? -1} power={powerBefore}->{gameRun.Player?.Power ?? -1}");
 						}
 						else
 						{
-							BepinexPlugin.log.LogInfo($"[EXQUESTING SAVE] CoResolveCompletedQuestEffectsOnStationEnter quest4 no-op genjiMissing={genji == null} cardNull={card == null}; treating as already resolved.");
 						}
 						consumedCompleted.Add(questCardId);
 						break;
@@ -648,7 +614,6 @@ namespace lvalonmima.Source.Patches
 								{
 									if (attempt > 0)
 									{
-										BepinexPlugin.log.LogInfo($"[EXQUESTING SAVE] CoResolveCompletedQuestEffectsOnStationEnter quest10 found shadows after retries attempt={attempt} shadows={shadowCount}");
 									}
 									break;
 								}
@@ -675,11 +640,9 @@ namespace lvalonmima.Source.Patches
 									SourceType = VisualSourceType.Entity,
 									Source = exhibit,
 								});
-								BepinexPlugin.log.LogInfo($"[EXQUESTING SAVE] CoResolveCompletedQuestEffectsOnStationEnter quest10 applied shadowsRemoved={shadows.Count} value2={card2.Config.Value2} hp={hpBefore}->{gameRun.Player?.Hp ?? -1} maxHp={maxHpBefore}->{gameRun.Player?.MaxHp ?? -1} money={moneyBefore}->{gameRun.Money}");
 							}
 							else
 							{
-								BepinexPlugin.log.LogInfo($"[EXQUESTING SAVE] CoResolveCompletedQuestEffectsOnStationEnter quest10 no-op insufficient shadows after retries shadows={shadows.Count} required={card2.Value20}; treating as already resolved.");
 							}
 						}
 						consumedCompleted.Add(questCardId);
@@ -721,11 +684,9 @@ namespace lvalonmima.Source.Patches
 					}
 				}
 
-				BepinexPlugin.log.LogInfo($"[EXQUESTING SAVE] CoResolveCompletedQuestEffectsOnStationEnter consumed completed=[{string.Join(", ", consumedCompleted)}], remainingCompleted=[{string.Join(", ", exhibit.CompletedQuestCards)}], soldOutCount={exhibit.SoldOutQuestSlots.Count}");
 			}
 
 			// Persist post-resolution state to avoid regression on immediate reload.
-			BepinexPlugin.log.LogInfo($"[EXQUESTING SAVE] CoResolveCompletedQuestEffectsOnStationEnter persisting pendingEntries={(exhibit.PendingQuestProgress?.Count ?? 0)} completedEntries={(exhibit.CompletedQuestCards?.Count ?? 0)}");
 			PersistQuestProgress(gameRun, exhibit.PendingQuestProgress, syncToLiteShop: true, saveToDisk: true, questRequirements: exhibit.QuestRequirements, completedQuestCards: exhibit.CompletedQuestCards, questModifiers: exhibit.PendingQuestModifiers);
 		}
 
@@ -883,7 +844,6 @@ namespace lvalonmima.Source.Patches
 				&& shop.BPProgress.TryGetValue("level", out int recordedLevel)
 				&& recordedStage == stageIndex && recordedLevel == stationLevel)
 			{
-				BepinexPlugin.log.LogInfo($"[Lvalon's Roguelite Shop] StationEnteredBlitz: skipping already-processed station stage={stageIndex} level={stationLevel}");
 				return;
 			}
 
@@ -1035,7 +995,6 @@ namespace lvalonmima.Source.Patches
 			if (shop == null)
 				return;
 
-			BepinexPlugin.log.LogInfo($"[EXQUESTING SAVE] StationEntered: stage={gameRun.Stages?.IndexOf(gameRun.CurrentStage) ?? -1}, level={gameRun.CurrentStation?.Level ?? -1}, shopQuestEntries={shop.QuestProgress?.Count ?? 0} [{FormatQuestProgress(shop.QuestProgress)}]");
 
 			if (!shop.ChallengerModeEnabled)
 				return;
@@ -1069,7 +1028,6 @@ namespace lvalonmima.Source.Patches
 						// Persist runtime pending progress from the station we're leaving so it won't be
 						// overwritten by the persistence sync on the station we're entering.
 						PersistQuestProgress(gameRun, prevExhibit.PendingQuestProgress, syncToLiteShop: true, saveToDisk: false, questRequirements: prevExhibit.QuestRequirements, completedQuestCards: prevExhibit.CompletedQuestCards, writeToRunFlags: true, questModifiers: prevExhibit.PendingQuestModifiers);
-						BepinexPlugin.log.LogInfo($"[EXQUESTING SAVE] StationEntered persisted runtime pending from previous station: [{FormatQuestProgress(prevExhibit.PendingQuestProgress)}]");
 					}
 				}
 			}
@@ -1078,7 +1036,6 @@ namespace lvalonmima.Source.Patches
 			shop.BPProgress["stage"] = stageIndex;
 			shop.BPProgress["level"] = stationLevel;
 
-			BepinexPlugin.log.LogInfo($"[Lvalon's Roguelite Shop] Station entered: stageIndex={stageIndex}, stationLevel={stationLevel}");
 
 			MiniTracker.Instance.CustomGrSaveData.Save(0, false);
 			ShopSaveLoader.Save();  //save progress on the spot
@@ -1111,7 +1068,6 @@ namespace lvalonmima.Source.Patches
 							break;
 						case "discount.remove":
 							gameRun.ShopRemoveCardCounter -= 1;
-							BepinexPlugin.log.LogInfo($"[Lvalon's Roguelite Shop] Applied starting Remove discount: {gameRun.ShopRemoveCardCounter}");
 							break;
 					}
 				}
@@ -1135,7 +1091,6 @@ namespace lvalonmima.Source.Patches
 						{
 							double discountMultiplier = Math.Max(0.0, 1.0 - (0.1 * item.CurrentTier));
 							gameRun.Player.Us.Config.PowerCost = toolbox.Round(gameRun.Player.Us.Config.PowerCost * discountMultiplier);
-							BepinexPlugin.log.LogInfo($"[Lvalon's Roguelite Shop] Applied SC discount multiplier: {gameRun.Player.Us.Config.PowerCost}");
 							appliedScDiscount = true;
 						}
 						break;
@@ -1145,7 +1100,6 @@ namespace lvalonmima.Source.Patches
 							float discountFactor = (float)Math.Max(0.0, 1.0 - (0.05 * item.CurrentTier));
 							gameRun.ShopPriceMultiplier *= discountFactor;
 							LastAppliedShopDiscountFactor = discountFactor;
-							BepinexPlugin.log.LogInfo($"[Lvalon's Roguelite Shop] Applied Shop discount factor: {gameRun.ShopPriceMultiplier}");
 							appliedShopDiscount = true;
 						}
 						break;
@@ -1154,7 +1108,6 @@ namespace lvalonmima.Source.Patches
 						{
 							gameRun.CanViewDrawZoneActualOrder += item.CurrentTier;
 							LastAppliedSeeOrder = item.CurrentTier;
-							BepinexPlugin.log.LogInfo($"[Lvalon's Roguelite Shop] Applied See Order: {gameRun.CanViewDrawZoneActualOrder}");
 							appliedSeeOrder = true;
 						}
 						break;
@@ -1169,7 +1122,6 @@ namespace lvalonmima.Source.Patches
 						{
 							gameRun.RewardAndShopCardColorLimitFlag += 1;
 							LastAppliedBlankCard = 1;
-							BepinexPlugin.log.LogInfo($"[Lvalon's Roguelite Shop] Applied Blank Card: {gameRun.RewardAndShopCardColorLimitFlag}");
 							appliedBlankCard = true;
 						}
 						break;
@@ -1198,7 +1150,6 @@ namespace lvalonmima.Source.Patches
 						|| flag.StartsWith(QuestCompletedFlagPrefix, StringComparison.Ordinal)));
 			}
 
-			BepinexPlugin.log.LogInfo("[EXQUESTING SAVE] ResetQuestStateForNewRun: cleared progress/requirements/completed for first station of new run.");
 		}
 
 		internal static int GetUpgradeDiscount(GameRunController gameRun)
@@ -1825,7 +1776,6 @@ namespace lvalonmima.Source.Patches
 				}
 				else
 				{
-					BepinexPlugin.log.LogError($"[Lvalon's Roguelite Shop] HandleEndBattleChallenges: Failed to create card for id {cards}");
 				}
 			}
 
@@ -1973,7 +1923,6 @@ namespace lvalonmima.Source.Patches
 				bool ok = exhibit.PendingQuestProgress.TryGetValue(card.Id, out var progress);
 				if (!ok)
 				{
-					BepinexPlugin.log.LogError($"[Lvalon's Roguelite Shop] HandleEndBattleChallenges: Failed to get progress for card {card.Id}");
 					continue;
 				}
 				exhibit.PendingQuestProgress[card.Id] = ++progress;

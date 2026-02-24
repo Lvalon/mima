@@ -1,11 +1,11 @@
 {
   "Title": "Mima",
-  "Description": "(EN/繁/簡)\nAdds Mima to the game.\n將魅魔加入遊戲。",
-  "Brief": "(EN/繁/簡)\nAdds Mima to the game.\n將魅魔加入遊戲。",
+  "Description": "(EN/繁/簡)\nAdds Mima to the game, also introduces the Roguelite Shop.\n將魅魔加入遊戲，並引入 Roguelite 商店。",
+  "Brief": "(EN/繁/簡)\nAdds Mima to the game, also introduces the Roguelite Shop.\n將魅魔加入遊戲，並引入 Roguelite 商店。",
   "Changelog": [
-    "v0.1.7:\nMinor bugfixes.\nView the full changelog in CHANGELOG.md."
+    "v0.2.0:\nAdded the entire Roguelite Shop.\nView the full changelog in CHANGELOG.md."
   ],
-  "Version": "0.1.7",
+  "Version": "0.2.0",
   "Author": "Lvalon",
   "Tags": [
     "Character",

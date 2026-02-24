@@ -127,7 +127,6 @@ namespace lvalonmima.Source.Patches
 		// 	if (bluePoint > 0)
 		// 	{
 		// 		shop.AddMoney(bluePoint);
-		// 		BepinexPlugin.log.LogInfo($"[Lvalon's Roguelite Shop] Added {bluePoint} blue points to shop for profile key {GetActiveRunProfileKey()}");
 		// 	}
 		// 	ClearActiveRunProfileKey();
 		// }
@@ -141,7 +140,6 @@ namespace lvalonmima.Source.Patches
 			int adjusted = ApplyNormalizeSaveRules(shop, GameMaster.Instance?.CurrentGameRun, amount);
 			if (adjusted > 0)
 			{
-				BepinexPlugin.log.LogInfo($"[Lvalon's Roguelite Shop] Added {adjusted} blue points to shop for profile key {GetActiveRunProfileKey()}");
 				shop.AddMoney(adjusted);
 			}
 			if (ending)
@@ -173,28 +171,23 @@ namespace lvalonmima.Source.Patches
 		{
 			try
 			{
-				BepinexPlugin.log.LogInfo("[Lvalon's Roguelite Shop] LiteProfileSaveData.Restore called.");
 				var active = MiniTracker.Instance.CustomGrSaveData;
 				if (active == null)
 				{
 					ReconcileSaves(Saves);
 					// No active instance; set this deserialized instance as active
-					BepinexPlugin.log.LogInfo("[Lvalon's Roguelite Shop] No active instance found. Setting this instance as active.");
 					MiniTracker.Instance.SetActive(this);
 					return;
 				}
 
-				BepinexPlugin.log.LogInfo($"[Lvalon's Roguelite Shop] Merging {Saves.Count} saved profiles into active instance.");
 				// Merge saved shops into active instance
 				foreach (var kv in Saves)
 				{
-					BepinexPlugin.log.LogInfo($"[Lvalon's Roguelite Shop] Merging profile key: {kv.Key}");
 					active.Saves[kv.Key] = LiteShop.ReconcileWithDefaults(kv.Value);
 				}
 			}
-			catch (Exception ex)
+			catch (Exception)
 			{
-				BepinexPlugin.log.LogError($"[Lvalon's Roguelite Shop] Error merging LiteProfileSaveData on Restore: {ex}");
 			}
 		}
 

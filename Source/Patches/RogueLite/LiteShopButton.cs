@@ -64,9 +64,9 @@ namespace lvalonmima.Source.Patches
 				// }
 
 				// Set font before building tabs to ensure correct height calculations
-				__instance.descriptionText.font = TMPro.TMP_Settings.defaultFontAsset ?? __instance.descriptionText.font;
-				__instance.descriptionText.fontWeight = TMPro.FontWeight.Regular;
-				__instance.descriptionText.fontStyle = TMPro.FontStyles.Normal;
+				__instance.descriptionText.font = TMP_Settings.defaultFontAsset ?? __instance.descriptionText.font;
+				__instance.descriptionText.fontWeight = FontWeight.Regular;
+				__instance.descriptionText.fontStyle = FontStyles.Normal;
 
 				// rebuild tabs AFTER vanilla clearing to support default tab
 				PrepareLiteShopPanel(__instance);
@@ -110,14 +110,12 @@ namespace lvalonmima.Source.Patches
 				var preferenceTab = __instance.tabs.FirstOrDefault(t => t.name == "Preference");
 				if (preferenceTab == null)
 				{
-					BepinexPlugin.log.LogWarning("[Lvalon's Roguelite Shop] Could not find Preference tab for button template");
 					return;
 				}
 
 				var rightPanel = preferenceTab.transform.Find("RightPanel");
 				if (rightPanel == null)
 				{
-					BepinexPlugin.log.LogWarning("[Lvalon's Roguelite Shop] Could not find RightPanel for button template");
 					return;
 				}
 
@@ -125,22 +123,18 @@ namespace lvalonmima.Source.Patches
 				if (resetHint != null)
 				{
 					_buttonTemplate = resetHint.gameObject;
-					BepinexPlugin.log.LogInfo("[Lvalon's Roguelite Shop] Button template loaded successfully");
 					// Capture boot locale here because SettingPanel.Awake runs on startup
 					if (!_bootLocale.HasValue)
 					{
 						_bootLocale = LBoL.Core.Localization.CurrentLocale;
-						BepinexPlugin.log.LogInfo($"[Lvalon's Roguelite Shop] Captured boot locale: {_bootLocale}");
 					}
 				}
 				else
 				{
-					BepinexPlugin.log.LogWarning("[Lvalon's Roguelite Shop] Could not find ResetHint button template");
 				}
 			}
-			catch (Exception ex)
+			catch (Exception)
 			{
-				BepinexPlugin.log.LogError($"[Lvalon's Roguelite Shop] Failed to load button template: {ex}");
 			}
 		}
 
@@ -207,9 +201,8 @@ namespace lvalonmima.Source.Patches
 				if (newBtnGO.GetComponent<ShopLabelUpdater>() == null)
 					newBtnGO.AddComponent<ShopLabelUpdater>();
 			}
-			catch (Exception ex)
+			catch (Exception)
 			{
-				BepinexPlugin.log.LogError("[Lvalon's Roguelite Shop] Failed to add main menu button: " + ex);
 			}
 		}
 
@@ -315,20 +308,17 @@ namespace lvalonmima.Source.Patches
 			var menuShop = GetMenuShop();
 			if (menuShop == null)
 			{
-				BepinexPlugin.log.LogWarning("[Lvalon's Roguelite Shop] Shop instance is null, cannot toggle Challenger Mode");
 				return;
 			}
 
 			if (HasActiveGameRun())
 			{
-				BepinexPlugin.log.LogWarning("[Lvalon's Roguelite Shop] Challenger Mode cannot be toggled during an active game run.");
 				return;
 			}
 
 			menuShop.ChallengerModeEnabled = !menuShop.ChallengerModeEnabled;
 			UpdateMainMenuButtonLabel();
 			ShopSaveLoader.Save();
-			BepinexPlugin.log.LogInfo($"[Lvalon's Roguelite Shop] Challenger Mode toggled to: {menuShop.ChallengerModeEnabled}");
 		}
 		private static void ShowLiteShopCategory(ComplexRulesPanel panel, string categoryId)
 		{
@@ -548,12 +538,12 @@ namespace lvalonmima.Source.Patches
 				// Add TextMeshProUGUI
 				var textComponent = textContainer.AddComponent<TextMeshProUGUI>();
 				textComponent.text = text;
-				textComponent.font = TMPro.TMP_Settings.defaultFontAsset ?? panel.descriptionText.font;
-				textComponent.fontWeight = TMPro.FontWeight.Regular;
-				textComponent.fontStyle = TMPro.FontStyles.Normal;
+				textComponent.font = TMP_Settings.defaultFontAsset ?? panel.descriptionText.font;
+				textComponent.fontWeight = FontWeight.Regular;
+				textComponent.fontStyle = FontStyles.Normal;
 				textComponent.fontSize = panel.descriptionText.fontSize;
 				textComponent.color = Color.white;
-				textComponent.textWrappingMode = TMPro.TextWrappingModes.Normal;
+				textComponent.textWrappingMode = TextWrappingModes.Normal;
 				textComponent.alignment = TextAlignmentOptions.TopLeft;
 				textComponent.margin = new Vector4(0, 0, 0, 0);
 
@@ -566,9 +556,8 @@ namespace lvalonmima.Source.Patches
 				panel._entityList.Add(textContainer);
 				return rectTransform;
 			}
-			catch (Exception ex)
+			catch (Exception)
 			{
-				BepinexPlugin.log.LogError($"[Lvalon's Roguelite Shop] Failed to create item text: {ex}");
 				return null;
 			}
 		}
@@ -616,9 +605,8 @@ namespace lvalonmima.Source.Patches
 				var handler = raycastObj.AddComponent<LoadoutItemTooltip>();
 				handler.SetData(textComp, tooltip, anchorRect, tooltipMap);
 			}
-			catch (Exception ex)
+			catch (Exception)
 			{
-				BepinexPlugin.log.LogError($"[Lvalon's Roguelite Shop] Failed to attach loadout tooltip: {ex}");
 			}
 		}
 
@@ -915,9 +903,8 @@ namespace lvalonmima.Source.Patches
 				).WithPosition(TooltipDirection.Bottom, TooltipAlignment.Min);
 				panel._entityList.Add(buttonObj);
 			}
-			catch (Exception ex)
+			catch (Exception)
 			{
-				BepinexPlugin.log.LogError($"[Lvalon's Roguelite Shop] Failed to create purchase button for {itemId}: {ex}");
 			}
 		}
 
@@ -953,9 +940,8 @@ namespace lvalonmima.Source.Patches
 				).WithPosition(TooltipDirection.Bottom, TooltipAlignment.Min);
 				panel._entityList.Add(buttonObj);
 			}
-			catch (Exception ex)
+			catch (Exception)
 			{
-				BepinexPlugin.log.LogError($"[Lvalon's Roguelite Shop] Failed to create refund button for {itemId}: {ex}");
 			}
 		}
 
@@ -965,7 +951,6 @@ namespace lvalonmima.Source.Patches
 			{
 				if (_currentShop == null)
 				{
-					BepinexPlugin.log.LogWarning("[Lvalon's Roguelite Shop] Shop instance is null, cannot purchase");
 					return;
 				}
 
@@ -983,7 +968,6 @@ namespace lvalonmima.Source.Patches
 					else
 					{
 						// AudioManager.PlaySfx("SystemFx_Error");
-						BepinexPlugin.log.LogWarning($"[Lvalon's Roguelite Shop] Failed to purchase {itemId}");
 					}
 				}
 
@@ -998,9 +982,8 @@ namespace lvalonmima.Source.Patches
 
 				PurchaseItem();
 			}
-			catch (Exception ex)
+			catch (Exception)
 			{
-				BepinexPlugin.log.LogError($"[Lvalon's Roguelite Shop] Error during purchase of {itemId}: {ex}");
 			}
 		}
 
@@ -1010,7 +993,6 @@ namespace lvalonmima.Source.Patches
 			{
 				if (_currentShop == null)
 				{
-					BepinexPlugin.log.LogWarning("[Lvalon's Roguelite Shop] Shop instance is null, cannot refund");
 					return;
 				}
 
@@ -1026,12 +1008,10 @@ namespace lvalonmima.Source.Patches
 				else
 				{
 					// AudioManager.PlaySfx("SystemFx_Error");
-					BepinexPlugin.log.LogWarning($"[Lvalon's Roguelite Shop] Cannot refund {itemId}, tier is 0");
 				}
 			}
-			catch (Exception ex)
+			catch (Exception)
 			{
-				BepinexPlugin.log.LogError($"[Lvalon's Roguelite Shop] Error during refund of {itemId}: {ex}");
 			}
 		}
 
@@ -1069,9 +1049,8 @@ namespace lvalonmima.Source.Patches
 
 				panel._entityList.Add(buttonObj);
 			}
-			catch (Exception ex)
+			catch (Exception)
 			{
-				BepinexPlugin.log.LogError($"[Lvalon's Roguelite Shop] Failed to create Challenger Mode toggle: {ex}");
 			}
 		}
 
@@ -1109,7 +1088,6 @@ namespace lvalonmima.Source.Patches
 
 			if (_buttonTemplate == null)
 			{
-				BepinexPlugin.log.LogWarning("[Lvalon's Roguelite Shop] Button template not loaded, cannot create button");
 				return false;
 			}
 
@@ -1165,13 +1143,11 @@ namespace lvalonmima.Source.Patches
 			{
 				if (HasActiveGameRun())
 				{
-					BepinexPlugin.log.LogWarning("[Lvalon's Roguelite Shop] Challenger Mode cannot be toggled during an active game run.");
 					return;
 				}
 
 				if (_currentShop == null)
 				{
-					BepinexPlugin.log.LogWarning("[Lvalon's Roguelite Shop] Shop instance is null, cannot toggle Challenger Mode");
 					return;
 				}
 
@@ -1189,11 +1165,9 @@ namespace lvalonmima.Source.Patches
 				// Save immediately to persist changes
 				ShopSaveLoader.Save();
 
-				BepinexPlugin.log.LogInfo($"[Lvalon's Roguelite Shop] Challenger Mode toggled to: {_currentShop.ChallengerModeEnabled}");
 			}
-			catch (Exception ex)
+			catch (Exception)
 			{
-				BepinexPlugin.log.LogError($"[Lvalon's Roguelite Shop] Error toggling Challenger Mode: {ex}");
 			}
 		}
 
@@ -1543,6 +1517,8 @@ namespace lvalonmima.Source.Patches
 
 			[(Locale.En, $"{ShopPrefix}{AlterPrefix}freechoice")] = "I Knew It",
 			[(Locale.En, $"{ShopPrefix}{AlterPrefix}freechoice.Desc")] = "The |Challenger| can successfully identify the true culprit without needing any items.",
+			[(Locale.En, $"{ShopPrefix}{AlterPrefix}wings")] = "Gives You Wings",
+			[(Locale.En, $"{ShopPrefix}{AlterPrefix}wings.Desc")] = "The |Challenger| may ignore paths when choosing the next level.",
 			[(Locale.En, $"{ShopPrefix}{AlterPrefix}blankcard")] = "Unlimited Experience",
 			[(Locale.En, $"{ShopPrefix}{AlterPrefix}blankcard.Desc")] = "Cards of all colors are added to the card pool.",
 

@@ -1,11 +1,13 @@
 # Changelog / 更新日誌
 
-## [0.1.7] - 2026-1-
+## [0.2.0] - 2026-2-24
 
 ### Added / 新增
 
+- The entire Roguelite Shop.
 - New card art by Radal!
 
+- 整個 Roguelite 商店。
 - Radal 提供的新卡圖！
 
 ### Changes / 改動
@@ -102,7 +104,7 @@
 
 - 1.7.0 支援。
 
-[0.1.7]: https://thunderstore.io/package/download/Lvalon/Mima/0.1.7/
+[0.2.0]: https://thunderstore.io/package/download/Lvalon/Mima/0.2.0/
 [0.1.6]: https://thunderstore.io/package/download/Lvalon/Mima/0.1.6/
 [0.1.5]: https://thunderstore.io/package/download/Lvalon/Mima/0.1.5/
 [0.1.4]: https://thunderstore.io/package/download/Lvalon/Mima/0.1.4/
