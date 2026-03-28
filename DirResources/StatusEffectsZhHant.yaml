@@ -201,6 +201,7 @@ seplayleft:
   Description: "只能打出最左的可打出（無視費用）手牌。\n打出牌後移除{SelfName}。"
   Brief: "只能打出最左的可打出（無視費用）手牌。\n打出牌後移除{SelfName}。"
   Name: 命中注定
+  seerror: "我只想打那張牌！"
 
 seistone:
   Description: "這是一張|異變石|牌。|異變石|不能被|升級|。"

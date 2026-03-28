@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using HarmonyLib;
 using LBoL.Base;
 using LBoL.Base.Extensions;
@@ -41,6 +42,8 @@ namespace lvalonmima.Source.Patches
 	public class ShopModHandlers
 	{
 		private static readonly Dictionary<string, int> BaseScPowerCosts = new Dictionary<string, int>();
+		// Panels that started an UpgradeCard flow and are awaiting confirmation.
+		internal static readonly System.Collections.Generic.HashSet<GapOptionsPanel> UpgradeStartedPanels = new System.Collections.Generic.HashSet<GapOptionsPanel>();
 		private const string FreeChoiceBlockedFlag = "shop.freechoice.blocked";
 		private const string RemoveDiscountAppliedPrefix = "shop.remove.applied:";
 		private const string QuestProgressFlagPrefix = "exquesting.quest:";
@@ -53,6 +56,14 @@ namespace lvalonmima.Source.Patches
 		private static float LastAppliedShopDiscountFactor = 1f;
 		private static int LastAppliedSeeOrder = 0;
 		private static int LastAppliedBlankCard = 0;
+		private sealed class StartupDraftWorkItem
+		{
+			public GameRunController GameRun;
+			public IEnumerator Routine;
+			public Action OnCompleted;
+		}
+		private static readonly Queue<StartupDraftWorkItem> StartupDraftQueue = new Queue<StartupDraftWorkItem>();
+		private static bool StartupDraftQueueRunning;
 		private static HashSet<string> battleChallenges = new HashSet<string>();
 		private static List<Card> quest5ToRmv;
 		private static int quest15played;
@@ -342,6 +353,32 @@ namespace lvalonmima.Source.Patches
 			}
 
 			return result;
+		}
+
+		public static void RecordRewardedQuestCompletion(string questCardId)
+		{
+			if (string.IsNullOrEmpty(questCardId))
+				return;
+
+			var customData = MiniTracker.Instance?.CustomGrSaveData;
+			var shop = customData?.GetShopForCurrentProfile();
+			if (shop == null || !shop.ChallengerModeEnabled)
+				return;
+
+
+			shop.CurrentRunCompletedQuests ??= new List<string>();
+			shop.CurrentRunCompletedQuests.Add(questCardId);
+
+			customData.Save(0, false);
+			ShopSaveLoader.Save();
+		}
+
+		public static void ResetCurrentRunRewardedQuestCompletions(LiteShop shop)
+		{
+			if (shop == null)
+				return;
+
+			shop.CurrentRunCompletedQuests = new List<string>();
 		}
 
 		public static void PersistQuestProgress(GameRunController gameRun, IDictionary<string, int> pendingQuestProgress, bool syncToLiteShop, bool saveToDisk, IDictionary<string, string> questRequirements, ISet<string> completedQuestCards = null, bool writeToRunFlags = true, IDictionary<string, int> questModifiers = null)
@@ -812,6 +849,7 @@ namespace lvalonmima.Source.Patches
 						}
 						exhibit.FinalizeQuestByCardId(questCardId);
 						exhibit.MarkQuestCompleted(questCardId);
+						RecordRewardedQuestCompletion(questCardId);
 						questProgressChanged = true;
 					}
 				}
@@ -876,32 +914,50 @@ namespace lvalonmima.Source.Patches
 
 				switch (questCardId)
 				{
-					case nameof(cardquest4) when gameRun.BaseDeck.Any(c => c.Id == nameof(cardgenji)):
-						exhibit.PendingQuestProgress[questCardId] = ++progress;
-						questProgressChanged = true;
-
-						if (progress >= card.Config.Value1)
+					case nameof(cardquest4):
+						if (gameRun.BaseDeck.Any(c => c.Id == nameof(cardgenji)))
 						{
-							gameRun.RemoveDeckCard(gameRun.BaseDeck.FirstOrDefault(c => c.Id == nameof(cardgenji)));
-							gameRun.GainPower((int)card.Config.Value2);
-							gameRun.Heal((int)card.Config.Value2);
+							exhibit.PendingQuestProgress[questCardId] = ++progress;
+							questProgressChanged = true;
+
+							if (progress >= card.Config.Value1)
+							{
+								gameRun.RemoveDeckCard(gameRun.BaseDeck.FirstOrDefault(c => c.Id == nameof(cardgenji)));
+								gameRun.GainPower((int)card.Config.Value2);
+								gameRun.Heal((int)card.Config.Value2);
+								exhibit.FinalizeQuestByCardId(questCardId);
+								exhibit.MarkQuestCompleted(questCardId);
+								RecordRewardedQuestCompletion(questCardId);
+							}
+						}
+						else
+						{
 							exhibit.FinalizeQuestByCardId(questCardId);
 							exhibit.MarkQuestCompleted(questCardId);
 						}
 						break;
-					case nameof(cardquest10) when gameRun.BaseDeck.Count(c => c.Id == nameof(LBoL.EntityLib.Cards.Neutral.Black.Shadow)) >= ((cardquest10)card).Value20:
-						exhibit.PendingQuestProgress[questCardId] = ++progress;
-						questProgressChanged = true;
-
-						if (progress >= card.Config.Value1)
+					case nameof(cardquest10):
+						if (gameRun.BaseDeck.Count(c => c.Id == nameof(LBoL.EntityLib.Cards.Neutral.Black.Shadow)) >= ((cardquest10)card).Value20)
 						{
-							gameRun.RemoveDeckCards(gameRun.BaseDeck.Where(c => c.Id == nameof(LBoL.EntityLib.Cards.Neutral.Black.Shadow)).Take(((cardquest10)card).Value20).ToList());
-							gameRun.Heal((int)card.Config.Value2);
-							gameRun.GainMoney((int)card.Config.Value2 * 10, true, new VisualSourceData
+							exhibit.PendingQuestProgress[questCardId] = ++progress;
+							questProgressChanged = true;
+
+							if (progress >= card.Config.Value1)
 							{
-								SourceType = VisualSourceType.Entity,
-								Source = exhibit,
-							});
+								gameRun.RemoveDeckCards(gameRun.BaseDeck.Where(c => c.Id == nameof(LBoL.EntityLib.Cards.Neutral.Black.Shadow)).Take(((cardquest10)card).Value20).ToList());
+								gameRun.Heal((int)card.Config.Value2);
+								gameRun.GainMoney((int)card.Config.Value2 * 10, true, new VisualSourceData
+								{
+									SourceType = VisualSourceType.Entity,
+									Source = exhibit,
+								});
+								exhibit.FinalizeQuestByCardId(questCardId);
+								exhibit.MarkQuestCompleted(questCardId);
+								RecordRewardedQuestCompletion(questCardId);
+							}
+						}
+						else
+						{
 							exhibit.FinalizeQuestByCardId(questCardId);
 							exhibit.MarkQuestCompleted(questCardId);
 						}
@@ -915,6 +971,7 @@ namespace lvalonmima.Source.Patches
 							exhibit.PendingQuestModifiers[card.Id] = ++stack;
 							exhibit.FinalizeQuestByCardId(questCardId);
 							exhibit.MarkQuestCompleted(questCardId);
+							RecordRewardedQuestCompletion(questCardId);
 						}
 						break;
 					case nameof(cardquest27) when gameRun.CurrentStation.Type == StationType.Boss:
@@ -926,6 +983,7 @@ namespace lvalonmima.Source.Patches
 							exhibit.PendingQuestModifiers[card.Id] = ++stack;
 							exhibit.FinalizeQuestByCardId(questCardId);
 							exhibit.MarkQuestCompleted(questCardId);
+							RecordRewardedQuestCompletion(questCardId);
 						}
 						break;
 					case nameof(cardquest28) when gameRun.CurrentStation.Type == StationType.Boss:
@@ -937,6 +995,7 @@ namespace lvalonmima.Source.Patches
 							exhibit.PendingQuestModifiers[card.Id] = ++stack;
 							exhibit.FinalizeQuestByCardId(questCardId);
 							exhibit.MarkQuestCompleted(questCardId);
+							RecordRewardedQuestCompletion(questCardId);
 						}
 						break;
 					case nameof(cardquest29) when gameRun.CurrentStation.Type == StationType.Boss:
@@ -948,6 +1007,7 @@ namespace lvalonmima.Source.Patches
 							exhibit.PendingQuestModifiers[card.Id] = ++stack;
 							exhibit.FinalizeQuestByCardId(questCardId);
 							exhibit.MarkQuestCompleted(questCardId);
+							RecordRewardedQuestCompletion(questCardId);
 						}
 						break;
 					case nameof(cardquest30) when gameRun.CurrentStation.Type == StationType.Boss:
@@ -959,6 +1019,7 @@ namespace lvalonmima.Source.Patches
 							exhibit.PendingQuestModifiers[card.Id] = ++stack;
 							exhibit.FinalizeQuestByCardId(questCardId);
 							exhibit.MarkQuestCompleted(questCardId);
+							RecordRewardedQuestCompletion(questCardId);
 						}
 						break;
 					default:
@@ -1114,7 +1175,7 @@ namespace lvalonmima.Source.Patches
 					case "alter.wings":
 						if (!gameRun._mapModeOverriders.Contains(RogueliteCrosser.Instance))
 						{
-							gameRun._mapModeOverriders.Add(RogueliteCrosser.Instance);
+							GameMaster.Instance?.StartCoroutine(CoAddMapModeOverrider(gameRun, RogueliteCrosser.Instance));
 						}
 						break;
 					case "alter.blankcard":
@@ -1131,6 +1192,16 @@ namespace lvalonmima.Source.Patches
 				LastAppliedShopDiscountFactor = 1f;
 		}
 
+		private static IEnumerator CoAddMapModeOverrider(GameRunController gameRun, IMapModeOverrider overrider)
+		{
+			// defer addition to avoid modifying enumerated collections during event dispatch
+			yield return null;
+			if (gameRun != null && !gameRun._mapModeOverriders.Contains(overrider))
+			{
+				gameRun._mapModeOverriders.Add(overrider);
+			}
+		}
+
 		private static void ResetQuestStateForNewRun(GameRunController gameRun, LiteShop shop)
 		{
 			if (shop != null)
@@ -1139,6 +1210,7 @@ namespace lvalonmima.Source.Patches
 				shop.QuestRequirements = new Dictionary<string, string>(StringComparer.Ordinal);
 				shop.QuestCompletedCards = new HashSet<string>(StringComparer.Ordinal);
 				shop.QuestModifiers = new Dictionary<string, int>(StringComparer.Ordinal);
+				ResetCurrentRunRewardedQuestCompletions(shop);
 			}
 
 			if (gameRun?.ExtraFlags != null)
@@ -1253,9 +1325,19 @@ namespace lvalonmima.Source.Patches
 			return gameRun?.ExtraFlags?.Contains(FreeChoiceBlockedFlag) == true;
 		}
 
-		private static IEnumerator DraftCardFromPrev(int num, GameRunController GameRun)
+		private static IEnumerator DraftCardFromPrev(int num, GameRunController gameRun)
 		{
-			GameRunController gameRun = GameRun;
+			if (gameRun == null || num <= 0)
+				yield break;
+
+			bool completed = false;
+			EnqueueStartupDraft(gameRun, CoDraftCardFromPrev(num, gameRun), () => completed = true);
+			while (!completed)
+				yield return null;
+		}
+
+		private static IEnumerator CoDraftCardFromPrev(int num, GameRunController gameRun)
+		{
 			var historyLast = GameMaster.GetGameRunHistory()?.LastOrDefault();
 			if (historyLast == null)
 				yield break;
@@ -1273,14 +1355,26 @@ namespace lvalonmima.Source.Patches
 				CanCancel = false,
 				Description = GetLocalizedText($"{LocalisationKeys.ShopPrefix}{LocalisationKeys.InitPrefix}card")
 			};
-			yield return GameRun.InteractionViewer.View(interaction);
+			yield return gameRun.InteractionViewer.View(interaction);
 			if (interaction.SelectedCards == null || interaction.SelectedCards.Count == 0)
 				yield break;
-			GameRun.AddDeckCards(interaction.SelectedCards, true, null);
+			gameRun.AddDeckCards(interaction.SelectedCards, true, null);
 		}
 
 		private static IEnumerator DraftExhibitFromPrev(int num, GameRunController gameRun)
 		{
+			if (gameRun == null || num <= 0)
+				yield break;
+
+			bool completed = false;
+			EnqueueStartupDraft(gameRun, CoDraftExhibitFromPrev(num, gameRun), () => completed = true);
+			while (!completed)
+				yield return null;
+		}
+
+		private static IEnumerator CoDraftExhibitFromPrev(int num, GameRunController gameRun)
+		{
+			yield return null;
 			var historyLast = GameMaster.GetGameRunHistory()?.LastOrDefault()?.Exhibits ?? Array.Empty<string>();
 			Stage stage = gameRun.CurrentStage;
 			for (int i = 0; i < num; i++)
@@ -1294,6 +1388,131 @@ namespace lvalonmima.Source.Patches
 					GameMaster.DebugGainExhibit(exhibit);
 			}
 			yield break;
+		}
+
+		private static void EnqueueStartupDraft(GameRunController gameRun, IEnumerator routine, Action onCompleted)
+		{
+			if (routine == null)
+			{
+				onCompleted?.Invoke();
+				return;
+			}
+
+			StartupDraftQueue.Enqueue(new StartupDraftWorkItem
+			{
+				GameRun = gameRun,
+				Routine = routine,
+				OnCompleted = onCompleted,
+			});
+
+			if (StartupDraftQueueRunning)
+				return;
+
+			GameMaster.Instance?.StartCoroutine(CoRunStartupDraftQueue());
+		}
+
+		private static IEnumerator CoRunStartupDraftQueue()
+		{
+			if (StartupDraftQueueRunning)
+				yield break;
+
+			StartupDraftQueueRunning = true;
+			while (StartupDraftQueue.Count > 0)
+			{
+				StartupDraftWorkItem item = StartupDraftQueue.Dequeue();
+				if (item == null)
+					continue;
+
+				while (HasActiveInteraction(item.GameRun))
+					yield return null;
+
+				try
+				{
+					yield return item.Routine;
+				}
+				finally
+				{
+					item.OnCompleted?.Invoke();
+				}
+			}
+
+			StartupDraftQueueRunning = false;
+		}
+
+		private static bool HasActiveInteraction(GameRunController gameRun)
+		{
+			object viewer = gameRun?.InteractionViewer;
+			if (viewer == null)
+				return false;
+
+			foreach (string name in new[] { "IsInteracting", "InInteraction", "HasInteraction", "HasActiveInteraction", "IsBusy", "Busy", "IsViewing" })
+			{
+				if (TryGetMemberValue(viewer, name, out object value) && value is bool b)
+					return b;
+			}
+
+			foreach (string name in new[] { "CurrentInteraction", "Current", "Interaction", "ActiveInteraction" })
+			{
+				if (TryGetMemberValue(viewer, name, out object value) && value != null)
+					return true;
+			}
+
+			foreach (string name in new[] { "Count", "PendingCount", "InteractionCount" })
+			{
+				if (TryGetMemberValue(viewer, name, out object value) && value is int count && count > 0)
+					return true;
+			}
+
+			foreach (string name in new[] { "Interactions", "PendingInteractions", "Queue", "InteractionQueue" })
+			{
+				if (!TryGetMemberValue(viewer, name, out object value) || value == null)
+					continue;
+
+				if (value is ICollection collection && collection.Count > 0)
+					return true;
+
+				if (TryGetMemberValue(value, "Count", out object nestedCount) && nestedCount is int queueCount && queueCount > 0)
+					return true;
+			}
+
+			return false;
+		}
+
+		private static bool TryGetMemberValue(object target, string memberName, out object value)
+		{
+			value = null;
+			if (target == null || string.IsNullOrEmpty(memberName))
+				return false;
+
+			BindingFlags flags = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
+			Type type = target.GetType();
+			PropertyInfo property = type.GetProperty(memberName, flags);
+			if (property != null && property.GetIndexParameters().Length == 0)
+			{
+				try
+				{
+					value = property.GetValue(target);
+					return true;
+				}
+				catch
+				{
+					return false;
+				}
+			}
+
+			FieldInfo field = type.GetField(memberName, flags);
+			if (field == null)
+				return false;
+
+			try
+			{
+				value = field.GetValue(target);
+				return true;
+			}
+			catch
+			{
+				return false;
+			}
 		}
 		private static IEnumerator GainQuestExhibit()
 		{
@@ -1431,6 +1650,7 @@ namespace lvalonmima.Source.Patches
 											exhibit.PendingQuestModifiers[quest16.Id] = ++stack;
 											exhibit.FinalizeQuestByCardId(quest16.Id);
 											exhibit.MarkQuestCompleted(quest16.Id);
+											RecordRewardedQuestCompletion(quest16.Id);
 										}
 									}
 								}
@@ -1558,12 +1778,15 @@ namespace lvalonmima.Source.Patches
 				if (isTurn1A && !turn1DrawnA && gamerun.Battle.DrawZone.Any(c => c.CardType == CardType.Ability)
 				&& shop != null && shop.QuestModifiers.TryGetValue(nameof(cardquest16), out int stack))
 				{
-					for (int i = 0; i < stack; i++)
+					if (stack > 0)
 					{
-						Card toPlay = gamerun.Battle.DrawZone.Where(c => c.CardType == CardType.Ability).SampleOrDefault(gamerun.BattleCardRng);
-						if (toPlay != null && toPlay.Zone == CardZone.Draw)
+						List<Card> toPlay = gamerun.Battle.DrawZone.Where(c => c.CardType == CardType.Ability).ToList();
+						foreach (Card card in toPlay)
 						{
-							gamerun.Battle.React(new PlayCardAction(toPlay), exhibit, ActionCause.Exhibit);
+							if (card.Zone == CardZone.Draw)
+							{
+								gamerun.Battle.React(new PlayCardAction(card), exhibit, ActionCause.Exhibit);
+							}
 						}
 					}
 				}
@@ -1599,7 +1822,7 @@ namespace lvalonmima.Source.Patches
 			{
 				if (args.Source == player && args.Target != player && args.DamageInfo.Damage > 0 && shop != null && shop.QuestModifiers.TryGetValue(nameof(cardquest24), out int stack))
 				{
-					int toDeal = toolbox.Round(0.1f * args.DamageInfo.Damage * stack);
+					int toDeal = toolbox.Round(0.2f * args.DamageInfo.Damage * stack);
 					if (toDeal > 0)
 						return new List<BattleAction>() { new ApplyStatusEffectAction<sedelaydamage>(args.Target, toDeal) };
 				}
@@ -1648,6 +1871,7 @@ namespace lvalonmima.Source.Patches
 					gamerun.Battle.React(new ApplyStatusEffectAction<SuperExtraTurn>(player, stack30), exhibit, ActionCause.Exhibit);
 			}
 
+
 			player.ReactBattleEvent(gamerun.Battle.BattleStarted, args => OnBattleStarted(args, gamerun.Battle));
 			player.ReactBattleEvent(gamerun.Battle.BattleEnding, args => OnBattleEnding(args, gamerun.Battle));
 			player.ReactBattleEvent(gamerun.Battle.BattleEnded, args => OnBattleEnded(args, gamerun.Battle), GameEventPriority.ConfigDefault + 100);
@@ -1662,11 +1886,21 @@ namespace lvalonmima.Source.Patches
 			if (args.DamageInfo.DamageType == DamageType.Attack || args.DamageInfo.Damage < card.Config.Value1)
 				yield break;
 
-			if (exhibit.PendingQuestProgress.TryGetValue(card.Id, out int progress) && progress < card.Config.Value1)
-				exhibit.PendingQuestProgress[card.Id] = ++progress;
-			if (exhibit.PendingQuestProgress[card.Id] >= card.Config.Value1)
+			if (exhibit.IsQuestCardCompleted(card.Id) || exhibit.IsQuestCardSoldOut(card.Id))
+				yield break;
+
+			if (!exhibit.PendingQuestProgress.TryGetValue(card.Id, out int progress))
+				yield break;
+
+			if (progress >= card.Config.Value1)
+				yield break;
+
+			progress++;
+			exhibit.PendingQuestProgress[card.Id] = progress;
+
+			if (progress >= card.Config.Value1)
 			{
-				SelectCardInteraction interaction = new SelectCardInteraction(0, card.Config.Value2 ?? 1, Library.CreateCards<IceWing>(2), SelectedCardHandling.DoNothing)
+				SelectCardInteraction interaction = new SelectCardInteraction(0, card.Config.Value2 ?? 1, Library.CreateCards<IceWing>(card.Config.Value2 ?? 1), SelectedCardHandling.DoNothing)
 				{
 					CanCancel = true,
 					Description = TypeFactory<Card>.LocalizeProperty(card.Id, "Name", true, true)
@@ -1679,11 +1913,13 @@ namespace lvalonmima.Source.Patches
 				}
 				exhibit.FinalizeQuestByCardId(card.Id);
 				exhibit.MarkQuestCompleted(card.Id);
+				RecordRewardedQuestCompletion(card.Id);
 			}
 		}
 
 		private static IEnumerable<BattleAction> OnPlayerDamageReceived(DamageEventArgs args, BattleController battle)
 		{
+			yield return null;
 			var shop = MiniTracker.Instance?.CustomGrSaveData?.GetShopForCurrentProfile();
 			if (shop == null || !battle.Player.HasExhibit<exquesting>() || !args.DamageInfo.IsGrazed)
 				yield break;
@@ -1698,6 +1934,7 @@ namespace lvalonmima.Source.Patches
 						GameMaster.DebugGainExhibit(Library.CreateExhibit<LouguanJian>());
 					exhibit.FinalizeQuestByCardId(quest8.Id);
 					exhibit.MarkQuestCompleted(quest8.Id);
+					RecordRewardedQuestCompletion(quest8.Id);
 				}
 			}
 		}
@@ -1750,6 +1987,7 @@ namespace lvalonmima.Source.Patches
 				{
 					exhibit.FinalizeQuestByCardId(nameof(cardquest23));
 					exhibit.MarkQuestCompleted(nameof(cardquest23));
+					RecordRewardedQuestCompletion(nameof(cardquest23));
 				}
 			}
 
@@ -1885,14 +2123,7 @@ namespace lvalonmima.Source.Patches
 							List<Card> array3 = gameRun.BaseDeck.Where(c => c.CanUpgradeAndPositive).ToList();
 							if (array3.Count > 0)
 							{
-								SelectCardInteraction interaction4 = new SelectCardInteraction(0, 1, array3, SelectedCardHandling.DoNothing)
-								{
-									CanCancel = true,
-									Description = TypeFactory<Card>.LocalizeProperty(card.Id, "Name", true, true)
-								};
-								yield return new InteractionAction(interaction4, false);
-								if (interaction4?.SelectedCards?[0] != null)
-									gameRun.UpgradeDeckCard(interaction4.SelectedCards[0], true);
+								gameRun.UpgradeDeckCards(array3.SampleManyOrAll(toolbox.Round(array3.Count() * 1.0 / 2), gameRun.CardRng), true);
 							}
 						}
 						else
@@ -1943,6 +2174,7 @@ namespace lvalonmima.Source.Patches
 					}
 					exhibit.FinalizeQuestByCardId(card.Id);
 					exhibit.MarkQuestCompleted(card.Id);
+					RecordRewardedQuestCompletion(card.Id);
 				}
 			}
 			yield break;
@@ -1963,6 +2195,7 @@ namespace lvalonmima.Source.Patches
 					yield return new GainMoneyAction((int)quest1.Config.Value2);
 					exhibit.FinalizeQuestByCardId(quest1.Id);
 					exhibit.MarkQuestCompleted(quest1.Id);
+					RecordRewardedQuestCompletion(quest1.Id);
 				}
 			}
 		}
@@ -2141,6 +2374,12 @@ namespace lvalonmima.Source.Patches
 
 				switch (itemId)
 				{
+					case "battle.block" when battle.Player.TurnCounter == 1:
+						yield return new CastBlockShieldAction(battle.Player, new BlockInfo(item.CurrentTier * 2, BlockShieldType.Normal), true);
+						break;
+					case "battle.graze" when battle.Player.TurnCounter == 1:
+						yield return new ApplyStatusEffectAction<Graze>(battle.Player, item.CurrentTier);
+						break;
 					case "battle.hacks":
 						foreach (BattleAction ba in Tryhacking(battle, item)) yield return ba;
 						break;
@@ -2221,12 +2460,21 @@ namespace lvalonmima.Source.Patches
 		}
 	}
 
-	[HarmonyPatch(typeof(GapOptionsPanel), nameof(GapOptionsPanel.OptionClicked))]
-	class GapOptionsPanel_TeaSync_Patch
+	[HarmonyPatch(typeof(GapOptionsPanel), nameof(GapOptionsPanel.UpgradeCard))]
+	class GapOptionsPanel_UpgradeCard_Flag_Patch
 	{
-		static void Postfix(GapOptionsPanel __instance, GapOption option)
+		static void Prefix(GapOptionsPanel __instance, GapOption option)
 		{
-			if (option == null || option.Type != GapOptionType.UpgradeCard)
+			ShopModHandlers.UpgradeStartedPanels.Add(__instance);
+		}
+	}
+
+	[HarmonyPatch(typeof(GapOptionsPanel), nameof(GapOptionsPanel.SelectedAndHide))]
+	class GapOptionsPanel_SelectedAndHide_TeaSync_Patch
+	{
+		static void Postfix(GapOptionsPanel __instance)
+		{
+			if (!ShopModHandlers.UpgradeStartedPanels.Remove(__instance))
 				return;
 
 			if (ShopModHandlers.GetSponsorGold() > 0)
@@ -2274,6 +2522,7 @@ namespace lvalonmima.Source.Patches
 						});
 						exhibit.FinalizeQuestByCardId(quest7.Id);
 						exhibit.MarkQuestCompleted(quest7.Id);
+						ShopModHandlers.RecordRewardedQuestCompletion(quest7.Id);
 					}
 				}
 			}
@@ -2377,6 +2626,7 @@ namespace lvalonmima.Source.Patches
 							gameRun.UpgradeDeckCards(toUpgrade, true);
 						exhibit.FinalizeQuestByCardId(quest18.Id);
 						exhibit.MarkQuestCompleted(quest18.Id);
+						ShopModHandlers.RecordRewardedQuestCompletion(quest18.Id);
 					}
 				}
 			}
@@ -2404,6 +2654,7 @@ namespace lvalonmima.Source.Patches
 							GameMaster.DebugGainExhibit(Library.CreateExhibit<Huiyuanka>());
 						exhibit.FinalizeQuestByCardId(quest19.Id);
 						exhibit.MarkQuestCompleted(quest19.Id);
+						ShopModHandlers.RecordRewardedQuestCompletion(quest19.Id);
 					}
 				}
 			}
@@ -2429,6 +2680,7 @@ namespace lvalonmima.Source.Patches
 							GameMaster.DebugGainExhibit(Library.CreateExhibit<Huiyuanka>());
 						exhibit.FinalizeQuestByCardId(quest19.Id);
 						exhibit.MarkQuestCompleted(quest19.Id);
+						ShopModHandlers.RecordRewardedQuestCompletion(quest19.Id);
 					}
 				}
 			}

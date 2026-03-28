@@ -8,8 +8,10 @@ using System.Security.Cryptography;
 using System.Text;
 using Cysharp.Threading.Tasks;
 using HarmonyLib;
+using LBoL.Base;
 using LBoL.Core;
 using LBoL.Core.Battle;
+using LBoL.Core.Cards;
 using LBoL.Core.SaveData;
 using LBoL.Core.Units;
 using LBoL.Presentation;
@@ -26,97 +28,119 @@ using lvalonmima.Exhibits;
 
 namespace lvalonmima.Source.Patches
 {
-	[HarmonyPatch(typeof(BattleController), nameof(BattleController.Flow), MethodType.Enumerator)]
-	public static class InvertFlow_Patch
+	// [HarmonyPatch(typeof(BattleController), nameof(BattleController.Flow), MethodType.Enumerator)]
+	// public static class InvertFlow_Patch
+	// {
+	// 	internal static int PreloadedForRound;
+	// 	static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
+	// 	{
+	// 		var playerFlow = AccessTools.Method(typeof(BattleController), nameof(BattleController.PlayerTurnFlow));
+	// 		var enemyFlow = AccessTools.Method(typeof(BattleController), nameof(BattleController.EnemyTurnFlow));
+	// 		var maybePlayerFlow = AccessTools.Method(typeof(InvertFlow_Patch), nameof(MaybePlayerFlow));
+	// 		var maybeEnemyFlow = AccessTools.Method(typeof(InvertFlow_Patch), nameof(MaybeEnemyFlow));
+
+	// 		foreach (var instr in instructions)
+	// 		{
+	// 			if (instr.Calls(playerFlow))
+	// 			{
+	// 				yield return new CodeInstruction(OpCodes.Call, maybePlayerFlow);
+	// 				continue;
+	// 			}
+
+	// 			if (instr.Calls(enemyFlow))
+	// 			{
+	// 				yield return new CodeInstruction(OpCodes.Call, maybeEnemyFlow);
+	// 				continue;
+	// 			}
+
+	// 			yield return instr;
+	// 		}
+	// 	}
+
+	// 	private static IEnumerator MaybePlayerFlow(BattleController __instance)
+	// 	{
+	// 		if (ShouldInvertFlow())
+	// 			return __instance.EnemyTurnFlow();
+
+	// 		return __instance.PlayerTurnFlow();
+	// 	}
+
+	// 	private static IEnumerator MaybeEnemyFlow(BattleController __instance)
+	// 	{
+	// 		if (ShouldInvertFlow())
+	// 		{
+	// 			PreloadIntentions(__instance);
+	// 			return __instance.PlayerTurnFlow();
+	// 		}
+
+	// 		return __instance.EnemyTurnFlow();
+	// 	}
+
+	// 	private static bool ShouldInvertFlow()
+	// 	{
+	// 		var shop = MiniTracker.Instance?.CustomGrSaveData?.GetShopForCurrentProfile();
+	// 		if (shop == null || !shop.ChallengerModeEnabled)
+	// 			return false;
+
+	// 		return shop.GetItem("difficulty.reverse")?.CurrentTier <= 0;
+	// 	}
+
+	// 	private static void PreloadIntentions(BattleController __instance)
+	// 	{
+	// 		foreach (EnemyUnit enemy in __instance.AllAliveEnemies)
+	// 		{
+	// 			enemy.UpdateTurnMoves();
+	// 		}
+	// 		// record that we preloaded for round (current + 1)
+	// 		try
+	// 		{
+	// 			PreloadedForRound = __instance.RoundCounter + 1;
+	// 		}
+	// 		catch
+	// 		{
+	// 			PreloadedForRound = 0;
+	// 		}
+	// 	}
+	// }
+
+	// [HarmonyPatch(typeof(BattleController), nameof(BattleController.StartRound))]
+	// public static class BattleController_StartRound_Patch
+	// {
+	// 	static bool Prefix(BattleController __instance)
+	// 	{
+	// 		if (InvertFlow_Patch.PreloadedForRound != 0 && InvertFlow_Patch.PreloadedForRound == __instance.RoundCounter)
+	// 		{
+	// 			try
+	// 			{
+	// 				__instance.RoundStartDecreaseDurations();
+	// 			}
+	// 			finally
+	// 			{
+	// 				InvertFlow_Patch.PreloadedForRound = 0;
+	// 			}
+	// 			return false;
+	// 		}
+	// 		return true;
+	// 	}
+	// }
+	[HarmonyPatch(typeof(BattleController), nameof(BattleController.PlayerTurnFlow))]
+	public static class BattleController_PlayerTurnFlow_Patch
 	{
-		internal static int PreloadedForRound;
-		static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
+		static bool Prefix(BattleController __instance, ref IEnumerator __result)
 		{
-			var playerFlow = AccessTools.Method(typeof(BattleController), nameof(BattleController.PlayerTurnFlow));
-			var enemyFlow = AccessTools.Method(typeof(BattleController), nameof(BattleController.EnemyTurnFlow));
-			var maybePlayerFlow = AccessTools.Method(typeof(InvertFlow_Patch), nameof(MaybePlayerFlow));
-			var maybeEnemyFlow = AccessTools.Method(typeof(InvertFlow_Patch), nameof(MaybeEnemyFlow));
-
-			foreach (var instr in instructions)
-			{
-				if (instr.Calls(playerFlow))
-				{
-					yield return new CodeInstruction(OpCodes.Call, maybePlayerFlow);
-					continue;
-				}
-
-				if (instr.Calls(enemyFlow))
-				{
-					yield return new CodeInstruction(OpCodes.Call, maybeEnemyFlow);
-					continue;
-				}
-
-				yield return instr;
-			}
-		}
-
-		private static IEnumerator MaybePlayerFlow(BattleController __instance)
-		{
-			if (ShouldInvertFlow())
-				return __instance.EnemyTurnFlow();
-
-			return __instance.PlayerTurnFlow();
-		}
-
-		private static IEnumerator MaybeEnemyFlow(BattleController __instance)
-		{
-			if (ShouldInvertFlow())
-			{
-				PreloadIntentions(__instance);
-				return __instance.PlayerTurnFlow();
-			}
-
-			return __instance.EnemyTurnFlow();
-		}
-
-		private static bool ShouldInvertFlow()
-		{
-			var shop = MiniTracker.Instance?.CustomGrSaveData?.GetShopForCurrentProfile();
-			if (shop == null || !shop.ChallengerModeEnabled)
-				return false;
-
-			return shop.GetItem("difficulty.reverse")?.CurrentTier <= 0;
-		}
-
-		private static void PreloadIntentions(BattleController __instance)
-		{
-			foreach (EnemyUnit enemy in __instance.AllAliveEnemies)
-			{
-				enemy.UpdateTurnMoves();
-			}
-			// record that we preloaded for round (current + 1)
 			try
 			{
-				PreloadedForRound = __instance.RoundCounter + 1;
-			}
-			catch
-			{
-				PreloadedForRound = 0;
-			}
-		}
-	}
-
-	[HarmonyPatch(typeof(BattleController), nameof(BattleController.StartRound))]
-	public static class BattleController_StartRound_Patch
-	{
-		static bool Prefix(BattleController __instance)
-		{
-			if (InvertFlow_Patch.PreloadedForRound != 0 && InvertFlow_Patch.PreloadedForRound == __instance.RoundCounter)
-			{
-				try
+				if (MiniTracker.Instance?.CustomGrSaveData?.GetShopForCurrentProfile()?.ChallengerModeEnabled == true
+				&& MiniTracker.Instance?.CustomGrSaveData?.GetShopForCurrentProfile()?.GetItem("difficulty.reverse")?.CurrentTier == 0
+				&& __instance.Player?.TurnCounter == 0
+				&& __instance.RoundCounter == 1)
 				{
-					__instance.RoundStartDecreaseDurations();
+					__result = Enumerable.Empty<object>().GetEnumerator();
+					return false;
 				}
-				finally
-				{
-					InvertFlow_Patch.PreloadedForRound = 0;
-				}
-				return false;
+			}
+			catch (Exception)
+			{
 			}
 			return true;
 		}
@@ -587,6 +611,26 @@ namespace lvalonmima.Source.Patches
 			text.outlineWidth = 0.2f;
 		}
 
+		// Public helper to toggle watermark visibility for all SystemBoard instances.
+		public static void SetWatermarkVisibleForAll(bool visible)
+		{
+			try
+			{
+				foreach (var board in UnityEngine.Object.FindObjectsByType<SystemBoard>(FindObjectsSortMode.None))
+				{
+					if (board == null)
+						continue;
+					if (!visible)
+						SetWatermarkActive(board, false, null);
+					else
+						UpdateChallengerModeWatermark(board);
+				}
+			}
+			catch (Exception)
+			{
+			}
+		}
+
 		private static string GetLocalizedText(string key)
 		{
 			var locale = LBoL.Core.Localization.CurrentLocale;
@@ -595,6 +639,34 @@ namespace lvalonmima.Source.Patches
 			if (LocalisationKeys.LocTable.TryGetValue((Locale.En, key), out var fallback))
 				return fallback;
 			return key;
+		}
+	}
+
+	[HarmonyPatch]
+	public static class ShopPanel_WatermarkPatches
+	{
+		[HarmonyPatch(typeof(ShopPanel), nameof(ShopPanel.OnShowing))]
+		[HarmonyPostfix]
+		public static void OnShopPanelShowing(ShopPanel __instance)
+		{
+			// Hide watermark while any shop panel is showing
+			SystemBoard_OnEnterGameRun_Patch.SetWatermarkVisibleForAll(false);
+		}
+
+		[HarmonyPatch(typeof(ShopPanel), nameof(ShopPanel.OnHiding))]
+		[HarmonyPostfix]
+		public static void OnShopPanelHiding(ShopPanel __instance)
+		{
+			// Ensure watermark restored when shop starts hiding
+			SystemBoard_OnEnterGameRun_Patch.SetWatermarkVisibleForAll(true);
+		}
+
+		[HarmonyPatch(typeof(ShopPanel), nameof(ShopPanel.OnHided))]
+		[HarmonyPostfix]
+		public static void OnShopPanelHided(ShopPanel __instance)
+		{
+			// Restore watermark after shop fully hidden
+			SystemBoard_OnEnterGameRun_Patch.SetWatermarkVisibleForAll(true);
 		}
 	}
 	public static class ShopSaveLoader
@@ -1109,9 +1181,11 @@ namespace lvalonmima.Source.Patches
 			{
 				if (record == null || string.IsNullOrEmpty(record.SaveTimestamp))
 					return;
+
 				var shop = MiniTracker.Instance?.CustomGrSaveData?.GetShopForCurrentProfile();
 				if (shop == null || !shop.ChallengerModeEnabled)
 					return;
+
 
 				shop.RunModifiersByTimestamp ??= new Dictionary<string, List<(string, int)>>();
 				var modifiers = shop.Items?.Values
@@ -1124,6 +1198,15 @@ namespace lvalonmima.Source.Patches
 				// indicate "Challenger Mode Active" and show the "None" tooltip.
 				modifiers.Sort((left, right) => string.CompareOrdinal(left.Id, right.Id));
 				shop.RunModifiersByTimestamp[record.SaveTimestamp] = modifiers;
+
+				shop.RunCompletedQuestsByTimestamp ??= new Dictionary<string, List<string>>(StringComparer.Ordinal);
+				List<string> completedQuests = shop.CurrentRunCompletedQuests != null
+					? shop.CurrentRunCompletedQuests.Where(id => !string.IsNullOrEmpty(id)).ToList()
+					: new List<string>();
+				shop.RunCompletedQuestsByTimestamp[record.SaveTimestamp] = completedQuests;
+
+				ShopModHandlers.ResetCurrentRunRewardedQuestCompletions(shop);
+				MiniTracker.Instance?.CustomGrSaveData?.Save(0, false);
 				ShopSaveLoader.Save();
 			}
 			catch (Exception)
@@ -1168,9 +1251,12 @@ namespace lvalonmima.Source.Patches
 		{
 			public TextMeshProUGUI Label;
 			public SimpleTooltipSource Tooltip;
+			public TextMeshProUGUI QuestLabel;
+			public SimpleTooltipSource QuestTooltip;
 		}
 
 		private const string ChallengerHistoryLabelName = "challengerModeHistoryLabel";
+		private const string ChallengerQuestHistoryLabelName = "challengerModeQuestHistoryLabel";
 		private static readonly Dictionary<HistoryPanel, ChallengerHistoryUi> ChallengerHistoryUiMap = new Dictionary<HistoryPanel, ChallengerHistoryUi>();
 
 		public static void EnsureChallengerHistoryUi(HistoryPanel panel)
@@ -1182,7 +1268,7 @@ namespace lvalonmima.Source.Patches
 		{
 			if (panel == null || panel.packImage == null)
 				return null;
-			if (ChallengerHistoryUiMap.TryGetValue(panel, out var ui) && ui?.Label != null)
+			if (ChallengerHistoryUiMap.TryGetValue(panel, out var ui) && ui?.Label != null && ui.QuestLabel != null)
 				return ui;
 
 			Transform parent = panel.packImage.transform.parent;
@@ -1222,15 +1308,55 @@ namespace lvalonmima.Source.Patches
 				label.gameObject.SetActive(false);
 				label.transform.SetAsLastSibling();
 
-				var tooltip = label.GetComponent<SimpleTooltipSource>() ?? SimpleTooltipSource.CreateDirect(label.gameObject, string.Empty, string.Empty)
-						.WithPosition(TooltipDirection.Top, TooltipAlignment.Center);
-				ui = new ChallengerHistoryUi
-				{
-					Label = label,
-					Tooltip = tooltip
-				};
-				ChallengerHistoryUiMap[panel] = ui;
 			}
+
+			TextMeshProUGUI questLabel = null;
+			var questExisting = parent.Find(ChallengerQuestHistoryLabelName) as RectTransform;
+			if (questExisting != null)
+				questLabel = questExisting.GetComponent<TextMeshProUGUI>();
+
+			if (questLabel == null)
+			{
+				var go = new GameObject(ChallengerQuestHistoryLabelName, typeof(RectTransform), typeof(TextMeshProUGUI));
+				go.transform.SetParent(parent, false);
+				questLabel = go.GetComponent<TextMeshProUGUI>();
+
+				var packRect = panel.packImage.rectTransform;
+				var labelRect = questLabel.rectTransform;
+				labelRect.anchorMin = packRect.anchorMin;
+				labelRect.anchorMax = packRect.anchorMax;
+				labelRect.pivot = packRect.pivot;
+				labelRect.anchoredPosition = packRect.anchoredPosition + new Vector2(0f, packRect.sizeDelta.y + 32f);
+				labelRect.sizeDelta = new Vector2(Mathf.Max(200f, packRect.sizeDelta.x * 2f), packRect.sizeDelta.y);
+
+				if (panel.seedText != null)
+				{
+					questLabel.font = panel.seedText.font;
+					questLabel.fontSize = panel.seedText.fontSize;
+					questLabel.color = panel.seedText.color;
+				}
+
+				questLabel.alignment = TextAlignmentOptions.Center;
+				questLabel.textWrappingMode = TextWrappingModes.NoWrap;
+				questLabel.raycastTarget = true;
+				questLabel.text = string.Empty;
+				questLabel.gameObject.SetActive(false);
+				questLabel.transform.SetAsLastSibling();
+			}
+
+			var tooltip = label.GetComponent<SimpleTooltipSource>() ?? SimpleTooltipSource.CreateDirect(label.gameObject, string.Empty, string.Empty)
+				.WithPosition(TooltipDirection.Top, TooltipAlignment.Center);
+			var questTooltip = questLabel.GetComponent<SimpleTooltipSource>() ?? SimpleTooltipSource.CreateDirect(questLabel.gameObject, string.Empty, string.Empty)
+				.WithPosition(TooltipDirection.Top, TooltipAlignment.Center);
+
+			ui = new ChallengerHistoryUi
+			{
+				Label = label,
+				Tooltip = tooltip,
+				QuestLabel = questLabel,
+				QuestTooltip = questTooltip
+			};
+			ChallengerHistoryUiMap[panel] = ui;
 
 			return ui;
 		}
@@ -1238,57 +1364,143 @@ namespace lvalonmima.Source.Patches
 		public static void UpdateChallengerHistoryUi(HistoryPanel panel, GameRunRecordSaveData record)
 		{
 			var ui = GetOrCreateUi(panel);
-			if (ui?.Label == null)
+			if (ui?.Label == null || ui.QuestLabel == null)
 				return;
+
 
 			ui.Label.gameObject.SetActive(false);
 			ui.Tooltip?.SetDirect(string.Empty, string.Empty);
+			ui.QuestLabel.gameObject.SetActive(false);
+			ui.QuestTooltip?.SetDirect(string.Empty, string.Empty);
 
 			if (record == null || string.IsNullOrEmpty(record.SaveTimestamp))
 				return;
 
+
 			var shop = MiniTracker.Instance?.CustomGrSaveData?.GetShopForCurrentProfile();
-			if (shop?.RunModifiersByTimestamp == null)
-				return;
-			if (!shop.RunModifiersByTimestamp.TryGetValue(record.SaveTimestamp, out var modifiers))
+			if (shop == null)
 				return;
 
-			// Show active label even when no modifiers were purchased this run.
-			// If modifiers list is empty, display the "None" description in tooltip.
 
-			string labelText = GetShopLocalizedText($"{LocalisationKeys.ShopPrefix}ChallengerModeHistory.Active");
-			labelText = StringDecorator.Decorate($"<b>{labelText}</b>");
-			ui.Label.text = labelText;
+			List<(string, int)> modifiers = null;
+			bool hasModifierData = shop.RunModifiersByTimestamp != null
+				&& shop.RunModifiersByTimestamp.TryGetValue(record.SaveTimestamp, out modifiers);
 
-			// Resize the label rect to fit the rendered text so the raycast/hover area matches.
-			ui.Label.ForceMeshUpdate();
-			var labelRect = ui.Label.rectTransform;
-			float padW = 8f;
-			float padH = 4f;
-			float prefW = ui.Label.preferredWidth;
-			float prefH = ui.Label.preferredHeight;
-			labelRect.sizeDelta = new Vector2(Mathf.Max(32f, prefW + padW), Mathf.Max(16f, prefH + padH));
-			// Reposition above the pack image to be visually consistent.
+			if (hasModifierData)
+			{
+				string labelText = GetShopLocalizedText($"{LocalisationKeys.ShopPrefix}ChallengerModeHistory.Active");
+				labelText = StringDecorator.Decorate($"<b>{labelText}</b>");
+				ui.Label.text = labelText;
+
+				ui.Label.ForceMeshUpdate();
+				var labelRect = ui.Label.rectTransform;
+				float padW = 8f;
+				float padH = 4f;
+				float prefW = ui.Label.preferredWidth;
+				float prefH = ui.Label.preferredHeight;
+				labelRect.sizeDelta = new Vector2(Mathf.Max(32f, prefW + padW), Mathf.Max(16f, prefH + padH));
+				if (panel?.packImage != null)
+				{
+					var packRect = panel.packImage.rectTransform;
+					labelRect.anchoredPosition = packRect.anchoredPosition + new Vector2(0f, packRect.sizeDelta.y * 0.5f + labelRect.sizeDelta.y * 0.5f + 6f);
+				}
+				labelRect.SetAsLastSibling();
+				ui.Label.gameObject.SetActive(true);
+
+				string title = GetShopLocalizedText($"{LocalisationKeys.ShopPrefix}ChallengerModeHistory.Title");
+				string body;
+				if (modifiers == null || modifiers.Count == 0)
+				{
+					body = StringDecorator.Decorate("|r" + GetShopLocalizedText($"{LocalisationKeys.ShopPrefix}Loadout.None") + "|");
+				}
+				else
+				{
+					body = BuildChallengerHistoryTooltip(shop, modifiers);
+				}
+				ui.Tooltip?.SetDirect(title, body);
+			}
+
+			List<string> completedQuests = null;
+			if (shop.RunCompletedQuestsByTimestamp != null
+				&& shop.RunCompletedQuestsByTimestamp.TryGetValue(record.SaveTimestamp, out var history)
+				&& history != null)
+			{
+				completedQuests = history.Where(id => !string.IsNullOrEmpty(id)).ToList();
+			}
+
+			if (completedQuests == null || completedQuests.Count == 0)
+				return;
+
+
+			string questLabelText = GetShopLocalizedText($"{LocalisationKeys.ShopPrefix}QuestHistory.Active");
+			questLabelText = StringDecorator.Decorate($"<b>{questLabelText}</b>");
+			ui.QuestLabel.text = questLabelText;
+			ui.QuestLabel.ForceMeshUpdate();
+
+			var questLabelRect = ui.QuestLabel.rectTransform;
+			float questPadW = 8f;
+			float questPadH = 4f;
+			float questPrefW = ui.QuestLabel.preferredWidth;
+			float questPrefH = ui.QuestLabel.preferredHeight;
+			questLabelRect.sizeDelta = new Vector2(Mathf.Max(32f, questPrefW + questPadW), Mathf.Max(16f, questPrefH + questPadH));
+
 			if (panel?.packImage != null)
 			{
 				var packRect = panel.packImage.rectTransform;
-				labelRect.anchoredPosition = packRect.anchoredPosition + new Vector2(0f, packRect.sizeDelta.y * 0.5f + labelRect.sizeDelta.y * 0.5f + 6f);
+				float baseY = packRect.anchoredPosition.y + packRect.sizeDelta.y * 0.5f + questLabelRect.sizeDelta.y * 0.5f + 6f;
+				if (ui.Label.gameObject.activeSelf)
+				{
+					var labelRect = ui.Label.rectTransform;
+					baseY = labelRect.anchoredPosition.y + labelRect.sizeDelta.y * 0.5f + questLabelRect.sizeDelta.y * 0.5f + 6f;
+				}
+				questLabelRect.anchoredPosition = new Vector2(packRect.anchoredPosition.x, baseY);
 			}
-			labelRect.SetAsLastSibling();
 
-			ui.Label.gameObject.SetActive(true);
+			questLabelRect.SetAsLastSibling();
+			ui.QuestLabel.gameObject.SetActive(true);
 
-			string title = GetShopLocalizedText($"{LocalisationKeys.ShopPrefix}ChallengerModeHistory.Title");
-			string body;
-			if (modifiers == null || modifiers.Count == 0)
+			string questTitle = GetShopLocalizedText($"{LocalisationKeys.ShopPrefix}QuestHistory.Title");
+			string questBody = BuildQuestHistoryTooltip(completedQuests);
+			ui.QuestTooltip?.SetDirect(questTitle, questBody);
+		}
+
+		private static string BuildQuestHistoryTooltip(List<string> completedQuests)
+		{
+			if (completedQuests == null || completedQuests.Count == 0)
+				return string.Empty;
+
+			var lines = new List<string>(completedQuests.Count);
+			foreach (string questCardId in completedQuests)
 			{
-				body = StringDecorator.Decorate("|r" + GetShopLocalizedText($"{LocalisationKeys.ShopPrefix}Loadout.None") + "|");
+				if (string.IsNullOrEmpty(questCardId))
+					continue;
+
+				lines.Add(GetQuestName(questCardId));
 			}
-			else
+
+			return string.Join("\n", lines);
+		}
+
+		private static string GetQuestName(string questCardId)
+		{
+			if (string.IsNullOrEmpty(questCardId))
+				return string.Empty;
+
+			Card card = Library.TryCreateCard(questCardId, false);
+			if (card == null)
+				return questCardId;
+
+			string localizedName = TypeFactory<Card>.LocalizeProperty(card.Id, "Name", true, true);
+			if (string.IsNullOrEmpty(localizedName))
+				localizedName = card.Id;
+
+			var rarity = card.Config?.Rarity ?? Rarity.Common;
+			return rarity switch
 			{
-				body = BuildChallengerHistoryTooltip(shop, modifiers);
-			}
-			ui.Tooltip?.SetDirect(title, body);
+				Rarity.Rare => StringDecorator.Decorate("|" + localizedName + "|"),
+				Rarity.Uncommon => StringDecorator.Decorate("|s:" + localizedName + "|"),
+				_ => localizedName,
+			};
 		}
 
 		private static string BuildChallengerHistoryTooltip(LiteShop shop, List<(string, int)> modifiers)

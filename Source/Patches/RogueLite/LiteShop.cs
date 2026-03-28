@@ -96,6 +96,8 @@ namespace lvalonmima.Source.Patches
 		public bool ChallengerModeEnabled { get; set; }
 		public Dictionary<string, int> BPProgress { get; set; }
 		public Dictionary<string, List<(string, int)>> RunModifiersByTimestamp { get; set; }
+		public List<string> CurrentRunCompletedQuests { get; set; }
+		public Dictionary<string, List<string>> RunCompletedQuestsByTimestamp { get; set; }
 		public Dictionary<string, int> QuestModifiers { get; set; }
 
 		public Dictionary<string, ShopItem> Items { get; private set; }
@@ -137,6 +139,8 @@ namespace lvalonmima.Source.Patches
 			ChallengerModeEnabled = false;
 			BPProgress = new Dictionary<string, int>();
 			RunModifiersByTimestamp = new Dictionary<string, List<(string, int)>>();
+			CurrentRunCompletedQuests = new List<string>();
+			RunCompletedQuestsByTimestamp = new Dictionary<string, List<string>>();
 			QuestModifiers = new Dictionary<string, int>();
 			Items = new Dictionary<string, ShopItem>();
 			AddItem(new ShopItem(init + "fp", new List<int> { 240, 1200, 3600, 14400, 28800 }, 0));
@@ -145,7 +149,7 @@ namespace lvalonmima.Source.Patches
 			AddItem(new ShopItem(init + "gold", new List<int> { 100, 200, 400, 800, 1600, 2400, 4800, 7200, 9600, 12000 }, 0, 10));
 			AddItem(new ShopItem(init + "card", new List<int> { 36000 }, 0));
 			AddItem(new ShopItem(init + "exhibit", new List<int> { 6000 }, 0));
-			AddItem(new ShopItem(init + "solo", new List<int> { 9000 }, 0, 1));
+			AddItem(new ShopItem(init + "solo", new List<int> { 4500 }, 0, 1));
 
 			AddItem(new ShopItem(discount + "sc", new List<int> { 500, 5000, 10000, 25000, 50000 }, 0, 10));
 			AddItem(new ShopItem(discount + "shop", new List<int> { 1200, 5000, 7500, 15000, 30000 }, 0, 5));
@@ -195,7 +199,31 @@ namespace lvalonmima.Source.Patches
 				BPProgress = saved?.BPProgress != null
 					? new Dictionary<string, int>(saved.BPProgress)
 					: new Dictionary<string, int>(),
-				RunModifiersByTimestamp = saved?.RunModifiersByTimestamp ?? new Dictionary<string, List<(string, int)>>(),
+				RunModifiersByTimestamp = saved?.RunModifiersByTimestamp != null
+					? new Dictionary<string, List<(string, int)>>(saved.RunModifiersByTimestamp
+						.Where(kvp => !string.IsNullOrEmpty(kvp.Key))
+						.ToDictionary(
+							kvp => kvp.Key,
+							kvp => kvp.Value == null
+								? new List<(string, int)>()
+								: kvp.Value.Where(entry => !string.IsNullOrEmpty(entry.Item1)).ToList(),
+							StringComparer.Ordinal),
+						StringComparer.Ordinal)
+					: new Dictionary<string, List<(string, int)>>(StringComparer.Ordinal),
+				CurrentRunCompletedQuests = saved?.CurrentRunCompletedQuests != null
+					? saved.CurrentRunCompletedQuests.Where(id => !string.IsNullOrEmpty(id)).ToList()
+					: new List<string>(),
+				RunCompletedQuestsByTimestamp = saved?.RunCompletedQuestsByTimestamp != null
+					? new Dictionary<string, List<string>>(saved.RunCompletedQuestsByTimestamp
+						.Where(kvp => !string.IsNullOrEmpty(kvp.Key))
+						.ToDictionary(
+							kvp => kvp.Key,
+							kvp => kvp.Value == null
+								? new List<string>()
+								: kvp.Value.Where(id => !string.IsNullOrEmpty(id)).ToList(),
+							StringComparer.Ordinal),
+						StringComparer.Ordinal)
+					: new Dictionary<string, List<string>>(StringComparer.Ordinal),
 				QuestModifiers = saved?.QuestModifiers != null
 					? new Dictionary<string, int>(saved.QuestModifiers)
 					: new Dictionary<string, int>()

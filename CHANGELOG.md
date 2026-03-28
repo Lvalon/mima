@@ -1,6 +1,18 @@
 # Changelog / 更新日誌
 
-## [0.2.0] - 2026-2-24
+## [0.2.1] - 2026-2-28
+
+### Changes / 改動
+
+- Major bugfixes.
+- Rare Quest appearance curved to appear much less frequently as the Challenger progresses the levels in the act.
+- Made quests more lightweight.
+
+- 修了不少 bug。
+- 稀有任務的出現機率現在隨著挑戰者在一幕裡前進每一關而迅速遞減。
+- 任務變得更輕量化了。
+
+## 0.2.0 - 2026-2-24
 
 ### Added / 新增
 
@@ -104,7 +116,7 @@
 
 - 1.7.0 支援。
 
-[0.2.0]: https://thunderstore.io/package/download/Lvalon/Mima/0.2.0/
+[0.2.1]: https://thunderstore.io/package/download/Lvalon/Mima/0.2.1/
 [0.1.6]: https://thunderstore.io/package/download/Lvalon/Mima/0.1.6/
 [0.1.5]: https://thunderstore.io/package/download/Lvalon/Mima/0.1.5/
 [0.1.4]: https://thunderstore.io/package/download/Lvalon/Mima/0.1.4/

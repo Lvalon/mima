@@ -975,11 +975,6 @@ namespace lvalonmima.Patches.Exhibits
 							case nameof(cardquest4):
 								panel.GameRun.AddDeckCard(Library.CreateCard<cardgenji>(), true);
 								break;
-							case nameof(cardquest8):
-								Card grazeCard = panel.GameRun.RollCard(panel.GameRun.CardRng, new CardWeightTable(RarityWeightTable.EnemyCard, OwnerWeightTable.Valid, CardTypeWeightTable.CanBeLoot), false, false, config => config.RelativeEffects.Contains(nameof(Graze)) || config.UpgradedRelativeEffects.Contains(nameof(Graze)));
-								if (grazeCard != null)
-									panel.GameRun.AddDeckCard(grazeCard, true);
-								break;
 							case nameof(cardquest10):
 								cardquest10 quest10 = Library.CreateCard<cardquest10>();
 								panel.GameRun.AddDeckCards(Library.CreateCards<LBoL.EntityLib.Cards.Neutral.Black.Shadow>(quest10.Value20), true);

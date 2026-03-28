@@ -353,8 +353,12 @@ namespace lvalonmima.Exhibits
 				return result;
 			}
 
-			int stationLevel = Math.Max(0, gameRun.CurrentStation?.Level ?? 0);
-			float levelDeduct = 1f - stationLevel % 16 / 16f;
+			int stationLevel = Math.Max(0, gameRun.CurrentStation?.Level ?? (MiniTracker.Instance?.CustomGrSaveData?.GetShopForCurrentProfile()?.BPProgress.TryGetValue("level", out int recordedLevel) == true ? recordedLevel : 0));
+			float fraction = stationLevel % 17 / 17f;
+			float k = 3f; // steepness
+			float expStart = MathF.Exp(-k * MathF.Max(0f, fraction));
+			float expEnd = MathF.Exp(-k * 1f);
+			float levelDeduct10 = (expStart - expEnd) / (1f - expEnd);
 			Card[] rolledCards = null;
 			bool runNotReadyFallback = false;
 
@@ -363,7 +367,8 @@ namespace lvalonmima.Exhibits
 			{
 				conditionalExcludes.Add(nameof(cardquest2));
 			}
-			if (gameRun.RollCard(new RandomGen(), new CardWeightTable(RarityWeightTable.EnemyCard, OwnerWeightTable.Valid, CardTypeWeightTable.CanBeLoot), false, false, config => config.RelativeEffects.Contains(nameof(Graze)) || config.UpgradedRelativeEffects.Contains(nameof(Graze))) == null
+			if (//gameRun.RollCard(new RandomGen(), new CardWeightTable(RarityWeightTable.EnemyCard, OwnerWeightTable.Valid, CardTypeWeightTable.CanBeLoot), false, false, config => config.RelativeEffects.Contains(nameof(Graze)) || config.UpgradedRelativeEffects.Contains(nameof(Graze))) == null
+			(!gameRun.BaseDeck.Any(c => (c.Config.RelativeEffects.Contains(nameof(Graze)) && !c.IsUpgraded) || (c.Config.UpgradedRelativeEffects.Contains(nameof(Graze)) && c.IsUpgraded)))
 			|| gameRun.Player.HasExhibit<LouguanJian>())
 			{
 				conditionalExcludes.Add(nameof(cardquest8));
@@ -392,7 +397,7 @@ namespace lvalonmima.Exhibits
 			{
 				rolledCards = toolbox.UniqueAllCards(
 					gameRun.CardRng,
-					new CardWeightTable(new RarityWeightTable(15f, 10f, levelDeduct, 0f), OwnerWeightTable.AllOnes, CardTypeWeightTable.AllOnes),
+					new CardWeightTable(new RarityWeightTable(15f, 12f, 9f * levelDeduct10, 0f), OwnerWeightTable.AllOnes, CardTypeWeightTable.AllOnes),
 					count,
 					false,
 					c => c != null
@@ -642,6 +647,17 @@ namespace lvalonmima.Exhibits
 
 			PreRollQuestRequirementsForRolledCards(useGameRunRng: true);
 			CleanupStaleQuestRequirements();
+
+			// Persist rolled slots and their generated requirements immediately so
+			// they don't get regenerated on the next station restart.
+			try
+			{
+				ShopModHandlers.PersistQuestProgress(GameRun, PendingQuestProgress, syncToLiteShop: false, saveToDisk: false, questRequirements: QuestRequirements, completedQuestCards: CompletedQuestCards, writeToRunFlags: true, questModifiers: PendingQuestModifiers);
+			}
+			catch (Exception)
+			{
+				// swallow to avoid breaking runtime rolls
+			}
 
 		}
 

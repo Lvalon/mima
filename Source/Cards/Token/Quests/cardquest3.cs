@@ -15,7 +15,7 @@ namespace lvalonmima.Cards
 			config.Colors = new List<ManaColor>() { ManaColor.Colorless };
 			config.Rarity = Rarity.Common;
 
-			config.Value1 = 5;
+			config.Value1 = 3;
 			config.Value2 = 50;
 
 			config.Keywords = Keyword.Forbidden;

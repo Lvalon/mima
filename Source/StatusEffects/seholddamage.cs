@@ -13,6 +13,7 @@ using LBoLEntitySideloader.Attributes;
 using lvalonmima.Cards;
 using lvalonmima.Exhibits;
 using lvalonmima.GunName;
+using lvalonmima.Source.Patches;
 
 namespace lvalonmima.StatusEffects
 {
@@ -69,6 +70,7 @@ namespace lvalonmima.StatusEffects
 						exhibit.PendingQuestModifiers[card.Id] = ++stack; // add modifier
 						exhibit.FinalizeQuestByCardId(card.Id); // finish quest
 						exhibit.MarkQuestCompleted(card.Id);
+						ShopModHandlers.RecordRewardedQuestCompletion(card.Id);
 					}
 				}
 			}

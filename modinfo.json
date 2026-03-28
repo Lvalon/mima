@@ -3,9 +3,9 @@
   "Description": "(EN/繁/簡)\nAdds Mima to the game, also introduces the Roguelite Shop.\n將魅魔加入遊戲，並引入 Roguelite 商店。",
   "Brief": "(EN/繁/簡)\nAdds Mima to the game, also introduces the Roguelite Shop.\n將魅魔加入遊戲，並引入 Roguelite 商店。",
   "Changelog": [
-    "v0.2.0:\nAdded the entire Roguelite Shop.\nView the full changelog in CHANGELOG.md."
+    "v0.2.1:\nMajor Roguelite Shop bugfixes.\nView the full changelog in CHANGELOG.md."
   ],
-  "Version": "0.2.0",
+  "Version": "0.2.1",
   "Author": "Lvalon",
   "Tags": [
     "Character",
@@ -18,5 +18,5 @@
     "BepInEx-BepInExPack-5.4.2100",
     "neo.lbol.frameworks.entitySideloader"
   ],
-  "LastUpdateTime": 1768450865
+  "LastUpdateTime": 1771943703
 }

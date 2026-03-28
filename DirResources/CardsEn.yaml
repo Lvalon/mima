@@ -438,10 +438,10 @@ cardquest7:
 
 cardquest8:
   Name: "8. Perfect Cherry Blossom"
-  Description: "|When accepted|: Gain a random card with |Graze|."
+  Description: ""
   ExtraDescription1: "|Condition|: |Graze| {Value1} time{Value1:plural one='' other='s'}."
   ExtraDescription2: "|Reward|: The |Roukanken| exhibit."
-  DetailText: "{SelfName} cannot be randomly generated if no card with |Graze| could be generated, or if |Roukanken| is already obtained."
+  DetailText: "{SelfName} cannot be randomly generated if no card with |Graze| are in the library, or if |Roukanken| is already obtained."
 
 cardquest9:
   Name: "9. The Strongest"
@@ -478,7 +478,7 @@ cardquest14:
   Name: "14. Threading the Needle"
   Description: ""
   ExtraDescription1: "|Condition|: End a combat without shuffling, and with the draw pile being empty."
-  ExtraDescription2: "|Reward|: Maximum life equal to the library size. Choose up to {Value2} card{Value2:plural one='' other='s'} in the library, |upgrade| {Value2:plural one='it' other='them'}."
+  ExtraDescription2: "|Reward|: Maximum life equal to the library size. |Upgrade| half of the unupgraded cards in the library."
 
 cardquest15:
   Name: "15. Clear World"
@@ -494,7 +494,7 @@ cardquest16:
   Name: "16. End of Turn"
   Description: ""
   ExtraDescription1: "|Condition|: End {Value1} combat{Value1:plural one='' other='s'}'{Value1:plural one='s' other=''} first turn without drawing cards outside the draw step and with at least an |Ability| card in the draw pile."
-  ExtraDescription2: "|p:Permanent Reward|: At the end of {PlayerName}'s first turn, if cards weren't drawn outside the draw step and at least an |Ability| card is in the draw pile, play a random |Ability| card in the draw pile."
+  ExtraDescription2: "|p:Permanent Reward|: At the end of {PlayerName}'s first turn, if cards weren't drawn outside the draw step and at least an |Ability| card is in the draw pile, play all |Ability| cards in the draw pile."
 
 cardquest17:
   Name: "17. One and Only"
@@ -563,7 +563,7 @@ cardquest24:
   Name: "24. Detonate!"
   Description: "|While accepted|: {PlayerName}'s damage dealt and life loss caused are |held| until the start of the start of the enemy's turn."
   ExtraDescription1: "|Condition|: |Held Damage| has recorded damage that is over |n:50%| of its owner's maximum life {Value1} time{Value1:plural one='' other='s'}."
-  ExtraDescription2: "|p:Permanent Reward|: Enemies gain |Delayed Damage| equal to |n:10%| of their damage taken."
+  ExtraDescription2: "|p:Permanent Reward|: Enemies gain |Delayed Damage| equal to |n:20%| of their damage taken."
 
 cardquest25:
   Name: "25. Quintessential Miko"

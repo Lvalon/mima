@@ -202,6 +202,7 @@ seplayleft:
   Description: "Only the leftmost playable (ignoring cost) card can be played.\nAfter playing a card, remove {SelfName}."
   Brief: "Only the leftmost playable (ignoring cost) card can be played.\nAfter playing a card, remove {SelfName}."
   Name: One and Only
+  seerror: "I want to play that one!"
 
 seistone:
   Description: "This is an |Incident Stone| card. |Incident Stones| cannot be upgraded."

@@ -1,6 +1,6 @@
 {
   "name": "Mima",
-  "version_number": "0.2.0",
+  "version_number": "0.2.1",
   "website_url": "https://github.com/Lvalon/mima",
   "description": "(EN/繁/簡)\nAdds Mima to the game.\n將魅魔加入遊戲。",
   "dependencies": [ "BepInEx-BepInExPack-5.4.2100", "TeamNeo-Sideloader-0.5.0"]

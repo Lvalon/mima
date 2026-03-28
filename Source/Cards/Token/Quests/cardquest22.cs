@@ -16,7 +16,7 @@ namespace lvalonmima.Cards
 			config.Colors = new List<ManaColor>() { ManaColor.White, ManaColor.Red };
 			config.Rarity = Rarity.Uncommon;
 
-			config.Value1 = 10;
+			config.Value1 = 6;
 			config.Value2 = 2;
 			config.Mana = new ManaGroup() { Philosophy = 1 };
 

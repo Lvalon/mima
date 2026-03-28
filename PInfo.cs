@@ -6,7 +6,7 @@ namespace lvalonmima
 	{
 		public const string GUID = "llbol.char.mima";
 		public const string Name = "Mima";
-		public const string version = "0.2.0";
+		public const string version = "0.2.1";
 		public static readonly Harmony harmony = new Harmony(GUID);
 
 	}

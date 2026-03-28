@@ -27,6 +27,13 @@ namespace lvalonmima.StatusEffects
 	public sealed class seplayleft : StatusEffect
 	{
 		public override bool ForceNotShowDownText => true;
+		public override string PreventCardUsageMessage
+		{
+			get
+			{
+				return TypeFactory<StatusEffect>.LocalizeProperty(Id, "seerror", true, true).RuntimeFormat(FormatWrapper);
+			}
+		}
 		protected override void OnAdded(Unit unit)
 		{
 			ReactOwnerEvent(Battle.CardUsed, OnCardUsed);
@@ -39,7 +46,23 @@ namespace lvalonmima.StatusEffects
 
 		public override bool ShouldPreventCardUsage(Card card)
 		{
-			return card != Battle.HandZone.FirstOrDefault(c => !c.IsForbidden && c.CanUse);
+			return card != Battle.HandZone.FirstOrDefault(CanPlay);
+		}
+		bool CanPlay(Card card)
+		{
+			bool rez = Battle.IsWaitingPlayerInput
+			&& !Battle.DoesHandCardPreventUse(card, out var _)
+			&& !card.IsForbidden
+			&& card.CanUse
+			&& ((card.Config.MoneyCost.HasValue ? card.Config.MoneyCost : 0) <= Battle.GameRun.Money);
+			foreach (StatusEffect statusEffect in Battle.Player.StatusEffects.Where(se => se.Id != nameof(seplayleft)))
+			{
+				if (statusEffect.ShouldPreventCardUsage(card))
+				{
+					return false;
+				}
+			}
+			return rez;
 		}
 	}
 }

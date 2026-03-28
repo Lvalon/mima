@@ -201,6 +201,7 @@ seplayleft:
   Description: "只能打出最左的可打出（无视费用）手牌。\n打出牌后移除{SelfName}。"
   Brief: "只能打出最左的可打出（无视费用）手牌。\n打出牌后移除{SelfName}。"
   Name: 命中注定
+  seerror: "我只想打那张牌！"
 
 seistone:
   Description: "这是一张|异变石|牌。|异变石|不能被|升级|。"
@@ -273,6 +274,10 @@ sequest25:
 sequest26:
   Description: "{PlayerName}在有手牌时结束回合前，不会受到未被阻挡的伤害。"
   Name: "空值"
+
+sepie:
+  Description: "打出牌后，受到当前回合|已打出牌数|对应的|π的位数|的伤害。\n({Count} 点伤害)"
+  Name: "π 的分量"
 
 sequest27:
   Description: "打出牌后，恢复当前回合|已打出牌数|对应的|π的位数|的生命值。\n({Count} 点生命值)"

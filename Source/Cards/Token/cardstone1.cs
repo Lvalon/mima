@@ -58,9 +58,9 @@ namespace lvalonmima.Cards
 			if (Battle.BattleShouldEnd) { yield break; }
 			Card tmp = Library.CreateCard<Blizzard>();
 			tmp.Battle = Battle;
-			// tmp.Zone = CardZone.FollowArea;
+			tmp.Zone = CardZone.FollowArea;
 			tmp.IsPlayTwiceToken = true;
-			Battle.AddCardToFollowArea(tmp);
+			// Battle.AddCardToFollowArea(tmp);
 			yield return new PlayCardAction(tmp);
 		}
 	}

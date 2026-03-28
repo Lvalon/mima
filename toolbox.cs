@@ -166,13 +166,13 @@ namespace lvalonmima
 				{
 					continue;
 				}
-				// float num = weightTable.WeightFor(item2, gr.Player.Id, charExSet);
-				// if (num > 0f)
-				// {
-				//     float num2 = gr.BaseCardWeight(item2, false);
-				//     uniqueRandomPool.Add(item, num * num2);
-				// }
-				uniqueRandomPool.Add(item, 1);
+				float num = weightTable.WeightFor(item2, gr.Player.Id, charExSet);
+				if (num > 0f)
+				{
+					float num2 = gr.BaseCardWeight(item2, false);
+					uniqueRandomPool.Add(item, num * num2);
+				}
+				// uniqueRandomPool.Add(item, 1);
 			}
 
 			return uniqueRandomPool;
