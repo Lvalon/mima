@@ -172,6 +172,7 @@ namespace lvalonmima.Source.Patches
 			AddItem(new ShopItem(alter + "blankcard", new List<int> { 24000 }, 0));
 
 			AddItem(new ShopItem(difficulty + "reverse", new List<int> { 0 }, 0));
+			AddItem(new ShopItem(difficulty + "ascension", new List<int> { 0 }, 0));
 
 			AddItem(new ShopItem("refund", new List<int> { 0 }, 0));
 		}

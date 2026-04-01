@@ -48,7 +48,7 @@ namespace lvalonmima.StatusEffects
 			if (num > 0)
 			{
 				NotifyActivating();
-				yield return new CastBlockShieldAction(Owner, new BlockInfo(Count, BlockShieldType.Direct));
+				yield return new CastBlockShieldAction(Owner, new BlockInfo(Count));
 				Count++;
 			}
 		}

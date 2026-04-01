@@ -30,8 +30,8 @@ seevilspirit:
   Name: Evil Spirit
 
 setranscendence:
-  Description: "When {OwnerName} takes damage or loses life, draw |n:1| card and gain {Mana}.\n{SelfName} loses |n:1| Level at the end of each turn."
-  Brief: "When {OwnerName} takes damage or loses life, draw |n:1| cards and gain {Mana}.\n{SelfName} loses |n:1| Level at the end of each turn."
+  Description: "Whenever {OwnerName} takes damage or loses life, draw |n:1| card and gain {Mana}.\n{SelfName} loses |n:1| Level at the end of each turn."
+  Brief: "Whenever {OwnerName} takes damage or loses life, draw |n:1| cards and gain {Mana}.\n{SelfName} loses |n:1| Level at the end of each turn."
   Name: Transcendence
 
 seabyss:
@@ -304,3 +304,211 @@ selockinstance:
   Description: "{OwnerName} takes no damage."
   Brief: "{OwnerName} takes no damage."
   Name: "Instance-Locked"
+
+seMaoyu:
+  Description: "{OwnerName} gains |Fluffy| equal to unblocked damage taken after taking unblocked attack damage while having no |Fluffy|."
+  Name: "Fluffy (Ascended)"
+
+seMaoyuBlack:
+  Description: "Whenever |Kedama| of another color gains |Block|, {OwnerName} gains that much |Block|."
+  Name: "Black Fluffy (Ascended)"
+
+seWhiteFairy:
+  Description: "Whenever an |Attack| card is played, convert |c:1| of the most abundant mana to {Mana}, {OwnerName} gains |c:1| |Temporary Firepower|."
+  Name: "Sunflower (Ascended)"
+
+seRaven:
+  Description: "Whenever {OwnerName} |Grazes| an attack, add a news card to the discard pile."
+  Name: "Out of Time (Ascended)"
+
+seBlackFairy:
+  Description: "Whenever a card is played while {OwnerName} has |Lunacy|, convert |c:1| of the most abundant mana to {Mana}, {OwnerName} gains |c:1| |Barrier|."
+  Name: "Lunacy (Ascended)"
+
+seGuihuo:
+  Description: "When {OwnerName} is defeated, distribute half of {OwnerName}'s |Revenge Bullet| to all enemies."
+  Name: "Revenge Bullet (Ascended)"
+
+seSickGirl:
+  Description: "Whenever {OwnerName} deals unblocked damage, apply |c:2| |Weak| to {PlayerName}."
+  Name: "Deathly Pale (Ascended)"
+
+seRedOrb:
+  Description: "When a |Blue Yin-Yang Orb| with |Blue Orb| is defeated, absorb its |Spirit| as {SelfName}'s base |Barrier| gain to activate {SelfName}.\n|While activated|: At the end of {OwnerName}'s turn, gain {Count} |Barrier|,then increase this |Barrier| gain by |c:1|."
+  Name: "Blue Orb Inheritance (Ascended)"
+
+seBlueOrb:
+  Description: "When a |Red Yin-Yang Orb| with |Red Orb| is defeated, absorb its |Firepower| as {SelfName}'s base damage to activate {SelfName}.\n|While activated|: At the end of {OwnerName}'s turn, deal {Count} attack damage to {PlayerName}, then increase this damage by |c:1|."
+  Name: "Red Orb Inheritance (Ascended)"
+
+seFraudRabbit:
+  Description: "When {OwnerName} is defeated, all enemies gain |c:3| |Graze|."
+  Name: "Heavy Toll (Ascended)"
+
+seBat:
+  Description: "Whenever a card is drawn outside the draw step while {SelfName} has no |Graze|, gain |c:1| |Graze|."
+  Name: "Motion Capture (Ascended)"
+
+seBatLord:
+  Description: "Whenever a card is drawn outside the draw step, the |Bat| with the most life lost gains life equal to cards drawn this turn. ({Count})"
+  Name: "Bloody Current (Ascended)"
+
+seDoll:
+  Description: "Whenever {OwnerName} deals unblocked damage, apply |c:1| |Poison| and |Vulnerable| to {PlayerName}."
+  Name: "Poison Death (Ascended)"
+
+seWaterGirl:
+  Description: "Whenever {OwnerName} deals unblocked damage, increase {PlayerName}'s |Drowning| by |c:1|."
+  Name: "Sink Like a Stone (Ascended)"
+
+seScout:
+  Description: "For every {limit} card{limit:plural one=' is' other='s are'} played, apply |c:1| |Lock On| to {PlayerName}.\n(Apply after playing {Count} card{Count:plural one='' other='s'})"
+  Name: "Critical Hit Module (Ascended)"
+
+sePurifier:
+  Description: "Whenever mana is gained outside the start of turn, |Purify| |c:1|."
+  Name: "Stress Module (Ascended)"
+
+seTerminator:
+  Description: "When {PlayerName} gains |Graze|, apply |c:1| |Lock On| to {PlayerName}."
+  Name: "Aimbot Module (Ascended)"
+
+seYaoshi:
+  Description: "After {OwnerName} takes unblocked damage, take |c:1| less damage until the end of {OwnerName}'s turn.\n(Take {Count} less damage)"
+  Name: "Hang On (Ascended)"
+
+seFox:
+  Description: "At the end of {OwnerName}'s turn, if {OwnerName} has not taken unblocked damage this round, gain |c:1| |Firepower|."
+  Name: "Charm (Ascended)"
+
+seSPWhite:
+  Description: '{PlayerName} loses |c:5| <sprite="Point" name="Gold"> per mana gained outside the start of turn.'
+  Name: "Curse of Wealth (Ascended)"
+
+seSPPurple:
+  Description: "{PlayerName} loses |c:1| life for each card drawn outside of draw step."
+  Name: "Curse of Elegance (Ascended)"
+
+seLoveGirl:
+  Description: "{OwnerName} deals and takes |c:10|% more damage per |Loveletter| played.\n(Deal and take {Count}% more)"
+  Name: "In a Relationship (Ascended)"
+
+seRaven3:
+  Description: "Non-|Status| cards with a base cost lower than the number of |Ravens| cost {Mana} more."
+  Name: "Apex Speedster (Ascended)"
+
+seBigCrow:
+  Description: "If {PlayerName} has |Grazed| an attack in the last round, {OwnerName}'s attacks become |Accurate| this round."
+  Name: "Unfaltering Shield (Ascended)"
+
+seKanako:
+  Description: "Whenever mana is gained outside the start of turn, apply |c:1| |Temporary Firepower Down| to {PlayerName}."
+  Name: "God's Aura (Ascended)"
+
+seSuwako:
+  Description: "For every {limit} card{limit:plural one=' is' other='s are'} drawn outside the draw step, a random card in the hand is |Jinxed| and made useless.\n(Draw {Count} more)"
+  Name: "Jinx (Ascended)"
+
+seAya:
+  Description: "At the end of {PlayerName}'s turn, {OwnerName} loses all |Barrier|, then gains |c:1| |Barrier| for each |Status| card in the discard pile."
+  Name: "Ongoing Interview (Ascended)"
+
+seSunny:
+  Description: "Whenever an enemy is defeated, {OwnerName} gains |c:1| |Firepower|."
+  Name: "Sunny Eclipse (Ascended)"
+
+seStar:
+  Description: "For each enemy defeated, at the start of {OwnerName}'s turn, apply |c:1| |Lock On| to {PlayerName}.\n(Apply {Count})"
+  Name: "Lucky Star (Ascended)"
+
+seLuna:
+  Description: "For each enemy defeated, at the start of {OwnerName}'s turn, gain |c:3| |Barrier|.\n(Gain {Count})"
+  Name: "Luna Eclipse (Ascended)"
+
+seRin:
+  Description: "Whenever a |Vengeful Spirit| is defeated, all |Vengeful Spirits| gain |c:1| |Firepower|, {OwnerName} loses |c:1| |Firepower|."
+  Name: "Blazing Fire (Ascended)"
+
+seYoumu:
+  Description: "Whenever {PlayerName} |Grazes| an attack, |Exile| a random card on the battlefield until the end of the next round."
+  Name: "Roukanken (Ascended)"
+
+seNitori:
+  Description: "Other enemies take half as much damage from attacks, {OwnerName} takes the damage reduced by {SelfName}."
+  Name: "Defense Matrix (Ascended)"
+
+seKoXi:
+  Description: "Whenever {OwnerName} takes unblocked damage, gain |c:1| |Graze|."
+  Name: "Joy (Ascended)"
+
+seKoNu:
+  Description: "Whenever a card is drawn outside the draw step, all enemies gain |c:1| life, {OwnerName} deals |c:1| damage to {PlayerName}."
+  Name: "Anger (Ascended)"
+
+seKoYou:
+  Description: "Whenever mana is gained outside the start of turn, discard the leftmost card in the hand."
+  Name: "Sorrow (Ascended)"
+
+seKoSerious:
+  Description: "Cards cannot be drawn outside the draw phase if there are less than |c:2| non-|Exiled Status| cards on the battlefield.\nMana cannot be gained outside the start of turn."
+  Name: "Serious (Ascended)"
+
+seDoremy:
+  Description: "Cards played while {OwnerName} has |Barrier| will gain |Ethereal|."
+  Name: "Creator of Dreams (Ascended)"
+
+seClownpiece:
+  Description: "For every |c:2| enemies, a random non-|Exiled Status| card on the battlefield loses |Exile| at the end of each round."
+  Name: "Lunatic Torch (Ascended)"
+
+seEiki:
+  Description: "Enemies with |Mirror Image| take half as much damage from attacks."
+  Name: "Judgement of Right and Wrong (Ascended)"
+
+seReimu:
+  Description: "Whenever an |Orb| enemy is defeated, {OwnerName} gains |c:3| |Temporary Firepower|.\nIf there is any unspent mana at the end of {PlayerName}'s turn, {OwnerName} gains |c:3| |Barrier|."
+  Name: "Hakurei Purification Rod (Ascended)"
+
+seMarisa:
+  Description: "Increase {OwnerName}'s damage dealt with attacks by the number of unique non-|Exiled Status| cards on the battlefield."
+  Name: "Compress (Ascended)"
+
+seSakuya:
+  Description: "{OwnerName} deals |c:5|% more damage and takes |c:5|% less damage per non-|Exiled Time Lockdown| on the battlefield.\n(Both {Count}%)"
+  Name: "Silver Lockdown (Ascended)"
+
+seCirno:
+  Description: "{OwnerName} gains |c:1| |Ice Block| for every |c:99| unblocked damage taken.\n(Gain after {Count} unblocked damage)"
+  Name: "Ice Block (Ascended)"
+
+sesbKoishi:
+  Description: "At the start of {OwnerName}'s turn, shuffle a random |Exiled| non-|Status| non-|Misfortune| card from |Exile| into the draw pile, |Exile| another non-|Status| non-|Misfortune| card on the battlefield."
+  Name: "Unpredictable (Ascended)"
+
+seYuyuko:
+  Description: "{PlayerName} randomly gains |c:1| |Weak|, |Frail| or |Vulnerable| after taking unblocked damage."
+  Name: "Law of Morality (Ascended)"
+
+seTenshi:
+  Description: "{OwnerName} takes half as much damage while her intention is an attack |Spell Card|."
+  Name: "Heavenly Peach (Ascended)"
+
+seMegumu:
+  Description: "At the end of the turn where {OwnerName} has used a |Spell Card|, all |Status| cards on the battlefield lose |Exile| and |Ethereal|.\nWhenever |Bribery| is played, all |Status| cards on the battlefield gain |Ethereal|."
+  Name: "Shining Tripod (Ascended)"
+
+seRemilia:
+  Description: "{OwnerName} gains |Vampire|.\nWhenever {OwnerName} |Grazes| an attack, gain life equal to half of that original damage."
+  Name: "Scarlet Fate (Ascended)"
+
+seSanae:
+  Description: "Whenever a |Skill| card is played, discard the leftmost card in the hand, {OwnerName} gains |c:2| |Temporary Firepower|, {PlayerName} loses |c:2| |Temporary Firepower|."
+  Name: "I'm Really Curious! (Ascended)"
+
+seJunko:
+  Description: "When {PlayerName} has |c:3| or more |Overflowing Blemishes|, |Purify| |c:1| at the start of {PlayerName}'s turn.\nWhen {PlayerName} reaches |c:5| |Overflowing Blemishes|, |Purify| a mana in the mana base."
+  Name: "Overflowing Blemishes (Ascended)"
+
+seSeija:
+  Description: "{OwnerName} gains a random Exhibit for every |c:300| unblocked damage taken.\n(Gain after {Count} unblocked damage)"
+  Name: "Liberator of Items (Ascended)"

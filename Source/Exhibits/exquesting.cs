@@ -359,6 +359,10 @@ namespace lvalonmima.Exhibits
 			float expStart = MathF.Exp(-k * MathF.Max(0f, fraction));
 			float expEnd = MathF.Exp(-k * 1f);
 			float levelDeduct10 = (expStart - expEnd) / (1f - expEnd);
+			if (gameRun.Stages?.IndexOf(gameRun.CurrentStage) == 3)
+			{
+				levelDeduct10 = 0f; //no rares in act 4 duh
+			}
 			Card[] rolledCards = null;
 			bool runNotReadyFallback = false;
 

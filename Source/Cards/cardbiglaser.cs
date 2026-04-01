@@ -65,12 +65,9 @@ namespace lvalonmima.Cards
 			if (Battle.AllAliveEnemies.Count() > 0 && args.ActionSource == this && args.DamageInfo.DamageType == DamageType.Attack)
 			{
 				DamageInfo damageInfo = args.DamageInfo;
-				if (damageInfo.Damage > 0f)
+				if (args.Target.IsAlive && !damageInfo.ZeroDamage)
 				{
-					if (args.Target.IsAlive)
-					{
-						yield return DebuffAction<Poison>(args.Target, (int)damageInfo.Damage, 0, 0, 0);
-					}
+					yield return DebuffAction<Poison>(args.Target, (int)damageInfo.Damage, 0, 0, 0);
 				}
 			}
 		}

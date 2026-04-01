@@ -50,7 +50,7 @@ namespace lvalonmima.StatusEffects
 
 		private void OnPredraw(CardEventArgs args)
 		{
-			if (base.ThisTurnActivating && args.Cause == ActionCause.TurnStart)
+			if (ThisTurnActivating && args.Cause == ActionCause.TurnStart)
 			{
 				NotifyActivating();
 				if (Battle.DiscardZone.Count > 0)

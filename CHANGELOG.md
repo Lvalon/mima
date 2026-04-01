@@ -1,5 +1,19 @@
 # Changelog / 更新日誌
 
+## [0.2.2] - 2026-4-1
+
+### Added / 新增
+
+- New Ascended difficulty in Roguelite Shop.
+
+- Roguelite 商店新增了昇華難度。
+
+### Changes / 改動
+
+- Minor bugfixes.
+
+- 修了點 bug。
+
 ## [0.2.1] - 2026-2-28
 
 ### Changes / 改動
@@ -116,6 +130,7 @@
 
 - 1.7.0 支援。
 
+[0.2.2]: https://thunderstore.io/package/download/Lvalon/Mima/0.2.2/
 [0.2.1]: https://thunderstore.io/package/download/Lvalon/Mima/0.2.1/
 [0.1.6]: https://thunderstore.io/package/download/Lvalon/Mima/0.1.6/
 [0.1.5]: https://thunderstore.io/package/download/Lvalon/Mima/0.1.5/

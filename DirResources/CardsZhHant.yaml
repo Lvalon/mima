@@ -344,8 +344,8 @@ cardsmashpass:
 
 cardreckfly:
   Name: 胡亂飛行
-  Description: "戰場中的一個隨機單位失去 {Value1} 點生命值。\n重複這效果直至有一個單位因此達到 |n:0| 點生命值。\n將{SelfName}移出戰鬥。\n每段效果處理如果時|< 25%|{hp25ns}：獲得{Mana}。"
-  UpgradedDescription: "戰場中的一個隨機單位失去 {Value1} 點生命值。\n重複這效果直至有一個單位達到 |n:0| 點生命值，然後再有單位因此達到 |n:0| 點生命值。\n將{SelfName}移出戰鬥。\n每段效果處理時如果|< 25%|{hp25ns}：獲得{Mana}。"
+  Description: "戰場中的一個隨機單位失去 {Value1} 點生命值。\n重複這效果直到有一個單位因此達到 |n:0| 點生命值。\n將{SelfName}移出戰鬥。\n每段效果處理如果時|< 25%|{hp25ns}：獲得{Mana}。"
+  UpgradedDescription: "戰場中的一個隨機單位失去 {Value1} 點生命值。\n重複這效果直到有一個單位達到 |n:0| 點生命值，然後再有單位因此達到 |n:0| 點生命值。\n將{SelfName}移出戰鬥。\n每段效果處理時如果|< 25%|{hp25ns}：獲得{Mana}。"
   DetailText: "|p:可能會產生無限。|\n{SelfName}不會在戰鬥中被隨機獲得，不能成為複製效果的對象。"
 
 cardtwilightspark:
@@ -528,7 +528,7 @@ cardstone1:
 
 cardstone2:
   Name: 沉底的地靈
-  Description: "|戰鬥開始時|：打出{SelfName}。\n每當{PlayerName}|閃避|傷害時，獲得 {Value1} 點|格檔|。"
+  Description: "|戰鬥開始時|：打出{SelfName}。\n每當{PlayerName}|閃避|傷害時，獲得 {Value1} 點|格擋|。"
   DetailText: "牌庫沒有|閃避|牌時，{SelfName}不會在備選池內。"
 
 cardstone3:
@@ -568,7 +568,7 @@ cardquest24:
 cardquest25:
   Name: "序列 25：五等份的巫女"
   Description: ""
-  ExtraDescription1: "|條件|：在 {Value1} 場戰鬥中，打出|能力|牌，受到傷害和恢復生命值，獲得|格檔|和|護盾|。"
+  ExtraDescription1: "|條件|：在 {Value1} 場戰鬥中，打出|能力|牌，受到傷害和恢復生命值，獲得|格擋|和|護盾|。"
   ExtraDescription2: "|p:永久獎勵|：每場戰鬥中，打出的第 |n:1| 張能力將再次被打出。"
   DetailText: "牌庫沒有|護盾|牌時，{SelfName}不會在備選池內。"
 
@@ -576,7 +576,7 @@ cardquest26:
   Name: "序列 ∅：空值"
   Description: "如果{PlayerName}在戰鬥中受到傷害，|p:放棄|{SelfName}。"
   ExtraDescription1: "|條件|：抵達這一幕的首領敵人。"
-  ExtraDescription2: "|p:永久獎勵|：每場戰鬥中，{PlayerName}不會受到未被阻擋的傷害，直至{PlayerName}的回合開始，而上回合結束時持有手牌。"
+  ExtraDescription2: "|p:永久獎勵|：每場戰鬥中，{PlayerName}不會受到未被阻擋的傷害，直到{PlayerName}的回合開始，而上回合結束時持有手牌。"
   DetailText: "直接對自己造成的傷害不會|p:放棄|{SelfName}。\n{SelfName}被完成後將脫離備選池。"
 
 cardquest27:

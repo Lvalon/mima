@@ -48,7 +48,7 @@ namespace lvalonmima.Cards
 	{
 		protected override IEnumerable<BattleAction> Actions(UnitSelector selector, ManaGroup consumingMana, Interaction precondition)
 		{
-			List<Card> list = Battle.RollCardsWithoutManaLimit(new CardWeightTable(RarityWeightTable.AllOnes, OwnerWeightTable.AllOnes, CardTypeWeightTable.CanBeLoot), Value1, (CardConfig config) => config.Id != Id && (config.RelativeEffects.Contains(nameof(TimeIsLimited)) || config.UpgradedRelativeEffects.Contains(nameof(TimeIsLimited)))).ToList();
+			List<Card> list = Battle.RollCardsWithoutManaLimit(new CardWeightTable(RarityWeightTable.AllOnes, OwnerWeightTable.AllOnes, CardTypeWeightTable.CanBeLoot), Value1, config => config.Id != Id && (config.RelativeEffects.Contains(nameof(TimeIsLimited)) || config.UpgradedRelativeEffects.Contains(nameof(TimeIsLimited)))).ToList();
 			foreach (Card card in list)
 			{
 				if (!card.IsXCost)

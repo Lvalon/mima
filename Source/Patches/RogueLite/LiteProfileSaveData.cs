@@ -137,7 +137,7 @@ namespace lvalonmima.Source.Patches
 			if (shop == null || !shop.ChallengerModeEnabled)
 				return;
 
-			int adjusted = ApplyNormalizeSaveRules(shop, GameMaster.Instance?.CurrentGameRun, amount);
+			int adjusted = ApplyBluePointMults(shop, GameMaster.Instance?.CurrentGameRun, amount);
 			if (adjusted > 0)
 			{
 				shop.AddMoney(adjusted);
@@ -146,17 +146,20 @@ namespace lvalonmima.Source.Patches
 				ClearActiveRunProfileKey();
 		}
 
-		private static int ApplyNormalizeSaveRules(LiteShop shop, GameRunController gameRun, int bluePoint)
+		private static int ApplyBluePointMults(LiteShop shop, GameRunController gameRun, int bluePoint)
 		{
+			double mult = 1.0;
 			if (shop?.GetItem("difficulty.reverse")?.CurrentTier > 0)
 			{
 				if (!IsWinningResult(gameRun?.GameRunRecord?.ResultType ?? GameResultType.Failure))
 					return 0;
-
-				return toolbox.Round(0.5f * bluePoint);
+				mult *= 0.5;
 			}
 
-			return bluePoint;
+			if (shop?.GetItem("difficulty.ascension")?.CurrentTier > 0)
+				mult *= 2;
+
+			return toolbox.Round(mult * bluePoint);
 		}
 
 		private static bool IsWinningResult(GameResultType resultType)

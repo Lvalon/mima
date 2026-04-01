@@ -25,8 +25,8 @@ sesideload:
   Name: 側載 X
 
 seevilspirit:
-  Description: "{OwnerName}獲得的|格檔|和|護盾|將變為對{OwnerName}造成傷害，單次上限為 {bscap} 點傷害。\n當{OwnerName}被擊敗時，回滿生命值，然後所有敵人的生命值和最大生命值降低{OwnerName}的最大生命值的一半。\n當{OwnerName}以卡牌效果、自身狀態、展品或自己擊敗自己時，獲得 |n:1| 點最大生命值（每場戰鬥一次），否則失去一半最大生命值。\n當{OwnerName}的最大生命值少於 |n:6| 點時，死亡。"
-  Brief: "{OwnerName}獲得的|格檔|和|護盾|將變為對{OwnerName}造成傷害，單次上限為 {bscap} 點傷害。\n當{OwnerName}被擊敗時，回滿生命值，然後所有敵人的生命值和最大生命值降低{OwnerName}的最大生命值的一半。\n當{OwnerName}以卡牌效果、自身狀態、展品或自己擊敗自己時，獲得 |n:1| 點最大生命值（每場戰鬥一次），否則失去一半最大生命值。\n當{OwnerName}的最大生命值少於 |n:6| 點時，死亡。"
+  Description: "{OwnerName}獲得的|格擋|和|護盾|將變為對{OwnerName}造成傷害，單次上限為 {bscap} 點傷害。\n當{OwnerName}被擊敗時，回滿生命值，然後所有敵人的生命值和最大生命值降低{OwnerName}的最大生命值的一半。\n當{OwnerName}以卡牌效果、自身狀態、展品或自己擊敗自己時，獲得 |n:1| 點最大生命值（每場戰鬥一次），否則失去一半最大生命值。\n當{OwnerName}的最大生命值少於 |n:6| 點時，死亡。"
+  Brief: "{OwnerName}獲得的|格擋|和|護盾|將變為對{OwnerName}造成傷害，單次上限為 {bscap} 點傷害。\n當{OwnerName}被擊敗時，回滿生命值，然後所有敵人的生命值和最大生命值降低{OwnerName}的最大生命值的一半。\n當{OwnerName}以卡牌效果、自身狀態、展品或自己擊敗自己時，獲得 |n:1| 點最大生命值（每場戰鬥一次），否則失去一半最大生命值。\n當{OwnerName}的最大生命值少於 |n:6| 點時，死亡。"
   Name: 惡靈
 
 setranscendence:
@@ -193,8 +193,8 @@ sequest:
   Name: 任務
 
 sehaunted:
-  Description: "{Ownername}被傷害殺死時，免除死亡並恢復至最大生命值的一半，然後移除{SelfName}。"
-  Brief: "{Ownername}被傷害殺死時，免除死亡並恢復至最大生命值的一半，然後移除{SelfName}。"
+  Description: "{OwnerName}被傷害殺死時，免除死亡並恢復至最大生命值的一半，然後移除{SelfName}。"
+  Brief: "{OwnerName}被傷害殺死時，免除死亡並恢復至最大生命值的一半，然後移除{SelfName}。"
   Name: 活死人
 
 seplayleft:
@@ -209,8 +209,8 @@ seistone:
   Name: 異變石
 
 sestone2:
-  Description: "每當{PlayerName}|閃避|傷害時，獲得 {Level} 點|格檔|。"
-  Brief: "每當{PlayerName}|閃避|傷害時，獲得若干點|格檔|。"
+  Description: "每當{PlayerName}|閃避|傷害時，獲得 {Level} 點|格擋|。"
+  Brief: "每當{PlayerName}|閃避|傷害時，獲得若干點|格擋|。"
   Name: 沉底的地靈
 
 seattackplayed:
@@ -264,8 +264,8 @@ sehealreceived:
   Name: 恢復的生命值
 
 seblockgained:
-  Description: "{OwnerName}在這場戰鬥內獲得的|格檔|為 {Level} 點，|護盾|為 {Count} 點。"
-  Name: "獲得的格檔/護盾"
+  Description: "{OwnerName}在這場戰鬥內獲得的|格擋|為 {Level} 點，|護盾|為 {Count} 點。"
+  Name: "獲得的格擋/護盾"
 
 sequest25:
   Description: "下 {Level} 張|能力|牌將再次被打出。"
@@ -299,3 +299,211 @@ selockinstance:
   Description: "{OwnerName}不會受到傷害。"
   Brief: "{OwnerName}不會受到傷害。"
   Name: "須臾鎖"
+
+seMaoyu:
+  Description: "{OwnerName}在沒|毛茸茸|時被攻擊後獲得受到傷害等量的|毛茸茸|。"
+  Name: "毛茸茸（昇華）"
+
+seMaoyuBlack:
+  Description: "當其他顏色的|毛玉|獲得|格擋|時，{OwnerName}獲得等量的|格擋|。"
+  Name: "黑毛茸茸（昇華）"
+
+seWhiteFairy:
+  Description: "當|攻擊|牌被打出時，將 |c:1| 點法力轉化為{Mana}，{OwnerName}獲得 |c:1| 層|暫得火力|。"
+  Name: "向日葵（昇華）"
+
+seRaven:
+  Description: "當{OwnerName}|閃避|傷害時，將一張新聞加入棄牌堆。"
+  Name: "燃眉之急（昇華）"
+
+seBlackFairy:
+  Description: "當卡牌被打出而{OwnerName}擁有|瘋狂|時，將 |c:1| 點法力轉化為{Mana}，{OwnerName}獲得 |c:1| 點|護盾|。"
+  Name: "瘋狂（昇華）"
+
+seGuihuo:
+  Description: "當{OwnerName}被擊敗時，將{OwnerName}一半的|死亡彈幕|擴散給所有敵人。"
+  Name: "死亡彈幕（昇華）"
+
+seSickGirl:
+  Description: "當{OwnerName}造成未被格擋的傷害時，對{PlayerName}施加 |c:2| 回合|虛弱|。"
+  Name: "疾病纏身（昇華）"
+
+seRedOrb:
+  Description: "當一個擁有|藍玉之力|的|藍陰陽玉|被擊敗時，吸取其|靈力|作為{SelfName}的基礎|護盾|獲得以激活{SelfName}。\n|激活後|：{OwnerName}的回合結束時，獲得 {Count} 點|護盾|，然後此|護盾|獲得增加 |c:1| 點。"
+  Name: "藍玉之力繼承（昇華）"
+
+seBlueOrb:
+  Description: "當一個擁有|紅玉之力|的|紅陰陽玉|被擊敗時，吸取其|火力|作為{SelfName}的基礎傷害以激活{SelfName}。\n|激活後|：{OwnerName}的回合結束時，對{PlayerName}造成 {Count} 點傷害，然後此傷害增加 |c:1| 點。"
+  Name: "紅玉之力繼承（昇華）"
+
+seFraudRabbit:
+  Description: "當{OwnerName}被擊敗時，所有敵人獲得 |c:3| 層|閃避|。"
+  Name: "沉重的代價（昇華）"
+
+seBat:
+  Description: "在抽牌階段外抽牌，而{OwnerName}沒有|閃避|時，獲得 |c:1| 層|閃避|。"
+  Name: "動態捕捉（昇華）"
+
+seBatLord:
+  Description: "在抽牌階段外抽牌時，損失生命值最多的|蝙蝠|獲得這回合抽牌階段外抽牌數量的生命值。({Count})"
+  Name: "血腥之風（昇華）"
+
+seDoll:
+  Description: "當{OwnerName}造成未被格擋的傷害時，對{PlayerName}施加 |c:1| 層|中毒|和 |c:1| 回合|易傷|。"
+  Name: "死亡劇毒（昇華）"
+
+seWaterGirl:
+  Description: "當{OwnerName}造成未被格擋的傷害時，{PlayerName}的|溺水|提升 |c:1| 層。"
+  Name: "石沉大海（昇華）"
+
+seScout:
+  Description: "每打出 {limit} 張牌，對{PlayerName}施加 |c:1| 層|鎖定|。\n（打出 {Count} 張牌後施加）"
+  Name: "暴擊模組（昇華）"
+
+sePurifier:
+  Description: "在回合開始外獲得法力時，|淨化| |c:1|。"
+  Name: "應激模組（昇華）"
+
+seTerminator:
+  Description: "當{PlayerName}獲得|閃避|時，對{PlayerName}施加 |c:1| 層|鎖定|。"
+  Name: "自瞄模組（昇華）"
+
+seYaoshi:
+  Description: "{OwnerName}受到未被阻擋的傷害後，直到{OwnerName}的回合結束前受到的傷害減少 |c:1| 點。\n（減少 {Count} 點傷害）"
+  Name: "固守（昇華）"
+
+seFox:
+  Description: "{OwnerName}的回合結束時，如果這輪內{OwnerName}沒受到未被格擋的傷害，獲得 |c:1| 點|火力|。"
+  Name: "妖狐魅惑（昇華）"
+
+seSPWhite:
+  Description: '每在回合開始外獲得一點法力，{PlayerName}失去 |c:5| 點<sprite="Point" name="Gold">。'
+  Name: "富貴的詛咒（昇華）"
+
+seSPPurple:
+  Description: "每在抽牌階段外抽一張牌，{PlayerName}失去 |c:1| 點生命值。"
+  Name: "優雅的詛咒（昇華）"
+
+seLoveGirl:
+  Description: "每打出一張|情書|，{OwnerName}受到和造成的傷害提高 |c:10|%。\n（提高 {Count}%）"
+  Name: "陷入情場（昇華）"
+
+seRaven3:
+  Description: "所有初始費用低於|烏鴉|數量的非|狀態|牌，費用增加{Mana}。"
+  Name: "唯快不破（昇華）"
+
+seBigCrow:
+  Description: "如果{PlayerName}在上一輪|閃避|過，{OwnerName}這輪內的攻擊將具有|精準|。"
+  Name: "無堅不摧（昇華）"
+
+seKanako:
+  Description: "在回合開始外獲得法力時，對{PlayerName}施加 |c:1| 點|暫失火力|。"
+  Name: "神之氣場（昇華）"
+
+seSuwako:
+  Description: "每在抽牌階段外抽 {limit} 張牌，一張隨機的手牌被作祟，變為無用之物。"
+  Name: "作祟（昇華）"
+
+seAya:
+  Description: "{PlayerName}的回合結束時，{OwnerName}失去所有|護盾|，然後棄牌堆中每有一張|狀態|牌獲得 |c:1| 點|護盾|。"
+  Name: "取材中（昇華）"
+
+seSunny:
+  Description: "當一名敵人被擊敗時，獲得 |c:1| 點|火力|。"
+  Name: "日噬（昇華）"
+
+seStar:
+  Description: "每有一名敵人被擊敗，{OwnerName}的回合開始時，對{PlayerName}施加 |c:1| 層|鎖定|。\n（{Count} 層）"
+  Name: "幸運星（昇華）"
+
+seLuna:
+  Description: "每有一名敵人被擊敗，{OwnerName}的回合開始時，獲得 |c:3| 點|護盾|。\n（{Count} 點）"
+  Name: "月噬（昇華）"
+
+seRin:
+  Description: "當一名|怨靈|被擊敗時，所有|怨靈|獲得 |c:1| 點火力，{OwnerName}失去 |c:1| 點火力。"
+  Name: "地獄灼熱（昇華）"
+
+seYoumu:
+  Description: "每當{PlayerName}|閃避|傷害時，|放逐|將戰場上隨機一張牌，直到下輪結束。"
+  Name: "樓觀劍（昇華）"
+
+seNitori:
+  Description: "其他敵人受到的攻擊傷害降低一半，{OwnerName}受到{SelfName}減少的傷害。"
+  Name: "防禦矩陣（昇華）"
+
+seKoXi:
+  Description: "當{OwnerName}造成未被格擋的傷害時，獲得 |c:1| 層|閃避|。"
+  Name: "喜（昇華）"
+
+seKoNu:
+  Description: "在抽牌階段外每抽一張牌，所有敵人獲得 |c:1| 點生命值，{OwnerName}對{PlayerName}造成 |c:1| 點傷害。"
+  Name: "怒（昇華）"
+
+seKoYou:
+  Description: "在回合開始外獲得法力時，棄掉最左側的手牌。"
+  Name: "憂（昇華）"
+
+seKoSerious:
+  Description: "戰場上未被|放逐|的|狀態|牌數少於 |c:2| 張時，無法在抽牌階段外抽牌。\n在回合開始外不能獲得法力。"
+  Name: "認真（昇華）"
+
+seDoremy:
+  Description: "{OwnerName}擁有|護盾|時打出的所有牌將獲得|虛無|。"
+  Name: "造夢者（昇華）"
+
+seClownpiece:
+  Description: "每有 |c:2| 名敵人，每輪結束時戰場上隨機一張未被|放逐|的|狀態|牌失去|放逐|。"
+  Name: "瘋狂火炬（昇華）"
+
+seEiki:
+  Description: "擁有|鏡像|的敵人受到的傷害降低一半。"
+  Name: "是非曲直（昇華）"
+
+seReimu:
+  Description: "當一名|玉|敵人被擊敗時，{OwnerName}獲得 |c:3| 點|暫得火力|。\n回合結束有剩餘法力時，{OwnerName}獲得 |c:3| 點|護盾|。"
+  Name: "博麗御幣（昇華）"
+
+seMarisa:
+  Description: "戰場上每有一種未被|放逐|的|狀態|牌，{OwnerName}攻擊造成的傷害提升 |c:1| 點。"
+  Name: "壓縮（昇華）"
+
+seSakuya:
+  Description: "戰場上每有一張未被|放逐|的|時間封鎖|，{OwnerName}受到的傷害減少 |c:5|%，造成的傷害提高 |c:5|%。\n（各為 {Count}%）"
+  Name: "銀色封鎖（昇華）"
+
+seCirno:
+  Description: "每當{OwnerName}受到 |c:99| 點未被阻擋的傷害時，獲得 |c:1| 回合|寒冰屏障|。\n（受到 {Count} 點未被阻擋的傷害後獲得）"
+  Name: "寒冰屏障（昇華）"
+
+sesbKoishi:
+  Description: "{OwnerName}的回合開始時，將一張被|放逐|的非|狀態|非|厄運|牌洗入抽牌堆，|放逐|戰場上的另一張非|狀態|非|厄運|牌。"
+  Name: "難以捉摸（昇華）"
+
+seYuyuko:
+  Description: "{PlayerName}受到未被格擋的傷害時，獲得 |c:1| 回合負面狀態。從|虛弱|、|脆弱|和|易傷|中隨機。"
+  Name: "生者必滅（昇華）"
+
+seTenshi:
+  Description: "當{OwnerName}的意圖為攻擊|符卡|時，她受到的傷害降低一半。"
+  Name: "仙桃（昇華）"
+
+seMegumu:
+  Description: "{OwnerName}用過|符卡|的回合結束時，戰場上的所有|狀態|牌失去|放逐|和|虛無|。\n當|賄賂|被打出時，戰場上的所有|狀態|牌獲得|虛無|。"
+  Name: "閃光三腳架（昇華)"
+
+seRemilia:
+  Description: "{OwnerName}獲得|吸血鬼|。當{OwnerName}|閃避|傷害時，恢復那原始傷害一半的生命值。"
+  Name: "緋色命運（昇華）"
+
+seSanae:
+  Description: "每當一張|技能|牌被打出時，棄掉最左側的手牌，{OwnerName}獲得 |c:2| 點|暫得火力|，{PlayerName}獲得 |c:2| 點|暫失火力|。"
+  Name: "我很好奇！（昇華）"
+
+seJunko:
+  Description: "當{PlayerName}擁有 |c:3| 或更多層|溢出的瑕穢|，{PlayerName}的回合開始時，|純化| |c:5|。當{PlayerName}達到 |c:4| 層|溢出的瑕穢|時，|純化|一點基礎法力。"
+  Name: "溢出的瑕穢（昇華）"
+
+seSeija:
+  Description: "每當{OwnerName}受到 |c:300| 點未被阻擋的傷害時，獲得一個隨機展品。\n（受到 {Count} 點未被阻擋的傷害後獲得）"
+  Name: "道具的解放者（昇華）"

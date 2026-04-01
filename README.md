@@ -14,11 +14,11 @@ After transitioning from v1 Mima to v2, she now provides a relatively more prope
 
 - Character Cards: 73+2
 - Character Exhibits: 2
-- Roguelite Shop: 23 items, including a Quest Board with 30 Quests.
+- Roguelite Shop: 24 items, including a Quest Board with 30 Quests.
 
 - 角色卡牌：73+2
 - 角色展品：2
-- Roguelite 商店，內含 23 個商品，其中包括擁有 30 個任務的任務欄。
+- Roguelite 商店，內含 24 個商品，其中包括擁有 30 個任務的任務欄。
 
 ## Also / 還有
 

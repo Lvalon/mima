@@ -17,7 +17,19 @@ using LBoL.Core.Stations;
 using LBoL.Core.StatusEffects;
 using LBoL.Core.Units;
 using LBoL.EntityLib.Cards.Character.Cirno;
+using LBoL.EntityLib.EnemyUnits.Character;
+using LBoL.EntityLib.EnemyUnits.Normal;
+using LBoL.EntityLib.EnemyUnits.Normal.Bats;
+using LBoL.EntityLib.EnemyUnits.Normal.Drones;
+using LBoL.EntityLib.EnemyUnits.Normal.Guihuos;
+using LBoL.EntityLib.EnemyUnits.Normal.Maoyus;
+using LBoL.EntityLib.EnemyUnits.Normal.Ravens;
+using LBoL.EntityLib.EnemyUnits.Normal.Shenlings;
+using LBoL.EntityLib.EnemyUnits.Normal.Yinyangyus;
+using LBoL.EntityLib.EnemyUnits.Opponent;
+using LBoL.EntityLib.Exhibits.Adventure;
 using LBoL.EntityLib.Exhibits.Common;
+using LBoL.EntityLib.StatusEffects.Enemy.Seija;
 using LBoL.EntityLib.StatusEffects.Marisa;
 using LBoL.Presentation;
 using LBoL.Presentation.UI.Panels;
@@ -43,8 +55,8 @@ namespace lvalonmima.Source.Patches
 	{
 		private static readonly Dictionary<string, int> BaseScPowerCosts = new Dictionary<string, int>();
 		// Panels that started an UpgradeCard flow and are awaiting confirmation.
-		internal static readonly System.Collections.Generic.HashSet<GapOptionsPanel> UpgradeStartedPanels = new System.Collections.Generic.HashSet<GapOptionsPanel>();
-		private const string FreeChoiceBlockedFlag = "shop.freechoice.blocked";
+		internal static readonly HashSet<GapOptionsPanel> UpgradeStartedPanels = new HashSet<GapOptionsPanel>();
+		// private const string FreeChoiceBlockedFlag = "shop.freechoice.blocked";
 		private const string RemoveDiscountAppliedPrefix = "shop.remove.applied:";
 		private const string QuestProgressFlagPrefix = "exquesting.quest:";
 		private const string QuestRequirementFlagPrefix = "exquesting.requirement:";
@@ -1072,6 +1084,13 @@ namespace lvalonmima.Source.Patches
 				ResetQuestStateForNewRun(gameRun, shop);
 			}
 
+			// force true end
+			if (stageIndex == 2
+			&& args.Station.Type == StationType.Boss
+			&& HasFreeChoice()
+			&& gameRun.TrueEndingProviders?.Count == 0)
+				gameRun.TrueEndingProviders.Add(gameRun.Player);
+
 			// If LiteShop already recorded a different station than the one we're entering,
 			// persist any runtime exquesting pending progress from the previous station so it
 			// isn't lost when exquesting.SyncPendingQuestProgressFromPersistence runs for the new station.
@@ -1313,17 +1332,17 @@ namespace lvalonmima.Source.Patches
 			gameRun.ExtraFlags.Add(RemoveDiscountAppliedPrefix + value);
 		}
 
-		internal static void MarkFreeChoiceBlocked(GameRunController gameRun)
-		{
-			if (gameRun?.ExtraFlags == null)
-				return;
-			gameRun.ExtraFlags.Add(FreeChoiceBlockedFlag);
-		}
+		// internal static void MarkFreeChoiceBlocked(GameRunController gameRun)
+		// {
+		// 	if (gameRun?.ExtraFlags == null)
+		// 		return;
+		// 	gameRun.ExtraFlags.Add(FreeChoiceBlockedFlag);
+		// }
 
-		internal static bool IsFreeChoiceBlocked(GameRunController gameRun)
-		{
-			return gameRun?.ExtraFlags?.Contains(FreeChoiceBlockedFlag) == true;
-		}
+		// internal static bool IsFreeChoiceBlocked(GameRunController gameRun)
+		// {
+		// 	return gameRun?.ExtraFlags?.Contains(FreeChoiceBlockedFlag) == true;
+		// }
 
 		private static IEnumerator DraftCardFromPrev(int num, GameRunController gameRun)
 		{
@@ -1783,7 +1802,7 @@ namespace lvalonmima.Source.Patches
 						List<Card> toPlay = gamerun.Battle.DrawZone.Where(c => c.CardType == CardType.Ability).ToList();
 						foreach (Card card in toPlay)
 						{
-							if (card.Zone == CardZone.Draw)
+							if (card.Zone == CardZone.Draw && !gamerun.Battle.BattleShouldEnd)
 							{
 								gamerun.Battle.React(new PlayCardAction(card), exhibit, ActionCause.Exhibit);
 							}
@@ -1879,7 +1898,130 @@ namespace lvalonmima.Source.Patches
 
 			player.ReactBattleEvent(gamerun.Battle.EnemyDied, args => OnEnemyDied(args, gamerun.Battle));
 			player.ReactBattleEvent(gamerun.Battle.Player.DamageReceived, args => OnPlayerDamageReceived(args, gamerun.Battle));
+
+			if (shop?.GetItem("difficulty.ascension")?.CurrentTier > 0)
+			{
+				foreach (EnemyUnit enemy in gamerun.Battle.AllAliveEnemies.Where(e => !e.HasStatusEffect<Servant>()))
+				{
+					gamerun.Battle.React(ApplyAscensionBuff(enemy, gamerun.Battle), player, ActionCause.Player);
+				}
+				player.HandleBattleEvent(gamerun.Battle.EnemySpawned, args =>
+				{
+					if (args.Unit is EnemyUnit enemy && !enemy.HasStatusEffect<Servant>())
+					{
+						gamerun.Battle.React(ApplyAscensionBuff(enemy, gamerun.Battle), player, ActionCause.Player);
+					}
+				});
+			}
 		}
+		private static BattleAction ApplyAscensionBuff(EnemyUnit enemy, BattleController battle)
+		{
+			switch (enemy)
+			{
+				case MaoyuOrigin _:
+					if (enemy is MaoyuBlack)
+						return new ApplyStatusEffectAction<seMaoyuBlack>(enemy, 1);
+					else
+						return new ApplyStatusEffectAction<seMaoyu>(enemy, 1);
+				case WhiteFairy _:
+					return new ApplyStatusEffectAction<seWhiteFairy>(enemy, 1);
+				case Raven _:
+					return new ApplyStatusEffectAction<seRaven>(enemy, 1);
+				case BlackFairy _:
+					return new ApplyStatusEffectAction<seBlackFairy>(enemy, 1);
+				case Guihuo _:
+					return new ApplyStatusEffectAction<seGuihuo>(enemy, 1);
+				case SickGirl _:
+					return new ApplyStatusEffectAction<seSickGirl>(enemy, 1);
+				case YinyangyuRedOrigin _:
+					return new ApplyStatusEffectAction<seRedOrb>(enemy, 1);
+				case YinyangyuBlueOrigin _:
+					return new ApplyStatusEffectAction<seBlueOrb>(enemy, 1);
+				case FraudRabbit _:
+					return new ApplyStatusEffectAction<seFraudRabbit>(enemy, 1);
+				case BatOrigin _:
+					if (enemy is BatLord)
+						return new ApplyStatusEffectAction<seBatLord>(enemy, 1);
+					else
+						return new ApplyStatusEffectAction<seBat>(enemy, 1);
+				case DollBase _:
+					return new ApplyStatusEffectAction<seDoll>(enemy, 1);
+				case WaterGirl _:
+					return new ApplyStatusEffectAction<seWaterGirl>(enemy, 1);
+				case ScoutOrigin _:
+					return new ApplyStatusEffectAction<seScout>(enemy, 1);
+				case PurifierOrigin _:
+					return new ApplyStatusEffectAction<sePurifier>(enemy, 1);
+				case TerminatorOrigin _:
+					return new ApplyStatusEffectAction<seTerminator>(enemy, 1);
+				case LBoL.EntityLib.EnemyUnits.Normal.Yaoshi _:
+					return new ApplyStatusEffectAction<seYaoshi>(enemy, 1);
+				case Fox _:
+					return new ApplyStatusEffectAction<seFox>(enemy, 1);
+				case ShenlingWhite _:
+					return new ApplyStatusEffectAction<seSPWhite>(enemy, 1);
+				case ShenlingPurple _:
+					return new ApplyStatusEffectAction<seSPPurple>(enemy, 1);
+				case LoveGirl _:
+					return new ApplyStatusEffectAction<seLoveGirl>(enemy, 1);
+				case YaTiangou _:
+					return new ApplyStatusEffectAction<seRaven3>(enemy, 1);
+				case LangTiangou _:
+					return new ApplyStatusEffectAction<seBigCrow>(enemy, 1);
+				case KanakoLimao _:
+					return new ApplyStatusEffectAction<seKanako>(enemy, 1);
+				case SuwakoLimao _:
+					return new ApplyStatusEffectAction<seSuwako>(enemy, 1);
+				case Aya _:
+					return new ApplyStatusEffectAction<seAya>(enemy, 1);
+				case Sunny _:
+					return new ApplyStatusEffectAction<seSunny>(enemy, 1);
+				case Star _:
+					return new ApplyStatusEffectAction<seStar>(enemy, 1);
+				case Luna _:
+					return new ApplyStatusEffectAction<seLuna>(enemy, 1);
+				case Rin _:
+					return new ApplyStatusEffectAction<seRin>(enemy, 1);
+				case Youmu _:
+					return new ApplyStatusEffectAction<seYoumu>(enemy, 1);
+				case Nitori _:
+					return new ApplyStatusEffectAction<seNitori>(enemy, 1);
+				case Kokoro _:
+					return new ApplyStatusEffectAction<seKoNu>(enemy, 1);
+				case Doremy _:
+					return new ApplyStatusEffectAction<seDoremy>(enemy, 1);
+				case Clownpiece _:
+					return new ApplyStatusEffectAction<seClownpiece>(enemy, 1);
+				case Siji _:
+					return new ApplyStatusEffectAction<seEiki>(enemy, 1);
+				case Reimu _:
+					return new ApplyStatusEffectAction<seReimu>(enemy, 1);
+				case Marisa _:
+					return new ApplyStatusEffectAction<seMarisa>(enemy, 1);
+				case Sakuya _:
+					return new ApplyStatusEffectAction<seSakuya>(enemy, 1);
+				case Cirno _:
+					return new ApplyStatusEffectAction<seCirno>(enemy, 1);
+				case Koishi _:
+					return new ApplyStatusEffectAction<sesbKoishi>(enemy, 1);
+				case Yuyuko _:
+					return new ApplyStatusEffectAction<seYuyuko>(enemy, 1);
+				case Tianzi _:
+					return new ApplyStatusEffectAction<seTenshi>(enemy, 1);
+				case Long _:
+					return new ApplyStatusEffectAction<seMegumu>(enemy, 1);
+				case Remilia _:
+					return new ApplyStatusEffectAction<seRemilia>(enemy, 1);
+				case Sanae _:
+					return new ApplyStatusEffectAction<seSanae>(enemy, 1);
+				case Junko _:
+					return new ApplyStatusEffectAction<seJunko>(enemy, 1);
+				case Seija _:
+					return new ApplyStatusEffectAction<seSeija>(enemy, 1);
+			}
+			return null;
+		}
+
 		private static IEnumerable<BattleAction> OnQuest9(DamageEventArgs args, GameRunController gamerun, exquesting exhibit)
 		{
 			Card card = Library.CreateCard<cardquest9>();
@@ -2446,7 +2588,54 @@ namespace lvalonmima.Source.Patches
 			}
 		}
 	}
+	[HarmonyPatch(typeof(Seija), nameof(Seija.BuffAndClear))]
+	class Seija_BuffAndClear_Patch
+	{
+		static bool Prefix(Seija __instance, ref IEnumerable<BattleAction> __result)
+		{
+			if (__instance.HasStatusEffect<seSeija>())
+			{
+				__result = BuffAndClearPrefix(__instance);
+				return false;
+			}
+			return true;
+		}
 
+		private static IEnumerable<BattleAction> BuffAndClearPrefix(Seija seija)
+		{
+			yield return PerformAction.Spell(seija, "逆转攻势");
+			yield return PerformAction.Animation(seija, "spell", 1f);
+			yield return new CastBlockShieldAction(seija, 0, seija.Defend, BlockShieldType.Normal, cast: false);
+			if (seija.ItemCount < 6)
+			{
+				bool hasGrail = seija.HasStatusEffect<HolyGrailSe>() || seija._pool.Contains(typeof(HolyGrailSe));
+				bool hasPyramid = seija.HasStatusEffect<QiannianShenqiSe>() || seija._pool.Contains(typeof(QiannianShenqiSe));
+				if (hasGrail && hasPyramid)
+				{
+					if (!seija.HasStatusEffect<InfinityGemsSe>())
+						seija._pool.Add(typeof(InfinityGemsSe));
+					if (!seija.HasStatusEffect<SakuraWandSe>())
+						seija._pool.Add(typeof(SakuraWandSe));
+				}
+				else
+				{
+					if (!seija.HasStatusEffect<HolyGrailSe>() && !seija._pool.Contains(typeof(HolyGrailSe)))
+						seija._pool.Add(typeof(HolyGrailSe));
+					if (!seija.HasStatusEffect<QiannianShenqiSe>() && !seija._pool.Contains(typeof(QiannianShenqiSe)))
+						seija._pool.Add(typeof(QiannianShenqiSe));
+				}
+			}
+			else
+			{
+				yield return new ApplyStatusEffectAction<DragonBallSe>(seija, null, null, null, null, 1f);
+			}
+
+			int itemCount = seija.ItemCount + 1;
+			seija.ItemCount = itemCount;
+			itemCount = seija.BigRoundCount + 1;
+			seija.BigRoundCount = itemCount;
+		}
+	}
 	[HarmonyPatch(typeof(GameRunController), nameof(GameRunController.UpgradeDeckCardPrice), MethodType.Getter)]
 	class GameRunController_UpgradeDeckCardPrice_Patch
 	{
@@ -2529,81 +2718,81 @@ namespace lvalonmima.Source.Patches
 		}
 	}
 
-	[HarmonyPatch(typeof(GameMaster), nameof(GameMaster.RequestAbandonGameRun))]
-	class GameMaster_RequestAbandonGameRun_FreeChoice_Patch
-	{
-		static void Prefix()
-		{
-			GameRunController gameRun = Singleton<GameMaster>.Instance?.CurrentGameRun;
-			if (gameRun == null)
-				return;
-			ShopModHandlers.MarkFreeChoiceBlocked(gameRun);
-		}
-	}
+	// [HarmonyPatch(typeof(GameMaster), nameof(GameMaster.RequestAbandonGameRun))]
+	// class GameMaster_RequestAbandonGameRun_FreeChoice_Patch
+	// {
+	// 	static void Prefix()
+	// 	{
+	// 		GameRunController gameRun = Singleton<GameMaster>.Instance?.CurrentGameRun;
+	// 		if (gameRun == null)
+	// 			return;
+	// 		ShopModHandlers.MarkFreeChoiceBlocked(gameRun);
+	// 	}
+	// }
 
-	[HarmonyPatch(typeof(GameRunController), nameof(GameRunController.LeaveBattle))]
-	class GameRunController_LeaveBattle_FreeChoice_Patch
-	{
-		static void Postfix(GameRunController __instance)
-		{
-			if (__instance?.Player?.IsDead != true)
-				return;
-			ShopModHandlers.MarkFreeChoiceBlocked(__instance);
-		}
-	}
+	// [HarmonyPatch(typeof(GameRunController), nameof(GameRunController.LeaveBattle))]
+	// class GameRunController_LeaveBattle_FreeChoice_Patch
+	// {
+	// 	static void Postfix(GameRunController __instance)
+	// 	{
+	// 		if (__instance?.Player?.IsDead != true)
+	// 			return;
+	// 		ShopModHandlers.MarkFreeChoiceBlocked(__instance);
+	// 	}
+	// }
 
-	[HarmonyPatch(typeof(GameRunController), nameof(GameRunController.CanEnterTrueEnding))]
-	class GameRunController_CanEnterTrueEnding_FreeChoice_Patch
-	{
-		static void Postfix(GameRunController __instance, ref bool __result)
-		{
-			if (!ShopModHandlers.HasFreeChoice())
-				return;
-			if (ShopModHandlers.IsFreeChoiceBlocked(__instance))
-				return;
-			__result = true;
-		}
-	}
+	// [HarmonyPatch(typeof(GameRunController), nameof(GameRunController.CanEnterTrueEnding))]
+	// class GameRunController_CanEnterTrueEnding_FreeChoice_Patch
+	// {
+	// 	static void Postfix(GameRunController __instance, ref bool __result)
+	// 	{
+	// 		if (!ShopModHandlers.HasFreeChoice())
+	// 			return;
+	// 		if (ShopModHandlers.IsFreeChoiceBlocked(__instance))
+	// 			return;
+	// 		__result = true;
+	// 	}
+	// }
 
-	[HarmonyPatch(typeof(LBoL.Core.Dialogs.DialogFunctions), nameof(LBoL.Core.Dialogs.DialogFunctions.HasTrueEndProvider))]
-	class DialogFunctions_HasTrueEndProvider_FreeChoice_Patch
-	{
-		static void Postfix(LBoL.Core.Dialogs.DialogFunctions __instance, ref bool __result)
-		{
-			if (!ShopModHandlers.HasFreeChoice())
-				return;
-			GameRunController gameRun = __instance.GetGameRun();
-			__result = !ShopModHandlers.IsFreeChoiceBlocked(gameRun);
-		}
-	}
+	// [HarmonyPatch(typeof(LBoL.Core.Dialogs.DialogFunctions), nameof(LBoL.Core.Dialogs.DialogFunctions.HasTrueEndProvider))]
+	// class DialogFunctions_HasTrueEndProvider_FreeChoice_Patch
+	// {
+	// 	static void Postfix(LBoL.Core.Dialogs.DialogFunctions __instance, ref bool __result)
+	// 	{
+	// 		if (!ShopModHandlers.HasFreeChoice())
+	// 			return;
+	// 		GameRunController gameRun = __instance.GetGameRun();
+	// 		__result = !ShopModHandlers.IsFreeChoiceBlocked(gameRun);
+	// 	}
+	// }
 
-	[HarmonyPatch(typeof(LBoL.Core.Dialogs.DialogFunctions), nameof(LBoL.Core.Dialogs.DialogFunctions.IsTrueEndBlocked))]
-	class DialogFunctions_IsTrueEndBlocked_FreeChoice_Patch
-	{
-		static void Postfix(LBoL.Core.Dialogs.DialogFunctions __instance, ref bool __result)
-		{
-			if (!ShopModHandlers.HasFreeChoice())
-				return;
-			GameRunController gameRun = __instance.GetGameRun();
-			__result = ShopModHandlers.IsFreeChoiceBlocked(gameRun);
-		}
-	}
+	// [HarmonyPatch(typeof(LBoL.Core.Dialogs.DialogFunctions), nameof(LBoL.Core.Dialogs.DialogFunctions.IsTrueEndBlocked))]
+	// class DialogFunctions_IsTrueEndBlocked_FreeChoice_Patch
+	// {
+	// 	static void Postfix(LBoL.Core.Dialogs.DialogFunctions __instance, ref bool __result)
+	// 	{
+	// 		if (!ShopModHandlers.HasFreeChoice())
+	// 			return;
+	// 		GameRunController gameRun = __instance.GetGameRun();
+	// 		__result = ShopModHandlers.IsFreeChoiceBlocked(gameRun);
+	// 	}
+	// }
 
-	[HarmonyPatch(typeof(LBoL.Core.Dialogs.DialogFunctions), nameof(LBoL.Core.Dialogs.DialogFunctions.TrueEndProviderName))]
-	class DialogFunctions_TrueEndProviderName_FreeChoice_Patch
-	{
-		static void Postfix(LBoL.Core.Dialogs.DialogFunctions __instance, ref string __result)
-		{
-			if (!ShopModHandlers.HasFreeChoice())
-				return;
-			GameRunController gameRun = __instance.GetGameRun();
-			if (ShopModHandlers.IsFreeChoiceBlocked(gameRun))
-				return;
-			if (gameRun.TrueEndingProviders != null && gameRun.TrueEndingProviders.Count > 0)
-				return;
-			__result = "Free Choice";
-		}
-	}
+	// [HarmonyPatch(typeof(LBoL.Core.Dialogs.DialogFunctions), nameof(LBoL.Core.Dialogs.DialogFunctions.TrueEndProviderName))]
+	// class DialogFunctions_TrueEndProviderName_FreeChoice_Patch
+	// {
+	// 	static void Postfix(LBoL.Core.Dialogs.DialogFunctions __instance, ref string __result)
+	// 	{
+	// 		if (!ShopModHandlers.HasFreeChoice())
+	// 			return;
+	// 		GameRunController gameRun = __instance.GetGameRun();
+	// 		if (ShopModHandlers.IsFreeChoiceBlocked(gameRun))
+	// 			return;
+	// 		if (gameRun.TrueEndingProviders != null && gameRun.TrueEndingProviders.Count > 0)
+	// 			return;
+	// 		__result = "Free Choice";
+	// 	}
+	// }
 
 	[HarmonyPatch(typeof(Card), nameof(Card.Upgrade))]
 	class Card_Upgrade_Patch
