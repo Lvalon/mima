@@ -34,7 +34,7 @@ namespace lvalonmima.StatusEffects
 			if (args.Cause != ActionCause.TurnStart)
 			{
 				NotifyActivating();
-				yield return new ApplyStatusEffectAction<TempFirepowerNegative>(Battle.Player, 1);
+				yield return new ApplyStatusEffectAction<TempFirepowerNegative>(Battle.Player, 2);
 			}
 		}
 	}

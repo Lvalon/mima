@@ -34,6 +34,18 @@ namespace lvalonmima.StatusEffects
 		public override bool ForceNotShowDownText => true;
 		protected override void OnAdded(Unit unit)
 		{
+			List<Card> cards = Battle.EnumerateAllCards().Where(c => !(c is Frog)).SampleManyOrAll(4, GameRun.EnemyBattleRng).ToList();
+			if (cards.Count > 0)
+			{
+				NotifyActivating();
+				foreach (Card card in cards)
+				{
+					Frog frog = Library.CreateCard<Frog>();
+					frog.OriginalCard = card;
+					React(new TransformCardAction(card, frog));
+				}
+			}
+
 			lim = 4 + Battle.AllAliveEnemies.Count();
 			Count = lim;
 			ReactOwnerEvent(Battle.CardDrawn, OnCardDrawn);

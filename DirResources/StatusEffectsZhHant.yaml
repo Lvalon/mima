@@ -309,15 +309,15 @@ seMaoyuBlack:
   Name: "黑毛茸茸（昇華）"
 
 seWhiteFairy:
-  Description: "當|攻擊|牌被打出時，將 |c:1| 點法力轉化為{Mana}，{OwnerName}獲得 |c:1| 層|暫得火力|。"
+  Description: "當|攻擊|牌被打出時，將 |c:1| 點法力轉化為{Mana}，{OwnerName}獲得 |c:2| 層|暫得火力|。"
   Name: "向日葵（昇華）"
 
 seRaven:
-  Description: "當{OwnerName}|閃避|傷害時，將一張新聞加入棄牌堆。"
+  Description: "當{OwnerName}|閃避|傷害時，將 |c:2| 張新聞加入棄牌堆。"
   Name: "燃眉之急（昇華）"
 
 seBlackFairy:
-  Description: "當卡牌被打出而{OwnerName}擁有|瘋狂|時，將 |c:1| 點法力轉化為{Mana}，{OwnerName}獲得 |c:1| 點|護盾|。"
+  Description: "當卡牌被打出時，將 |c:1| 點法力轉化為{Mana}，對{PlayerName}造成 |c:1| 點傷害。"
   Name: "瘋狂（昇華）"
 
 seGuihuo:
@@ -345,7 +345,7 @@ seBat:
   Name: "動態捕捉（昇華）"
 
 seBatLord:
-  Description: "在抽牌階段外抽牌時，損失生命值最多的|蝙蝠|獲得這回合抽牌階段外抽牌數量的生命值。({Count})"
+  Description: "在抽牌階段外抽牌時，{PlayerName}失去 |c:1| 點生命值，損失生命值最多的|蝙蝠|獲得這回合抽牌階段外抽牌數量的生命值。({Count})"
   Name: "血腥之風（昇華）"
 
 seDoll:
@@ -369,7 +369,7 @@ seTerminator:
   Name: "自瞄模組（昇華）"
 
 seYaoshi:
-  Description: "{OwnerName}受到未被阻擋的傷害後，直到{OwnerName}的回合結束前受到的傷害減少 |c:1| 點。\n（減少 {Count} 點傷害）"
+  Description: "敵人受到的傷害不會超過他們最大生命值的 |c:20|%。"
   Name: "固守（昇華）"
 
 seFox:
@@ -393,15 +393,15 @@ seRaven3:
   Name: "唯快不破（昇華）"
 
 seBigCrow:
-  Description: "如果{PlayerName}在上一輪|閃避|過，{OwnerName}這輪內的攻擊將具有|精準|。"
+  Description: "當{OwnerName}受到未被格擋的傷害時，{PlayerName}受到等同於其一半的攻擊傷害。"
   Name: "無堅不摧（昇華）"
 
 seKanako:
-  Description: "在回合開始外獲得法力時，對{PlayerName}施加 |c:1| 點|暫失火力|。"
+  Description: "在回合開始外獲得法力時，對{PlayerName}施加 |c:2| 點|暫失火力|。"
   Name: "神之氣場（昇華）"
 
 seSuwako:
-  Description: "每在抽牌階段外抽 {limit} 張牌，一張隨機的手牌被作祟，變為無用之物。"
+  Description: "戰鬥開始時，戰場上 |c:4| 張隨機的牌被作祟，變為無用之物。\n每在抽牌階段外抽 {limit} 張牌，一張隨機的手牌被作祟，變為無用之物。"
   Name: "作祟（昇華）"
 
 seAya:
@@ -425,11 +425,11 @@ seRin:
   Name: "地獄灼熱（昇華）"
 
 seYoumu:
-  Description: "每當{PlayerName}|閃避|傷害時，|放逐|將戰場上隨機一張牌，直到下輪結束。"
+  Description: "每當{PlayerName}|閃避|傷害時，將戰場上隨機一張牌|放逐|，直到下輪結束。"
   Name: "樓觀劍（昇華）"
 
 seNitori:
-  Description: "其他敵人受到的攻擊傷害降低一半，{OwnerName}受到{SelfName}減少的傷害。"
+  Description: "其他敵人受到的攻擊傷害降低一半，{OwnerName}受到{SelfName}減少的傷害。\n當其他敵人存在時，{OwnerName}受到的傷害不會超過她最大生命值的 |c:20|%。"
   Name: "防禦矩陣（昇華）"
 
 seKoXi:
@@ -465,11 +465,11 @@ seReimu:
   Name: "博麗御幣（昇華）"
 
 seMarisa:
-  Description: "戰場上每有一種未被|放逐|的|狀態|牌，{OwnerName}攻擊造成的傷害提升 |c:1| 點。"
+  Description: "戰場上每有一種未被|放逐|的|狀態|牌，{OwnerName}攻擊造成的傷害提升 |c:2| 點。\n（提升 {Count} 點）"
   Name: "壓縮（昇華）"
 
 seSakuya:
-  Description: "戰場上每有一張未被|放逐|的|時間封鎖|，{OwnerName}受到的傷害減少 |c:5|%，造成的傷害提高 |c:5|%。\n（各為 {Count}%）"
+  Description: "戰場上每有一張未被|放逐|的|時間封鎖|，{OwnerName}受到的傷害減少 |c:10|%，造成的傷害提高 |c:10|%。\n（各為 {Count}%）"
   Name: "銀色封鎖（昇華）"
 
 seCirno:
@@ -485,7 +485,7 @@ seYuyuko:
   Name: "生者必滅（昇華）"
 
 seTenshi:
-  Description: "當{OwnerName}的意圖為攻擊|符卡|時，她受到的傷害降低一半。"
+  Description: "當{OwnerName}的意圖為攻擊|符卡|時，她受到的傷害降低一半。\n當{OwnerName}單次受到的傷害高於 |c:52|，獲得 |c:1| 點|火力|。"
   Name: "仙桃（昇華）"
 
 seMegumu:
@@ -497,7 +497,7 @@ seRemilia:
   Name: "緋色命運（昇華）"
 
 seSanae:
-  Description: "每當一張|技能|牌被打出時，棄掉最左側的手牌，{OwnerName}獲得 |c:2| 點|暫得火力|，{PlayerName}獲得 |c:2| 點|暫失火力|。"
+  Description: "戰鬥開始時，對{PlayerName}施加 |c:3| 回合的|虛弱|、|易傷|和|脆弱|。\n每當一張|技能|牌被打出時，棄掉最左側的手牌，{OwnerName}獲得 |c:2| 點|暫得火力|，{PlayerName}獲得 |c:2| 點|暫失火力|。"
   Name: "我很好奇！（昇華）"
 
 seJunko:

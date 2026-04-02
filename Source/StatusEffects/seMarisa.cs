@@ -31,7 +31,7 @@ namespace lvalonmima.StatusEffects
 		public override bool ForceNotShowDownText => true;
 		protected override void OnAdded(Unit unit)
 		{
-			Count = GetDistinctStatusCardCount();
+			Count = GetDistinctStatusCardCount() * 2;
 			HandleOwnerEvent(unit.DamageDealing, OnDealing);
 
 			HandleOwnerEvent(Battle.CardUsed, OnUsed);
@@ -47,33 +47,33 @@ namespace lvalonmima.StatusEffects
 
 		private void OnUsed(CardMovingEventArgs args)
 		{
-			Count = GetDistinctStatusCardCount();
+			Count = GetDistinctStatusCardCount() * 2;
 		}
 
 		private void OnAddedDraw(CardsAddingToDrawZoneEventArgs args)
 		{
-			Count = GetDistinctStatusCardCount();
+			Count = GetDistinctStatusCardCount() * 2;
 		}
 
 		private void OnAdded(CardsEventArgs args)
 		{
-			Count = GetDistinctStatusCardCount();
+			Count = GetDistinctStatusCardCount() * 2;
 		}
 
 		private void OnUsed(CardEventArgs args)
 		{
-			Count = GetDistinctStatusCardCount();
+			Count = GetDistinctStatusCardCount() * 2;
 		}
 
 		private void OnUsed(CardUsingEventArgs args)
 		{
-			Count = GetDistinctStatusCardCount();
+			Count = GetDistinctStatusCardCount() * 2;
 		}
 
 		private void OnDealing(DamageDealingEventArgs args)
 		{
 			if (args.DamageInfo.DamageType != DamageType.Attack) return;
-			args.DamageInfo = args.DamageInfo.IncreaseBy(GetDistinctStatusCardCount());
+			args.DamageInfo = args.DamageInfo.IncreaseBy(GetDistinctStatusCardCount() * 2);
 			args.AddModifier(this);
 		}
 

@@ -47,7 +47,7 @@ namespace lvalonmima.StatusEffects
 			{
 				NotifyActivating();
 				yield return ToBlack(Battle.BattleMana, 1);
-				yield return new CastBlockShieldAction(Owner, new ShieldInfo(1));
+				yield return DamageAction.Reaction(Battle.Player, 1);
 			}
 		}
 		public static ConvertManaAction ToBlack(ManaGroup mana, int count)

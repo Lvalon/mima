@@ -33,12 +33,24 @@ namespace lvalonmima.StatusEffects
 		protected override void OnAdded(Unit unit)
 		{
 			damage = 0;
+			HandleOwnerEvent(unit.DamageTaking, OnDamageTaking);
 			foreach (EnemyUnit mf in Battle.AllAliveEnemies.Where(e => e != Owner))
 			{
 				HandleOwnerEvent(mf.DamageReceiving, OnDamageReceiving);
 				ReactOwnerEvent(mf.DamageReceived, OnDamageReceived);
 			}
 			HandleOwnerEvent(Battle.EnemySpawned, OnSpawned);
+		}
+
+		private void OnDamageTaking(DamageEventArgs args)
+		{
+			int num = args.DamageInfo.Damage.RoundToInt();
+			if (num > 0 && toolbox.Round(args.Target.MaxHp * 0.2) < num && Battle.AllAliveEnemies.Count() == 1)
+			{
+				NotifyActivating();
+				args.DamageInfo = args.DamageInfo.ReduceActualDamageBy(num - toolbox.Round(args.Target.MaxHp * 0.2));
+				args.AddModifier(this);
+			}
 		}
 
 		private void OnSpawned(UnitEventArgs args)

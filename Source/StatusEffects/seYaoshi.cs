@@ -21,7 +21,6 @@ namespace lvalonmima.StatusEffects
 		{
 			StatusEffectConfig config = GetDefaultStatusEffectConfig();
 			config.Type = StatusEffectType.Positive;
-			config.HasCount = true;
 			return config;
 		}
 	}
@@ -32,22 +31,25 @@ namespace lvalonmima.StatusEffects
 		public override bool ForceNotShowDownText => true;
 		protected override void OnAdded(Unit unit)
 		{
-			Count = 0;
-			HandleOwnerEvent(unit.TurnEnded, OnTurnEnded);
-			HandleOwnerEvent(unit.DamageTaking, OnDamageTaking);
+			foreach (EnemyUnit mf in Battle.AllAliveEnemies)
+			{
+				HandleOwnerEvent(mf.DamageTaking, OnDamageTaking, GameEventPriority.Lowest - 100);
+			}
+			HandleOwnerEvent(Battle.EnemySpawned, OnEnemySpawned);
 		}
 
-		private void OnTurnEnded(UnitEventArgs args)
+		private void OnEnemySpawned(UnitEventArgs args)
 		{
-			Count = 0;
+			HandleOwnerEvent(args.Unit.DamageTaking, OnDamageTaking, GameEventPriority.Lowest - 100);
 		}
 
 		private void OnDamageTaking(DamageEventArgs args)
 		{
 			int num = args.DamageInfo.Damage.RoundToInt();
-			if (num > 0)
+			if (num > 0 && toolbox.Round(args.Target.MaxHp * 0.2) < num)
 			{
-				args.DamageInfo = args.DamageInfo.ReduceActualDamageBy(Count++); // it mins at 0 anyways
+				NotifyActivating();
+				args.DamageInfo = args.DamageInfo.ReduceActualDamageBy(num - toolbox.Round(args.Target.MaxHp * 0.2));
 				args.AddModifier(this);
 			}
 		}

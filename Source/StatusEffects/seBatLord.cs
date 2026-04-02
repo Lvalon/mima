@@ -50,6 +50,7 @@ namespace lvalonmima.StatusEffects
 			if (args.Cause != ActionCause.TurnStart && !(args.ActionSource is Card card && card.IsReplenish))
 			{
 				NotifyActivating();
+				yield return DamageAction.LoseLife(Battle.Player, 1);
 				yield return new HealAction(Owner, Battle.AllAliveEnemies.Where(e => e is BatOrigin).MaxBy(u => u.MaxHp - u.Hp), Count++);
 			}
 		}

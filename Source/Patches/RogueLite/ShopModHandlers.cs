@@ -1901,13 +1901,13 @@ namespace lvalonmima.Source.Patches
 
 			if (shop?.GetItem("difficulty.ascension")?.CurrentTier > 0)
 			{
-				foreach (EnemyUnit enemy in gamerun.Battle.AllAliveEnemies.Where(e => !e.HasStatusEffect<Servant>()))
+				foreach (EnemyUnit enemy in gamerun.Battle.AllAliveEnemies)//.Where(e => !e.HasStatusEffect<Servant>()))
 				{
 					gamerun.Battle.React(ApplyAscensionBuff(enemy, gamerun.Battle), player, ActionCause.Player);
 				}
 				player.HandleBattleEvent(gamerun.Battle.EnemySpawned, args =>
 				{
-					if (args.Unit is EnemyUnit enemy && !enemy.HasStatusEffect<Servant>())
+					if (args.Unit is EnemyUnit enemy)// && !enemy.HasStatusEffect<Servant>())
 					{
 						gamerun.Battle.React(ApplyAscensionBuff(enemy, gamerun.Battle), player, ActionCause.Player);
 					}

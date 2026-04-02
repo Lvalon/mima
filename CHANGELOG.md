@@ -1,5 +1,15 @@
 # Changelog / 更新日誌
 
+## 0.2.4 - 2024-4-2
+
+### Changes / 改動
+
+- Fixed being stuck on Act 4 when Ascended is active.
+- Buffed some Ascended enemies.
+
+- 修了昇華開啟時卡死在四面的問題。
+- 加強了一些昇華敵人。
+
 ## [0.2.3] - 2026-4-2
 
 ### Changes / 改動

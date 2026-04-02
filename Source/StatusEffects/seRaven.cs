@@ -51,9 +51,9 @@ namespace lvalonmima.StatusEffects
 			{
 				NotifyActivating();
 				if (Owner is RavenWen || Owner is RavenWen3)
-					yield return new AddCardsToDiscardAction(Library.CreateCard<AyaNews>());
+					yield return new AddCardsToDiscardAction(Library.CreateCards<AyaNews>(2));
 				else
-					yield return new AddCardsToDiscardAction(Library.CreateCard<HatateNews>());
+					yield return new AddCardsToDiscardAction(Library.CreateCards<HatateNews>(2));
 			}
 		}
 	}

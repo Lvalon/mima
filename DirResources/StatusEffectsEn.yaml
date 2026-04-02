@@ -314,15 +314,15 @@ seMaoyuBlack:
   Name: "Black Fluffy (Ascended)"
 
 seWhiteFairy:
-  Description: "Whenever an |Attack| card is played, convert |c:1| of the most abundant mana to {Mana}, {OwnerName} gains |c:1| |Temporary Firepower|."
+  Description: "Whenever an |Attack| card is played, convert |c:1| of the most abundant mana to {Mana}, {OwnerName} gains |c:2| |Temporary Firepower|."
   Name: "Sunflower (Ascended)"
 
 seRaven:
-  Description: "Whenever {OwnerName} |Grazes| an attack, add a news card to the discard pile."
+  Description: "Whenever {OwnerName} |Grazes| an attack, add |c:2| news cards to the discard pile."
   Name: "Out of Time (Ascended)"
 
 seBlackFairy:
-  Description: "Whenever a card is played while {OwnerName} has |Lunacy|, convert |c:1| of the most abundant mana to {Mana}, {OwnerName} gains |c:1| |Barrier|."
+  Description: "Whenever a card is played, convert |c:1| of the most abundant mana to {Mana}, deal |c:1| damage to {PlayerName}."
   Name: "Lunacy (Ascended)"
 
 seGuihuo:
@@ -350,7 +350,7 @@ seBat:
   Name: "Motion Capture (Ascended)"
 
 seBatLord:
-  Description: "Whenever a card is drawn outside the draw step, the |Bat| with the most life lost gains life equal to cards drawn this turn. ({Count})"
+  Description: "Whenever a card is drawn outside the draw step, {PlayerName} loses |c:1| life, the |Bat| with the most life lost gains life equal to cards drawn this turn. ({Count})"
   Name: "Bloody Current (Ascended)"
 
 seDoll:
@@ -373,8 +373,8 @@ seTerminator:
   Description: "When {PlayerName} gains |Graze|, apply |c:1| |Lock On| to {PlayerName}."
   Name: "Aimbot Module (Ascended)"
 
-seYaoshi:
-  Description: "After {OwnerName} takes unblocked damage, take |c:1| less damage until the end of {OwnerName}'s turn.\n(Take {Count} less damage)"
+seYaosh:
+  Description: "Enemies take damage equal than |c:20|% of their maximum life at most."
   Name: "Hang On (Ascended)"
 
 seFox:
@@ -398,15 +398,15 @@ seRaven3:
   Name: "Apex Speedster (Ascended)"
 
 seBigCrow:
-  Description: "If {PlayerName} has |Grazed| an attack in the last round, {OwnerName}'s attacks become |Accurate| this round."
+  Description: "When {OwnerName} takes unblocked damage, {PlayerName} takes attack damage equal to half of that damage."
   Name: "Unfaltering Shield (Ascended)"
 
 seKanako:
-  Description: "Whenever mana is gained outside the start of turn, apply |c:1| |Temporary Firepower Down| to {PlayerName}."
+  Description: "Whenever mana is gained outside the start of turn, apply |c:2| |Temporary Firepower Down| to {PlayerName}."
   Name: "God's Aura (Ascended)"
 
 seSuwako:
-  Description: "For every {limit} card{limit:plural one=' is' other='s are'} drawn outside the draw step, a random card in the hand is |Jinxed| and made useless.\n(Draw {Count} more)"
+  Description: "At the start of battle, |c:4| random cards on the battlefield are |Jinxed|.\nFor every {limit} card{limit:plural one=' is' other='s are'} drawn outside the draw step, a random card in the hand is |Jinxed| and made useless.\n(Draw {Count} more)"
   Name: "Jinx (Ascended)"
 
 seAya:
@@ -434,7 +434,7 @@ seYoumu:
   Name: "Roukanken (Ascended)"
 
 seNitori:
-  Description: "Other enemies take half as much damage from attacks, {OwnerName} takes the damage reduced by {SelfName}."
+  Description: "Other enemies take half as much damage from attacks, {OwnerName} takes the damage reduced by {SelfName}. While there is another enemy, {OwnerName} takes damage equal than |c:20|% of their maximum life at most."
   Name: "Defense Matrix (Ascended)"
 
 seKoXi:
@@ -470,11 +470,11 @@ seReimu:
   Name: "Hakurei Purification Rod (Ascended)"
 
 seMarisa:
-  Description: "Increase {OwnerName}'s damage dealt with attacks by the number of unique non-|Exiled Status| cards on the battlefield."
+  Description: "For every unique non-|Exiled Status| cards on the battlefield, increase {OwnerName}'s damage dealt with attacks by |c:2|.\n(Increase by {Count})"
   Name: "Compress (Ascended)"
 
 seSakuya:
-  Description: "{OwnerName} deals |c:5|% more damage and takes |c:5|% less damage per non-|Exiled Time Lockdown| on the battlefield.\n(Both {Count}%)"
+  Description: "{OwnerName} deals |c:10|% more damage and takes |c:10|% less damage per non-|Exiled Time Lockdown| on the battlefield.\n(Both {Count}%)"
   Name: "Silver Lockdown (Ascended)"
 
 seCirno:
@@ -490,7 +490,7 @@ seYuyuko:
   Name: "Law of Morality (Ascended)"
 
 seTenshi:
-  Description: "{OwnerName} takes half as much damage while her intention is an attack |Spell Card|."
+  Description: "{OwnerName} takes half as much damage while her intention is an attack |Spell Card|.\n When {Ownername} takes more than |c:52| damage at once, gain |c:1| |Firepower|."
   Name: "Heavenly Peach (Ascended)"
 
 seMegumu:
@@ -502,7 +502,7 @@ seRemilia:
   Name: "Scarlet Fate (Ascended)"
 
 seSanae:
-  Description: "Whenever a |Skill| card is played, discard the leftmost card in the hand, {OwnerName} gains |c:2| |Temporary Firepower|, {PlayerName} loses |c:2| |Temporary Firepower|."
+  Description: "At the start of battle, apply |c:3| |Weak|, |Vulnerable| and |Frail| to {PlayerName}.\n|Whenever a |Skill| card is played, discard the leftmost card in the hand, {OwnerName} gains |c:2| |Temporary Firepower|, {PlayerName} loses |c:2| |Temporary Firepower|."
   Name: "I'm Really Curious! (Ascended)"
 
 seJunko:

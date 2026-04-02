@@ -309,15 +309,15 @@ seMaoyuBlack:
   Name: "黑毛茸茸（升华）"
 
 seWhiteFairy:
-  Description: "当|攻击|牌被打出时，将 |c:1| 点法力转化为{Mana}，{OwnerName}获得 |c:1| 层|暂得火力|。"
+  Description: "当|攻击|牌被打出时，将 |c:1| 点法力转化为{Mana}，{OwnerName}获得 |c:2| 层|暂得火力|。"
   Name: "向日葵（升华）"
 
 seRaven:
-  Description: "当{OwnerName}|闪避|伤害时，将一张新闻加入弃牌堆。"
+  Description: "当{OwnerName}|闪避|伤害时，将 |c:2| 张新闻加入弃牌堆。"
   Name: "燃眉之急（升华）"
 
 seBlackFairy:
-  Description: "当卡牌被打出而{OwnerName}拥有|疯狂|时，将 |c:1| 点法力转化为{Mana}，{OwnerName}获得 |c:1| 点|护盾|。"
+  Description: "当卡牌被打出时，将 |c:1| 点法力转化为{Mana}，对{PlayerName}造成 |c:1| 点伤害。"
   Name: "疯狂（升华）"
 
 seGuihuo:
@@ -345,7 +345,7 @@ seBat:
   Name: "动态捕捉（升华）"
 
 seBatLord:
-  Description: "在抽牌阶段外抽牌时，损失生命值最多的|蝙蝠|获得这回合抽牌阶段外抽牌数量的生命值。({Count})"
+  Description: "在抽牌阶段外抽牌时，{PlayerName}失去 |c:1| 点生命值，损失生命值最多的|蝙蝠|获得这回合抽牌阶段外抽牌数量的生命值。({Count})"
   Name: "血腥之风（升华）"
 
 seDoll:
@@ -369,7 +369,7 @@ seTerminator:
   Name: "自瞄模组（升华）"
 
 seYaoshi:
-  Description: "{OwnerName}受到未被阻挡的伤害后，直到{OwnerName}的回合结束前受到的伤害减少 |c:1| 点。\n（减少 {Count} 点伤害）"
+  Description: "敌人受到的伤害不会超过他们最大生命值的 |c:20|%。"
   Name: "固守（升华）"
 
 seFox:
@@ -393,15 +393,15 @@ seRaven3:
   Name: "唯快不破（升华）"
 
 seBigCrow:
-  Description: "如果{PlayerName}在上一轮|闪避|过，{OwnerName}这轮内的攻击将具有|精准|。"
+  Description: "当{OwnerName}受到未被格挡的伤害时，{PlayerName}受到等同于其一半的攻击伤害。"
   Name: "无坚不摧（升华）"
 
 seKanako:
-  Description: "在回合开始外获得法力时，对{PlayerName}施加 |c:1| 点|暂失火力|。"
+  Description: "在回合开始外获得法力时，对{PlayerName}施加 |c:2| 点|暂失火力|。"
   Name: "神之气场（升华）"
 
 seSuwako:
-  Description: "每在抽牌阶段外抽 {limit} 张牌，一张随机的手牌被作祟，变为无用之物。"
+  Description: "战斗开始时，战场上 |c:4| 张随机的牌被作祟，变为无用之物。\n每在抽牌阶段外抽 {limit} 张牌，一张随机的手牌被作祟，变为无用之物。"
   Name: "作祟（升华）"
 
 seAya:
@@ -425,11 +425,11 @@ seRin:
   Name: "地狱灼热（升华）"
 
 seYoumu:
-  Description: "每当{PlayerName}|闪避|伤害时，|放逐|将战场上随机一张牌，直到下轮结束。"
+  Description: "每当{PlayerName}|闪避|伤害时，将战场上随机一张牌|放逐|，直到下轮结束。"
   Name: "楼观剑（升华）"
 
 seNitori:
-  Description: "其他敌人受到的攻击伤害降低一半，{OwnerName}受到{SelfName}减少的伤害。"
+  Description: "其他敌人受到的攻击伤害降低一半，{OwnerName}受到{SelfName}减少的伤害。\n当其他敌人存在时，{OwnerName}受到的伤害不会超过她最大生命值的 |c:20|%。"
   Name: "防御矩阵（升华）"
 
 seKoXi:
@@ -465,11 +465,11 @@ seReimu:
   Name: "博丽御币（升华）"
 
 seMarisa:
-  Description: "战场上每有一种未被|放逐|的|状态|牌，{OwnerName}攻击造成的伤害提升 |c:1| 点。"
+  Description: "战场上每有一种未被|放逐|的|状态|牌，{OwnerName}攻击造成的伤害提升 |c:2| 点。\n（提升 {Count} 点）"
   Name: "压缩（升华）"
 
 seSakuya:
-  Description: "战场上每有一张未被|放逐|的|时间封锁|，{OwnerName}受到的伤害减少 |c:5|%，造成的伤害提高 |c:5|%。\n（各为 {Count}%）"
+  Description: "战场上每有一张未被|放逐|的|时间封锁|，{OwnerName}受到的伤害减少 |c:10|%，造成的伤害提高 |c:10|%。\n（各为 {Count}%）"
   Name: "银色封锁（升华）"
 
 seCirno:
@@ -477,15 +477,15 @@ seCirno:
   Name: "寒冰屏障（升华）"
 
 sesbKoishi:
-  Description: "{OwnerName}的回合開始時，將一張被|放逐|的非|狀態|非|厄運|牌洗入抽牌堆，|放逐|戰場上的另一張非|狀態|非|厄運|牌。"
-  Name: "難以捉摸（昇華）"
+  Description: "{OwnerName}的回合开始时，将一张被|放逐|的非|状态|非|厄运|牌洗入抽牌堆，|放逐|战场上的另一张非|状态|非|厄运|牌。"
+  Name: "难以捉摸（升华）"
 
 seYuyuko:
   Description: "{PlayerName}受到未被格挡的伤害时，获得 |c:1| 回合负面状态。从|虚弱|、|脆弱|和|易伤|中随机。"
   Name: "生者必灭（升华）"
 
 seTenshi:
-  Description: "当{OwnerName}的意图为攻击|符卡|时，她受到的伤害降低一半。"
+  Description: "当{OwnerName}的意图为攻击|符卡|时，她受到的伤害降低一半。\n当{OwnerName}单次受到的伤害高于 |c:52|，获得 |c:1| 点|火力|。"
   Name: "仙桃（升华）"
 
 seMegumu:
@@ -493,15 +493,15 @@ seMegumu:
   Name: "闪光三脚架（升华)"
 
 seRemilia:
-  Description: "{OwnerName}获得|吸血鬼|。当{OwnerName}|闪避|伤害时，恢复|闪避|减少的伤害一半的生命值。"
+  Description: "{OwnerName}获得|吸血鬼|。当{OwnerName}|闪避|伤害时，恢复那原始伤害一半的生命值。"
   Name: "绯色命运（升华）"
 
 seSanae:
-  Description: "每当一张|技能|牌被打出时，弃掉最左侧的手牌，{OwnerName}获得 |c:2| 点|暂得火力|，{PlayerName}获得 |c:2| 点|暂失火力|。"
+  Description: "战斗开始时，对{PlayerName}施加 |c:3| 回合的|虚弱|、|易伤|和|脆弱|。\n每当一张|技能|牌被打出时，弃掉最左侧的手牌，{OwnerName}获得 |c:2| 点|暂得火力|，{PlayerName}获得 |c:2| 点|暂失火力|。"
   Name: "我很好奇！（升华）"
 
 seJunko:
-  Description: "当{PlayerName}拥有 |c:3| 或更多层|溢出的瑕秽|，{PlayerName}的回合开始时，|纯化| |c:1|。当{PlayerName}达到 |c:5| 层|溢出的瑕秽|时，|纯化|一点基础法力。"
+  Description: "当{PlayerName}拥有 |c:3| 或更多层|溢出的瑕秽|，{PlayerName}的回合开始时，|纯化| |c:5|。当{PlayerName}达到 |c:4| 层|溢出的瑕秽|时，|纯化|一点基础法力。"
   Name: "溢出的瑕秽（升华）"
 
 seSeija:

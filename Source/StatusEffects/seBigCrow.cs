@@ -32,37 +32,18 @@ namespace lvalonmima.StatusEffects
 	public sealed class seBigCrow : StatusEffect
 	{
 		public override bool ForceNotShowDownText => true;
-		bool lastTurnGrazed = false;
 		protected override void OnAdded(Unit unit)
 		{
-			lastTurnGrazed = false;
-			Highlight = false;
-			HandleOwnerEvent(Battle.Player.DamageReceived, OnDamageReceived);
-			HandleOwnerEvent(unit.DamageDealing, OnDamageDealing);
-			HandleOwnerEvent(Battle.RoundEnded, OnRoundEnded);
+			ReactOwnerEvent(unit.DamageReceived, OnDamageReceived);
 		}
 
-		private void OnRoundEnded(GameEventArgs args)
+		private IEnumerable<BattleAction> OnDamageReceived(DamageEventArgs args)
 		{
-			Highlight = lastTurnGrazed;
-			lastTurnGrazed = false;
-		}
-
-		private void OnDamageDealing(DamageDealingEventArgs args)
-		{
-			if (!args.DamageInfo.IsAccuracy && Highlight && args.DamageInfo.DamageType == DamageType.Attack)
+			if (args.DamageInfo.Damage > 0)
 			{
-				DamageInfo damageInfo = args.DamageInfo;
-				damageInfo.IsAccuracy = true;
-				args.DamageInfo = damageInfo;
-				args.AddModifier(this);
+				NotifyActivating();
+				yield return new DamageAction(Owner, new List<Unit> { Battle.Player }, new DamageInfo(toolbox.Round(args.DamageInfo.Damage * 0.5), DamageType.Attack), "狼天狗双刀");
 			}
-		}
-
-		private void OnDamageReceived(DamageEventArgs args)
-		{
-			if (args.DamageInfo.IsGrazed)
-				lastTurnGrazed = true;
 		}
 	}
 }

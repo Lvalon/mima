@@ -32,7 +32,7 @@ namespace lvalonmima.StatusEffects
 		public override bool ForceNotShowDownText => true;
 		protected override void OnAdded(Unit unit)
 		{
-			Count = Battle.EnumerateAllCardsButExile().Count(c => c is SakuyaLock) * 5;
+			Count = Battle.EnumerateAllCardsButExile().Count(c => c is SakuyaLock) * 10;
 			HandleOwnerEvent(unit.DamageReceiving, OnDamageReceiving);
 			HandleOwnerEvent(unit.DamageDealing, OnDamageDealing);
 
@@ -49,27 +49,27 @@ namespace lvalonmima.StatusEffects
 
 		private void OnAddedDraw(CardsAddingToDrawZoneEventArgs args)
 		{
-			Count = Battle.EnumerateAllCardsButExile().Count(c => c is SakuyaLock) * 5;
+			Count = Battle.EnumerateAllCardsButExile().Count(c => c is SakuyaLock) * 10;
 		}
 
 		private void OnAdded(CardsEventArgs args)
 		{
-			Count = Battle.EnumerateAllCardsButExile().Count(c => c is SakuyaLock) * 5;
+			Count = Battle.EnumerateAllCardsButExile().Count(c => c is SakuyaLock) * 10;
 		}
 
 		private void OnUsed(CardMovingEventArgs args)
 		{
-			Count = Battle.EnumerateAllCardsButExile().Count(c => c is SakuyaLock) * 5;
+			Count = Battle.EnumerateAllCardsButExile().Count(c => c is SakuyaLock) * 10;
 		}
 
 		private void OnUsed(CardEventArgs args)
 		{
-			Count = Battle.EnumerateAllCardsButExile().Count(c => c is SakuyaLock) * 5;
+			Count = Battle.EnumerateAllCardsButExile().Count(c => c is SakuyaLock) * 10;
 		}
 
 		private void OnUsed(CardUsingEventArgs args)
 		{
-			Count = Battle.EnumerateAllCardsButExile().Count(c => c is SakuyaLock) * 5;
+			Count = Battle.EnumerateAllCardsButExile().Count(c => c is SakuyaLock) * 10;
 		}
 
 		private void OnDamageDealing(DamageDealingEventArgs args)

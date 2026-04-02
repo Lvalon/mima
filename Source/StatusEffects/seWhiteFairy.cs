@@ -38,7 +38,7 @@ namespace lvalonmima.StatusEffects
 			{
 				NotifyActivating();
 				yield return ToWhite(Battle.BattleMana, 1);
-				yield return new ApplyStatusEffectAction<TempFirepower>(Owner, 1);
+				yield return new ApplyStatusEffectAction<TempFirepower>(Owner, 2);
 			}
 		}
 		public static ConvertManaAction ToWhite(ManaGroup mana, int count)

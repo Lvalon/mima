@@ -88,21 +88,30 @@ namespace lvalonmima.StatusEffects
 
 		private IEnumerable<BattleAction> OnDamageReceived(DamageEventArgs args)
 		{
-			int totalDamage = args.DamageInfo.Damage.ToInt();
+			int damageLeft = args.DamageInfo.Damage.ToInt();
+			bool activated = false;
 
-			(int result, int remainder) = totalDamage.DivRem(lim);
-			Count -= remainder;
-			if (result > 0)
+			while (damageLeft > 0)
 			{
-				NotifyActivating();
-				for (int i = 0; i < result; i++)
+				int consume = Math.Min(Count, damageLeft);
+				damageLeft -= consume;
+				Count -= consume;
+
+				if (Count == 0)
 				{
+					activated = true;
+					Count = lim;
 					if (Battle.BattleShouldEnd) { yield break; }
 					yield return RandomBuff();
 					yield return PerformAction.Animation(Owner, "spell", 1f);
 					AddPool();
 					tier++;
 				}
+			}
+
+			if (activated)
+			{
+				NotifyActivating();
 			}
 		}
 	}
