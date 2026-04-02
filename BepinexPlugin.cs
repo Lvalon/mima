@@ -23,6 +23,8 @@ using System.Collections;
 using LBoL.Presentation.UI.ExtraWidgets;
 using lvalonmima.Source.Patches;
 using LBoLEntitySideloader.CustomHandlers;
+using BepInEx.Configuration;
+using lvalonmima.Config;
 
 
 namespace lvalonmima
@@ -54,6 +56,14 @@ namespace lvalonmima
 		public static List<ManaColor> offColors = new List<ManaColor>() { ManaColor.White, ManaColor.Blue, ManaColor.Red };
 		public static ManaGroup offColorsMana = new ManaGroup() { White = 1, Blue = 1, Red = 1 };
 
+		public static ConfigEntry<double> mimaCardMult;
+
+		public static CustomConfigEntry<double> mimaCardMultEntry = new CustomConfigEntry<double>(
+			value: 0.1,
+			section: "1. Content Modifications 內容設定",
+			key: "Mima card weight when playing as another character 遊玩其他角色時的魅魔卡牌比重",
+			description: "Weight of Mima cards appearing when playing as another character (normal weight is 1). 以其他角色遊玩時魅魔卡牌的比重（正常為 1）。");
+
 		private static readonly Harmony harmony = lvalonmima.PInfo.harmony;
 
 		internal static BepInEx.Logging.ManualLogSource log;
@@ -69,6 +79,8 @@ namespace lvalonmima
 		private void Awake()
 		{
 			log = Logger;
+
+			mimaCardMult = Config.Bind(mimaCardMultEntry.Section, mimaCardMultEntry.Key, mimaCardMultEntry.Value, mimaCardMultEntry.Description);
 
 			// very important. Without this the entry point MonoBehaviour gets destroyed
 			DontDestroyOnLoad(gameObject);

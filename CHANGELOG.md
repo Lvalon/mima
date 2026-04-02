@@ -1,5 +1,13 @@
 # Changelog / 更新日誌
 
+## [0.2.3] - 2026-4-2
+
+### Changes / 改動
+
+- Other characters are much less likely to see Mima cards, weight configurable in config file.
+
+- 其他角色角色能看見魅魔卡牌的機率降低了許多，比重能在設定文件裡更改。
+
 ## [0.2.2] - 2026-4-1
 
 ### Added / 新增
@@ -130,6 +138,7 @@
 
 - 1.7.0 支援。
 
+[0.2.3]: https://thunderstore.io/package/download/Lvalon/Mima/0.2.3/
 [0.2.2]: https://thunderstore.io/package/download/Lvalon/Mima/0.2.2/
 [0.2.1]: https://thunderstore.io/package/download/Lvalon/Mima/0.2.1/
 [0.1.6]: https://thunderstore.io/package/download/Lvalon/Mima/0.1.6/

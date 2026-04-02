@@ -6,10 +6,12 @@ using System.Text;
 using DG.Tweening;
 using HarmonyLib;
 using LBoL.Base.Extensions;
+using LBoL.ConfigData;
 using LBoL.Core;
 using LBoL.Core.Battle;
 using LBoL.Core.Battle.BattleActionRecord;
 using LBoL.Core.Battle.BattleActions;
+using LBoL.Core.Randoms;
 using LBoL.Core.Units;
 using LBoL.Presentation;
 using LBoL.Presentation.UI.ExtraWidgets;
@@ -28,6 +30,14 @@ namespace lvalonmima.Patches
 	[HarmonyPatch]
 	class CustomGameEventManager
 	{
+		[HarmonyPatch(typeof(CardWeightTable), nameof(CardWeightTable.WeightFor), typeof(CardConfig), typeof(string), typeof(ISet<string>)), HarmonyPostfix]
+		public static void OverrideWeightFor(CardWeightTable __instance, CardConfig cardConfig, string playerId, ISet<string> exhibitOwnerIds, ref float __result)
+		{
+			if (cardConfig.Owner == nameof(lvalonmima) && GameMaster.Instance?.CurrentGameRun.Player?.Id != nameof(lvalonmima))
+			{
+				__result *= 0.1f;
+			}
+		}
 		[HarmonyPatch(typeof(GameRunController), "InternalGainPower")]
 		private class GameRunController_InternalGainPower_Patch
 		{

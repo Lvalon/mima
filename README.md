@@ -20,6 +20,12 @@ After transitioning from v1 Mima to v2, she now provides a relatively more prope
 - 角色展品：2
 - Roguelite 商店，內含 24 個商品，其中包括擁有 30 個任務的任務欄。
 
+### Config File / 設定文件
+
+- Mima card weight when playing as another character.
+
+- 遊玩其他角色時的魅魔卡牌比重。
+
 ## Also / 還有
 
 Bug reports, suggestions are appreciated. For feedback, post your suggestions in the modding channel in the Lbol discord.
