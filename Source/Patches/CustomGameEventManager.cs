@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,6 +25,8 @@ using lvalonmima.lvalonmimaUlt;
 using lvalonmima.Source.Patches;
 using TMPro;
 using UnityEngine;
+using Object = UnityEngine.Object;
+using Random = UnityEngine.Random;
 
 namespace lvalonmima.Patches
 {
@@ -35,7 +38,7 @@ namespace lvalonmima.Patches
 		{
 			if (cardConfig.Owner == nameof(lvalonmima) && GameMaster.Instance?.CurrentGameRun.Player?.Id != nameof(lvalonmima))
 			{
-				__result *= 0.1f;
+				__result *= (float)Math.Max(0, BepinexPlugin.mimaCardMult.Value);
 			}
 		}
 		[HarmonyPatch(typeof(GameRunController), "InternalGainPower")]

@@ -1,5 +1,63 @@
 # Changelog / 更新日誌
 
+## [0.2.10] - 2024-4-19
+
+### Changes / 改動
+
+- Fixed other characters' Mima custom card weight multiplier being fixed at 0.1.
+- Fixed Shinmy event potentially softlocking when it triggers the upgrading quest.
+- Fixed "Gives You Wings" potentially not allowing free pathing after a restart.
+- Fixed certain Ascended enemies not acting as their status effects has suggested.
+- Disabled Challenger Mode watermark tooltips.
+- Decreased difficulty of quest 15.
+
+- 修了其他角色的魅魔牌比重倍率固定在 0.1 的問題。
+- 修了小碗事件觸發升級卡牌任務時，可能卡死的問題。
+- 修了「送你一對翼」在 sl 後有機會不能再無視路線的問題。
+- 修了部份昇華敵人的行動和狀態描述不符的問題。
+- 取消了挑戰者模式水印的提示框。
+- 降低了序列 15 任務的難度。
+
+## [0.2.9] - 2024-4-2
+
+### Changes / 改動
+
+- Fixed Ascended Seija not gaining Exhibits naturally.
+
+- 修了昇華正邪不會自然獲得展品的問題。
+
+## [0.2.8] - 2024-4-3
+
+### Changes / 改動
+
+- Fixed Ascended Sanae not applying debuffs.
+
+- 修了昇華早苗不會施加負面狀態的問題。
+
+## 0.2.7 - 2024-4-2
+
+### Changes / 改動
+
+- Minor yaml fixes.
+
+- 修了點文本。
+
+## 0.2.6 - 2024-4-2
+
+### Changes / 改動
+
+- Minor bugfixes.
+
+- 修了點 bug。
+
+## 0.2.5 - 2024-4-2
+
+### Changes / 改動
+
+- Minor bugfixes.
+
+- 修了點 bug。
+
 ## 0.2.4 - 2024-4-2
 
 ### Changes / 改動
@@ -148,6 +206,9 @@
 
 - 1.7.0 支援。
 
+[0.2.10]: https://thunderstore.io/package/download/Lvalon/Mima/0.2.10/
+[0.2.9]: https://thunderstore.io/package/download/Lvalon/Mima/0.2.9/
+[0.2.8]: https://thunderstore.io/package/download/Lvalon/Mima/0.2.8/
 [0.2.3]: https://thunderstore.io/package/download/Lvalon/Mima/0.2.3/
 [0.2.2]: https://thunderstore.io/package/download/Lvalon/Mima/0.2.2/
 [0.2.1]: https://thunderstore.io/package/download/Lvalon/Mima/0.2.1/

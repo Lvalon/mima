@@ -875,6 +875,31 @@ namespace lvalonmima.Source.Patches
 			}
 		}
 
+		public static void StationEntering(StationEventArgs args)
+		{
+			// this shit's restore support is moved to game restore prefix
+
+			GameRunController gameRun = Singleton<GameMaster>.Instance.CurrentGameRun;
+			// 1-0
+			var shop = MiniTracker.Instance?.CustomGrSaveData?.GetShopForCurrentProfile();
+			if (shop == null)
+				return;
+			// every stage
+			foreach (string itemId in shop.AllItems)
+			{
+				ShopItem item = shop.GetItem(itemId);
+				if (item == null || item.CurrentTier <= 0)
+					continue;
+
+				switch (itemId)
+				{
+					case "alter.wings":
+						GameMaster.Instance?.StartCoroutine(CoAddMapModeOverrider(gameRun, RogueliteCrosser.Instance));
+						break;
+				}
+			}
+		}
+
 		public static void StationEnteredBlitz(StationEventArgs args)
 		{
 			// handle quest progress for station challenges that require entering stations
@@ -1191,12 +1216,12 @@ namespace lvalonmima.Source.Patches
 							appliedSeeOrder = true;
 						}
 						break;
-					case "alter.wings":
-						if (!gameRun._mapModeOverriders.Contains(RogueliteCrosser.Instance))
-						{
-							GameMaster.Instance?.StartCoroutine(CoAddMapModeOverrider(gameRun, RogueliteCrosser.Instance));
-						}
-						break;
+					// case "alter.wings":
+					// 	if (!gameRun._mapModeOverriders.Contains(RogueliteCrosser.Instance))
+					// 	{
+					// 		GameMaster.Instance?.StartCoroutine(CoAddMapModeOverrider(gameRun, RogueliteCrosser.Instance));
+					// 	}
+					// 	break;
 					case "alter.blankcard":
 						if (!appliedBlankCard)
 						{
@@ -1211,7 +1236,7 @@ namespace lvalonmima.Source.Patches
 				LastAppliedShopDiscountFactor = 1f;
 		}
 
-		private static IEnumerator CoAddMapModeOverrider(GameRunController gameRun, IMapModeOverrider overrider)
+		public static IEnumerator CoAddMapModeOverrider(GameRunController gameRun, IMapModeOverrider overrider)
 		{
 			// defer addition to avoid modifying enumerated collections during event dispatch
 			yield return null;
@@ -2624,6 +2649,7 @@ namespace lvalonmima.Source.Patches
 					if (!seija.HasStatusEffect<QiannianShenqiSe>() && !seija._pool.Contains(typeof(QiannianShenqiSe)))
 						seija._pool.Add(typeof(QiannianShenqiSe));
 				}
+				yield return seija.RandomBuff();
 			}
 			else
 			{
@@ -2793,6 +2819,14 @@ namespace lvalonmima.Source.Patches
 	// 		__result = "Free Choice";
 	// 	}
 	// }
+	[HarmonyPatch(typeof(Card), nameof(Card.Upgrade))]
+	class Card_Upgrade_Patch_Shinmy
+	{
+		static bool Prefix(Card __instance)
+		{
+			return __instance.CanUpgradeAndPositive;
+		}
+	}
 
 	[HarmonyPatch(typeof(Card), nameof(Card.Upgrade))]
 	class Card_Upgrade_Patch

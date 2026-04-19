@@ -31,7 +31,6 @@ namespace lvalonmima.StatusEffects
 		public override bool ForceNotShowDownText => true;
 		protected override void OnAdded(Unit unit)
 		{
-			Highlight = Owner.HasStatusEffect<Lunatic>();
 			ReactOwnerEvent(Battle.CardUsed, OnCardUsed);
 			HandleOwnerEvent(unit.StatusEffectAdded, OnSEAdded);
 		}
@@ -43,12 +42,9 @@ namespace lvalonmima.StatusEffects
 
 		private IEnumerable<BattleAction> OnCardUsed(CardUsingEventArgs args)
 		{
-			if (Owner.HasStatusEffect<Lunatic>())
-			{
-				NotifyActivating();
-				yield return ToBlack(Battle.BattleMana, 1);
-				yield return DamageAction.Reaction(Battle.Player, 1);
-			}
+			NotifyActivating();
+			yield return ToBlack(Battle.BattleMana, 1);
+			yield return DamageAction.Reaction(Battle.Player, 1);
 		}
 		public static ConvertManaAction ToBlack(ManaGroup mana, int count)
 		{

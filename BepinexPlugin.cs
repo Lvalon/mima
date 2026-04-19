@@ -61,8 +61,8 @@ namespace lvalonmima
 		public static CustomConfigEntry<double> mimaCardMultEntry = new CustomConfigEntry<double>(
 			value: 0.1,
 			section: "1. Content Modifications 內容設定",
-			key: "Mima card weight when playing as another character 遊玩其他角色時的魅魔卡牌比重",
-			description: "Weight of Mima cards appearing when playing as another character (normal weight is 1). 以其他角色遊玩時魅魔卡牌的比重（正常為 1）。");
+			key: "Mima card weight multiplier when playing as another character 遊玩其他角色時的魅魔卡牌比重倍率",
+			description: "Weight multiplier of Mima cards appearing when playing as another character (normal weight is 1). 以其他角色遊玩時魅魔卡牌的比重倍率（正常為 1）。");
 
 		private static readonly Harmony harmony = lvalonmima.PInfo.harmony;
 
@@ -93,6 +93,10 @@ namespace lvalonmima
 
 			harmony.PatchAll();
 
+			CHandlerManager.RegisterGameEventHandler(
+				gr => gr.StationEntering,
+				ShopModHandlers.StationEntering
+				);
 			CHandlerManager.RegisterGameEventHandler(
 				gr => gr.StationEntered,
 				ShopModHandlers.StationEntered

@@ -198,8 +198,8 @@ namespace lvalonmima.Source.Patches
 				return;
 			}
 			string text = BuildChallengerModeWatermarkText(shop);
-			var itemEffects = BuildChallengerModeWatermarkItemEffects(shop);
-			SetWatermarkActive(board, true, text, itemEffects);
+			// var itemEffects = BuildChallengerModeWatermarkItemEffects(shop);
+			SetWatermarkActive(board, true, text);
 		}
 
 		private static string BuildChallengerModeWatermarkText(LiteShop shop)
@@ -251,71 +251,71 @@ namespace lvalonmima.Source.Patches
 			return StringDecorator.Decorate(sb.ToString());
 		}
 
-		private readonly struct WatermarkItemTooltipData
-		{
-			public readonly string Title;
-			public readonly string Effect;
+		// private readonly struct WatermarkItemTooltipData
+		// {
+		// 	public readonly string Title;
+		// 	public readonly string Effect;
 
-			public WatermarkItemTooltipData(string title, string effect)
-			{
-				Title = title ?? string.Empty;
-				Effect = effect ?? string.Empty;
-			}
-		}
+		// 	public WatermarkItemTooltipData(string title, string effect)
+		// 	{
+		// 		Title = title ?? string.Empty;
+		// 		Effect = effect ?? string.Empty;
+		// 	}
+		// }
 
-		private static Dictionary<string, WatermarkItemTooltipData> BuildChallengerModeWatermarkItemEffects(LiteShop shop)
-		{
-			var itemEffects = new Dictionary<string, WatermarkItemTooltipData>(StringComparer.Ordinal);
-			var categoryOrder = new[]
-			{
-				LocalisationKeys.DifficultyPrefix,
-				LocalisationKeys.InitPrefix,
-				LocalisationKeys.DiscountPrefix,
-				LocalisationKeys.FeaturePrefix,
-				LocalisationKeys.BattlePrefix,
-				LocalisationKeys.AlterPrefix,
-			};
+		// private static Dictionary<string, WatermarkItemTooltipData> BuildChallengerModeWatermarkItemEffects(LiteShop shop)
+		// {
+		// 	var itemEffects = new Dictionary<string, WatermarkItemTooltipData>(StringComparer.Ordinal);
+		// 	var categoryOrder = new[]
+		// 	{
+		// 		LocalisationKeys.DifficultyPrefix,
+		// 		LocalisationKeys.InitPrefix,
+		// 		LocalisationKeys.DiscountPrefix,
+		// 		LocalisationKeys.FeaturePrefix,
+		// 		LocalisationKeys.BattlePrefix,
+		// 		LocalisationKeys.AlterPrefix,
+		// 	};
 
-			foreach (var prefix in categoryOrder)
-			{
-				var items = shop.Items.Values
-						.Where(item => item.CurrentTier > 0 && item.Id.StartsWith(prefix, StringComparison.Ordinal))
-						.ToList();
-				if (items.Count == 0)
-					continue;
+		// 	foreach (var prefix in categoryOrder)
+		// 	{
+		// 		var items = shop.Items.Values
+		// 				.Where(item => item.CurrentTier > 0 && item.Id.StartsWith(prefix, StringComparison.Ordinal))
+		// 				.ToList();
+		// 		if (items.Count == 0)
+		// 			continue;
 
-				// Add a tooltip entry for the category itself (keyed by the prefix without trailing dot)
-				string categoryId = prefix[..^1];
-				string categoryKey = $"{LocalisationKeys.ShopPrefix}{categoryId}";
-				string categoryName = GetLocalizedText(categoryKey);
-				string categoryEffect = LocalisationKeys.GetShopItemDescription(categoryId, false);
-				if (!string.IsNullOrWhiteSpace(categoryEffect))
-				{
-					string decoratedTitle = StringDecorator.Decorate(categoryName);
-					string decoratedEffect = StringDecorator.Decorate(categoryEffect);
-					itemEffects[categoryId] = new WatermarkItemTooltipData(decoratedTitle, decoratedEffect);
-				}
+		// 		// Add a tooltip entry for the category itself (keyed by the prefix without trailing dot)
+		// 		string categoryId = prefix[..^1];
+		// 		string categoryKey = $"{LocalisationKeys.ShopPrefix}{categoryId}";
+		// 		string categoryName = GetLocalizedText(categoryKey);
+		// 		string categoryEffect = LocalisationKeys.GetShopItemDescription(categoryId, false);
+		// 		if (!string.IsNullOrWhiteSpace(categoryEffect))
+		// 		{
+		// 			string decoratedTitle = StringDecorator.Decorate(categoryName);
+		// 			string decoratedEffect = StringDecorator.Decorate(categoryEffect);
+		// 			itemEffects[categoryId] = new WatermarkItemTooltipData(decoratedTitle, decoratedEffect);
+		// 		}
 
-				foreach (var item in items)
-				{
-					string nameKey = $"{LocalisationKeys.ShopPrefix}{item.Id}";
-					string name = GetLocalizedText(nameKey);
-					if (name == nameKey)
-						name = item.Id;
-					string effect = LocalisationKeys.GetShopItemDescription(item.Id, false);
-					if (string.IsNullOrWhiteSpace(effect))
-						continue;
+		// 		foreach (var item in items)
+		// 		{
+		// 			string nameKey = $"{LocalisationKeys.ShopPrefix}{item.Id}";
+		// 			string name = GetLocalizedText(nameKey);
+		// 			if (name == nameKey)
+		// 				name = item.Id;
+		// 			string effect = LocalisationKeys.GetShopItemDescription(item.Id, false);
+		// 			if (string.IsNullOrWhiteSpace(effect))
+		// 				continue;
 
-					string decoratedTitle = StringDecorator.Decorate(name);
-					string decoratedEffect = StringDecorator.Decorate(effect);
-					itemEffects[item.Id] = new WatermarkItemTooltipData(decoratedTitle, decoratedEffect);
-				}
-			}
+		// 			string decoratedTitle = StringDecorator.Decorate(name);
+		// 			string decoratedEffect = StringDecorator.Decorate(effect);
+		// 			itemEffects[item.Id] = new WatermarkItemTooltipData(decoratedTitle, decoratedEffect);
+		// 		}
+		// 	}
 
-			return itemEffects;
-		}
+		// 	return itemEffects;
+		// }
 
-		private static void SetWatermarkActive(SystemBoard board, bool isActive, string text, Dictionary<string, WatermarkItemTooltipData> itemEffects = null)
+		private static void SetWatermarkActive(SystemBoard board, bool isActive, string text)
 		{
 			if (board?.gameVersion == null)
 				return;
@@ -367,15 +367,16 @@ namespace lvalonmima.Source.Patches
 				rectTransform.sizeDelta = new Vector2(tmp.preferredWidth, tmp.preferredHeight);
 				ApplyWatermarkVisibility(tmp);
 
-				GameObject raycastTarget = GetOrCreateWatermarkRaycastTarget(tmp);
-				RectTransform tooltipAnchor = GetOrCreateWatermarkTooltipAnchor(tmp);
-				var tooltip = tooltipAnchor.GetComponent<SimpleTooltipSource>();
-				if (tooltip == null)
-					tooltip = SimpleTooltipSource.CreateDirect(tooltipAnchor.gameObject, string.Empty).WithPosition(TooltipDirection.Bottom, TooltipAlignment.Max);
-				var itemTooltip = raycastTarget.GetComponent<WatermarkItemTooltip>();
-				if (itemTooltip == null)
-					itemTooltip = raycastTarget.AddComponent<WatermarkItemTooltip>();
-				itemTooltip.SetData(tmp, tooltip, tooltipAnchor, itemEffects ?? new Dictionary<string, WatermarkItemTooltipData>(StringComparer.Ordinal));
+				// Hover tooltip features disabled
+				// GameObject raycastTarget = GetOrCreateWatermarkRaycastTarget(tmp);
+				// RectTransform tooltipAnchor = GetOrCreateWatermarkTooltipAnchor(tmp);
+				// var tooltip = tooltipAnchor.GetComponent<SimpleTooltipSource>();
+				// if (tooltip == null)
+				// 	tooltip = SimpleTooltipSource.CreateDirect(tooltipAnchor.gameObject, string.Empty).WithPosition(TooltipDirection.Bottom, TooltipAlignment.Max);
+				// var itemTooltip = raycastTarget.GetComponent<WatermarkItemTooltip>();
+				// if (itemTooltip == null)
+				// 	itemTooltip = raycastTarget.AddComponent<WatermarkItemTooltip>();
+				// itemTooltip.SetData(tmp, tooltip, tooltipAnchor, itemEffects ?? new Dictionary<string, WatermarkItemTooltipData>(StringComparer.Ordinal));
 			}
 
 			if (baseY.HasValue)
@@ -389,216 +390,216 @@ namespace lvalonmima.Source.Patches
 			watermark.SetActive(true);
 		}
 
-		private static GameObject GetOrCreateWatermarkRaycastTarget(TextMeshProUGUI text)
-		{
-			Transform parent = text.transform;
-			var existing = parent.Find(WatermarkRaycastName) as RectTransform;
-			RectTransform raycastRect = existing;
-			if (raycastRect == null)
-			{
-				var raycastObject = new GameObject(WatermarkRaycastName, typeof(RectTransform));
-				raycastRect = raycastObject.GetComponent<RectTransform>();
-				raycastRect.SetParent(parent, false);
-			}
+		// private static GameObject GetOrCreateWatermarkRaycastTarget(TextMeshProUGUI text)
+		// {
+		// 	Transform parent = text.transform;
+		// 	var existing = parent.Find(WatermarkRaycastName) as RectTransform;
+		// 	RectTransform raycastRect = existing;
+		// 	if (raycastRect == null)
+		// 	{
+		// 		var raycastObject = new GameObject(WatermarkRaycastName, typeof(RectTransform));
+		// 		raycastRect = raycastObject.GetComponent<RectTransform>();
+		// 		raycastRect.SetParent(parent, false);
+		// 	}
 
-			var image = raycastRect.GetComponent<Image>() ?? raycastRect.gameObject.AddComponent<Image>();
-			image.color = new Color(1f, 1f, 1f, 0f);
-			image.raycastTarget = true;
+		// 	var image = raycastRect.GetComponent<Image>() ?? raycastRect.gameObject.AddComponent<Image>();
+		// 	image.color = new Color(1f, 1f, 1f, 0f);
+		// 	image.raycastTarget = true;
 
-			UpdateWatermarkRaycastRect(text, raycastRect);
-			raycastRect.SetAsLastSibling();
-			return raycastRect.gameObject;
-		}
+		// 	UpdateWatermarkRaycastRect(text, raycastRect);
+		// 	raycastRect.SetAsLastSibling();
+		// 	return raycastRect.gameObject;
+		// }
 
-		private static void UpdateWatermarkRaycastRect(TextMeshProUGUI text, RectTransform raycastRect)
-		{
-			raycastRect.anchorMin = Vector2.zero;
-			raycastRect.anchorMax = Vector2.one;
-			raycastRect.pivot = new Vector2(0.5f, 0.5f);
-			raycastRect.anchoredPosition = Vector2.zero;
-			raycastRect.localScale = Vector3.one;
-			raycastRect.sizeDelta = Vector2.zero;
-		}
+		// private static void UpdateWatermarkRaycastRect(TextMeshProUGUI text, RectTransform raycastRect)
+		// {
+		// 	raycastRect.anchorMin = Vector2.zero;
+		// 	raycastRect.anchorMax = Vector2.one;
+		// 	raycastRect.pivot = new Vector2(0.5f, 0.5f);
+		// 	raycastRect.anchoredPosition = Vector2.zero;
+		// 	raycastRect.localScale = Vector3.one;
+		// 	raycastRect.sizeDelta = Vector2.zero;
+		// }
 
-		private static RectTransform GetOrCreateWatermarkTooltipAnchor(TextMeshProUGUI text)
-		{
-			Transform parent = text.transform;
-			var existing = parent.Find(WatermarkAnchorName) as RectTransform;
-			RectTransform anchorRect = existing;
-			if (anchorRect == null)
-			{
-				var anchorObject = new GameObject(WatermarkAnchorName, typeof(RectTransform));
-				anchorRect = anchorObject.GetComponent<RectTransform>();
-				anchorRect.SetParent(parent, false);
-			}
+		// private static RectTransform GetOrCreateWatermarkTooltipAnchor(TextMeshProUGUI text)
+		// {
+		// 	Transform parent = text.transform;
+		// 	var existing = parent.Find(WatermarkAnchorName) as RectTransform;
+		// 	RectTransform anchorRect = existing;
+		// 	if (anchorRect == null)
+		// 	{
+		// 		var anchorObject = new GameObject(WatermarkAnchorName, typeof(RectTransform));
+		// 		anchorRect = anchorObject.GetComponent<RectTransform>();
+		// 		anchorRect.SetParent(parent, false);
+		// 	}
 
-			anchorRect.anchorMin = new Vector2(1f, 1f);
-			anchorRect.anchorMax = new Vector2(1f, 1f);
-			anchorRect.pivot = new Vector2(0.5f, 0.5f);
-			anchorRect.anchoredPosition = Vector2.zero;
-			anchorRect.localScale = Vector3.one;
-			anchorRect.sizeDelta = new Vector2(1f, 1f);
-			anchorRect.SetAsLastSibling();
-			return anchorRect;
-		}
+		// 	anchorRect.anchorMin = new Vector2(1f, 1f);
+		// 	anchorRect.anchorMax = new Vector2(1f, 1f);
+		// 	anchorRect.pivot = new Vector2(0.5f, 0.5f);
+		// 	anchorRect.anchoredPosition = Vector2.zero;
+		// 	anchorRect.localScale = Vector3.one;
+		// 	anchorRect.sizeDelta = new Vector2(1f, 1f);
+		// 	anchorRect.SetAsLastSibling();
+		// 	return anchorRect;
+		// }
 
-		private sealed class WatermarkItemTooltip : MonoBehaviour, IPointerMoveHandler, IPointerExitHandler
-		{
-			private TextMeshProUGUI _text;
-			private SimpleTooltipSource _tooltip;
-			private RectTransform _anchorRect;
-			private Dictionary<string, WatermarkItemTooltipData> _itemEffects = new Dictionary<string, WatermarkItemTooltipData>(StringComparer.Ordinal);
-			private string _currentItemId;
-			private bool _tooltipVisible;
-			private bool _suppressPointerEvents;
+		// private sealed class WatermarkItemTooltip : MonoBehaviour, IPointerMoveHandler, IPointerExitHandler
+		// {
+		// 	private TextMeshProUGUI _text;
+		// 	private SimpleTooltipSource _tooltip;
+		// 	private RectTransform _anchorRect;
+		// 	private Dictionary<string, WatermarkItemTooltipData> _itemEffects = new Dictionary<string, WatermarkItemTooltipData>(StringComparer.Ordinal);
+		// 	private string _currentItemId;
+		// 	private bool _tooltipVisible;
+		// 	private bool _suppressPointerEvents;
 
-			public void SetData(TextMeshProUGUI text, SimpleTooltipSource tooltip, RectTransform anchorRect, Dictionary<string, WatermarkItemTooltipData> itemEffects)
-			{
-				_text = text;
-				_tooltip = tooltip;
-				_anchorRect = anchorRect;
-				_itemEffects = itemEffects ?? new Dictionary<string, WatermarkItemTooltipData>(StringComparer.Ordinal);
-				ClearTooltip();
-			}
+		// 	public void SetData(TextMeshProUGUI text, SimpleTooltipSource tooltip, RectTransform anchorRect, Dictionary<string, WatermarkItemTooltipData> itemEffects)
+		// 	{
+		// 		_text = text;
+		// 		_tooltip = tooltip;
+		// 		_anchorRect = anchorRect;
+		// 		_itemEffects = itemEffects ?? new Dictionary<string, WatermarkItemTooltipData>(StringComparer.Ordinal);
+		// 		ClearTooltip();
+		// 	}
 
-			public void OnPointerMove(PointerEventData eventData)
-			{
-				if (_text == null || _tooltip == null)
-					return;
-				if (EventSystem.current == null || _text.textInfo == null || _text.textInfo.linkCount == 0)
-				{
-					ClearTooltip();
-					return;
-				}
+		// 	public void OnPointerMove(PointerEventData eventData)
+		// 	{
+		// 		if (_text == null || _tooltip == null)
+		// 			return;
+		// 		if (EventSystem.current == null || _text.textInfo == null || _text.textInfo.linkCount == 0)
+		// 		{
+		// 			ClearTooltip();
+		// 			return;
+		// 		}
 
-				int linkIndex = TMP_TextUtilities.FindIntersectingLink(_text, eventData.position, eventData.enterEventCamera);
-				if (linkIndex == -1)
-				{
-					ClearTooltip();
-					return;
-				}
+		// 		int linkIndex = TMP_TextUtilities.FindIntersectingLink(_text, eventData.position, eventData.enterEventCamera);
+		// 		if (linkIndex == -1)
+		// 		{
+		// 			ClearTooltip();
+		// 			return;
+		// 		}
 
-				string itemId = _text.textInfo.linkInfo[linkIndex].GetLinkID();
-				if (string.IsNullOrEmpty(itemId) || itemId == _currentItemId)
-					return;
+		// 		string itemId = _text.textInfo.linkInfo[linkIndex].GetLinkID();
+		// 		if (string.IsNullOrEmpty(itemId) || itemId == _currentItemId)
+		// 			return;
 
-				if (!_itemEffects.TryGetValue(itemId, out var data) || string.IsNullOrWhiteSpace(data.Effect))
-				{
-					ClearTooltip();
-					return;
-				}
+		// 		if (!_itemEffects.TryGetValue(itemId, out var data) || string.IsNullOrWhiteSpace(data.Effect))
+		// 		{
+		// 			ClearTooltip();
+		// 			return;
+		// 		}
 
-				_currentItemId = itemId;
-				UpdateAnchorToLink(linkIndex);
-				_tooltip.SetDirect(data.Title, data.Effect);
-				TriggerTooltipEnter(eventData);
-			}
+		// 		_currentItemId = itemId;
+		// 		UpdateAnchorToLink(linkIndex);
+		// 		_tooltip.SetDirect(data.Title, data.Effect);
+		// 		TriggerTooltipEnter(eventData);
+		// 	}
 
-			public void OnPointerExit(PointerEventData eventData)
-			{
-				if (_suppressPointerEvents)
-					return;
+		// 	public void OnPointerExit(PointerEventData eventData)
+		// 	{
+		// 		if (_suppressPointerEvents)
+		// 			return;
 
-				ClearTooltip();
-			}
+		// 		ClearTooltip();
+		// 	}
 
-			private void ClearTooltip()
-			{
-				_currentItemId = null;
-				if (_tooltip == null)
-					return;
+		// 	private void ClearTooltip()
+		// 	{
+		// 		_currentItemId = null;
+		// 		if (_tooltip == null)
+		// 			return;
 
-				_tooltip.SetDirect(string.Empty, string.Empty);
-				TriggerTooltipExit();
-			}
+		// 		_tooltip.SetDirect(string.Empty, string.Empty);
+		// 		TriggerTooltipExit();
+		// 	}
 
-			private void TriggerTooltipEnter(PointerEventData eventData)
-			{
-				if (_tooltipVisible || EventSystem.current == null)
-					return;
+		// 	private void TriggerTooltipEnter(PointerEventData eventData)
+		// 	{
+		// 		if (_tooltipVisible || EventSystem.current == null)
+		// 			return;
 
-				_suppressPointerEvents = true;
-				ExecuteEvents.Execute(
-					_tooltip.gameObject,
-					eventData,
-					ExecuteEvents.pointerEnterHandler
-				);
-				_suppressPointerEvents = false;
-				_tooltipVisible = true;
-			}
+		// 		_suppressPointerEvents = true;
+		// 		ExecuteEvents.Execute(
+		// 			_tooltip.gameObject,
+		// 			eventData,
+		// 			ExecuteEvents.pointerEnterHandler
+		// 		);
+		// 		_suppressPointerEvents = false;
+		// 		_tooltipVisible = true;
+		// 	}
 
-			private void TriggerTooltipExit()
-			{
-				if (!_tooltipVisible || EventSystem.current == null)
-					return;
+		// 	private void TriggerTooltipExit()
+		// 	{
+		// 		if (!_tooltipVisible || EventSystem.current == null)
+		// 			return;
 
-				_suppressPointerEvents = true;
-				ExecuteEvents.Execute(
-					_tooltip.gameObject,
-					new PointerEventData(EventSystem.current),
-					ExecuteEvents.pointerExitHandler
-				);
-				_suppressPointerEvents = false;
-				_tooltipVisible = false;
-			}
+		// 		_suppressPointerEvents = true;
+		// 		ExecuteEvents.Execute(
+		// 			_tooltip.gameObject,
+		// 			new PointerEventData(EventSystem.current),
+		// 			ExecuteEvents.pointerExitHandler
+		// 		);
+		// 		_suppressPointerEvents = false;
+		// 		_tooltipVisible = false;
+		// 	}
 
-			private void UpdateAnchorToLink(int linkIndex)
-			{
-				if (_anchorRect == null || _text == null || _text.textInfo == null)
-					return;
+		// 	private void UpdateAnchorToLink(int linkIndex)
+		// 	{
+		// 		if (_anchorRect == null || _text == null || _text.textInfo == null)
+		// 			return;
 
-				if (!TryGetLinkBounds(linkIndex, out var center, out var size))
-					return;
+		// 		if (!TryGetLinkBounds(linkIndex, out var center, out var size))
+		// 			return;
 
-				var paddedSize = size + new Vector2(6f, 4f);
-				_anchorRect.anchorMin = new Vector2(1f, 1f);
-				_anchorRect.anchorMax = new Vector2(1f, 1f);
-				_anchorRect.pivot = new Vector2(0.5f, 0.5f);
-				_anchorRect.anchoredPosition = center;
-				_anchorRect.sizeDelta = paddedSize;
-			}
+		// 		var paddedSize = size + new Vector2(6f, 4f);
+		// 		_anchorRect.anchorMin = new Vector2(1f, 1f);
+		// 		_anchorRect.anchorMax = new Vector2(1f, 1f);
+		// 		_anchorRect.pivot = new Vector2(0.5f, 0.5f);
+		// 		_anchorRect.anchoredPosition = center;
+		// 		_anchorRect.sizeDelta = paddedSize;
+		// 	}
 
-			private bool TryGetLinkBounds(int linkIndex, out Vector2 center, out Vector2 size)
-			{
-				center = Vector2.zero;
-				size = Vector2.zero;
-				if (_text.textInfo.linkInfo == null || linkIndex < 0 || linkIndex >= _text.textInfo.linkCount)
-					return false;
+		// 	private bool TryGetLinkBounds(int linkIndex, out Vector2 center, out Vector2 size)
+		// 	{
+		// 		center = Vector2.zero;
+		// 		size = Vector2.zero;
+		// 		if (_text.textInfo.linkInfo == null || linkIndex < 0 || linkIndex >= _text.textInfo.linkCount)
+		// 			return false;
 
-				TMP_LinkInfo linkInfo = _text.textInfo.linkInfo[linkIndex];
-				int start = linkInfo.linkTextfirstCharacterIndex;
-				int length = linkInfo.linkTextLength;
-				var chars = _text.textInfo.characterInfo;
-				if (start < 0 || start >= chars.Length || length <= 0)
-					return false;
+		// 		TMP_LinkInfo linkInfo = _text.textInfo.linkInfo[linkIndex];
+		// 		int start = linkInfo.linkTextfirstCharacterIndex;
+		// 		int length = linkInfo.linkTextLength;
+		// 		var chars = _text.textInfo.characterInfo;
+		// 		if (start < 0 || start >= chars.Length || length <= 0)
+		// 			return false;
 
-				float minX = float.PositiveInfinity;
-				float minY = float.PositiveInfinity;
-				float maxX = float.NegativeInfinity;
-				float maxY = float.NegativeInfinity;
-				bool hasVisible = false;
-				int end = Math.Min(start + length, chars.Length);
-				for (int i = start; i < end; i++)
-				{
-					var ch = chars[i];
-					if (!ch.isVisible)
-						continue;
+		// 		float minX = float.PositiveInfinity;
+		// 		float minY = float.PositiveInfinity;
+		// 		float maxX = float.NegativeInfinity;
+		// 		float maxY = float.NegativeInfinity;
+		// 		bool hasVisible = false;
+		// 		int end = Math.Min(start + length, chars.Length);
+		// 		for (int i = start; i < end; i++)
+		// 		{
+		// 			var ch = chars[i];
+		// 			if (!ch.isVisible)
+		// 				continue;
 
-					hasVisible = true;
-					minX = Math.Min(minX, ch.bottomLeft.x);
-					maxX = Math.Max(maxX, ch.topRight.x);
-					minY = Math.Min(minY, ch.descender);
-					maxY = Math.Max(maxY, ch.ascender);
-				}
+		// 			hasVisible = true;
+		// 			minX = Math.Min(minX, ch.bottomLeft.x);
+		// 			maxX = Math.Max(maxX, ch.topRight.x);
+		// 			minY = Math.Min(minY, ch.descender);
+		// 			maxY = Math.Max(maxY, ch.ascender);
+		// 		}
 
-				if (!hasVisible)
-					return false;
+		// 		if (!hasVisible)
+		// 			return false;
 
-				size = new Vector2(maxX - minX, maxY - minY);
-				center = new Vector2(minX + size.x * 0.5f, minY + size.y * 0.5f);
-				return true;
-			}
-		}
+		// 		size = new Vector2(maxX - minX, maxY - minY);
+		// 		center = new Vector2(minX + size.x * 0.5f, minY + size.y * 0.5f);
+		// 		return true;
+		// 	}
+		// }
 
 		private static void ApplyWatermarkVisibility(TextMeshProUGUI text)
 		{
@@ -609,6 +610,7 @@ namespace lvalonmima.Source.Patches
 
 			text.outlineColor = Color.black;
 			text.outlineWidth = 0.2f;
+			text.raycastTarget = false;
 		}
 
 		// Public helper to toggle watermark visibility for all SystemBoard instances.
@@ -931,10 +933,28 @@ namespace lvalonmima.Source.Patches
 			{
 				ShopSaveLoader.Load("GameRunController.Restore");
 				exquesting.ProcessDeferredRestoreHydration();
+
+				var shop = MiniTracker.Instance?.CustomGrSaveData?.GetShopForCurrentProfile();
+				if (shop?.GetItem("alter.wings")?.CurrentTier > 0)
+				{
+					GameMaster.Instance?.StartCoroutine(DeferredAddMapModeOverrider());
+				}
 			}
 			finally
 			{
 				ShopSaveLoader.SetGameRunRestoreInProgress(false);
+			}
+		}
+
+		private static IEnumerator DeferredAddMapModeOverrider()
+		{
+			yield return null;
+
+			var gameRun = Singleton<GameMaster>.Instance?.CurrentGameRun;
+			if (gameRun?._mapModeOverriders != null && !gameRun._mapModeOverriders.Contains(RogueliteCrosser.Instance))
+			{
+				gameRun._mapModeOverriders.Add(RogueliteCrosser.Instance);
+				gameRun.CheckMapMode();
 			}
 		}
 	}

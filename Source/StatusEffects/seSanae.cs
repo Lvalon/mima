@@ -35,6 +35,9 @@ namespace lvalonmima.StatusEffects
 		public override bool ForceNotShowDownText => true;
 		protected override void OnAdded(Unit unit)
 		{
+			React(new ApplyStatusEffectAction<Weak>(Battle.Player, 0, 3));
+			React(new ApplyStatusEffectAction<Vulnerable>(Battle.Player, 0, 3));
+			React(new ApplyStatusEffectAction<Fragil>(Battle.Player, 0, 3));
 			ReactOwnerEvent(Battle.CardUsed, OnCardUsed);
 		}
 
@@ -45,8 +48,8 @@ namespace lvalonmima.StatusEffects
 				NotifyActivating();
 				if (Battle.HandZone.Count > 0)
 					yield return new DiscardAction(Battle.HandZone.FirstOrDefault());
-				yield return new ApplyStatusEffectAction<TempFirepower>(Owner, 2);
-				yield return new ApplyStatusEffectAction<TempFirepowerNegative>(Battle.Player, 2);
+				yield return new ApplyStatusEffectAction<TempFirepower>(Owner, 1);
+				yield return new ApplyStatusEffectAction<TempFirepowerNegative>(Battle.Player, 1);
 			}
 		}
 	}

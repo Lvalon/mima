@@ -373,7 +373,7 @@ seTerminator:
   Description: "When {PlayerName} gains |Graze|, apply |c:1| |Lock On| to {PlayerName}."
   Name: "Aimbot Module (Ascended)"
 
-seYaosh:
+seYaoshi:
   Description: "Enemies take damage equal than |c:20|% of their maximum life at most."
   Name: "Hang On (Ascended)"
 
@@ -490,7 +490,7 @@ seYuyuko:
   Name: "Law of Morality (Ascended)"
 
 seTenshi:
-  Description: "{OwnerName} takes half as much damage while her intention is an attack |Spell Card|.\n When {Ownername} takes more than |c:52| damage at once, gain |c:1| |Firepower|."
+  Description: "{OwnerName} takes half as much damage while her intention is an attack |Spell Card|.\n When {OwnerName} takes more than |c:52| damage at once, gain |c:1| |Firepower|."
   Name: "Heavenly Peach (Ascended)"
 
 seMegumu:
@@ -502,7 +502,7 @@ seRemilia:
   Name: "Scarlet Fate (Ascended)"
 
 seSanae:
-  Description: "At the start of battle, apply |c:3| |Weak|, |Vulnerable| and |Frail| to {PlayerName}.\n|Whenever a |Skill| card is played, discard the leftmost card in the hand, {OwnerName} gains |c:2| |Temporary Firepower|, {PlayerName} loses |c:2| |Temporary Firepower|."
+  Description: "At the start of battle, apply |c:3| |Weak|, |Vulnerable| and |Frail| to {PlayerName}.\nWhenever a |Skill| card is played, discard the leftmost card in the hand, {OwnerName} gains |c:1| |Temporary Firepower|, {PlayerName} loses |c:1| |Temporary Firepower|."
   Name: "I'm Really Curious! (Ascended)"
 
 seJunko:

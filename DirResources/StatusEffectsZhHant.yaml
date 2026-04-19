@@ -229,6 +229,10 @@ seabilityplayed:
   Description: "已打出 {Count} 張|能力|牌。"
   Name: 已打出能力牌
 
+sefriendplayed:
+  Description: "已打出 {Count} 張|同伴|牌。"
+  Name: 已打出同伴牌
+
 sestatusplayed:
   Description: "已打出 {Count} 張|狀態|牌。"
   Name: 已打出狀態牌
@@ -246,7 +250,7 @@ selifediff:
   Name: 進入戰鬥時的生命值
 
 seholddamage:
-  Description: "無效化並記錄這輪內{OwnerName}所有失去的生命值和受到的傷害。\n{OwnerName}的回合開始時受到 {Conut} 點傷害，然後清空記錄。"
+  Description: "無效化並記錄這輪內{OwnerName}所有失去的生命值和受到的傷害。\n{OwnerName}的回合開始時受到 {Count} 點傷害，然後清空記錄。"
   Brief: "無效化並記錄這輪內{OwnerName}所有失去的生命值和受到的傷害。\n{OwnerName}的回合開始時受到記錄總和的傷害，然後清空記錄。"
   Name: 保留傷害
 
@@ -497,7 +501,7 @@ seRemilia:
   Name: "緋色命運（昇華）"
 
 seSanae:
-  Description: "戰鬥開始時，對{PlayerName}施加 |c:3| 回合的|虛弱|、|易傷|和|脆弱|。\n每當一張|技能|牌被打出時，棄掉最左側的手牌，{OwnerName}獲得 |c:2| 點|暫得火力|，{PlayerName}獲得 |c:2| 點|暫失火力|。"
+  Description: "戰鬥開始時，對{PlayerName}施加 |c:3| 回合的|虛弱|、|易傷|和|脆弱|。\n每當一張|技能|牌被打出時，棄掉最左側的手牌，{OwnerName}獲得 |c:1| 點|暫得火力|，{PlayerName}獲得 |c:1| 點|暫失火力|。"
   Name: "我很好奇！（昇華）"
 
 seJunko:

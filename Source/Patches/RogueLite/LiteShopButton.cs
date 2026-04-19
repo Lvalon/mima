@@ -1513,7 +1513,7 @@ namespace lvalonmima.Source.Patches
 			[(Locale.En, $"{ShopPrefix}{BattlePrefix}hacks")] = "End of turn",
 			[(Locale.En, $"{ShopPrefix}{BattlePrefix}hacks.Desc")] = "At the end of the |Challenger|'s first turn, there is a {0}% chance to play |c:1| random |Ability| card on the battlefield.",
 			[(Locale.En, $"{ShopPrefix}{BattlePrefix}hacks.Next")] = "<b>|c:Next|</b>: {1}% chance",
-			[(Locale.En, $"{ShopPrefix}{BattlePrefix}ChallengerModeWatermark.HoverHint")] = "Challenger mode (Mouseover item for details)",
+			[(Locale.En, $"{ShopPrefix}{BattlePrefix}ChallengerModeWatermark.HoverHint")] = "Challenger mode",
 
 			[(Locale.En, $"{ShopPrefix}{AlterPrefix}freechoice")] = "I Knew It",
 			[(Locale.En, $"{ShopPrefix}{AlterPrefix}freechoice.Desc")] = "The |Challenger| can successfully identify the true culprit without needing any items.",
@@ -1570,8 +1570,8 @@ namespace lvalonmima.Source.Patches
 			[(Locale.En, $"{ShopPrefix}RefundButton")] = "Refund",
 			[(Locale.En, $"{ShopPrefix}RefundButton.Desc")] = "Refunding an upgrade will move it down a tier.\nCannot refund when there is an ongoing run.",
 
-			[(Locale.En, "AcceptQuest")] = "Accept quest?",
-			[(Locale.En, "AbandonQuest")] = "Abandon quest?",
+			[(Locale.En, "AcceptQuest")] = "Accept quest? (Select card to accept)",
+			[(Locale.En, "AbandonQuest")] = "Abandon quest? (Select card to abandon)",
 
 			/////////////
 			// 繁體中文 //
@@ -1580,8 +1580,8 @@ namespace lvalonmima.Source.Patches
 			[(Locale.ZhHant, $"{ShopPrefix}LiteShopButton")] = "Roguelite 商店",
 			[(Locale.ZhHant, $"{ShopPrefix}LiteShopButton.Active")] = "Roguelite 商店 （啟用中）",
 			[(Locale.ZhHant, $"{ShopPrefix}LiteShopButton.Inactive")] = "Roguelite 商店 （未啟用）",
-			[(Locale.ZhHant, $"{ShopPrefix}LiteShopButton.Desc")] = "|挑戰者模式|下，遊戲結束時獲得的<sprite=\"Point\" name=\"Point\">將被儲存，能在 |Roguelite 商店| 中使用以強化作為|挑戰者|的玩家。\n|挑戰者模式|：玩家角色的首次行動將被跳過。",
-			[(Locale.ZhHant, $"{ShopPrefix}LiteShopButton.Desc.Normalize")] = "|p:（行動順序逆轉已被難度調整的正常化取消）|",
+			[(Locale.ZhHant, $"{ShopPrefix}LiteShopButton.Desc")] = "|挑戰者模式|下，遊戲結束時獲得的<sprite=\"Point\" name=\"Point\">將被儲存，能在 |Roguelite 商店| 中使用以強化作為|挑戰者|的玩家。\n|挑戰者模式|：玩家角色的首個行動階段將被跳過。",
+			[(Locale.ZhHant, $"{ShopPrefix}LiteShopButton.Desc.Normalize")] = "|p:（行動階段的跳過已被難度調整的正常化取消）|",
 			[(Locale.ZhHant, $"{ShopPrefix}LiteShopButton.Effect")] = "<b>效果</b>：",
 			[(Locale.ZhHant, $"{ShopPrefix}{DifficultyPrefix}"[..^1])] = "難度調整",
 			[(Locale.ZhHant, $"{ShopPrefix}{DifficultyPrefix}Desc")] = "|難度調整|能調整|挑戰者模式|的難度，但也會影響<sprite=\"Point\" name=\"Point\">的儲存或其他收益。",
@@ -1657,7 +1657,7 @@ namespace lvalonmima.Source.Patches
 			[(Locale.ZhHant, $"{ShopPrefix}{BattlePrefix}hacks")] = "回合結束時",
 			[(Locale.ZhHant, $"{ShopPrefix}{BattlePrefix}hacks.Desc")] = "玩家的第一回合結束時，有 {0}% 機率可以打出戰場上的 |c:1| 張隨機能力牌。",
 			[(Locale.ZhHant, $"{ShopPrefix}{BattlePrefix}hacks.Next")] = "<b>|c:下一級|</b>：{1}% 機率",
-			[(Locale.ZhHant, $"{ShopPrefix}{BattlePrefix}ChallengerModeWatermark.HoverHint")] = "挑戰者模式（将滑鼠悬停在字條上查看效果）",
+			[(Locale.ZhHant, $"{ShopPrefix}{BattlePrefix}ChallengerModeWatermark.HoverHint")] = "挑戰者模式",
 
 			[(Locale.ZhHant, $"{ShopPrefix}{AlterPrefix}freechoice")] = "我就知道",
 			[(Locale.ZhHant, $"{ShopPrefix}{AlterPrefix}freechoice.Desc")] = "不需要搜索真兇用的道具也能成功搜索真兇。",
@@ -1713,8 +1713,8 @@ namespace lvalonmima.Source.Patches
 			[(Locale.ZhHant, $"{ShopPrefix}ChallengerModeToggle.Off")] = "關閉中。",
 			[(Locale.ZhHant, $"{ShopPrefix}ChallengerModeToggle.ButtonOff")] = "啟用模式",
 
-			[(Locale.ZhHant, "AcceptQuest")] = "接受任務？",
-			[(Locale.ZhHant, "AbandonQuest")] = "放棄任務？",
+			[(Locale.ZhHant, "AcceptQuest")] = "接受任務？（點選卡牌以確認）",
+			[(Locale.ZhHant, "AbandonQuest")] = "放棄任務？（點選卡牌以放棄）",
 
 			/////////////
 			// 簡體中文 //
@@ -1723,8 +1723,8 @@ namespace lvalonmima.Source.Patches
 			[(Locale.ZhHans, $"{ShopPrefix}LiteShopButton")] = "Roguelite 商店",
 			[(Locale.ZhHans, $"{ShopPrefix}LiteShopButton.Active")] = "Roguelite 商店 （启用中）",
 			[(Locale.ZhHans, $"{ShopPrefix}LiteShopButton.Inactive")] = "Roguelite 商店 （未启用）",
-			[(Locale.ZhHans, $"{ShopPrefix}LiteShopButton.Desc")] = "|挑战者模式|下，游戏结束时获得的<sprite=\"Point\" name=\"Point\">将被储存，能在 |Roguelite 商店| 中使用以强化作为|挑战者|的玩家。\n|挑战者模式|：玩家角色的首次行动将被跳过。",
-			[(Locale.ZhHans, $"{ShopPrefix}LiteShopButton.Desc.Normalize")] = "|p:（行动顺序逆转已被难度调整的正常化取消）|",
+			[(Locale.ZhHans, $"{ShopPrefix}LiteShopButton.Desc")] = "|挑战者模式|下，游戏结束时获得的<sprite=\"Point\" name=\"Point\">将被储存，能在 |Roguelite 商店| 中使用以强化作为|挑战者|的玩家。\n|挑战者模式|：玩家角色的首个行动阶段将被跳过。",
+			[(Locale.ZhHans, $"{ShopPrefix}LiteShopButton.Desc.Normalize")] = "|p:（行动阶段的跳过已被难度调整的正常化取消）|",
 			[(Locale.ZhHans, $"{ShopPrefix}LiteShopButton.Effect")] = "<b>效果</b>：",
 			[(Locale.ZhHans, $"{ShopPrefix}{DifficultyPrefix}"[..^1])] = "难度调整",
 			[(Locale.ZhHans, $"{ShopPrefix}{DifficultyPrefix}Desc")] = "|难度调整|能调整|挑战者模式|的难度，但也会影响<sprite=\"Point\" name=\"Point\">的储存或其他收益。",
@@ -1800,7 +1800,7 @@ namespace lvalonmima.Source.Patches
 			[(Locale.ZhHans, $"{ShopPrefix}{BattlePrefix}hacks")] = "回合结束时",
 			[(Locale.ZhHans, $"{ShopPrefix}{BattlePrefix}hacks.Desc")] = "玩家的第一回合结束时，有 {0}% 概率可以打出战场上的 |c:1| 张随机能力牌。",
 			[(Locale.ZhHans, $"{ShopPrefix}{BattlePrefix}hacks.Next")] = "<b>|c:下一级|</b>：{1}% 概率",
-			[(Locale.ZhHans, $"{ShopPrefix}{BattlePrefix}ChallengerModeWatermark.HoverHint")] = "挑战者模式（将鼠标悬停在字条上查看效果）",
+			[(Locale.ZhHans, $"{ShopPrefix}{BattlePrefix}ChallengerModeWatermark.HoverHint")] = "挑战者模式",
 
 			[(Locale.ZhHans, $"{ShopPrefix}{AlterPrefix}freechoice")] = "我就知道",
 			[(Locale.ZhHans, $"{ShopPrefix}{AlterPrefix}freechoice.Desc")] = "不需要搜索真凶用的道具也能成功搜索真凶。",
@@ -1856,8 +1856,8 @@ namespace lvalonmima.Source.Patches
 			[(Locale.ZhHans, $"{ShopPrefix}ChallengerModeToggle.Off")] = "关闭中。",
 			[(Locale.ZhHans, $"{ShopPrefix}ChallengerModeToggle.ButtonOff")] = "启用模式",
 
-			[(Locale.ZhHans, "AcceptQuest")] = "接受任务？",
-			[(Locale.ZhHans, "AbandonQuest")] = "放弃任务？",
+			[(Locale.ZhHans, "AcceptQuest")] = "接受任务？（点选卡牌以确认）",
+			[(Locale.ZhHans, "AbandonQuest")] = "放弃任务？（点选卡牌以放弃）",
 		};
 		public static string GetShopItemDescription(string itemId, bool useEffectPrefix = true)
 		{
