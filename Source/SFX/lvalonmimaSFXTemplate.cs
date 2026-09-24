@@ -58,14 +58,14 @@ namespace lvalonmima.SFX.Template
 
 		public static void FixedPlaySfx(this AudioManager manager, string sfxName, float volume = -1f)
 		{
-			if (GameMaster.IsTurboMode)
-			{
-				manager.TurboPlaySfxHandler(sfxName, volume);
-			}
-			else
-			{
-				manager.PlaySfxHandler(sfxName, volume);
-			}
+			// if (GameMaster.IsTurboMode)
+			// {
+			// 	manager.TurboPlaySfxHandler(sfxName, volume);
+			// }
+			// else
+			// {
+			manager.PlaySfxHandler(sfxName, volume);
+			// }
 		}
 
 		/// <summary>

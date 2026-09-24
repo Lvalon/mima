@@ -22,7 +22,7 @@
           "spine-unity": "0.0.0.0",
           "UniTask": "0.0.0.0",
           "Unity.Addressables": "0.0.0.0",
-          "Unity.InputSystem": "1.14.2.0",
+          "Unity.InputSystem": "1.20.0.0",
           "Unity.TextMeshPro": "0.0.0.0",
           "UnityEngine.AssetBundleModule": "0.0.0.0",
           "UnityEngine.AudioModule": "0.0.0.0",
@@ -453,10 +453,10 @@
           }
         }
       },
-      "Unity.InputSystem/1.14.2.0": {
+      "Unity.InputSystem/1.20.0.0": {
         "runtime": {
           "Unity.InputSystem.dll": {
-            "assemblyVersion": "1.14.2.0",
+            "assemblyVersion": "1.20.0.0",
             "fileVersion": "0.0.0.0"
           }
         }
@@ -701,17 +701,25 @@
           }
         }
       },
-      "UnityEngine.TextRenderingModule/0.0.0.0": {
+      "UnityEngine.TextCoreFontEngineModule/0.0.0.0": {
         "runtime": {
-          "UnityEngine.TextRenderingModule.dll": {
+          "UnityEngine.TextCoreFontEngineModule.dll": {
             "assemblyVersion": "0.0.0.0",
             "fileVersion": "0.0.0.0"
           }
         }
       },
-      "UnityEngine.TextCoreFontEngineModule/0.0.0.0": {
+      "Unity.InternalAPIEngineBridge.004/0.0.0.0": {
         "runtime": {
-          "UnityEngine.TextCoreFontEngineModule.dll": {
+          "Unity.InternalAPIEngineBridge.004.dll": {
+            "assemblyVersion": "0.0.0.0",
+            "fileVersion": "0.0.0.0"
+          }
+        }
+      },
+      "UnityEngine.TextRenderingModule/0.0.0.0": {
+        "runtime": {
+          "UnityEngine.TextRenderingModule.dll": {
             "assemblyVersion": "0.0.0.0",
             "fileVersion": "0.0.0.0"
           }
@@ -757,17 +765,25 @@
           }
         }
       },
-      "UnityEngine.VRModule/0.0.0.0": {
+      "UnityEngine.UIElementsModule/0.0.0.0": {
         "runtime": {
-          "UnityEngine.VRModule.dll": {
+          "UnityEngine.UIElementsModule.dll": {
             "assemblyVersion": "0.0.0.0",
             "fileVersion": "0.0.0.0"
           }
         }
       },
-      "UnityEngine.UIElementsModule/0.0.0.0": {
+      "UnityEngine.VectorGraphicsModule/0.0.0.0": {
         "runtime": {
-          "UnityEngine.UIElementsModule.dll": {
+          "UnityEngine.VectorGraphicsModule.dll": {
+            "assemblyVersion": "0.0.0.0",
+            "fileVersion": "0.0.0.0"
+          }
+        }
+      },
+      "UnityEngine.SharedInternalsModule/0.0.0.0": {
+        "runtime": {
+          "UnityEngine.SharedInternalsModule.dll": {
             "assemblyVersion": "0.0.0.0",
             "fileVersion": "0.0.0.0"
           }
@@ -789,6 +805,14 @@
           }
         }
       },
+      "UnityEngine.HierarchyModule/0.0.0.0": {
+        "runtime": {
+          "UnityEngine.HierarchyModule.dll": {
+            "assemblyVersion": "0.0.0.0",
+            "fileVersion": "0.0.0.0"
+          }
+        }
+      },
       "UnityEngine.HierarchyCoreModule/0.0.0.0": {
         "runtime": {
           "UnityEngine.HierarchyCoreModule.dll": {
@@ -800,6 +824,14 @@
       "UnityEngine.ContentLoadModule/0.0.0.0": {
         "runtime": {
           "UnityEngine.ContentLoadModule.dll": {
+            "assemblyVersion": "0.0.0.0",
+            "fileVersion": "0.0.0.0"
+          }
+        }
+      },
+      "UnityEngine.MultiplayerModule/0.0.0.0": {
+        "runtime": {
+          "UnityEngine.MultiplayerModule.dll": {
             "assemblyVersion": "0.0.0.0",
             "fileVersion": "0.0.0.0"
           }
@@ -853,6 +885,14 @@
           }
         }
       },
+      "UnityEngine.AdaptivePerformanceModule/0.0.0.0": {
+        "runtime": {
+          "UnityEngine.AdaptivePerformanceModule.dll": {
+            "assemblyVersion": "0.0.0.0",
+            "fileVersion": "0.0.0.0"
+          }
+        }
+      },
       "UnityEngine.UnityConnectModule/0.0.0.0": {
         "runtime": {
           "UnityEngine.UnityConnectModule.dll": {
@@ -880,14 +920,6 @@
       "UnityEngine.PerformanceReportingModule/0.0.0.0": {
         "runtime": {
           "UnityEngine.PerformanceReportingModule.dll": {
-            "assemblyVersion": "0.0.0.0",
-            "fileVersion": "0.0.0.0"
-          }
-        }
-      },
-      "UnityEngine.SharedInternalsModule/0.0.0.0": {
-        "runtime": {
-          "UnityEngine.SharedInternalsModule.dll": {
             "assemblyVersion": "0.0.0.0",
             "fileVersion": "0.0.0.0"
           }
@@ -957,6 +989,14 @@
           }
         }
       },
+      "UnityEngine.VRModule/0.0.0.0": {
+        "runtime": {
+          "UnityEngine.VRModule.dll": {
+            "assemblyVersion": "0.0.0.0",
+            "fileVersion": "0.0.0.0"
+          }
+        }
+      },
       "UnityEngine.GridModule/0.0.0.0": {
         "runtime": {
           "UnityEngine.GridModule.dll": {
@@ -1005,14 +1045,6 @@
           }
         }
       },
-      "UnityEngine.MultiplayerModule/0.0.0.0": {
-        "runtime": {
-          "UnityEngine.MultiplayerModule.dll": {
-            "assemblyVersion": "0.0.0.0",
-            "fileVersion": "0.0.0.0"
-          }
-        }
-      },
       "UnityEngine.UnityWebRequestTextureModule/0.0.0.0": {
         "runtime": {
           "UnityEngine.UnityWebRequestTextureModule.dll": {
@@ -1037,6 +1069,14 @@
           }
         }
       },
+      "UnityEngine.RenderAs2DModule/0.0.0.0": {
+        "runtime": {
+          "UnityEngine.RenderAs2DModule.dll": {
+            "assemblyVersion": "0.0.0.0",
+            "fileVersion": "0.0.0.0"
+          }
+        }
+      },
       "UnityEngine.VirtualTexturingModule/0.0.0.0": {
         "runtime": {
           "UnityEngine.VirtualTexturingModule.dll": {
@@ -1048,6 +1088,14 @@
       "UnityEngine.ScreenCaptureModule/0.0.0.0": {
         "runtime": {
           "UnityEngine.ScreenCaptureModule.dll": {
+            "assemblyVersion": "0.0.0.0",
+            "fileVersion": "0.0.0.0"
+          }
+        }
+      },
+      "UnityEngine.ShaderRuntimeModule/0.0.0.0": {
+        "runtime": {
+          "UnityEngine.ShaderRuntimeModule.dll": {
             "assemblyVersion": "0.0.0.0",
             "fileVersion": "0.0.0.0"
           }
@@ -1141,19 +1189,19 @@
           }
         }
       },
-      "ScriptEngine/10.0.0.0": {
-        "runtime": {
-          "ScriptEngine.dll": {
-            "assemblyVersion": "10.0.0.0",
-            "fileVersion": "0.0.0.0"
-          }
-        }
-      },
       "System.CodeDom/7.0.0.0": {
         "runtime": {
           "System.CodeDom.dll": {
             "assemblyVersion": "7.0.0.0",
             "fileVersion": "7.0.22.51805"
+          }
+        }
+      },
+      "System.Runtime.CompilerServices.Unsafe/4.0.4.1": {
+        "runtime": {
+          "System.Runtime.CompilerServices.Unsafe.dll": {
+            "assemblyVersion": "4.0.4.1",
+            "fileVersion": "4.0.0.0"
           }
         }
       },
@@ -1533,7 +1581,7 @@
       "serviceable": false,
       "sha512": ""
     },
-    "Unity.InputSystem/1.14.2.0": {
+    "Unity.InputSystem/1.20.0.0": {
       "type": "reference",
       "serviceable": false,
       "sha512": ""
@@ -1688,12 +1736,17 @@
       "serviceable": false,
       "sha512": ""
     },
-    "UnityEngine.TextRenderingModule/0.0.0.0": {
+    "UnityEngine.TextCoreFontEngineModule/0.0.0.0": {
       "type": "reference",
       "serviceable": false,
       "sha512": ""
     },
-    "UnityEngine.TextCoreFontEngineModule/0.0.0.0": {
+    "Unity.InternalAPIEngineBridge.004/0.0.0.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "UnityEngine.TextRenderingModule/0.0.0.0": {
       "type": "reference",
       "serviceable": false,
       "sha512": ""
@@ -1723,12 +1776,17 @@
       "serviceable": false,
       "sha512": ""
     },
-    "UnityEngine.VRModule/0.0.0.0": {
+    "UnityEngine.UIElementsModule/0.0.0.0": {
       "type": "reference",
       "serviceable": false,
       "sha512": ""
     },
-    "UnityEngine.UIElementsModule/0.0.0.0": {
+    "UnityEngine.VectorGraphicsModule/0.0.0.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "UnityEngine.SharedInternalsModule/0.0.0.0": {
       "type": "reference",
       "serviceable": false,
       "sha512": ""
@@ -1743,12 +1801,22 @@
       "serviceable": false,
       "sha512": ""
     },
+    "UnityEngine.HierarchyModule/0.0.0.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
     "UnityEngine.HierarchyCoreModule/0.0.0.0": {
       "type": "reference",
       "serviceable": false,
       "sha512": ""
     },
     "UnityEngine.ContentLoadModule/0.0.0.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "UnityEngine.MultiplayerModule/0.0.0.0": {
       "type": "reference",
       "serviceable": false,
       "sha512": ""
@@ -1783,6 +1851,11 @@
       "serviceable": false,
       "sha512": ""
     },
+    "UnityEngine.AdaptivePerformanceModule/0.0.0.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
     "UnityEngine.UnityConnectModule/0.0.0.0": {
       "type": "reference",
       "serviceable": false,
@@ -1799,11 +1872,6 @@
       "sha512": ""
     },
     "UnityEngine.PerformanceReportingModule/0.0.0.0": {
-      "type": "reference",
-      "serviceable": false,
-      "sha512": ""
-    },
-    "UnityEngine.SharedInternalsModule/0.0.0.0": {
       "type": "reference",
       "serviceable": false,
       "sha512": ""
@@ -1848,6 +1916,11 @@
       "serviceable": false,
       "sha512": ""
     },
+    "UnityEngine.VRModule/0.0.0.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
     "UnityEngine.GridModule/0.0.0.0": {
       "type": "reference",
       "serviceable": false,
@@ -1878,11 +1951,6 @@
       "serviceable": false,
       "sha512": ""
     },
-    "UnityEngine.MultiplayerModule/0.0.0.0": {
-      "type": "reference",
-      "serviceable": false,
-      "sha512": ""
-    },
     "UnityEngine.UnityWebRequestTextureModule/0.0.0.0": {
       "type": "reference",
       "serviceable": false,
@@ -1898,12 +1966,22 @@
       "serviceable": false,
       "sha512": ""
     },
+    "UnityEngine.RenderAs2DModule/0.0.0.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
     "UnityEngine.VirtualTexturingModule/0.0.0.0": {
       "type": "reference",
       "serviceable": false,
       "sha512": ""
     },
     "UnityEngine.ScreenCaptureModule/0.0.0.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "UnityEngine.ShaderRuntimeModule/0.0.0.0": {
       "type": "reference",
       "serviceable": false,
       "sha512": ""
@@ -1963,12 +2041,12 @@
       "serviceable": false,
       "sha512": ""
     },
-    "ScriptEngine/10.0.0.0": {
+    "System.CodeDom/7.0.0.0": {
       "type": "reference",
       "serviceable": false,
       "sha512": ""
     },
-    "System.CodeDom/7.0.0.0": {
+    "System.Runtime.CompilerServices.Unsafe/4.0.4.1": {
       "type": "reference",
       "serviceable": false,
       "sha512": ""

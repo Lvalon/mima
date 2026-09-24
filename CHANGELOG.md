@@ -1,5 +1,17 @@
 # Changelog / 更新日誌
 
+## [0.2.11] - 2026-9-24
+
+### Changes / 改動
+
+- Updated for game version 1.8.1.
+- Fixed delay damage quest softlocking when used to kill TFoL.
+- Fixed "I Knew It" upgrade not consistently and properly unlocking Act 4.
+
+- 為遊戲版本 1.8.1 更新了。
+- 修復了以延遲傷害擊敗三月精時導致卡死的問題。
+- 修復了「我就知道」解鎖四面的不穩定性和卡死。
+
 ## [0.2.10] - 2024-4-19
 
 ### Changes / 改動
@@ -206,6 +218,7 @@
 
 - 1.7.0 支援。
 
+[0.2.11]: https://thunderstore.io/package/download/Lvalon/Mima/0.2.11/
 [0.2.10]: https://thunderstore.io/package/download/Lvalon/Mima/0.2.10/
 [0.2.9]: https://thunderstore.io/package/download/Lvalon/Mima/0.2.9/
 [0.2.8]: https://thunderstore.io/package/download/Lvalon/Mima/0.2.8/

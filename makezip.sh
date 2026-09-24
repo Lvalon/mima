@@ -1,5 +1,5 @@
 #!/bin/sh
-SCRIPT_DIR="/Users/e/Library/Application Support/Steam/steamapps/common/LBoL/BepInEx/scripts"
+SCRIPT_DIR="/Users/e/Library/Application Support/Steam/steamapps/common/LBoL/BepInEx/plugins"
 PROJECT_DIR="/Users/e/Desktop/tachyon transmigration/projects/indev/lvalonmima"
 
 cd "$SCRIPT_DIR" || { echo "Cannot cd to $SCRIPT_DIR"; exit 1; }

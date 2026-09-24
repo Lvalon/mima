@@ -96,7 +96,6 @@
 /Users/e/Desktop/tachyon transmigration/projects/indev/lvalonmima/bin/Debug/netstandard2.1/UnityEngine.WindModule.dll
 /Users/e/Desktop/tachyon transmigration/projects/indev/lvalonmima/bin/Debug/netstandard2.1/UnityEngine.ARModule.dll
 /Users/e/Desktop/tachyon transmigration/projects/indev/lvalonmima/bin/Debug/netstandard2.1/mcs.dll
-/Users/e/Desktop/tachyon transmigration/projects/indev/lvalonmima/bin/Debug/netstandard2.1/ScriptEngine.dll
 /Users/e/Desktop/tachyon transmigration/projects/indev/lvalonmima/bin/Debug/netstandard2.1/System.CodeDom.dll
 /Users/e/Desktop/tachyon transmigration/projects/indev/lvalonmima/bin/Debug/netstandard2.1/Unity.Mathematics.dll
 /Users/e/Desktop/tachyon transmigration/projects/indev/lvalonmima/bin/Debug/netstandard2.1/Unity.Collections.dll
@@ -115,3 +114,11 @@
 /Users/e/Desktop/tachyon transmigration/projects/indev/lvalonmima/obj/Debug/netstandard2.1/lvalonmima.csproj.Up2Date
 /Users/e/Desktop/tachyon transmigration/projects/indev/lvalonmima/obj/Debug/netstandard2.1/lvalonmima.dll
 /Users/e/Desktop/tachyon transmigration/projects/indev/lvalonmima/obj/Debug/netstandard2.1/lvalonmima.pdb
+/Users/e/Desktop/tachyon transmigration/projects/indev/lvalonmima/bin/Debug/netstandard2.1/Unity.InternalAPIEngineBridge.004.dll
+/Users/e/Desktop/tachyon transmigration/projects/indev/lvalonmima/bin/Debug/netstandard2.1/UnityEngine.VectorGraphicsModule.dll
+/Users/e/Desktop/tachyon transmigration/projects/indev/lvalonmima/bin/Debug/netstandard2.1/UnityEngine.HierarchyModule.dll
+/Users/e/Desktop/tachyon transmigration/projects/indev/lvalonmima/bin/Debug/netstandard2.1/UnityEngine.AdaptivePerformanceModule.dll
+/Users/e/Desktop/tachyon transmigration/projects/indev/lvalonmima/bin/Debug/netstandard2.1/UnityEngine.RenderAs2DModule.dll
+/Users/e/Desktop/tachyon transmigration/projects/indev/lvalonmima/bin/Debug/netstandard2.1/UnityEngine.ShaderRuntimeModule.dll
+/Users/e/Desktop/tachyon transmigration/projects/indev/lvalonmima/bin/Debug/netstandard2.1/System.Runtime.CompilerServices.Unsafe.dll
+/Users/e/Desktop/tachyon transmigration/projects/indev/lvalonmima/bin/Debug/netstandard2.1/LBoL-Entity-Sideloader.xml

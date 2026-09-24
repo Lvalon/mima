@@ -56,7 +56,8 @@ namespace lvalonmima.Source.Patches
 		private static readonly Dictionary<string, int> BaseScPowerCosts = new Dictionary<string, int>();
 		// Panels that started an UpgradeCard flow and are awaiting confirmation.
 		internal static readonly HashSet<GapOptionsPanel> UpgradeStartedPanels = new HashSet<GapOptionsPanel>();
-		// private const string FreeChoiceBlockedFlag = "shop.freechoice.blocked";
+		// stored on Stage.ExtraFlags: those are restored before Restore() calls FinishStation, GameRunController.ExtraFlags are not
+		private const string FreeChoiceStageFlag = "lvalonmima.freechoice";
 		private const string RemoveDiscountAppliedPrefix = "shop.remove.applied:";
 		private const string QuestProgressFlagPrefix = "exquesting.quest:";
 		private const string QuestRequirementFlagPrefix = "exquesting.requirement:";
@@ -1080,6 +1081,7 @@ namespace lvalonmima.Source.Patches
 				LastAppliedSeeOrder = 0;
 				LastAppliedBlankCard = 0;
 			}
+			EnsureFreeChoiceFlag(gameRun);
 			// reset stuff
 			if (LastAppliedShopDiscountFactor > 0f)
 				gameRun.ShopPriceMultiplier /= LastAppliedShopDiscountFactor;
@@ -1108,13 +1110,6 @@ namespace lvalonmima.Source.Patches
 			{
 				ResetQuestStateForNewRun(gameRun, shop);
 			}
-
-			// force true end
-			if (stageIndex == 2
-			&& args.Station.Type == StationType.Boss
-			&& HasFreeChoice()
-			&& gameRun.TrueEndingProviders?.Count == 0)
-				gameRun.TrueEndingProviders.Add(gameRun.Player);
 
 			// If LiteShop already recorded a different station than the one we're entering,
 			// persist any runtime exquesting pending progress from the previous station so it
@@ -1318,6 +1313,29 @@ namespace lvalonmima.Source.Patches
 			return item != null && item.CurrentTier > 0;
 		}
 
+		internal static bool IsFreeChoiceRun(GameRunController gameRun)
+		{
+			return gameRun?.Stages?.Any(s => s.ExtraFlags.Contains(FreeChoiceStageFlag)) == true;
+		}
+
+		// sticky for the run: never removed, so shop changes can't flip it mid-run
+		internal static void EnsureFreeChoiceFlag(GameRunController gameRun)
+		{
+			if (gameRun?.Stages == null || !HasFreeChoice())
+				return;
+			foreach (Stage stage in gameRun.Stages)
+				stage.ExtraFlags.Add(FreeChoiceStageFlag);
+		}
+
+		internal static string FreeChoiceName()
+		{
+			string key = $"{LocalisationKeys.ShopPrefix}{LocalisationKeys.AlterPrefix}freechoice";
+			if (LocalisationKeys.LocTable.TryGetValue((LBoL.Core.Localization.CurrentLocale, key), out string name)
+			|| LocalisationKeys.LocTable.TryGetValue((Locale.En, key), out name))
+				return name;
+			return key;
+		}
+
 		internal static int GetBaseScPowerCost(GameRunController gameRun)
 		{
 			string playerId = gameRun?.Player?.Id ?? string.Empty;
@@ -1356,18 +1374,6 @@ namespace lvalonmima.Source.Patches
 				gameRun.ExtraFlags.Remove(existing);
 			gameRun.ExtraFlags.Add(RemoveDiscountAppliedPrefix + value);
 		}
-
-		// internal static void MarkFreeChoiceBlocked(GameRunController gameRun)
-		// {
-		// 	if (gameRun?.ExtraFlags == null)
-		// 		return;
-		// 	gameRun.ExtraFlags.Add(FreeChoiceBlockedFlag);
-		// }
-
-		// internal static bool IsFreeChoiceBlocked(GameRunController gameRun)
-		// {
-		// 	return gameRun?.ExtraFlags?.Contains(FreeChoiceBlockedFlag) == true;
-		// }
 
 		private static IEnumerator DraftCardFromPrev(int num, GameRunController gameRun)
 		{
@@ -2744,81 +2750,60 @@ namespace lvalonmima.Source.Patches
 		}
 	}
 
-	// [HarmonyPatch(typeof(GameMaster), nameof(GameMaster.RequestAbandonGameRun))]
-	// class GameMaster_RequestAbandonGameRun_FreeChoice_Patch
-	// {
-	// 	static void Prefix()
-	// 	{
-	// 		GameRunController gameRun = Singleton<GameMaster>.Instance?.CurrentGameRun;
-	// 		if (gameRun == null)
-	// 			return;
-	// 		ShopModHandlers.MarkFreeChoiceBlocked(gameRun);
-	// 	}
-	// }
+	// free choice: answer the vanilla true-ending checks from the run's stage flag instead of faking a TrueEndingProvider
+	[HarmonyPatch(typeof(GameRunController), nameof(GameRunController.CanEnterTrueEnding))]
+	class GameRunController_CanEnterTrueEnding_FreeChoice_Patch
+	{
+		static void Postfix(GameRunController __instance, ref bool __result)
+		{
+			if (ShopModHandlers.IsFreeChoiceRun(__instance))
+				__result = true;
+		}
+	}
 
-	// [HarmonyPatch(typeof(GameRunController), nameof(GameRunController.LeaveBattle))]
-	// class GameRunController_LeaveBattle_FreeChoice_Patch
-	// {
-	// 	static void Postfix(GameRunController __instance)
-	// 	{
-	// 		if (__instance?.Player?.IsDead != true)
-	// 			return;
-	// 		ShopModHandlers.MarkFreeChoiceBlocked(__instance);
-	// 	}
-	// }
+	[HarmonyPatch(typeof(GameRunController), nameof(GameRunController.IsTrueEndingBlocked))]
+	class GameRunController_IsTrueEndingBlocked_FreeChoice_Patch
+	{
+		static void Postfix(GameRunController __instance, ref bool __result)
+		{
+			if (ShopModHandlers.IsFreeChoiceRun(__instance))
+				__result = false;
+		}
+	}
 
-	// [HarmonyPatch(typeof(GameRunController), nameof(GameRunController.CanEnterTrueEnding))]
-	// class GameRunController_CanEnterTrueEnding_FreeChoice_Patch
-	// {
-	// 	static void Postfix(GameRunController __instance, ref bool __result)
-	// 	{
-	// 		if (!ShopModHandlers.HasFreeChoice())
-	// 			return;
-	// 		if (ShopModHandlers.IsFreeChoiceBlocked(__instance))
-	// 			return;
-	// 		__result = true;
-	// 	}
-	// }
+	[HarmonyPatch(typeof(LBoL.Core.Dialogs.DialogFunctions), nameof(LBoL.Core.Dialogs.DialogFunctions.HasTrueEndProvider))]
+	class DialogFunctions_HasTrueEndProvider_FreeChoice_Patch
+	{
+		static void Postfix(LBoL.Core.Dialogs.DialogFunctions __instance, ref bool __result)
+		{
+			if (ShopModHandlers.IsFreeChoiceRun(__instance.GetGameRun()))
+				__result = true;
+		}
+	}
 
-	// [HarmonyPatch(typeof(LBoL.Core.Dialogs.DialogFunctions), nameof(LBoL.Core.Dialogs.DialogFunctions.HasTrueEndProvider))]
-	// class DialogFunctions_HasTrueEndProvider_FreeChoice_Patch
-	// {
-	// 	static void Postfix(LBoL.Core.Dialogs.DialogFunctions __instance, ref bool __result)
-	// 	{
-	// 		if (!ShopModHandlers.HasFreeChoice())
-	// 			return;
-	// 		GameRunController gameRun = __instance.GetGameRun();
-	// 		__result = !ShopModHandlers.IsFreeChoiceBlocked(gameRun);
-	// 	}
-	// }
+	[HarmonyPatch(typeof(LBoL.Core.Dialogs.DialogFunctions), nameof(LBoL.Core.Dialogs.DialogFunctions.IsTrueEndBlocked))]
+	class DialogFunctions_IsTrueEndBlocked_FreeChoice_Patch
+	{
+		static void Postfix(LBoL.Core.Dialogs.DialogFunctions __instance, ref bool __result)
+		{
+			if (ShopModHandlers.IsFreeChoiceRun(__instance.GetGameRun()))
+				__result = false;
+		}
+	}
 
-	// [HarmonyPatch(typeof(LBoL.Core.Dialogs.DialogFunctions), nameof(LBoL.Core.Dialogs.DialogFunctions.IsTrueEndBlocked))]
-	// class DialogFunctions_IsTrueEndBlocked_FreeChoice_Patch
-	// {
-	// 	static void Postfix(LBoL.Core.Dialogs.DialogFunctions __instance, ref bool __result)
-	// 	{
-	// 		if (!ShopModHandlers.HasFreeChoice())
-	// 			return;
-	// 		GameRunController gameRun = __instance.GetGameRun();
-	// 		__result = ShopModHandlers.IsFreeChoiceBlocked(gameRun);
-	// 	}
-	// }
-
-	// [HarmonyPatch(typeof(LBoL.Core.Dialogs.DialogFunctions), nameof(LBoL.Core.Dialogs.DialogFunctions.TrueEndProviderName))]
-	// class DialogFunctions_TrueEndProviderName_FreeChoice_Patch
-	// {
-	// 	static void Postfix(LBoL.Core.Dialogs.DialogFunctions __instance, ref string __result)
-	// 	{
-	// 		if (!ShopModHandlers.HasFreeChoice())
-	// 			return;
-	// 		GameRunController gameRun = __instance.GetGameRun();
-	// 		if (ShopModHandlers.IsFreeChoiceBlocked(gameRun))
-	// 			return;
-	// 		if (gameRun.TrueEndingProviders != null && gameRun.TrueEndingProviders.Count > 0)
-	// 			return;
-	// 		__result = "Free Choice";
-	// 	}
-	// }
+	[HarmonyPatch(typeof(LBoL.Core.Dialogs.DialogFunctions), nameof(LBoL.Core.Dialogs.DialogFunctions.TrueEndProviderName))]
+	class DialogFunctions_TrueEndProviderName_FreeChoice_Patch
+	{
+		// vanilla does TrueEndingProviders.First(), which throws (and hangs the dialog) when the set is empty
+		static bool Prefix(LBoL.Core.Dialogs.DialogFunctions __instance, ref string __result)
+		{
+			GameRunController gameRun = __instance.GetGameRun();
+			if (!ShopModHandlers.IsFreeChoiceRun(gameRun) || gameRun.TrueEndingProviders.Count > 0)
+				return true;
+			__result = ShopModHandlers.FreeChoiceName();
+			return false;
+		}
+	}
 	[HarmonyPatch(typeof(Card), nameof(Card.Upgrade))]
 	class Card_Upgrade_Patch_Shinmy
 	{

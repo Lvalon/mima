@@ -35,11 +35,17 @@ namespace lvalonmima.StatusEffects
 		protected override void OnAdded(Unit unit)
 		{
 			HandleOwnerEvent(unit.DamageTaking, OnDamageTaking, GameEventPriority.Lowest - 10);
-			ReactOwnerEvent(unit.TurnStarted, OnTurnStarted);
+			// like vanilla Poison/Cold: enemies resolve at AllEnemyTurnStarted so they never die inside their own StartEnemyTurnAction
+			if (unit is EnemyUnit)
+				ReactOwnerEvent(Battle.AllEnemyTurnStarted, OnTurnStarted);
+			else
+				ReactOwnerEvent(unit.TurnStarted, OnTurnStarted);
 		}
 
 		private IEnumerable<BattleAction> OnTurnStarted(GameEventArgs args)
 		{
+			if (Owner == null || Owner.IsDead || Battle.BattleShouldEnd)
+				yield break;
 			bool willRmv = false;
 			int gunid = 15160;
 			int[] thresholds = { 0, 10, 25, 50, 100 };
@@ -57,14 +63,18 @@ namespace lvalonmima.StatusEffects
 					if (progress >= card.Config.Value1) //reached goal
 					{
 						willRmv = true;
-						foreach (Unit unit in Battle.AllAliveUnits.Where(u => u != Owner && u.HasStatusEffect<seholddamage>()))
+						foreach (Unit unit in Battle.AllAliveUnits.Where(u => u != Owner && u.HasStatusEffect<seholddamage>()).ToList())
 						{
-							if (unit.TryGetStatusEffect(out seholddamage holdDmg) && holdDmg.Count > 0)
-							{ // resolve them before removing
-								int tmpGun = 15160 + thresholds.Count(t => holdDmg.Count > toolbox.hpfrompercent(unit, t));
-								yield return DamageAction.Reaction(unit, holdDmg.Count, GunNameID.GetGunFromId(tmpGun));
+							if (!unit.TryGetStatusEffect(out seholddamage holdDmg))
+								continue;
+							int held = holdDmg.Count;
+							// remove first, otherwise its own OnDamageTaking re-holds the damage (and a kill would clear it, leaving a null to remove)
+							yield return new RemoveStatusEffectAction(holdDmg);
+							if (held > 0 && unit.IsAlive && !Battle.BattleShouldEnd)
+							{
+								int tmpGun = 15160 + thresholds.Count(t => held > toolbox.hpfrompercent(unit, t));
+								yield return DamageAction.LoseLife(unit, held, GunNameID.GetGunFromId(tmpGun));
 							}
-							yield return new RemoveStatusEffectAction(unit.GetStatusEffect<seholddamage>());
 						}
 						exhibit.PendingQuestModifiers.TryGetValue(card.Id, out int stack);
 						exhibit.PendingQuestModifiers[card.Id] = ++stack; // add modifier
@@ -74,14 +84,15 @@ namespace lvalonmima.StatusEffects
 					}
 				}
 			}
-			if (Count > 0)
+			if (Count > 0 && !Battle.BattleShouldEnd)
 			{
 				NotifyActivating();
-				yield return DamageAction.Reaction(Owner, Count, GunNameID.GetGunFromId(gunid));
+				// hp loss: enemy block isn't cleared yet at AllEnemyTurnStarted
+				yield return DamageAction.LoseLife(Owner, Count, GunNameID.GetGunFromId(gunid));
 				Count = 0;
 				Highlight = false;
 			}
-			if (willRmv)
+			if (willRmv && Owner != null)
 				yield return new RemoveStatusEffectAction(this);
 		}
 

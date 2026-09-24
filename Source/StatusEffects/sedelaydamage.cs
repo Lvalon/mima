@@ -31,20 +31,28 @@ namespace lvalonmima.StatusEffects
 	{
 		protected override void OnAdded(Unit unit)
 		{
-			ReactOwnerEvent(unit.TurnStarted, OnTurnStarted, GameEventPriority.ConfigDefault + 1); // slower than holddamage
+			// like vanilla Poison/Cold: enemies resolve at AllEnemyTurnStarted so they never die inside their own StartEnemyTurnAction
+			if (unit is EnemyUnit)
+				ReactOwnerEvent(Battle.AllEnemyTurnStarted, TakeEffect, GameEventPriority.ConfigDefault + 1); // slower than holddamage
+			else
+				ReactOwnerEvent(unit.TurnStarted, TakeEffect, GameEventPriority.ConfigDefault + 1);
 		}
 
-		private IEnumerable<BattleAction> OnTurnStarted(GameEventArgs args)
+		private IEnumerable<BattleAction> TakeEffect(GameEventArgs args)
 		{
+			if (Owner == null || Owner.IsDead || Battle.BattleShouldEnd)
+				yield break;
 			int gunid = 15160;
 			int[] thresholds = { 0, 10, 25, 50, 100 };
 			gunid += thresholds.Count(t => Level > toolbox.hpfrompercent(Owner, t));
 			if (Level > 0)
 			{
 				NotifyActivating();
-				yield return DamageAction.Reaction(Owner, Level, GunNameID.GetGunFromId(gunid));
+				// hp loss: enemy block isn't cleared yet at AllEnemyTurnStarted
+				yield return DamageAction.LoseLife(Owner, Level, GunNameID.GetGunFromId(gunid));
 			}
-			yield return new RemoveStatusEffectAction(this);
+			if (Owner != null)
+				yield return new RemoveStatusEffectAction(this);
 		}
 	}
 }

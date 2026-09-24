@@ -69,15 +69,15 @@ namespace lvalonmima.StatusEffects
 				case KokoroNu _:
 					yield return new ApplyStatusEffectAction<seKoNu>(Owner, 1);
 					yield return new RemoveStatusEffectAction(this);
-					break;
+					yield break;
 				case KokoroYou _:
 					yield return new ApplyStatusEffectAction<seKoYou>(Owner, 1);
 					yield return new RemoveStatusEffectAction(this);
-					break;
+					yield break;
 				case KokoroXi _:
 					yield return new ApplyStatusEffectAction<seKoXi>(Owner, 1);
 					yield return new RemoveStatusEffectAction(this);
-					break;
+					yield break;
 			}
 			Highlight = Owner.HasStatusEffect<KokoroRenzhen>();
 		}
