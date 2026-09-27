@@ -1,0 +1,189 @@
+# 簡體中文
+
+Shop:
+  LiteShopButton:
+    Text: "Roguelite 商店"
+    Active: "Roguelite 商店 （启用中）"
+    Inactive: "Roguelite 商店 （未启用）"
+    Desc:
+      Text: |-
+        |挑战者模式|下，游戏结束时获得的<sprite="Point" name="Point">将被储存，能在 |Roguelite 商店| 中使用以强化作为|挑战者|的玩家。
+        |挑战者模式|：玩家角色的首个行动阶段将被跳过。
+      Normalize: "|p:（行动阶段的跳过已被难度调整的正常化取消）|"
+    Effect: "<b>效果</b>："
+  difficulty:
+    Text: "难度调整"
+    Desc: "|难度调整|能调整|挑战者模式|的难度，但也会影响<sprite=\"Point\" name=\"Point\">的储存或其他收益。"
+    reverse:
+      Text: "正常化"
+      Desc: "|挑战者模式|不会再跳过玩家的首次行动，不过游戏胜利时只会储存 |c:50|% 的<sprite=\"Point\" name=\"Point\">，且游戏失败时不会储存<sprite=\"Point\" name=\"Point\">。"
+    ascension:
+      Text: "升华"
+      Desc: "敌人将被升华，他们将获得独特的状态，提供一个全方位的挑战。多储存 |c:100|% 的<sprite=\"Point\" name=\"Point\">。"
+  init:
+    Text: "初始加成"
+    Desc: "|初始加成|能在游戏开始时提供永久的即时数值优势，改善游戏的整体体验。"
+    fp:
+      Text: "攻哈"
+      Desc: "战斗开始时获得 {0} 点|火力|。"
+      Next: "<b>|c:下一级|</b>：{1} 点|火力|"
+    sp:
+      Text: "防杀"
+      Desc: "战斗开始时获得 {0} 点|灵力|。"
+      Next: "<b>|c:下一级|</b>：{1} 点|灵力|"
+    hp:
+      Text: "红色格挡条"
+      Desc: "游戏开始时，最大生命值提升 {0}% 。"
+      Next: "<b>|c:下一级|</b>：提升 {1}%"
+    gold:
+      Text: "保护金币"
+      Desc: "游戏开始时获得 {0} 点<sprite=\"Point\" name=\"Gold\">。"
+      Next: "<b>|c:下一级|</b>：{1} 点<sprite=\"Point\" name=\"Gold\">"
+    card:
+      Text: "尽孝"
+      Desc: "游戏开始时可从上一局的牌库中选择 {0} 张能力牌加入这局的牌库。"
+      Next: "<b>|c:下一级|</b>：{1} 张"
+    exhibit:
+      Text: "先赚一个精英"
+      Desc: "游戏开始时可获得随机 {0} 个上一局未拥有的非|光耀|非|秘宝|展品。"
+      Next: "<b>|c:下一级|</b>：随机 {1} 个"
+    solo:
+      Text: "我独自做任务"
+      Desc: "游戏开始时获得|任务栏|展品，可在战斗外点击以打开面板接取|任务|。"
+  discount:
+    Text: "折扣"
+    Desc: "|折扣|能减少商店中各种商品和服务的费用，提高<sprite=\"Point\" name=\"Point\">的使用效率。"
+    sc:
+      Text: "大招当平a"
+      Desc: "使用|符卡|所需的<sprite=\"Point\" name=\"Power\">减少 {0}% 。"
+      Next: "<b>|c:下一级|</b>：减少 {1}%"
+    shop:
+      Text: "常客"
+      Desc: "所有山城商店的商品打折 {0}% 。"
+      Next: "<b>|c:下一级|</b>：打折 {1}%"
+    upgrade:
+      Text: "竞争对手"
+      Desc: "山城商店的升级卡牌服务费用减少 {0} 点<sprite=\"Point\" name=\"Gold\">。"
+      Next: "<b>|c:下一级|</b>：减少 {1} 点<sprite=\"Point\" name=\"Gold\">"
+    remove:
+      Text: "扩大优势"
+      Desc: "山城商店的移除卡牌服务费用减少 {0} 点<sprite=\"Point\" name=\"Gold\">。"
+      Next: "<b>|c:下一级|</b>：减少 {1} 点<sprite=\"Point\" name=\"Gold\">"
+  feature:
+    Text: "功能升级"
+    Desc: "|功能升级|能增强特定的游戏机制，在游戏过程中提供额外的收益。"
+    teasync:
+      Text: "手快全点"
+      Desc: "在隙间小屋内升级牌时也会|饮茶|。"
+    gapple:
+      Text: "金苹果茶"
+      Desc: "在|饮茶|时每回复 {0} 点生命值，获得 |c:1| 点最大生命值。"
+      Next: "<b>|c:下一级|</b>：{1} 点"
+    sponsor:
+      Text: "隙间赞助"
+      Desc: "在隙间小屋内升级牌时，获得 {0} 点<sprite=\"Point\" name=\"Gold\">。"
+      Next: "<b>|c:下一级|</b>：{1} 点<sprite=\"Point\" name=\"Gold\">"
+  battle:
+    Text: "战斗加成"
+    Desc: "|战斗加成|能在战斗中提供额外的优势，减少战损和改善资源管理。"
+    block:
+      Text: "时刻警戒"
+      Desc: "战斗开始和挑战者的第一回合开始时，获得 {0} 点|格挡|。"
+      Next: "<b>|c:下一级|</b>：{1} 点|格挡|"
+    graze:
+      Text: "敏捷身手"
+      Desc: "战斗开始和挑战者的第一回合开始时，获得 {0} 层闪避。"
+      Next: "<b>|c:下一级|</b>：{1} 层|闪避|"
+    heal:
+      Text: "脱战回复"
+      Desc: "战斗结束时，获得 {0} 点生命值。"
+      Next: "<b>|c:下一级|</b>：{1} 点生命值"
+    seedraw:
+      Text: "开眼了"
+      Desc: "可以查看抽牌堆的实际牌序。"
+    rolldiscard:
+      Text: "roll了"
+      Desc: "战斗开始时可把抽牌堆的牌置入弃牌堆。"
+    hacks:
+      Text: "回合结束时"
+      Desc: "玩家的第一回合结束时，有 {0}% 概率可以打出战场上的 |c:1| 张随机能力牌。"
+      Next: "<b>|c:下一级|</b>：{1}% 概率"
+    ChallengerModeWatermark:
+      HoverHint: "挑战者模式"
+  alter:
+    Text: "设定更改"
+    Desc: "|设定更改|能扭曲和更改部分游戏设定，让|挑战者|从中得益。"
+    freechoice:
+      Text: "我就知道"
+      Desc: "不需要搜索真凶用的道具也能成功搜索真凶。"
+    wings:
+      Text: "送你一对翼"
+      Desc: "选择下一关时可以无视路线。"
+    blankcard:
+      Text: "无限体验"
+      Desc: "奖励和售卖的卡牌从所有颜色中随机。"
+  Loadout:
+    Text: "当前配置"
+    None: "无！"
+  refund:
+    Text: "全部退款"
+    Desc: "退款所有在 |Roguelite 商店| 中购买过的升级。"
+  ChallengerModeHistory:
+    Active: "挑战者模式已启用"
+    Title: "挑战者模式"
+  QuestHistory:
+    Active: "已完成任务"
+    Title: "已完成任务"
+  Money: "金钱：{0} <sprite=\"Point\" name=\"Point\">"
+  Tier: "<b>|f:等级|</b>：{0} / {1}"
+  NextTier: " ── {0} <sprite=\"Point\" name=\"Point\">"
+  NotEnoughBP: " (<sprite=\"Point\" name=\"Point\">不足)"
+  MaxTier: " ── <b>|最高等级|</b>"
+  InDevelopmentSuffix: "（开发中）"
+  BuyButton:
+    Text: "购买升级"
+    Desc: |-
+      购买后此商品将提升一级。
+      游戏进行中时不能购买。
+  RefundButton:
+    Text: "全额退款"
+    Desc: |-
+      退款后此商品将降低一级。
+      游戏进行中时不能退款。
+  ChallengerModeToggle:
+    Text: "挑战者模式"
+    Desc: "启用或禁用挑战者模式。在进行中的游戏期间无法更改。"
+    "On": "|开启中！|"
+    ButtonOn: "禁用模式"
+    "Off": "关闭中。"
+    ButtonOff: "启用模式"
+  ChallengerModeToggleFront: "|挑战者模式|目前⋯⋯"
+  ChallengerModeToggleBack: "点击下方按钮以更改模式，或|按住 Shift 键点击|主页面的商店按钮也能更改模式！"
+MessageDialog:
+  Shop:
+    refund:
+      Confirm: "确定要退款所有的升级吗？"
+BluePoint:
+  hurryact1level4:
+    Name: "你没急吧？"
+    Description: "在第一幕的第四关内失败。"
+  hurryact1:
+    Name: "琪露诺怎么是最强的？"
+    Description: "在第一幕内但第四关外失败。"
+  hurryact2:
+    Name: "半灵 T 恤说是"
+    Description: "在第二幕里失败。"
+  hurryact3:
+    Name: "这么近，那么远"
+    Description: "在第三幕里失败。"
+  hurryact3win:
+    Name: "在另一个城堡吗？"
+    Description: "在第三幕解决异变。"
+  hurryact4:
+    Name: "屡败屡战"
+    Description: "在第四幕失败。"
+  hurryact4win:
+    Name: "凯旋而归"
+    Description: "在第四幕完美解决异变。"
+AcceptQuest: "接受任务？（点选卡牌以确认）"
+AbandonQuest: "放弃任务？（点选卡牌以放弃）"

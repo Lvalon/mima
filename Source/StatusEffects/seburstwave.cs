@@ -11,47 +11,46 @@ using LBoL.Core.StatusEffects;
 using LBoL.Core.Units;
 using LBoLEntitySideloader.Attributes;
 
-namespace lvalonmima.StatusEffects
+namespace lvalonmima.StatusEffects;
+
+public sealed class seburstwaveDef : lvalonmimaStatusEffectTemplate
 {
-	public sealed class seburstwaveDef : lvalonmimaStatusEffectTemplate
+	public override StatusEffectConfig MakeConfig()
 	{
-		public override StatusEffectConfig MakeConfig()
-		{
-			StatusEffectConfig config = GetDefaultStatusEffectConfig();
-			config.Type = StatusEffectType.Positive;
-			config.RelativeEffects = new List<string>() { nameof(Charging) };
-			return config;
-		}
+		StatusEffectConfig config = GetDefaultStatusEffectConfig();
+		config.Type = StatusEffectType.Positive;
+		config.RelativeEffects = [nameof(Charging)];
+		return config;
+	}
+}
+
+[EntityLogic(typeof(seburstwaveDef))]
+public sealed class seburstwave : StatusEffect
+{
+	protected override void OnAdded(Unit unit)
+	{
+		ReactOwnerEvent(Battle.Player.TurnStarted, OnTurnStarted);
 	}
 
-	[EntityLogic(typeof(seburstwaveDef))]
-	public sealed class seburstwave : StatusEffect
+	private IEnumerable<BattleAction> OnTurnStarted(UnitEventArgs args)
 	{
-		protected override void OnAdded(Unit unit)
+		if (Battle.HandZone.Count > 0 && Battle.AllAliveEnemies.Any())
 		{
-			ReactOwnerEvent(Battle.Player.TurnStarted, OnTurnStarted);
-		}
-
-		private IEnumerable<BattleAction> OnTurnStarted(UnitEventArgs args)
-		{
-			if (Battle.HandZone.Count() > 0 && Battle.AllAliveEnemies.Count() > 0)
+			NotifyActivating();
+			SelectCardInteraction interaction = new(0, Level, Battle.HandZone)
 			{
-				NotifyActivating();
-				SelectCardInteraction interaction = new SelectCardInteraction(0, Level, Battle.HandZone)
-				{
-					Source = this
-				};
-				yield return new InteractionAction(interaction);
-				IReadOnlyList<Card> cards = interaction.SelectedCards;
-				if (cards.Count > 0)
-				{
-					if (Battle.BattleShouldEnd) { yield break; }
-					yield return new ExileManyCardAction(cards);
-					if (Battle.BattleShouldEnd) { yield break; }
-					yield return new ApplyStatusEffectAction<semburst>(Battle.Player, cards.Count, 0, 0, 0);
-					if (Battle.BattleShouldEnd) { yield break; }
-					yield return new ApplyStatusEffectAction<Charging>(Battle.Player, cards.Count, 0, 0, 0);
-				}
+				Source = this
+			};
+			yield return new InteractionAction(interaction);
+			IReadOnlyList<Card> cards = interaction.SelectedCards;
+			if (cards.Count > 0)
+			{
+				if (Battle.BattleShouldEnd) yield break;
+				yield return new ExileManyCardAction(cards);
+				if (Battle.BattleShouldEnd) yield break;
+				yield return new ApplyStatusEffectAction<semburst>(Battle.Player, cards.Count, 0, 0, 0);
+				if (Battle.BattleShouldEnd) yield break;
+				yield return new ApplyStatusEffectAction<Charging>(Battle.Player, cards.Count, 0, 0, 0);
 			}
 		}
 	}

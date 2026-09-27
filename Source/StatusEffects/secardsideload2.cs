@@ -10,45 +10,38 @@ using LBoL.Core.StatusEffects;
 using LBoL.Core.Units;
 using LBoLEntitySideloader.Attributes;
 
-namespace lvalonmima.StatusEffects
+namespace lvalonmima.StatusEffects;
+
+public sealed class secardsideload2Def : lvalonmimaStatusEffectTemplate
 {
-	public sealed class secardsideload2Def : lvalonmimaStatusEffectTemplate
+	public override StatusEffectConfig MakeConfig() => Cfg(StatusEffectType.Positive, hasCount: true);
+}
+
+[EntityLogic(typeof(secardsideload2Def))]
+public sealed class secardsideload2 : StatusEffect
+{
+	public int Value1 => 6;
+	public ManaGroup Mana => new() { Green = 1 };
+	public ManaGroup Mana2 => ManaGroup.Greens(Owner == null ? 1 : Level);
+	protected override void OnAdded(Unit unit)
 	{
-		public override StatusEffectConfig MakeConfig()
-		{
-			StatusEffectConfig config = GetDefaultStatusEffectConfig();
-			config.Type = StatusEffectType.Positive;
-			config.HasCount = true;
-			return config;
-		}
+		ReactOwnerEvent(Battle.ManaConsumed, OnManaConsumed);
 	}
 
-	[EntityLogic(typeof(secardsideload2Def))]
-	public sealed class secardsideload2 : StatusEffect
+	private IEnumerable<BattleAction> OnManaConsumed(ManaEventArgs args)
 	{
-		public int Value1 => 6;
-		public ManaGroup Mana => new ManaGroup() { Green = 1 };
-		public ManaGroup Mana2 => ManaGroup.Greens(Owner == null ? 1 : Level);
-		protected override void OnAdded(Unit unit)
+		if (Battle.AllAliveEnemies.Any())
 		{
-			ReactOwnerEvent(Battle.ManaConsumed, OnManaConsumed);
-		}
-
-		private IEnumerable<BattleAction> OnManaConsumed(ManaEventArgs args)
-		{
-			if (Battle.AllAliveEnemies.Count() > 0)
+			Count += args.Value.Green;
+			Count += args.Value.Philosophy;
+			(int result, int remainder) tuple = Count.DivRem(Value1);
+			int item = tuple.result;
+			int item2 = tuple.remainder;
+			Count = item2;
+			if (item != 0)
 			{
-				Count += args.Value.Green;
-				Count += args.Value.Philosophy;
-				(int result, int remainder) tuple = Count.DivRem(Value1);
-				int item = tuple.result;
-				int item2 = tuple.remainder;
-				Count = item2;
-				if (item != 0)
-				{
-					NotifyActivating();
-					yield return new GainManaAction(Mana2 * item);
-				}
+				NotifyActivating();
+				yield return new GainManaAction(Mana2 * item);
 			}
 		}
 	}

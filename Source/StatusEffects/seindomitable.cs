@@ -11,60 +11,53 @@ using LBoL.Core.Units;
 using LBoLEntitySideloader.Attributes;
 using lvalonmima.GunName;
 
-namespace lvalonmima.StatusEffects
+namespace lvalonmima.StatusEffects;
+
+public sealed class seindomitableDef : lvalonmimaStatusEffectTemplate
 {
-	public sealed class seindomitableDef : lvalonmimaStatusEffectTemplate
+	public override StatusEffectConfig MakeConfig() => Cfg(StatusEffectType.Special, hasCount: true);
+}
+
+[EntityLogic(typeof(seindomitableDef))]
+public sealed class seindomitable : StatusEffect
+{
+	public override bool ForceNotShowDownText => true;
+	bool go = false;
+	protected override void OnAdded(Unit unit)
 	{
-		public override StatusEffectConfig MakeConfig()
-		{
-			StatusEffectConfig config = GetDefaultStatusEffectConfig();
-			config.Type = StatusEffectType.Special;
-			config.HasCount = true;
-			return config;
-		}
+		go = true;
+		Count = 0;
+		HandleOwnerEvent(unit.DamageTaking, OnDamageTaking, GameEventPriority.Lowest - 10);
+		HandleOwnerEvent(Battle.RoundStarting, OnRoundStarting, GameEventPriority.Highest);
+		ReactOwnerEvent(Battle.RoundStarted, OnRoundStarted);
 	}
 
-	[EntityLogic(typeof(seindomitableDef))]
-	public sealed class seindomitable : StatusEffect
+	private void OnRoundStarting(GameEventArgs args)
 	{
-		public override bool ForceNotShowDownText => true;
-		bool go = false;
-		protected override void OnAdded(Unit unit)
-		{
-			go = true;
-			Count = 0;
-			HandleOwnerEvent(unit.DamageTaking, OnDamageTaking, GameEventPriority.Lowest - 10);
-			HandleOwnerEvent(Battle.RoundStarting, OnRoundStarting, GameEventPriority.Highest);
-			ReactOwnerEvent(Battle.RoundStarted, OnRoundStarted);
-		}
+		go = false;
+	}
 
-		private void OnRoundStarting(GameEventArgs args)
-		{
-			go = false;
-		}
+	private IEnumerable<BattleAction> OnRoundStarted(GameEventArgs args)
+	{
+		NotifyActivating();
+		int gunid = 15160;
+		int[] thresholds = [25, 50, 75, 100, 150];
+		gunid += thresholds.Count(t => Count > toolbox.hpfrompercent(Battle.Player, t));
+		yield return DamageAction.LoseLife(Owner, Count, GunNameID.GetGunFromId(gunid));
+		yield return new RemoveStatusEffectAction(this);
+	}
 
-		private IEnumerable<BattleAction> OnRoundStarted(GameEventArgs args)
+	public void OnDamageTaking(DamageEventArgs args)
+	{
+		if (args.ActionSource == this || !go) return;
+		int num = args.DamageInfo.Damage.RoundToInt();
+		if (num > 0)
 		{
 			NotifyActivating();
-			int gunid = 15160;
-			int[] thresholds = { 25, 50, 75, 100, 150 };
-			gunid += thresholds.Count(t => Count > toolbox.hpfrompercent(Battle.Player, t));
-			yield return DamageAction.LoseLife(Owner, Count, GunNameID.GetGunFromId(gunid));
-			yield return new RemoveStatusEffectAction(this);
-		}
-
-		public void OnDamageTaking(DamageEventArgs args)
-		{
-			if (args.ActionSource == this || !go) { return; }
-			int num = args.DamageInfo.Damage.RoundToInt();
-			if (num > 0)
-			{
-				NotifyActivating();
-				Count += num;
-				Highlight = Count > Owner.Hp;
-				args.DamageInfo = args.DamageInfo.ReduceActualDamageBy(num);
-				args.AddModifier(this);
-			}
+			Count += num;
+			Highlight = Count > Owner.Hp;
+			args.DamageInfo = args.DamageInfo.ReduceActualDamageBy(num);
+			args.AddModifier(this);
 		}
 	}
 }

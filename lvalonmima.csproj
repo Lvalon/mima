@@ -1,7 +1,17 @@
+<!--
+Blocked Features
+static abstract/virtual interface members	compiler: "target runtime doesn't support"
+ref fields / ref structs holding one	compiler: "target runtime doesn't support"
+inline arrays ([InlineArray(n)])	InlineArrayAttribute isn't in netstandard2.1's BCL
+generic math (INumber<T> etc.)	those interfaces aren't in netstandard2.1's BCL
+System.Threading.Lock	the type isn't in netstandard2.1's BCL
+-->
+
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <LangVersion>14</LangVersion>
   </PropertyGroup>
   <PropertyGroup>
     <GameFolder>/Users/e/Library/Application Support/Steam/steamapps/common/LBoL/LBoL.app</GameFolder>
@@ -20,6 +30,10 @@
         <PackageReference Include="BepInEx.Core" Version="5.4.21" />
         <PackageReference Include="HarmonyX" Version="2.9.0" />
         <PackageReference Include="Krafs.Publicizer" Version="2.2.1">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="PolySharp" Version="1.15.0">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>

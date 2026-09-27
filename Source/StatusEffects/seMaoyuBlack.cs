@@ -10,42 +10,34 @@ using LBoL.Core.Units;
 using LBoL.EntityLib.EnemyUnits.Normal.Maoyus;
 using LBoLEntitySideloader.Attributes;
 
-namespace lvalonmima.StatusEffects
+namespace lvalonmima.StatusEffects;
+
+public sealed class seMaoyuBlackDef : lvalonmimaStatusEffectTemplate
 {
-	public sealed class seMaoyuBlackDef : lvalonmimaStatusEffectTemplate
+	public override StatusEffectConfig MakeConfig() => Cfg(StatusEffectType.Positive);
+}
+
+[EntityLogic(typeof(seMaoyuBlackDef))]
+public sealed class seMaoyuBlack : StatusEffect
+{
+	public override bool ForceNotShowDownText => true;
+	protected override void OnAdded(Unit unit)
 	{
-		public override StatusEffectConfig MakeConfig()
+		foreach (EnemyUnit maoyu in Battle.AllAliveEnemies.Where(e => e is MaoyuOrigin && e is not MaoyuBlack))
+			ReactOwnerEvent(maoyu.BlockShieldGained, OnBlockGained);
+		HandleOwnerEvent(Battle.EnemySpawned, args =>
 		{
-			StatusEffectConfig config = GetDefaultStatusEffectConfig();
-			config.Type = StatusEffectType.Positive;
-			return config;
-		}
+			if (args.Unit is MaoyuOrigin && args.Unit is not MaoyuBlack)
+				ReactOwnerEvent(args.Unit.BlockShieldGained, OnBlockGained);
+		});
 	}
 
-	[EntityLogic(typeof(seMaoyuBlackDef))]
-	public sealed class seMaoyuBlack : StatusEffect
+	private IEnumerable<BattleAction> OnBlockGained(BlockShieldEventArgs args)
 	{
-		public override bool ForceNotShowDownText => true;
-		protected override void OnAdded(Unit unit)
+		if (args.Block > 0 && args.ActionSource != this)
 		{
-			foreach (EnemyUnit maoyu in Battle.AllAliveEnemies.Where(e => e is MaoyuOrigin && !(e is MaoyuBlack)))
-			{
-				ReactOwnerEvent(maoyu.BlockShieldGained, OnBlockGained);
-			}
-			HandleOwnerEvent(Battle.EnemySpawned, args =>
-			{
-				if (args.Unit is MaoyuOrigin && !(args.Unit is MaoyuBlack))
-					ReactOwnerEvent(args.Unit.BlockShieldGained, OnBlockGained);
-			});
-		}
-
-		private IEnumerable<BattleAction> OnBlockGained(BlockShieldEventArgs args)
-		{
-			if (args.Block > 0 && args.ActionSource != this)
-			{
-				NotifyActivating();
-				yield return new CastBlockShieldAction(Owner, new BlockInfo((int)args.Block));
-			}
+			NotifyActivating();
+			yield return new CastBlockShieldAction(Owner, new BlockInfo((int)args.Block));
 		}
 	}
 }

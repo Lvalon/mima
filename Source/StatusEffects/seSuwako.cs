@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using LBoL.Base;
@@ -13,73 +12,66 @@ using LBoL.Core.Units;
 using LBoL.EntityLib.Cards.Enemy;
 using LBoLEntitySideloader.Attributes;
 
-namespace lvalonmima.StatusEffects
+namespace lvalonmima.StatusEffects;
+
+public sealed class seSuwakoDef : lvalonmimaStatusEffectTemplate
 {
-	public sealed class seSuwakoDef : lvalonmimaStatusEffectTemplate
+	public override StatusEffectConfig MakeConfig() => Cfg(StatusEffectType.Positive, hasCount: true);
+}
+
+[EntityLogic(typeof(seSuwakoDef))]
+public sealed class seSuwako : StatusEffect
+{
+	public int limit => lim;
+	int lim = 5;
+	public override bool ForceNotShowDownText => true;
+	protected override void OnAdded(Unit unit)
 	{
-		public override StatusEffectConfig MakeConfig()
+		List<Card> cards = [.. Battle.EnumerateAllCards().Where(c => c is not Frog).SampleManyOrAll(4, GameRun.EnemyBattleRng)];
+		if (cards.Count > 0)
 		{
-			StatusEffectConfig config = GetDefaultStatusEffectConfig();
-			config.Type = StatusEffectType.Positive;
-			config.HasCount = true;
-			return config;
+			NotifyActivating();
+			foreach (Card card in cards)
+			{
+				Frog frog = Library.CreateCard<Frog>();
+				frog.OriginalCard = card;
+				React(new TransformCardAction(card, frog));
+			}
 		}
+
+		lim = 4 + Battle.AllAliveEnemies.Count();
+		Count = lim;
+		ReactOwnerEvent(Battle.CardDrawn, OnCardDrawn);
 	}
 
-	[EntityLogic(typeof(seSuwakoDef))]
-	public sealed class seSuwako : StatusEffect
+	private IEnumerable<BattleAction> OnCardDrawn(CardEventArgs args)
 	{
-		public int limit => lim;
-		int lim = 5;
-		public override bool ForceNotShowDownText => true;
-		protected override void OnAdded(Unit unit)
+		if (args.Cause != ActionCause.TurnStart && args.ActionSource is not Card { IsReplenish: true })
 		{
-			List<Card> cards = Battle.EnumerateAllCards().Where(c => !(c is Frog)).SampleManyOrAll(4, GameRun.EnemyBattleRng).ToList();
-			if (cards.Count > 0)
+			if (Count >= 1)
 			{
-				NotifyActivating();
-				foreach (Card card in cards)
+				Count--;
+				if (Count == 0)
 				{
-					Frog frog = Library.CreateCard<Frog>();
-					frog.OriginalCard = card;
-					React(new TransformCardAction(card, frog));
-				}
-			}
-
-			lim = 4 + Battle.AllAliveEnemies.Count();
-			Count = lim;
-			ReactOwnerEvent(Battle.CardDrawn, OnCardDrawn);
-		}
-
-		private IEnumerable<BattleAction> OnCardDrawn(CardEventArgs args)
-		{
-			if (args.Cause != ActionCause.TurnStart && !(args.ActionSource is Card card && card.IsReplenish))
-			{
-				if (Count >= 1)
-				{
-					Count--;
-					if (Count == 0)
+					List<Card> cards = [.. Battle.HandZone.Where(c => c is not Frog)];
+					if (cards.Count > 0)
 					{
-						List<Card> cards = Battle.HandZone.Where(c => !(c is Frog)).ToList();
-						if (cards.Count > 0)
+						NotifyActivating();
+						yield return PerformAction.Wait(0.2f, unscale: true);
+						NotifyActivating();
+						yield return PerformAction.UiSound("Frog");
+						Card card2 = cards.Sample(GameRun.EnemyBattleRng);
+						if (card2 != null)
 						{
-							NotifyActivating();
-							yield return PerformAction.Wait(0.2f, unscale: true);
-							NotifyActivating();
-							yield return PerformAction.UiSound("Frog");
-							Card card2 = cards.Sample(GameRun.EnemyBattleRng);
-							if (card2 != null)
-							{
-								Frog frog = Library.CreateCard<Frog>();
-								frog.OriginalCard = card2;
-								yield return new TransformCardAction(card2, frog);
-							}
+							Frog frog = Library.CreateCard<Frog>();
+							frog.OriginalCard = card2;
+							yield return new TransformCardAction(card2, frog);
 						}
-						Count = lim;
 					}
+					Count = lim;
 				}
-				Highlight = Count == 1;
 			}
+			Highlight = Count == 1;
 		}
 	}
 }

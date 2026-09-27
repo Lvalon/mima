@@ -9,42 +9,32 @@ using LBoL.Core.StatusEffects;
 using LBoL.Core.Units;
 using LBoLEntitySideloader.Attributes;
 
-namespace lvalonmima.StatusEffects
+namespace lvalonmima.StatusEffects;
+
+public sealed class seabyssdwellerDef : lvalonmimaStatusEffectTemplate
 {
-	public sealed class seabyssdwellerDef : lvalonmimaStatusEffectTemplate
+	public override StatusEffectConfig MakeConfig() => Cfg(StatusEffectType.Special);
+}
+
+[EntityLogic(typeof(seabyssdwellerDef))]
+public sealed class seabyssdweller : StatusEffect
+{
+	protected override void OnAdded(Unit unit)
 	{
-		public override StatusEffectConfig MakeConfig()
-		{
-			StatusEffectConfig config = GetDefaultStatusEffectConfig();
-			config.Type = StatusEffectType.Special;
-			return config;
-		}
+		ReactOwnerEvent(Battle.Player.TurnEnded, OnTurnEnded);
+		ReactOwnerEvent(Battle.CardExiled, OnCardExiled);
 	}
 
-	[EntityLogic(typeof(seabyssdwellerDef))]
-	public sealed class seabyssdweller : StatusEffect
+	private IEnumerable<BattleAction> OnCardExiled(CardEventArgs args)
 	{
-		protected override void OnAdded(Unit unit)
-		{
-			ReactOwnerEvent(Battle.Player.TurnEnded, OnTurnEnded);
-			ReactOwnerEvent(Battle.CardExiled, OnCardExiled);
-		}
+		yield return new MoveCardAction(args.Card, CardZone.Discard);
+	}
 
-		private IEnumerable<BattleAction> OnCardExiled(CardEventArgs args)
-		{
-			yield return new MoveCardAction(args.Card, CardZone.Discard);
-		}
-
-		private IEnumerable<BattleAction> OnTurnEnded(UnitEventArgs args)
-		{
-			if (Level <= 1)
-			{
-				yield return new RemoveStatusEffectAction(this);
-			}
-			else
-			{
-				Level--;
-			}
-		}
+	private IEnumerable<BattleAction> OnTurnEnded(UnitEventArgs args)
+	{
+		if (Level <= 1)
+			yield return new RemoveStatusEffectAction(this);
+		else
+			Level--;
 	}
 }

@@ -5,39 +5,38 @@ using LBoL.Core.StatusEffects;
 using LBoL.Core.Units;
 using LBoLEntitySideloader.Attributes;
 
-namespace lvalonmima.StatusEffects
+namespace lvalonmima.StatusEffects;
+
+public sealed class serpolarityDef : lvalonmimaStatusEffectTemplate
 {
-	public sealed class serpolarityDef : lvalonmimaStatusEffectTemplate
+	public override StatusEffectConfig MakeConfig()
 	{
-		public override StatusEffectConfig MakeConfig()
-		{
-			StatusEffectConfig config = GetDefaultStatusEffectConfig();
-			config.Type = StatusEffectType.Positive;
-			config.Keywords = Keyword.Exile;
-			return config;
-		}
+		StatusEffectConfig config = GetDefaultStatusEffectConfig();
+		config.Type = StatusEffectType.Positive;
+		config.Keywords = Keyword.Exile;
+		return config;
+	}
+}
+
+[EntityLogic(typeof(serpolarityDef))]
+public sealed class serpolarity : StatusEffect
+{
+	public override bool ForceNotShowDownText => true;
+	public ManaGroup Mana => new() { Colorless = 1 };
+	public ManaGroup Mana2 => new() { Philosophy = 1 };
+	protected override void OnAdded(Unit unit)
+	{
+		HandleOwnerEvent(Battle.ManaGaining, OnManaGaining);
 	}
 
-	[EntityLogic(typeof(serpolarityDef))]
-	public sealed class serpolarity : StatusEffect
+	public void OnManaGaining(ManaEventArgs args)
 	{
-		public override bool ForceNotShowDownText => true;
-		public ManaGroup Mana => new ManaGroup() { Colorless = 1 };
-		public ManaGroup Mana2 => new ManaGroup() { Philosophy = 1 };
-		protected override void OnAdded(Unit unit)
+		int colorlessAmount = args.Value.Colorless;
+		if (colorlessAmount > 0)
 		{
-			HandleOwnerEvent(Battle.ManaGaining, OnManaGaining);
-		}
-
-		public void OnManaGaining(ManaEventArgs args)
-		{
-			int colorlessAmount = args.Value.Colorless;
-			if (colorlessAmount > 0)
-			{
-				NotifyActivating();
-				args.Value = args.Value.WithColorless(0) + ManaGroup.Philosophies(colorlessAmount);
-				args.AddModifier(this);
-			}
+			NotifyActivating();
+			args.Value = args.Value.WithColorless(0) + ManaGroup.Philosophies(colorlessAmount);
+			args.AddModifier(this);
 		}
 	}
 }

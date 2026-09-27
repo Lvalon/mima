@@ -15,65 +15,60 @@ using LBoL.Core.Battle.BattleActions;
 using lvalonmima.StatusEffects;
 //using lvalonmima.BattleActions;
 
-namespace lvalonmima
+namespace lvalonmima;
+
+public sealed class lvalonmimaDef : PlayerUnitTemplate
 {
-	public sealed class lvalonmimaDef : PlayerUnitTemplate
+	public UniTask<Sprite>? LoadSpellPortraitAsync { get; private set; }
+
+	public override IdContainer GetId()
 	{
-		public UniTask<Sprite>? LoadSpellPortraitAsync { get; private set; }
+		return BepinexPlugin.modUniqueID;
+	}
 
-		public override IdContainer GetId()
+	public override LocalizationOption LoadLocalization()
+	{
+		return lvalonmimaLocalization.PlayerUnitBatchLoc.AddEntity(this);
+	}
+
+	public override PlayerImages LoadPlayerImages()
+	{
+		return lvalonmimaImageLoader.LoadPlayerImages(BepinexPlugin.playerName);
+	}
+	// public override EikiSummonInfo AssociateEikiSummon()
+	// {
+	// 	return new EikiSummonInfo(typeof(Enemies.lvalonmima));
+	// }
+
+	public override PlayerUnitConfig MakeConfig()
+	{
+		return lvalonmimaLoadouts.playerUnitConfig;
+	}
+
+	[EntityLogic(typeof(lvalonmimaDef))]
+	public sealed class lvalonmima : PlayerUnit
+	{
+		protected override void OnEnterBattle(BattleController battle)
 		{
-			return BepinexPlugin.modUniqueID;
+			HandleBattleEvent(Battle.Player.StatusEffectAdding, OnSEAdding, GameEventPriority.Highest);
+			HandleBattleEvent(Battle.Player.StatusEffectRemoving, OnSERemoving, GameEventPriority.Highest);
+			HandleBattleEvent(Battle.BattleStarting, OnBattleStarting, GameEventPriority.Highest);
 		}
 
-		public override LocalizationOption LoadLocalization()
+		private void OnBattleStarting(GameEventArgs args)
 		{
-			return lvalonmimaLocalization.PlayerUnitBatchLoc.AddEntity(this);
+			React(new ApplyStatusEffectAction<seevilspirit>(Battle.Player, 1, 0, 0, 0));
+			React(new ApplyStatusEffectAction<secreative>(Battle.Player, 1, 0, 0, 0));
 		}
-
-		public override PlayerImages LoadPlayerImages()
+		private void OnSEAdding(StatusEffectApplyEventArgs args)
 		{
-			return lvalonmimaImageLoader.LoadPlayerImages(BepinexPlugin.playerName);
+			if (args.Effect is seevilspirit || args.Effect is secreative)
+				args.CanCancel = false;
 		}
-		// public override EikiSummonInfo AssociateEikiSummon()
-		// {
-		// 	return new EikiSummonInfo(typeof(Enemies.lvalonmima));
-		// }
-
-		public override PlayerUnitConfig MakeConfig()
+		private void OnSERemoving(StatusEffectEventArgs args)
 		{
-			return lvalonmimaLoadouts.playerUnitConfig;
-		}
-
-		[EntityLogic(typeof(lvalonmimaDef))]
-		public sealed class lvalonmima : PlayerUnit
-		{
-			protected override void OnEnterBattle(BattleController battle)
-			{
-				HandleBattleEvent(Battle.Player.StatusEffectAdding, OnSEAdding, GameEventPriority.Highest);
-				HandleBattleEvent(Battle.Player.StatusEffectRemoving, OnSERemoving, GameEventPriority.Highest);
-				HandleBattleEvent(Battle.BattleStarting, OnBattleStarting, GameEventPriority.Highest);
-			}
-
-			private void OnBattleStarting(GameEventArgs args)
-			{
-				React(new ApplyStatusEffectAction<seevilspirit>(Battle.Player, 1, 0, 0, 0));
-				React(new ApplyStatusEffectAction<secreative>(Battle.Player, 1, 0, 0, 0));
-			}
-			private void OnSEAdding(StatusEffectApplyEventArgs args)
-			{
-				if (args.Effect is seevilspirit || args.Effect is secreative)
-				{
-					args.CanCancel = false;
-				}
-			}
-			private void OnSERemoving(StatusEffectEventArgs args)
-			{
-				if (args.Effect is seevilspirit || args.Effect is secreative)
-				{
-					args.CancelBy(this);
-				}
-			}
+			if (args.CanCancel && (args.Effect is seevilspirit || args.Effect is secreative))
+				args.CancelBy(this);
 		}
 	}
 }

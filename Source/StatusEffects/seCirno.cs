@@ -11,40 +11,33 @@ using LBoL.Core.Units;
 using LBoL.EntityLib.StatusEffects.Cirno;
 using LBoLEntitySideloader.Attributes;
 
-namespace lvalonmima.StatusEffects
+namespace lvalonmima.StatusEffects;
+
+public sealed class seCirnoDef : lvalonmimaStatusEffectTemplate
 {
-	public sealed class seCirnoDef : lvalonmimaStatusEffectTemplate
+	public override StatusEffectConfig MakeConfig() => Cfg(StatusEffectType.Positive, hasCount: true);
+}
+
+[EntityLogic(typeof(seCirnoDef))]
+public sealed class seCirno : StatusEffect
+{
+	int lim = 99;
+	public override bool ForceNotShowDownText => true;
+	protected override void OnAdded(Unit unit)
 	{
-		public override StatusEffectConfig MakeConfig()
-		{
-			StatusEffectConfig config = GetDefaultStatusEffectConfig();
-			config.Type = StatusEffectType.Positive;
-			config.HasCount = true;
-			return config;
-		}
+		lim = 99;
+		Count = lim;
+		ReactOwnerEvent(unit.DamageReceived, OnDamageReceived);
 	}
 
-	[EntityLogic(typeof(seCirnoDef))]
-	public sealed class seCirno : StatusEffect
+	private IEnumerable<BattleAction> OnDamageReceived(DamageEventArgs args)
 	{
-		int lim = 99;
-		public override bool ForceNotShowDownText => true;
-		protected override void OnAdded(Unit unit)
+		Count = Math.Max(0, Count - args.DamageInfo.Damage.ToInt());
+		if (Count == 0)
 		{
-			lim = 99;
+			NotifyActivating();
+			yield return new ApplyStatusEffectAction<Immune>(Owner, 0, 1);
 			Count = lim;
-			ReactOwnerEvent(unit.DamageReceived, OnDamageReceived);
-		}
-
-		private IEnumerable<BattleAction> OnDamageReceived(DamageEventArgs args)
-		{
-			Count = Math.Max(0, Count - args.DamageInfo.Damage.ToInt());
-			if (Count == 0)
-			{
-				NotifyActivating();
-				yield return new ApplyStatusEffectAction<Immune>(Owner, 0, 1);
-				Count = lim;
-			}
 		}
 	}
 }

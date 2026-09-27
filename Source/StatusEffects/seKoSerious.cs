@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using LBoL.Base;
@@ -11,75 +10,73 @@ using LBoL.Core.Cards;
 using LBoL.Core.StatusEffects;
 using LBoL.Core.Units;
 using LBoL.EntityLib.StatusEffects.Enemy;
-using LBoL.EntityLib.StatusEffects.Others;
 using LBoLEntitySideloader.Attributes;
 
-namespace lvalonmima.StatusEffects
+namespace lvalonmima.StatusEffects;
+
+public sealed class seKoSeriousDef : lvalonmimaStatusEffectTemplate
 {
-	public sealed class seKoSeriousDef : lvalonmimaStatusEffectTemplate
+	public override StatusEffectConfig MakeConfig()
 	{
-		public override StatusEffectConfig MakeConfig()
+		StatusEffectConfig config = GetDefaultStatusEffectConfig();
+		config.Type = StatusEffectType.Positive;
+		config.Order = 10;
+		return config;
+	}
+}
+
+[EntityLogic(typeof(seKoSeriousDef))]
+public sealed class seKoSerious : StatusEffect
+{
+	protected override void OnAdded(Unit unit)
+	{
+		Highlight = Owner.HasStatusEffect<KokoroRenzhen>();
+		ReactOwnerEvent(unit.StatusEffectAdded, OnSEAdded);
+		HandleOwnerEvent(unit.StatusEffectRemoved, OnSERemoved);
+		HandleOwnerEvent(Battle.Predraw, OnPredraw);
+		HandleOwnerEvent(Battle.ManaGaining, OnManaGaining);
+	}
+
+	private void OnManaGaining(ManaEventArgs args)
+	{
+		if (args.Cause != ActionCause.TurnStart)
 		{
-			StatusEffectConfig config = GetDefaultStatusEffectConfig();
-			config.Type = StatusEffectType.Positive;
-			config.Order = 10;
-			return config;
+			NotifyActivating();
+			args.CancelBy(this);
 		}
 	}
 
-	[EntityLogic(typeof(seKoSeriousDef))]
-	public sealed class seKoSerious : StatusEffect
+	private void OnPredraw(CardEventArgs args)
 	{
-		protected override void OnAdded(Unit unit)
+		if (args.Cause != ActionCause.TurnStart && args.ActionSource is not Card { IsReplenish: true } && Battle.EnumerateAllCardsButExile().Count(c => c.CardType == CardType.Status) < 2)
 		{
-			Highlight = Owner.HasStatusEffect<KokoroRenzhen>();
-			ReactOwnerEvent(unit.StatusEffectAdded, OnSEAdded);
-			HandleOwnerEvent(unit.StatusEffectRemoved, OnSERemoved);
-			HandleOwnerEvent(Battle.Predraw, OnPredraw);
-			HandleOwnerEvent(Battle.ManaGaining, OnManaGaining);
+			NotifyActivating();
+			args.CancelBy(this);
 		}
+	}
 
-		private void OnManaGaining(ManaEventArgs args)
-		{
-			if (args.Cause != ActionCause.TurnStart)
-			{
-				NotifyActivating();
-				args.CancelBy(this);
-			}
-		}
+	private void OnSERemoved(StatusEffectEventArgs args)
+	{
+		Highlight = Owner.HasStatusEffect<KokoroRenzhen>();
+	}
 
-		private void OnPredraw(CardEventArgs args)
+	private IEnumerable<BattleAction> OnSEAdded(StatusEffectApplyEventArgs args)
+	{
+		switch (args.Effect)
 		{
-			if (args.Cause != ActionCause.TurnStart && !(args.ActionSource is Card card && card.IsReplenish) && Battle.EnumerateAllCardsButExile().Count(c => c.CardType == CardType.Status) < 2)
-			{
-				NotifyActivating();
-				args.CancelBy(this);
-			}
+			case KokoroNu _:
+				yield return new ApplyStatusEffectAction<seKoNu>(Owner, 1);
+				yield return new RemoveStatusEffectAction(this);
+				yield break;
+			case KokoroYou _:
+				yield return new ApplyStatusEffectAction<seKoYou>(Owner, 1);
+				yield return new RemoveStatusEffectAction(this);
+				yield break;
+			case KokoroXi _:
+				yield return new ApplyStatusEffectAction<seKoXi>(Owner, 1);
+				yield return new RemoveStatusEffectAction(this);
+				yield break;
 		}
-
-		private void OnSERemoved(StatusEffectEventArgs args)
-		{
-			Highlight = Owner.HasStatusEffect<KokoroRenzhen>();
-		}
-
-		private IEnumerable<BattleAction> OnSEAdded(StatusEffectApplyEventArgs args)
-		{
-			switch (args.Effect)
-			{
-				case KokoroNu _:
-					yield return new ApplyStatusEffectAction<seKoNu>(Owner, 1);
-					yield return new RemoveStatusEffectAction(this);
-					yield break;
-				case KokoroYou _:
-					yield return new ApplyStatusEffectAction<seKoYou>(Owner, 1);
-					yield return new RemoveStatusEffectAction(this);
-					yield break;
-				case KokoroXi _:
-					yield return new ApplyStatusEffectAction<seKoXi>(Owner, 1);
-					yield return new RemoveStatusEffectAction(this);
-					yield break;
-			}
-			Highlight = Owner.HasStatusEffect<KokoroRenzhen>();
-		}
+		Highlight = Owner.HasStatusEffect<KokoroRenzhen>();
 	}
 }

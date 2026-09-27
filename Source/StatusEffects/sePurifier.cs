@@ -8,34 +8,28 @@ using LBoL.Core.StatusEffects;
 using LBoL.Core.Units;
 using LBoLEntitySideloader.Attributes;
 
-namespace lvalonmima.StatusEffects
+namespace lvalonmima.StatusEffects;
+
+public sealed class sePurifierDef : lvalonmimaStatusEffectTemplate
 {
-	public sealed class sePurifierDef : lvalonmimaStatusEffectTemplate
+	public override StatusEffectConfig MakeConfig() => Cfg(StatusEffectType.Positive);
+}
+
+[EntityLogic(typeof(sePurifierDef))]
+public sealed class sePurifier : StatusEffect
+{
+	public override bool ForceNotShowDownText => true;
+	protected override void OnAdded(Unit unit)
 	{
-		public override StatusEffectConfig MakeConfig()
-		{
-			StatusEffectConfig config = GetDefaultStatusEffectConfig();
-			config.Type = StatusEffectType.Positive;
-			return config;
-		}
+		ReactOwnerEvent(Battle.ManaGained, OnManaGained);
 	}
 
-	[EntityLogic(typeof(sePurifierDef))]
-	public sealed class sePurifier : StatusEffect
+	private IEnumerable<BattleAction> OnManaGained(ManaEventArgs args)
 	{
-		public override bool ForceNotShowDownText => true;
-		protected override void OnAdded(Unit unit)
+		if (args.Cause != ActionCause.TurnStart)
 		{
-			ReactOwnerEvent(Battle.ManaGained, OnManaGained);
-		}
-
-		private IEnumerable<BattleAction> OnManaGained(ManaEventArgs args)
-		{
-			if (args.Cause != ActionCause.TurnStart)
-			{
-				NotifyActivating();
-				yield return ConvertManaAction.Purify(Battle.BattleMana, 1);
-			}
+			NotifyActivating();
+			yield return ConvertManaAction.Purify(Battle.BattleMana, 1);
 		}
 	}
 }

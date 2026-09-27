@@ -10,52 +10,45 @@ using LBoL.Core;
 using System.Linq;
 using lvalonmima.StatusEffects;
 
-namespace lvalonmima.Cards
+namespace lvalonmima.Cards;
+
+public sealed class cardtwelveDef : lvalonmimaCardTemplate
 {
-	public sealed class cardtwelveDef : lvalonmimaCardTemplate
+	public override CardConfig MakeConfig()
 	{
-		public override CardConfig MakeConfig()
-		{
-			CardConfig config = GetCardDefaultConfig();
-			config.Colors = new List<ManaColor>() { ManaColor.Colorless };
-			config.Cost = new ManaGroup() { Any = 3, Colorless = 1 };
-			config.UpgradedCost = new ManaGroup() { Any = 2, Colorless = 1 };
-			config.Rarity = Rarity.Uncommon;
-			config.Type = CardType.Skill;
-			config.TargetType = TargetType.Self;
-			config.Keywords = Keyword.Exile;
-			config.UpgradedKeywords = Keyword.Exile | Keyword.Retain;
-			config.RelativeKeyword = Keyword.Purified;
-			config.UpgradedRelativeKeyword = Keyword.Purified;
+		CardConfig config = GetCardDefaultConfig();
+		config.Colors = [ManaColor.Colorless];
+		config.Cost = new ManaGroup() { Any = 3, Colorless = 1 };
+		config.UpgradedCost = new ManaGroup() { Any = 2, Colorless = 1 };
+		config.Rarity = Rarity.Uncommon;
+		config.Type = CardType.Skill;
+		config.TargetType = TargetType.Self;
+		config.Keywords = Keyword.Exile;
+		config.UpgradedKeywords = config.Keywords | Keyword.Retain;
+		config.RelativeKeyword = config.UpgradedRelativeKeyword = Keyword.Purified;
 
-			config.RelativeEffects = new List<string>() { nameof(seunder) };
-			config.UpgradedRelativeEffects = new List<string>() { nameof(seunder) };
+		config.RelativeEffects = config.UpgradedRelativeEffects = [nameof(seunder)];
 
-			config.Value1 = 1;
+		config.Value1 = 1;
 
-			config.Illustrator = "海源";
+		config.Illustrator = "海源";
 
-			config.Index = CardIndexGenerator.GetUniqueIndex(config);
-			return config;
-		}
-	}
-
-	[EntityLogic(typeof(cardtwelveDef))]
-	public sealed class cardtwelve : lvalonmimaCard.trigger50card
-	{
-		protected override IEnumerable<BattleAction> Actions(UnitSelector selector, ManaGroup consumingMana, Interaction precondition)
-		{
-			foreach (Card card in Battle.HandZone.Where(c => c != this && !c.IsPurified && !c.IsXCost).ToList())
-			{
-				card.NotifyChanged();
-				card.IsPurified = true;
-			}
-			if (BepinexPlugin.u50)
-			{
-				yield return new ForceKillAction(Battle.Player, Battle.Player);
-			}
-		}
+		config.Index = CardIndexGenerator.GetUniqueIndex(config);
+		return config;
 	}
 }
 
-
+[EntityLogic(typeof(cardtwelveDef))]
+public sealed class cardtwelve : lvalonmimaCard.trigger50card
+{
+	protected override IEnumerable<BattleAction> Actions(UnitSelector selector, ManaGroup consumingMana, Interaction precondition)
+	{
+		foreach (Card card in Battle.HandZone.Where(c => c != this && !c.IsPurified && !c.IsXCost).ToList())
+		{
+			card.NotifyChanged();
+			card.IsPurified = true;
+		}
+		if (BepinexPlugin.u50)
+			yield return new ForceKillAction(Battle.Player, Battle.Player);
+	}
+}

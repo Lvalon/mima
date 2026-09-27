@@ -6,36 +6,29 @@ using LBoL.Core.Battle;
 using LBoL.Core.Battle.BattleActions;
 using LBoL.Core.StatusEffects;
 using LBoL.Core.Units;
-using LBoL.EntityLib.StatusEffects.Others;
 using LBoLEntitySideloader.Attributes;
 
-namespace lvalonmima.StatusEffects
+namespace lvalonmima.StatusEffects;
+
+public sealed class sestone2Def : lvalonmimaStatusEffectTemplate
 {
-	public sealed class sestone2Def : lvalonmimaStatusEffectTemplate
+	public override StatusEffectConfig MakeConfig() => Cfg(StatusEffectType.Positive);
+}
+
+[EntityLogic(typeof(sestone2Def))]
+public sealed class sestone2 : StatusEffect
+{
+	protected override void OnAdded(Unit unit)
 	{
-		public override StatusEffectConfig MakeConfig()
-		{
-			StatusEffectConfig config = GetDefaultStatusEffectConfig();
-			config.Type = StatusEffectType.Positive;
-			return config;
-		}
+		ReactOwnerEvent(Battle.Player.DamageReceived, OnDmgReceived);
 	}
 
-	[EntityLogic(typeof(sestone2Def))]
-	public sealed class sestone2 : StatusEffect
+	private IEnumerable<BattleAction> OnDmgReceived(DamageEventArgs args)
 	{
-		protected override void OnAdded(Unit unit)
+		if (args.DamageInfo.IsGrazed)
 		{
-			ReactOwnerEvent(Battle.Player.DamageReceived, OnDmgReceived);
-		}
-
-		private IEnumerable<BattleAction> OnDmgReceived(DamageEventArgs args)
-		{
-			if (args.DamageInfo.IsGrazed)
-			{
-				NotifyActivating();
-				yield return new CastBlockShieldAction(Battle.Player, Level, 0, BlockShieldType.Direct);
-			}
+			NotifyActivating();
+			yield return new CastBlockShieldAction(Battle.Player, Level, 0, BlockShieldType.Direct);
 		}
 	}
 }

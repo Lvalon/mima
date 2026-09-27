@@ -111,7 +111,7 @@ cardbirdq:
 
 cardfromhell:
   Name: 来自地狱
-  Description: "将 {Value1} 张|纯净钻石|洗入抽牌堆。\n获得 {Value10} 层|魔爆|。\n|纯化| {Value2}。\n获得 {Value2} 层|充能|。\n如果|< 50%|{hp50ns}：再次生效。"
+  Description: "将 {Value1} 张|纯净钻石|洗入抽牌堆。\n获得 {Value10} 层|魔爆|。\n|纯化| {Value2}。\n获得 {Value2} 层|充能|。\n如果|< 25%|{hp25ns}：再次生效。"
 
 cardrewind:
   Name: 倒退时间

@@ -8,30 +8,29 @@ using LBoL.Core.StatusEffects;
 using LBoL.Core.Units;
 using LBoLEntitySideloader.Attributes;
 
-namespace lvalonmima.StatusEffects
-{
-	public sealed class seutmostDef : lvalonmimaStatusEffectTemplate
-	{
-		public override StatusEffectConfig MakeConfig()
-		{
-			StatusEffectConfig config = GetDefaultStatusEffectConfig();
-			config.Type = StatusEffectType.Positive;
-			config.RelativeEffects = new List<string>() { nameof(semburst) };
-			return config;
-		}
-	}
+namespace lvalonmima.StatusEffects;
 
-	[EntityLogic(typeof(seutmostDef))]
-	public sealed class seutmost : StatusEffect
+public sealed class seutmostDef : lvalonmimaStatusEffectTemplate
+{
+	public override StatusEffectConfig MakeConfig()
 	{
-		protected override void OnAdded(Unit unit)
-		{
-			ReactOwnerEvent(Battle.CardUsed, OnCardUsed);
-		}
-		private IEnumerable<BattleAction> OnCardUsed(CardUsingEventArgs args)
-		{
-			NotifyActivating();
-			yield return new ApplyStatusEffectAction<semburst>(Battle.Player, Level, 0, 0, 0);
-		}
+		StatusEffectConfig config = GetDefaultStatusEffectConfig();
+		config.Type = StatusEffectType.Positive;
+		config.RelativeEffects = [nameof(semburst)];
+		return config;
+	}
+}
+
+[EntityLogic(typeof(seutmostDef))]
+public sealed class seutmost : StatusEffect
+{
+	protected override void OnAdded(Unit unit)
+	{
+		ReactOwnerEvent(Battle.CardUsed, OnCardUsed);
+	}
+	private IEnumerable<BattleAction> OnCardUsed(CardUsingEventArgs args)
+	{
+		NotifyActivating();
+		yield return new ApplyStatusEffectAction<semburst>(Battle.Player, Level, 0, 0, 0);
 	}
 }

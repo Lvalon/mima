@@ -1,38 +1,34 @@
 using LBoL.Base;
 using LBoL.ConfigData;
 using LBoLEntitySideloader.Attributes;
-using System.Collections.Generic;
 using lvalonmima.Cards.Template;
 using lvalonmima.StatusEffects;
 
-namespace lvalonmima.Cards
+namespace lvalonmima.Cards;
+
+public sealed class cardquest3Def : lvalonmimaCardTemplate
 {
-	public sealed class cardquest3Def : lvalonmimaCardTemplate
+	public override CardConfig MakeConfig()
 	{
-		public override CardConfig MakeConfig()
-		{
-			CardConfig config = GetCardDefaultConfig(true);
-			config.Colors = new List<ManaColor>() { ManaColor.Colorless };
-			config.Rarity = Rarity.Common;
+		CardConfig config = GetCardDefaultConfig(true);
+		config.Colors = [ManaColor.Colorless];
+		config.Rarity = Rarity.Common;
 
-			config.Value1 = 3;
-			config.Value2 = 50;
+		config.Value1 = 3;
+		config.Value2 = 50;
 
-			config.Keywords = Keyword.Forbidden;
+		config.Keywords = Keyword.Forbidden;
 
-			config.RelativeEffects = new List<string>() { nameof(sequest) };
+		config.RelativeEffects = [nameof(sequest)];
 
-			config.Illustrator = "torque";
+		config.Illustrator = "torque";
 
-			config.Index = CardIndexGenerator.GetUniqueIndex(config, 3);
-			return config;
-		}
-	}
-
-	[EntityLogic(typeof(cardquest3Def))]
-	public sealed class cardquest3 : questCard
-	{
+		config.Index = CardIndexGenerator.GetUniqueIndex(config, 3);
+		return config;
 	}
 }
 
-
+[EntityLogic(typeof(cardquest3Def))]
+public sealed class cardquest3 : questCard
+{
+}

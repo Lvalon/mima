@@ -1,6 +1,16 @@
 # Changelog / 更新日誌
 
-## [0.2.11] - 2026-9-24
+## [0.2.12] - 2026-9-27
+
+### Changes / 改動
+
+- Major code refinement and bugfixes.
+- Reintroduced tooltip hints for Challenger Mode modifiers in runs.
+
+- 代碼大優化與bug修復。
+- 重新加入挑戰者模式的局內提示框。
+
+## 0.2.11 - 2026-9-24
 
 ### Changes / 改動
 
@@ -30,7 +40,7 @@
 - 取消了挑戰者模式水印的提示框。
 - 降低了序列 15 任務的難度。
 
-## [0.2.9] - 2024-4-2
+## [0.2.9] - 2026-4-2
 
 ### Changes / 改動
 
@@ -38,7 +48,7 @@
 
 - 修了昇華正邪不會自然獲得展品的問題。
 
-## [0.2.8] - 2024-4-3
+## [0.2.8] - 2026-4-3
 
 ### Changes / 改動
 
@@ -46,7 +56,7 @@
 
 - 修了昇華早苗不會施加負面狀態的問題。
 
-## 0.2.7 - 2024-4-2
+## 0.2.7 - 2026-4-2
 
 ### Changes / 改動
 
@@ -54,7 +64,7 @@
 
 - 修了點文本。
 
-## 0.2.6 - 2024-4-2
+## 0.2.6 - 2026-4-2
 
 ### Changes / 改動
 
@@ -62,7 +72,7 @@
 
 - 修了點 bug。
 
-## 0.2.5 - 2024-4-2
+## 0.2.5 - 2026-4-2
 
 ### Changes / 改動
 
@@ -70,7 +80,7 @@
 
 - 修了點 bug。
 
-## 0.2.4 - 2024-4-2
+## 0.2.4 - 2026-4-2
 
 ### Changes / 改動
 
@@ -218,7 +228,7 @@
 
 - 1.7.0 支援。
 
-[0.2.11]: https://thunderstore.io/package/download/Lvalon/Mima/0.2.11/
+[0.2.12]: https://thunderstore.io/package/download/Lvalon/Mima/0.2.12/
 [0.2.10]: https://thunderstore.io/package/download/Lvalon/Mima/0.2.10/
 [0.2.9]: https://thunderstore.io/package/download/Lvalon/Mima/0.2.9/
 [0.2.8]: https://thunderstore.io/package/download/Lvalon/Mima/0.2.8/

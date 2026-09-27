@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using LBoL.Base;
 using LBoL.ConfigData;
 using LBoL.Core;
@@ -8,39 +6,28 @@ using LBoL.Core.Battle;
 using LBoL.Core.Battle.BattleActions;
 using LBoL.Core.StatusEffects;
 using LBoL.Core.Units;
-using LBoL.EntityLib.Cards.Enemy;
-using LBoL.EntityLib.EnemyUnits.Normal.Ravens;
-using LBoL.EntityLib.StatusEffects.Enemy;
 using LBoLEntitySideloader.Attributes;
 
-namespace lvalonmima.StatusEffects
+namespace lvalonmima.StatusEffects;
+
+public sealed class seFraudRabbitDef : lvalonmimaStatusEffectTemplate
 {
-	public sealed class seFraudRabbitDef : lvalonmimaStatusEffectTemplate
+	public override StatusEffectConfig MakeConfig() => Cfg(StatusEffectType.Positive);
+}
+
+[EntityLogic(typeof(seFraudRabbitDef))]
+public sealed class seFraudRabbit : StatusEffect
+{
+	public override bool ForceNotShowDownText => true;
+	protected override void OnAdded(Unit unit)
 	{
-		public override StatusEffectConfig MakeConfig()
-		{
-			StatusEffectConfig config = GetDefaultStatusEffectConfig();
-			config.Type = StatusEffectType.Positive;
-			return config;
-		}
+		ReactOwnerEvent(unit.Died, OnDied);
 	}
 
-	[EntityLogic(typeof(seFraudRabbitDef))]
-	public sealed class seFraudRabbit : StatusEffect
+	private IEnumerable<BattleAction> OnDied(DieEventArgs args)
 	{
-		public override bool ForceNotShowDownText => true;
-		protected override void OnAdded(Unit unit)
-		{
-			ReactOwnerEvent(unit.Died, OnDied);
-		}
-
-		private IEnumerable<BattleAction> OnDied(DieEventArgs args)
-		{
-			NotifyActivating();
-			foreach (EnemyUnit unit in Battle.AllAliveEnemies)
-			{
-				yield return new ApplyStatusEffectAction<Graze>(unit, 3);
-			}
-		}
+		NotifyActivating();
+		foreach (EnemyUnit unit in Battle.AllAliveEnemies)
+			yield return new ApplyStatusEffectAction<Graze>(unit, 3);
 	}
 }

@@ -11,73 +11,64 @@ using LBoL.Core.StatusEffects;
 using LBoL.Core.Units;
 using LBoLEntitySideloader.Attributes;
 
-namespace lvalonmima.StatusEffects
+namespace lvalonmima.StatusEffects;
+
+public sealed class semburstDef : lvalonmimaStatusEffectTemplate
 {
-	public sealed class semburstDef : lvalonmimaStatusEffectTemplate
+	public override StatusEffectConfig MakeConfig() => Cfg(StatusEffectType.Positive, hasCount: true);
+}
+
+[EntityLogic(typeof(semburstDef))]
+public sealed class semburst : StatusEffect
+{
+	public override bool ForceNotShowDownText => true;
+	int truecount = 0;
+	protected override void OnAdded(Unit unit)
 	{
-		public override StatusEffectConfig MakeConfig()
-		{
-			StatusEffectConfig config = GetDefaultStatusEffectConfig();
-			config.Type = StatusEffectType.Positive;
-			config.HasCount = true;
-			return config;
-		}
+		truecount = Level;
+		Count = truecount;
+		Level = 0;
+		HandleOwnerEvent(Battle.Player.StatusEffectAdded, OnSEAdded);
+		ReactOwnerEvent(Battle.Player.TurnEnded, OnTurnEnded, GameEventPriority.Highest);
 	}
 
-	[EntityLogic(typeof(semburstDef))]
-	public sealed class semburst : StatusEffect
+	private void OnSEAdded(StatusEffectApplyEventArgs args)
 	{
-		public override bool ForceNotShowDownText => true;
-		int truecount = 0;
-		protected override void OnAdded(Unit unit)
-		{
-			truecount = Level;
-			Count = truecount;
-			Level = 0;
-			HandleOwnerEvent(Battle.Player.StatusEffectAdded, OnSEAdded);
-			ReactOwnerEvent(Battle.Player.TurnEnded, OnTurnEnded, GameEventPriority.Highest);
-		}
+		truecount += Level;
+		Count = truecount;
+		Level = 0;
+	}
 
-		private void OnSEAdded(StatusEffectApplyEventArgs args)
+	private IEnumerable<BattleAction> OnTurnEnded(UnitEventArgs args)
+	{
+		NotifyActivating();
+		if (Battle.BattleShouldEnd) yield break;
+		yield return new DamageAction(Owner, Battle.EnemyGroup.Alives, DamageInfo.Attack(toolbox.Round(truecount), true), "JunkoLunatic", GunType.Single);
+		if (Battle.Player.TryGetStatusEffect(out sewraitsoth se) && Battle.EnumerateAllCardsButExile().Count() > 0 && Battle.AllAliveEnemies.Any())
 		{
-			truecount += Level;
-			Count = truecount;
-			Level = 0;
-		}
-
-		private IEnumerable<BattleAction> OnTurnEnded(UnitEventArgs args)
-		{
-			NotifyActivating();
-			if (Battle.BattleShouldEnd) { yield break; }
-			yield return new DamageAction(Owner, Battle.EnemyGroup.Alives, DamageInfo.Attack(toolbox.Round(truecount), true), "JunkoLunatic", GunType.Single);
-			if (Battle.Player.TryGetStatusEffect(out sewraitsoth se) && Battle.EnumerateAllCardsButExile().Count() > 0 && Battle.AllAliveEnemies.Count() > 0)
+			SelectCardInteraction interaction = new(0, se.Level, Battle.EnumerateAllCardsButExile())
 			{
-				SelectCardInteraction interaction = new SelectCardInteraction(0, se.Level, Battle.EnumerateAllCardsButExile())
+				Source = this
+			};
+			yield return new InteractionAction(interaction);
+			IReadOnlyList<Card> cards = interaction.SelectedCards;
+			if (cards.Count > 0)
+			{
+				foreach (Card card in cards)
 				{
-					Source = this
-				};
-				yield return new InteractionAction(interaction);
-				IReadOnlyList<Card> cards = interaction.SelectedCards;
-				if (cards.Count > 0)
-				{
-					foreach (Card card in cards)
+					if (!card.IsPurified && !card.IsXCost)
 					{
-						if (!card.IsPurified && !card.IsXCost)
-						{
-							card.NotifyChanged();
-							card.IsPurified = true;
-						}
-						if (card.Zone != CardZone.Hand && BepinexPlugin.u25)
-						{
-							yield return new MoveCardAction(card, CardZone.Hand);
-						}
+						card.NotifyChanged();
+						card.IsPurified = true;
+					}
+					if (card.Zone != CardZone.Hand && BepinexPlugin.u25)
+					{
+						yield return new MoveCardAction(card, CardZone.Hand);
 					}
 				}
 			}
-			if (!Battle.Player.HasStatusEffect<sewraitsoth>())
-			{
-				yield return new RemoveStatusEffectAction(this);
-			}
 		}
+		if (!Battle.Player.HasStatusEffect<sewraitsoth>())
+			yield return new RemoveStatusEffectAction(this);
 	}
 }

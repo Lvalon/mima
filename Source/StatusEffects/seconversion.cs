@@ -9,34 +9,33 @@ using LBoL.Core.Units;
 using LBoL.EntityLib.StatusEffects.Sakuya;
 using LBoLEntitySideloader.Attributes;
 
-namespace lvalonmima.StatusEffects
+namespace lvalonmima.StatusEffects;
+
+public sealed class seconversionDef : lvalonmimaStatusEffectTemplate
 {
-	public sealed class seconversionDef : lvalonmimaStatusEffectTemplate
+	public override StatusEffectConfig MakeConfig()
 	{
-		public override StatusEffectConfig MakeConfig()
-		{
-			StatusEffectConfig config = GetDefaultStatusEffectConfig();
-			config.Type = StatusEffectType.Positive;
-			config.RelativeEffects = new List<string>() { nameof(TimeAuraSe), nameof(seunder) };
-			return config;
-		}
+		StatusEffectConfig config = GetDefaultStatusEffectConfig();
+		config.Type = StatusEffectType.Positive;
+		config.RelativeEffects = [nameof(TimeAuraSe), nameof(seunder)];
+		return config;
+	}
+}
+
+[EntityLogic(typeof(seconversionDef))]
+public sealed class seconversion : sehl25
+{
+	protected override void OnAdded(Unit unit)
+	{
+		ReactOwnerEvent(Battle.Player.TurnStarted, OnTurnStarted);
 	}
 
-	[EntityLogic(typeof(seconversionDef))]
-	public sealed class seconversion : sehl25
+	private IEnumerable<BattleAction> OnTurnStarted(UnitEventArgs args)
 	{
-		protected override void OnAdded(Unit unit)
-		{
-			ReactOwnerEvent(Battle.Player.TurnStarted, OnTurnStarted);
-		}
-
-		private IEnumerable<BattleAction> OnTurnStarted(UnitEventArgs args)
-		{
-			int mult = Battle.AllAliveEnemies.Count();
-			if (mult > 0 || mult == 0) { yield break; }
-			yield return DamageAction.LoseLife(Battle.Player, mult * Level);
-			if (Battle.BattleShouldEnd) { yield break; }
-			yield return new ApplyStatusEffectAction<TimeAuraSe>(Battle.Player, Level * mult * (BepinexPlugin.u25 ? 2 : 1), 0, 0, 0);
-		}
+		int mult = Battle.AllAliveEnemies.Count();
+		if (mult > 0 || mult == 0) yield break;
+		yield return DamageAction.LoseLife(Battle.Player, mult * Level);
+		if (Battle.BattleShouldEnd) yield break;
+		yield return new ApplyStatusEffectAction<TimeAuraSe>(Battle.Player, Level * mult * (BepinexPlugin.u25 ? 2 : 1), 0, 0, 0);
 	}
 }

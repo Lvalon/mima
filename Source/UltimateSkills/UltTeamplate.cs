@@ -7,33 +7,32 @@ using lvalonmima.ImageLoader;
 using lvalonmima.Localization;
 using lvalonmima.Config;
 
-namespace lvalonmima.lvalonmimaUlt
+namespace lvalonmima.lvalonmimaUlt;
+
+public class lvalonmimaUltTemplate : UltimateSkillTemplate
 {
-	public class lvalonmimaUltTemplate : UltimateSkillTemplate
+	public override IdContainer GetId()
 	{
-		public override IdContainer GetId()
-		{
-			return lvalonmimaDefaultConfig.DefaultID(this);
-		}
+		return lvalonmimaDefaultConfig.DefaultID(this);
+	}
 
-		public override LocalizationOption LoadLocalization()
-		{
-			return lvalonmimaLocalization.UltimateSkillsBatchLoc.AddEntity(this);
-		}
+	public override LocalizationOption LoadLocalization()
+	{
+		return lvalonmimaLocalization.UltimateSkillsBatchLoc.AddEntity(this);
+	}
 
-		public override Sprite LoadSprite()
-		{
-			return lvalonmimaImageLoader.LoadUltLoader(ult: this);
-		}
+	public override Sprite LoadSprite()
+	{
+		return lvalonmimaImageLoader.LoadUltLoader(ult: this);
+	}
 
-		public override UltimateSkillConfig MakeConfig()
-		{
-			throw new System.NotImplementedException();
-		}
+	public override UltimateSkillConfig MakeConfig()
+	{
+		return GetDefaultUltConfig();
+	}
 
-		public UltimateSkillConfig GetDefaulUltConfig()
-		{
-			return lvalonmimaDefaultConfig.DefaultUltConfig();
-		}
+	public UltimateSkillConfig GetDefaultUltConfig()
+	{
+		return lvalonmimaDefaultConfig.DefaultUltConfig();
 	}
 }

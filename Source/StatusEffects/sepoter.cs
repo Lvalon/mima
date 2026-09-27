@@ -8,39 +8,38 @@ using LBoL.Core.StatusEffects;
 using LBoL.Core.Units;
 using LBoLEntitySideloader.Attributes;
 
-namespace lvalonmima.StatusEffects
+namespace lvalonmima.StatusEffects;
+
+public sealed class sepoterDef : lvalonmimaStatusEffectTemplate
 {
-	public sealed class sepoterDef : lvalonmimaStatusEffectTemplate
+	public override StatusEffectConfig MakeConfig()
 	{
-		public override StatusEffectConfig MakeConfig()
-		{
-			StatusEffectConfig config = GetDefaultStatusEffectConfig();
-			config.Type = StatusEffectType.Positive;
-			config.RelativeEffects = new List<string>() { nameof(semburst) };
-			return config;
-		}
+		StatusEffectConfig config = GetDefaultStatusEffectConfig();
+		config.Type = StatusEffectType.Positive;
+		config.RelativeEffects = [nameof(semburst)];
+		return config;
+	}
+}
+
+[EntityLogic(typeof(sepoterDef))]
+public sealed class sepoter : StatusEffect
+{
+	public int Value1 => Owner == null ? 1 : Level;
+	public ManaGroup Mana => new() { Red = 1 };
+	protected override void OnAdded(Unit unit)
+	{
+		ReactOwnerEvent(Battle.ManaConsumed, OnManaConsumed);
 	}
 
-	[EntityLogic(typeof(sepoterDef))]
-	public sealed class sepoter : StatusEffect
+	private IEnumerable<BattleAction> OnManaConsumed(ManaEventArgs args)
 	{
-		public int Value1 => Owner == null ? 1 : Level;
-		public ManaGroup Mana => new ManaGroup() { Red = 1 };
-		protected override void OnAdded(Unit unit)
+		if (Battle.AllAliveEnemies.Any())
 		{
-			ReactOwnerEvent(Battle.ManaConsumed, OnManaConsumed);
-		}
-
-		private IEnumerable<BattleAction> OnManaConsumed(ManaEventArgs args)
-		{
-			if (Battle.AllAliveEnemies.Count() > 0)
+			int goon = args.Value.Red + args.Value.Philosophy;
+			if (goon != 0)
 			{
-				int goon = args.Value.Red + args.Value.Philosophy;
-				if (goon != 0)
-				{
-					NotifyActivating();
-					yield return BuffAction<semburst>(goon * Value1, 0, 0);
-				}
+				NotifyActivating();
+				yield return BuffAction<semburst>(goon * Value1, 0, 0);
 			}
 		}
 	}

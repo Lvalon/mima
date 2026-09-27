@@ -111,7 +111,7 @@ cardbirdq:
 
 cardfromhell:
   Name: 來自地獄
-  Description: "將 {Value1} 張|純淨鑽石|洗入抽牌堆。\n獲得 {Value10} 層|魔爆|。\n|純化| {Value2}。\n獲得 {Value2} 層|充能|。\n如果|< 50%|{hp50ns}：再次生效。"
+  Description: "將 {Value1} 張|純淨鑽石|洗入抽牌堆。\n獲得 {Value10} 層|魔爆|。\n|純化| {Value2}。\n獲得 {Value2} 層|充能|。\n如果|< 25%|{hp25ns}：再次生效。"
 
 cardrewind:
   Name: 倒退時間

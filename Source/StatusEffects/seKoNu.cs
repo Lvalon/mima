@@ -1,8 +1,5 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using LBoL.Base;
-using LBoL.Base.Extensions;
 using LBoL.ConfigData;
 using LBoL.Core;
 using LBoL.Core.Battle;
@@ -11,68 +8,66 @@ using LBoL.Core.Cards;
 using LBoL.Core.StatusEffects;
 using LBoL.Core.Units;
 using LBoL.EntityLib.StatusEffects.Enemy;
-using LBoL.EntityLib.StatusEffects.Others;
 using LBoLEntitySideloader.Attributes;
 
-namespace lvalonmima.StatusEffects
+namespace lvalonmima.StatusEffects;
+
+public sealed class seKoNuDef : lvalonmimaStatusEffectTemplate
 {
-	public sealed class seKoNuDef : lvalonmimaStatusEffectTemplate
+	public override StatusEffectConfig MakeConfig()
 	{
-		public override StatusEffectConfig MakeConfig()
+		StatusEffectConfig config = GetDefaultStatusEffectConfig();
+		config.Type = StatusEffectType.Positive;
+		config.Order = 10;
+		return config;
+	}
+}
+
+[EntityLogic(typeof(seKoNuDef))]
+public sealed class seKoNu : StatusEffect
+{
+	protected override void OnAdded(Unit unit)
+	{
+		Highlight = Owner.HasStatusEffect<KokoroNu>();
+		ReactOwnerEvent(unit.StatusEffectAdded, OnSEAdded);
+		HandleOwnerEvent(unit.StatusEffectRemoved, OnSERemoved);
+		ReactOwnerEvent(Battle.CardDrawn, OnCardDrawn);
+	}
+	private IEnumerable<BattleAction> OnCardDrawn(CardEventArgs args)
+	{
+		if (args.Cause != ActionCause.TurnStart && args.ActionSource is not Card { IsReplenish: true })
 		{
-			StatusEffectConfig config = GetDefaultStatusEffectConfig();
-			config.Type = StatusEffectType.Positive;
-			config.Order = 10;
-			return config;
+			NotifyActivating();
+			foreach (EnemyUnit enemy in Battle.AllAliveEnemies)
+			{
+				yield return new HealAction(Owner, enemy, 1);
+			}
+			yield return DamageAction.Reaction(Battle.Player, 1);
 		}
 	}
 
-	[EntityLogic(typeof(seKoNuDef))]
-	public sealed class seKoNu : StatusEffect
+	private void OnSERemoved(StatusEffectEventArgs args)
 	{
-		protected override void OnAdded(Unit unit)
-		{
-			Highlight = Owner.HasStatusEffect<KokoroNu>();
-			ReactOwnerEvent(unit.StatusEffectAdded, OnSEAdded);
-			HandleOwnerEvent(unit.StatusEffectRemoved, OnSERemoved);
-			ReactOwnerEvent(Battle.CardDrawn, OnCardDrawn);
-		}
-		private IEnumerable<BattleAction> OnCardDrawn(CardEventArgs args)
-		{
-			if (args.Cause != ActionCause.TurnStart && !(args.ActionSource is Card card && card.IsReplenish))
-			{
-				NotifyActivating();
-				foreach (EnemyUnit enemy in Battle.AllAliveEnemies)
-				{
-					yield return new HealAction(Owner, enemy, 1);
-				}
-				yield return DamageAction.Reaction(Battle.Player, 1);
-			}
-		}
+		Highlight = Owner.HasStatusEffect<KokoroNu>();
+	}
 
-		private void OnSERemoved(StatusEffectEventArgs args)
+	private IEnumerable<BattleAction> OnSEAdded(StatusEffectApplyEventArgs args)
+	{
+		switch (args.Effect)
 		{
-			Highlight = Owner.HasStatusEffect<KokoroNu>();
+			case KokoroXi _:
+				yield return new ApplyStatusEffectAction<seKoXi>(Owner, 1);
+				yield return new RemoveStatusEffectAction(this);
+				yield break;
+			case KokoroYou _:
+				yield return new ApplyStatusEffectAction<seKoYou>(Owner, 1);
+				yield return new RemoveStatusEffectAction(this);
+				yield break;
+			case KokoroRenzhen _:
+				yield return new ApplyStatusEffectAction<seKoSerious>(Owner, 1);
+				yield return new RemoveStatusEffectAction(this);
+				yield break;
 		}
-
-		private IEnumerable<BattleAction> OnSEAdded(StatusEffectApplyEventArgs args)
-		{
-			switch (args.Effect)
-			{
-				case KokoroXi _:
-					yield return new ApplyStatusEffectAction<seKoXi>(Owner, 1);
-					yield return new RemoveStatusEffectAction(this);
-					yield break;
-				case KokoroYou _:
-					yield return new ApplyStatusEffectAction<seKoYou>(Owner, 1);
-					yield return new RemoveStatusEffectAction(this);
-					yield break;
-				case KokoroRenzhen _:
-					yield return new ApplyStatusEffectAction<seKoSerious>(Owner, 1);
-					yield return new RemoveStatusEffectAction(this);
-					yield break;
-			}
-			Highlight = Owner.HasStatusEffect<KokoroNu>();
-		}
+		Highlight = Owner.HasStatusEffect<KokoroNu>();
 	}
 }

@@ -1,0 +1,189 @@
+# English
+
+Shop:
+  LiteShopButton:
+    Text: "Roguelite Shop"
+    Active: "Roguelite Shop (Active!)"
+    Inactive: "Roguelite Shop (Inactive)"
+    Desc:
+      Text: |-
+        <sprite="Point" name="Point"> gained at the end of the game under |Challenger Mode| are saved, they can be used in the |Roguelite Shop| to upgrade the Player as the |Challenger|.
+        |Challenger Mode|: The first Player Phase is skipped.
+      Normalize: " |p:(Swapping currently cancelled by Difficulty's Normalize)|"
+    Effect: "<b>Effect</b>: "
+  difficulty:
+    Text: "Difficulty Modifiers"
+    Desc: '|Difficulty Modifiers| adds different modifiers to |Challenger Mode|, which would affect the <sprite="Point" name="Point"> saved or yield of other resources.'
+    reverse:
+      Text: "Normalize"
+      Desc: '|Challenge Mode| will not skip the first Player Phase anymore, but <sprite="Point" name="Point"> cannot be saved if the |Challenger| loses, and only |c:50|% of the <sprite="Point" name="Point"> will be saved.'
+    ascension:
+      Text: "Ascended"
+      Desc: 'Enemies are ascended, gaining unique buffs that serve as all-round challenges. Save |c:100|% more <sprite="Point" name="Point">.'
+  init:
+    Text: "Starting Buffs"
+    Desc: "|Starting Buffs| provide permanent immediate stat advantage at the start, improving the overall game experience."
+    fp:
+      Text: "Attack Boost"
+      Desc: "At the start of combat, gain {0} |Firepower|."
+      Next: "<b>|c:Next|</b>: Gain {1} |Firepower|"
+    sp:
+      Text: "Defense Boost"
+      Desc: "At the start of combat, gain {0} |Spirit|."
+      Next: "<b>|c:Next|</b>: Gain {1} |Spirit|"
+    hp:
+      Text: "Block in Red"
+      Desc: "Begin the game with {0}% extra maximum life."
+      Next: "<b>|c:Next|</b>: {1}% extra maximum life"
+    gold:
+      Text: "Fundraiser"
+      Desc: 'Begin the game with {0} extra <sprite="Point" name="Gold">.'
+      Next: '<b>|c:Next|</b>: {1} extra <sprite="Point" name="Gold">'
+    card:
+      Text: "The Chosen One"
+      Desc: "Begin the game by choosing {0} |Ability| card from the last game's Library to add to this game's Library."
+      Next: "<b>|c:Next|</b>: Choose {1}"
+    exhibit:
+      Text: "Up an Elite"
+      Desc: "Begin the game by gaining {0} random non-|Mythic| non-|Shining| exhibit that isn't obtained in the last game."
+      Next: "<b>|c:Next|</b>: Gain {1}"
+    solo:
+      Text: "Solo Questing"
+      Desc: "Begin the game with the |Quest Board| exhibit. Clicking it outside of combat can open its Menu and accept |Quests|."
+  discount:
+    Text: "Discounts"
+    Desc: '|Discounts| reduce the cost of various shop items and actions, increasing the yield of each <sprite="Point" name="Gold">.'
+    sc:
+      Text: "Spell Cards for Breakfast"
+      Desc: 'Reduce the <sprite="Point" name="Power"> cost of the |Spell Card| by {0}%.'
+      Next: "<b>|c:Next|</b>: Reduce by {1}%"
+    shop:
+      Text: "Regular Customer"
+      Desc: "Takane's shop prices are {0}% cheaper."
+      Next: "<b>|c:Next|</b>: {1}% cheaper"
+    upgrade:
+      Text: "Competitor"
+      Desc: 'Takane''s card upgrade serivce costs {0} less <sprite="Point" name="Gold">.'
+      Next: '<b>|c:Next|</b>: {1} less <sprite="Point" name="Gold">'
+    remove:
+      Text: "Snowballing Advantage"
+      Desc: 'Takane''s card removal serivce costs {0} less <sprite="Point" name="Gold">.'
+      Next: '<b>|c:Next|</b>: Cost {1} less <sprite="Point" name="Gold">'
+  feature:
+    Text: "Feature Upgrades"
+    Desc: "|Feature Upgrades| enhance specific gameplay mechanics, providing extra benefits throughout the run."
+    teasync:
+      Text: "Takeaway Tea"
+      Desc: "When upgrading cards at Gaps, also |Drink Tea|."
+    gapple:
+      Text: "Golden Apple Tea"
+      Desc: "For every {0} life restored while drinking tea at Gaps, gain |c:1| maximum life."
+      Next: "<b>|c:Next|</b>: Every {1} life restored"
+    sponsor:
+      Text: "Gap Sponsor"
+      Desc: 'Gain {0} <sprite="Point" name="Gold"> when upgrading cards at Gaps.'
+      Next: '<b>|c:Next|</b>: Gain {1} <sprite="Point" name="Gold">'
+  battle:
+    Text: "Battle Buffs"
+    Desc: "|Battle Buffs| grant additional advantages during combat, improving survivability and resource management."
+    block:
+      Text: "Ever Vigilant"
+      Desc: "At the start of combat and the Challenger's first turn, gain {0} |Block|."
+      Next: "<b>|c:Next|</b>: Gain {1} |Block|"
+    graze:
+      Text: "Agile Reflexes"
+      Desc: "At the start of combat and the Challenger's first turn, gain {0} |Graze|."
+      Next: "<b>|c:Next|</b>: Gain {1} |Graze|"
+    heal:
+      Text: "Post-Combat Recovery"
+      Desc: "At the end of combat, gain {0} life."
+      Next: "<b>|c:Next|</b>: Gain {1} life"
+    seedraw:
+      Text: "Heart of the Cards"
+      Desc: "The draw pile can now be viewed in actual order."
+    rolldiscard:
+      Text: "Reroll"
+      Desc: "At the start of combat, the |Challenger| may send all cards in the draw pile and hand to the discard pile."
+    hacks:
+      Text: "End of turn"
+      Desc: "At the end of the |Challenger|'s first turn, there is a {0}% chance to play |c:1| random |Ability| card on the battlefield."
+      Next: "<b>|c:Next|</b>: {1}% chance"
+    ChallengerModeWatermark:
+      HoverHint: "Challenger mode"
+  alter:
+    Text: "Settings Altering"
+    Desc: "|Settings Altering| allows modification of certain game defaults, twisting the rules to the |Challenger|'s liking."
+    freechoice:
+      Text: "I Knew It"
+      Desc: "The |Challenger| can successfully identify the true culprit without needing any items."
+    wings:
+      Text: "Gives You Wings"
+      Desc: "The |Challenger| may ignore paths when choosing the next level."
+    blankcard:
+      Text: "Unlimited Experience"
+      Desc: "Cards of all colors are added to the card pool."
+  Loadout:
+    Text: "Current Modifiers"
+    None: "None!"
+  refund:
+    Text: "Refund All"
+    Desc: "Refund all purchased upgrades in the Roguelite Shop."
+  ChallengerModeHistory:
+    Active: "Challenger Mode Active"
+    Title: "Challenger Mode"
+  QuestHistory:
+    Active: "Completed Quests"
+    Title: "Completed Quests"
+  ChallengerModeToggle:
+    Text: "Challenger Mode"
+    Desc: "Enable or disable Challenger Mode. Cannot be changed during an active game run."
+    "On": "|On!|"
+    ButtonOn: "Toggle Off"
+    ButtonOff: "Toggle On"
+    "Off": "Off."
+  ChallengerModeToggleFront: "|Challenger Mode| is currently... "
+  ChallengerModeToggleBack: " Click the button below to toggle, or you could |shift-click| the main menu shop button to toggle as well!"
+  Money: 'Money: {0} <sprite="Point" name="Point">'
+  Tier: "<b>|f:Tier|</b>: {0} / {1}"
+  NextTier: ' - {0} <sprite="Point" name="Point">'
+  NotEnoughBP: ' (Insufficient <sprite="Point" name="Point">)'
+  MaxTier: " - <b>|MAX|</b>"
+  InDevelopmentSuffix: " (In Development)"
+  BuyButton:
+    Text: "Purchase"
+    Desc: |-
+      Purchasing an upgrade will move it up a tier.
+      Cannot purchase when there is an ongoing run.
+  RefundButton:
+    Text: "Refund"
+    Desc: |-
+      Refunding an upgrade will move it down a tier.
+      Cannot refund when there is an ongoing run.
+MessageDialog:
+  Shop:
+    refund:
+      Confirm: "Confirm refunding all purchases?"
+BluePoint:
+  hurryact1level4:
+    Name: "What's the hurry?"
+    Description: "Lose within Level 4 of Act 1."
+  hurryact1:
+    Name: "Why is Cirno the strongest?"
+    Description: "Lose after Level 4 and within Act 1."
+  hurryact2:
+    Name: "Half-phantom T-Shirted"
+    Description: "Lose in Act 2."
+  hurryact3:
+    Name: "So close, yet so far"
+    Description: "Lose in Act 3."
+  hurryact3win:
+    Name: "In another castle?"
+    Description: "Resolve the incident in Act 3."
+  hurryact4:
+    Name: "We'll get 'em next time"
+    Description: "Lose in Act 4."
+  hurryact4win:
+    Name: "Triumph Resolve"
+    Description: "Resolve the incident perfectly."
+AcceptQuest: "Accept quest? (Select card to accept)"
+AbandonQuest: "Abandon quest? (Select card to abandon)"

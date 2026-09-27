@@ -6,31 +6,27 @@ using LBoL.Core.Battle.BattleActions;
 using LBoLEntitySideloader.Attributes;
 using lvalonmima.StatusEffects;
 
-namespace lvalonmima.JadeBoxes
-{
-	public class JadeBoxCreative
-	{
-		public sealed class JadeBoxCreativeDef : lvalonmimajadeboxtemplate
-		{
-			public override JadeBoxConfig MakeConfig()
-			{
-				var config = DefaultConfig();
-				return config;
-			}
-			[EntityLogic(typeof(JadeBoxCreativeDef))]
-			public sealed class JadeBoxCreative : JadeBox
-			{
-				protected override void OnEnterBattle()
-				{
-					ReactBattleEvent(Battle.BattleStarted, OnBattleStated);
-				}
+namespace lvalonmima.JadeBoxes;
 
-				private IEnumerable<BattleAction> OnBattleStated(GameEventArgs args)
-				{
-					if (Battle.Player.HasStatusEffect<secreative>()) { yield break; }
-					yield return new ApplyStatusEffectAction<secreative>(Battle.Player, 1, 0, 0, 0);
-				}
-			}
-		}
+public sealed class JadeBoxCreativeDef : lvalonmimajadeboxtemplate
+{
+	public override JadeBoxConfig MakeConfig()
+	{
+		return GetDefaultJadeBoxConfig();
+	}
+}
+
+[EntityLogic(typeof(JadeBoxCreativeDef))]
+public sealed class JadeBoxCreative : JadeBox
+{
+	protected override void OnEnterBattle()
+	{
+		ReactBattleEvent(Battle.BattleStarted, OnBattleStated);
+	}
+
+	private IEnumerable<BattleAction> OnBattleStated(GameEventArgs args)
+	{
+		if (Battle.Player.HasStatusEffect<secreative>()) yield break;
+		yield return new ApplyStatusEffectAction<secreative>(Battle.Player, 1, 0, 0, 0);
 	}
 }

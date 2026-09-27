@@ -8,34 +8,33 @@ using LBoL.Core.StatusEffects;
 using LBoL.Core.Units;
 using LBoLEntitySideloader.Attributes;
 
-namespace lvalonmima.StatusEffects
+namespace lvalonmima.StatusEffects;
+
+public sealed class sealgophobiaDef : lvalonmimaStatusEffectTemplate
 {
-	public sealed class sealgophobiaDef : lvalonmimaStatusEffectTemplate
+	public override StatusEffectConfig MakeConfig()
 	{
-		public override StatusEffectConfig MakeConfig()
-		{
-			StatusEffectConfig config = GetDefaultStatusEffectConfig();
-			config.Type = StatusEffectType.Special;
-			//config.Keywords = Keyword.Exile;
-			return config;
-		}
+		StatusEffectConfig config = GetDefaultStatusEffectConfig();
+		config.Type = StatusEffectType.Special;
+		//config.Keywords = Keyword.Exile;
+		return config;
+	}
+}
+
+[EntityLogic(typeof(sealgophobiaDef))]
+public sealed class sealgophobia : StatusEffect
+{
+	protected override void OnAdded(Unit unit)
+	{
+		ReactOwnerEvent(Battle.Player.DamageReceived, OnDmgReceived);
 	}
 
-	[EntityLogic(typeof(sealgophobiaDef))]
-	public sealed class sealgophobia : StatusEffect
+	private IEnumerable<BattleAction> OnDmgReceived(DamageEventArgs args)
 	{
-		protected override void OnAdded(Unit unit)
+		if (args.DamageInfo.Amount > 0 && args.ActionSource != this)
 		{
-			ReactOwnerEvent(Battle.Player.DamageReceived, OnDmgReceived);
-		}
-
-		private IEnumerable<BattleAction> OnDmgReceived(DamageEventArgs args)
-		{
-			if (args.DamageInfo.Amount > 0 && args.ActionSource != this)
-			{
-				NotifyActivating();
-				yield return new DamageAction(Battle.Player, new List<Unit> { Battle.Player }, DamageInfo.HpLose(Level));
-			}
+			NotifyActivating();
+			yield return new DamageAction(Battle.Player, [Battle.Player], DamageInfo.HpLose(Level));
 		}
 	}
 }

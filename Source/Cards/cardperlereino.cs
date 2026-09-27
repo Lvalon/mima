@@ -8,46 +8,42 @@ using LBoL.Core.Battle.BattleActions;
 using LBoL.Core;
 using lvalonmima.StatusEffects;
 
-namespace lvalonmima.Cards
+namespace lvalonmima.Cards;
+
+public sealed class cardperlereinoDef : lvalonmimaCardTemplate
 {
-	public sealed class cardperlereinoDef : lvalonmimaCardTemplate
+	public override CardConfig MakeConfig()
 	{
-		public override CardConfig MakeConfig()
-		{
-			CardConfig config = GetCardDefaultConfig();
-			config.Colors = new List<ManaColor>() { ManaColor.Blue, ManaColor.Black, ManaColor.Green };
-			config.Cost = new ManaGroup() { Green = 1, Black = 2, Blue = 2 };
-			config.Rarity = Rarity.Rare;
-			config.Type = CardType.Ability;
-			config.TargetType = TargetType.Self;
-			config.Value1 = 1;
-			config.Value2 = 1000;
-			config.RelativeEffects = new List<string>() { nameof(setranscendence) };
-			config.UpgradedRelativeEffects = new List<string>() { nameof(setranscendence) };
+		CardConfig config = GetCardDefaultConfig();
+		config.Colors = [ManaColor.Blue, ManaColor.Black, ManaColor.Green];
+		config.Cost = new ManaGroup() { Green = 1, Black = 2, Blue = 2 };
+		config.Rarity = Rarity.Rare;
+		config.Type = CardType.Ability;
+		config.TargetType = TargetType.Self;
+		config.Value1 = 1;
+		config.Value2 = 1000;
+		config.RelativeEffects = config.UpgradedRelativeEffects = [nameof(setranscendence)];
 
-			config.Illustrator = "camellia";
+		config.Illustrator = "camellia";
 
-			config.Index = CardIndexGenerator.GetUniqueIndex(config);
-			return config;
-		}
-	}
-
-	[EntityLogic(typeof(cardperlereinoDef))]
-	public sealed class cardperlereino : lvalonmimaCard
-	{
-		protected override IEnumerable<BattleAction> Actions(UnitSelector selector, ManaGroup consumingMana, Interaction precondition)
-		{
-			yield return new ApplyStatusEffectAction<seperlereino>(Battle.Player, Value1, 0, 0, 0);
-			if (Battle.BattleShouldEnd) { yield break; }
-			yield return new ApplyStatusEffectAction<setranscendence>(Battle.Player, Value1, 0, 0, 0);
-			if (Battle.BattleShouldEnd) { yield break; }
-			if (IsUpgraded)
-			{
-				if (Battle.BattleShouldEnd) { yield break; }
-				yield return new ApplyStatusEffectAction<sefuckyou700>(Battle.Player, 0, 0, 0, 0);
-			}
-		}
+		config.Index = CardIndexGenerator.GetUniqueIndex(config);
+		return config;
 	}
 }
 
-
+[EntityLogic(typeof(cardperlereinoDef))]
+public sealed class cardperlereino : lvalonmimaCard
+{
+	protected override IEnumerable<BattleAction> Actions(UnitSelector selector, ManaGroup consumingMana, Interaction precondition)
+	{
+		yield return new ApplyStatusEffectAction<seperlereino>(Battle.Player, Value1, 0, 0, 0);
+		if (Battle.BattleShouldEnd) yield break;
+		yield return new ApplyStatusEffectAction<setranscendence>(Battle.Player, Value1, 0, 0, 0);
+		if (Battle.BattleShouldEnd) yield break;
+		if (IsUpgraded)
+		{
+			if (Battle.BattleShouldEnd) yield break;
+			yield return new ApplyStatusEffectAction<sefuckyou700>(Battle.Player, 0, 0, 0, 0);
+		}
+	}
+}

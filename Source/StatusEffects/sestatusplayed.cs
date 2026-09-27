@@ -1,53 +1,16 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using LBoL.Base;
 using LBoL.ConfigData;
-using LBoL.Core;
-using LBoL.Core.Battle;
-using LBoL.Core.Battle.BattleActions;
-using LBoL.Core.Battle.Interactions;
-using LBoL.Core.Cards;
-using LBoL.Core.StatusEffects;
-using LBoL.Core.Units;
 using LBoLEntitySideloader.Attributes;
 
-namespace lvalonmima.StatusEffects
+namespace lvalonmima.StatusEffects;
+
+public sealed class sestatusplayedDef : lvalonmimaStatusEffectTemplate
 {
-	public sealed class sestatusplayedDef : lvalonmimaStatusEffectTemplate
-	{
-		public override StatusEffectConfig MakeConfig()
-		{
-			StatusEffectConfig config = GetDefaultStatusEffectConfig();
-			config.Type = StatusEffectType.Special;
-			config.HasCount = true;
-			return config;
-		}
-	}
+	public override StatusEffectConfig MakeConfig() => Cfg(StatusEffectType.Special, hasCount: true);
+}
 
-	[EntityLogic(typeof(sestatusplayedDef))]
-	public sealed class sestatusplayed : StatusEffect
-	{
-		protected override void OnAdded(Unit unit)
-		{
-			Count = 0;
-			HandleOwnerEvent(Battle.CardUsed, OnCardUsed);
-		}
-
-		private void OnCardUsed(CardUsingEventArgs args)
-		{
-			if (args.Card.CardType == CardType.Status)
-			{
-				Count++;
-				if (Count == Level)
-				{
-					Highlight = true;
-				}
-				else
-				{
-					Highlight = false;
-				}
-			}
-		}
-	}
+[EntityLogic(typeof(sestatusplayedDef))]
+public sealed class sestatusplayed : CardTypeCounterSe
+{
+	protected override CardType WatchedType => CardType.Status;
 }

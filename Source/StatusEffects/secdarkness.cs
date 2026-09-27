@@ -10,76 +10,62 @@ using LBoL.Core.StatusEffects;
 using LBoL.Core.Units;
 using LBoLEntitySideloader.Attributes;
 
-namespace lvalonmima.StatusEffects
+namespace lvalonmima.StatusEffects;
+
+public sealed class secdarknessDef : lvalonmimaStatusEffectTemplate
 {
-	public sealed class secdarknessDef : lvalonmimaStatusEffectTemplate
+	public override StatusEffectConfig MakeConfig() => Cfg(StatusEffectType.Special);
+}
+
+[EntityLogic(typeof(secdarknessDef))]
+public sealed class secdarkness : StatusEffect
+{
+	bool aoe = false;
+	protected override void OnAdded(Unit unit)
 	{
-		public override StatusEffectConfig MakeConfig()
-		{
-			StatusEffectConfig config = GetDefaultStatusEffectConfig();
-			config.Type = StatusEffectType.Special;
-			return config;
-		}
+		aoe = false;
+		ReactOwnerEvent(Battle.RoundEnded, OnRoundEnded);
+		HandleOwnerEvent(Battle.EnemySpawned, OnEnemySpawned);
+		HandleOwnerEvent(Battle.Player.DamageDealing, OnDamageDealing);
+		HandleOwnerEvent(Battle.Player.DamageGiving, OnDamageGiving, GameEventPriority.Lowest - 10);
+		HandleOwnerEvent(Battle.Player.StatisticalTotalDamageDealt, OnStatisticalTotalDamageDealt);
+		foreach (EnemyUnit allAliveEnemy in Battle.AllAliveEnemies)
+			HandleOwnerEvent(allAliveEnemy.DamageGiving, OnDamageGiving, GameEventPriority.Lowest - 10);
 	}
 
-	[EntityLogic(typeof(secdarknessDef))]
-	public sealed class secdarkness : StatusEffect
+	private void OnStatisticalTotalDamageDealt(StatisticalDamageEventArgs args)
 	{
-		bool aoe = false;
-		protected override void OnAdded(Unit unit)
-		{
-			aoe = false;
-			ReactOwnerEvent(Battle.RoundEnded, OnRoundEnded);
-			HandleOwnerEvent(Battle.EnemySpawned, OnEnemySpawned);
-			HandleOwnerEvent(Battle.Player.DamageDealing, OnDamageDealing);
-			HandleOwnerEvent(Battle.Player.DamageGiving, OnDamageGiving, GameEventPriority.Lowest - 10);
-			HandleOwnerEvent(Battle.Player.StatisticalTotalDamageDealt, OnStatisticalTotalDamageDealt);
-			foreach (EnemyUnit allAliveEnemy in Battle.AllAliveEnemies)
-			{
-				HandleOwnerEvent(allAliveEnemy.DamageGiving, OnDamageGiving, GameEventPriority.Lowest - 10);
-			}
-		}
+		aoe = false;
+	}
 
-		private void OnStatisticalTotalDamageDealt(StatisticalDamageEventArgs args)
-		{
-			aoe = false;
-		}
+	private void OnDamageDealing(DamageDealingEventArgs args)
+	{
+		if (args.Cause != ActionCause.OnlyCalculate && args.DamageInfo.DamageType == DamageType.Attack)
+			aoe = args.Targets.Count() > 1;
+	}
 
-		private void OnDamageDealing(DamageDealingEventArgs args)
-		{
-			if (args.Cause != ActionCause.OnlyCalculate && args.DamageInfo.DamageType == DamageType.Attack)
-			{
-				aoe = args.Targets.Count() > 1;
-			}
-		}
+	private void OnEnemySpawned(UnitEventArgs args)
+	{
+		HandleOwnerEvent(args.Unit.DamageGiving, OnDamageGiving, GameEventPriority.Lowest - 10);
+	}
 
-		private void OnEnemySpawned(UnitEventArgs args)
+	private void OnDamageGiving(DamageEventArgs args)
+	{
+		if (args.Cause != ActionCause.OnlyCalculate
+		&& args.DamageInfo.DamageType == DamageType.Attack
+		&& !aoe
+		&& args.DamageInfo.Damage > 0)
 		{
-			HandleOwnerEvent(args.Unit.DamageGiving, OnDamageGiving, GameEventPriority.Lowest - 10);
+			NotifyActivating();
+			args.Target = Battle.AllAliveUnits.ToList().Sample(GameRun.BattleRng);
+			args.AddModifier(this);
 		}
-
-		private void OnDamageGiving(DamageEventArgs args)
-		{
-			if (args.Cause != ActionCause.OnlyCalculate
-			&& args.DamageInfo.DamageType == DamageType.Attack
-			&& !aoe
-			&& args.DamageInfo.Damage > 0)
-			{
-				NotifyActivating();
-				args.Target = Battle.AllAliveUnits.ToList().Sample(GameRun.BattleRng);
-				args.AddModifier(this);
-			}
-		}
-		private IEnumerable<BattleAction> OnRoundEnded(GameEventArgs args)
-		{
-			if (Level <= 1)
-			{
-				yield return new RemoveStatusEffectAction(this);
-			}
-			else
-			{
-				Level--;
-			}
-		}
+	}
+	private IEnumerable<BattleAction> OnRoundEnded(GameEventArgs args)
+	{
+		if (Level <= 1)
+			yield return new RemoveStatusEffectAction(this);
+		else
+			Level--;
 	}
 }

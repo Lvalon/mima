@@ -46,8 +46,8 @@ cardperlereino:
 
 cardmicrocosmos:
   Name: Micro Cosmos
-  Description: "End {PlayerName}'s turn, then take an extra turn.\nDuring that turn, only |Skill| cards can be played, gain |n:1| |Temporary Firepower|, |Magical Burst| and |Charge| whenever a card is played.\nIf |< 25%|{hp25bs}during play: At the start of that turn, enter the |Abyss|."
-  UpgradedDescription: "End {PlayerName}'s turn, then take an extra turn.\nAt the start of that turn, enter the |Abyss|.\nDuring that turn, only |Skill| cards can be played, gain |n:1| |Temporary Firepower|, |Magical Burst| and |Charge| whenever a card is played.\nIf |< 25%|{hp25bs}during play: At the start of that turn, enter the |Abyss| once more."
+  Description: "End {PlayerName}'s turn, then take an extra turn.\nDuring that turn, only |Skill| cards can be played, gain |n:1| |Temporary Firepower|, |Magical Burst| and |Charge| whenever a card is played.\nIf |< 50%|{hp50bs}during play: At the start of that turn, enter the |Abyss|."
+  UpgradedDescription: "End {PlayerName}'s turn, then take an extra turn.\nAt the start of that turn, enter the |Abyss|.\nDuring that turn, only |Skill| cards can be played, gain |n:1| |Temporary Firepower|, |Magical Burst| and |Charge| whenever a card is played.\nIf |< 50%|{hp50bs}during play: At the start of that turn, enter the |Abyss| once more."
 
 carddawntime:
   Name: At The Dawn of Time

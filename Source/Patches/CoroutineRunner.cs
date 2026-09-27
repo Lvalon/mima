@@ -1,22 +1,21 @@
 using UnityEngine;
-namespace lvalonmima.Patches
-{
-	public sealed class CoroutineRunner : MonoBehaviour
-	{
-		private static CoroutineRunner _instance;
+namespace lvalonmima.Patches;
 
-		public static CoroutineRunner Instance
+public sealed class CoroutineRunner : MonoBehaviour
+{
+	private static CoroutineRunner _instance;
+
+	public static CoroutineRunner Instance
+	{
+		get
 		{
-			get
+			if (_instance == null)
 			{
-				if (_instance == null)
-				{
-					var go = new GameObject("[CoroutineRunner]");
-					DontDestroyOnLoad(go);
-					_instance = go.AddComponent<CoroutineRunner>();
-				}
-				return _instance;
+				var go = new GameObject("[CoroutineRunner]");
+				DontDestroyOnLoad(go);
+				_instance = go.AddComponent<CoroutineRunner>();
 			}
+			return _instance;
 		}
 	}
 }

@@ -11,49 +11,45 @@ using System.Linq;
 using lvalonmima.StatusEffects;
 using LBoL.Core.StatusEffects;
 
-namespace lvalonmima.Cards
+namespace lvalonmima.Cards;
+
+public sealed class cardrewindDef : lvalonmimaCardTemplate
 {
-	public sealed class cardrewindDef : lvalonmimaCardTemplate
+	public override CardConfig MakeConfig()
 	{
-		public override CardConfig MakeConfig()
-		{
-			CardConfig config = GetCardDefaultConfig();
-			config.Colors = new List<ManaColor>() { ManaColor.Black, ManaColor.Green };
-			config.Cost = new ManaGroup() { Any = 1, Black = 2, Green = 2 };
-			config.Rarity = Rarity.Uncommon;
-			config.Type = CardType.Skill;
-			config.TargetType = TargetType.Self;
-			config.Keywords = Keyword.Exile;
-			config.UpgradedKeywords = Keyword.Exile | Keyword.Retain;
-			config.RelativeEffects = new List<string>() { nameof(ExtraTurn) };
-			config.UpgradedRelativeEffects = new List<string>() { nameof(ExtraTurn) };
+		CardConfig config = GetCardDefaultConfig();
+		config.Colors = [ManaColor.Black, ManaColor.Green];
+		config.Cost = new ManaGroup() { Any = 1, Black = 2, Green = 2 };
+		config.Rarity = Rarity.Uncommon;
+		config.Type = CardType.Skill;
+		config.TargetType = TargetType.Self;
+		config.Keywords = Keyword.Exile;
+		config.UpgradedKeywords = config.Keywords | Keyword.Retain;
+		config.RelativeEffects = config.UpgradedRelativeEffects = [nameof(ExtraTurn)];
 
-			config.Illustrator = "カタケイ";
+		config.Illustrator = "カタケイ";
 
-			config.Index = CardIndexGenerator.GetUniqueIndex(config);
-			return config;
-		}
-	}
-
-	[EntityLogic(typeof(cardrewindDef))]
-	public sealed class cardrewind : lvalonmimaCard
-	{
-		protected override IEnumerable<BattleAction> Actions(UnitSelector selector, ManaGroup consumingMana, Interaction precondition)
-		{
-			foreach (Card card in Battle.HandZone.Where(c => c != this).ToList())
-			{
-				if (Battle.BattleShouldEnd) { yield break; }
-				yield return new MoveCardToDrawZoneAction(card, DrawZoneTarget.Top);
-			}
-			yield return PerformAction.Effect(base.Battle.Player, "ExtraTime");
-			yield return PerformAction.Sfx("ExtraTurnLaunch");
-			yield return PerformAction.Animation(base.Battle.Player, "spell", 1.6f);
-			yield return BuffAction<ExtraTurn>(1);
-			yield return BuffAction<serewind>();
-			yield return new RequestEndPlayerTurnAction();
-			yield break;
-		}
+		config.Index = CardIndexGenerator.GetUniqueIndex(config);
+		return config;
 	}
 }
 
-
+[EntityLogic(typeof(cardrewindDef))]
+public sealed class cardrewind : lvalonmimaCard
+{
+	protected override IEnumerable<BattleAction> Actions(UnitSelector selector, ManaGroup consumingMana, Interaction precondition)
+	{
+		foreach (Card card in Battle.HandZone.Where(c => c != this).ToList())
+		{
+			if (Battle.BattleShouldEnd) yield break;
+			yield return new MoveCardToDrawZoneAction(card, DrawZoneTarget.Top);
+		}
+		yield return PerformAction.Effect(base.Battle.Player, "ExtraTime");
+		yield return PerformAction.Sfx("ExtraTurnLaunch");
+		yield return PerformAction.Animation(base.Battle.Player, "spell", 1.6f);
+		yield return BuffAction<ExtraTurn>(1);
+		yield return BuffAction<serewind>();
+		yield return new RequestEndPlayerTurnAction();
+		yield break;
+	}
+}

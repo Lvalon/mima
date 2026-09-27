@@ -9,42 +9,37 @@ using LBoL.Core;
 using lvalonmima.StatusEffects;
 using LBoL.Core.StatusEffects;
 
-namespace lvalonmima.Cards
+namespace lvalonmima.Cards;
+
+public sealed class cardextratickDef : lvalonmimaCardTemplate
 {
-	public sealed class cardextratickDef : lvalonmimaCardTemplate
+	public override CardConfig MakeConfig()
 	{
-		public override CardConfig MakeConfig()
-		{
-			CardConfig config = GetCardDefaultConfig();
-			config.Colors = new List<ManaColor>() { ManaColor.Green, ManaColor.Colorless };
-			config.Cost = new ManaGroup() { Any = 1, Green = 2, Colorless = 2 };
-			config.Rarity = Rarity.Rare;
-			config.Type = CardType.Ability;
-			config.TargetType = TargetType.Self;
-			config.RelativeKeyword = Keyword.NaturalTurn | Keyword.FollowAttack | Keyword.Purified;
-			config.UpgradedRelativeKeyword = Keyword.NaturalTurn | Keyword.FollowAttack | Keyword.Purified;
-			config.RelativeEffects = new List<string>() { nameof(ExtraTurn), nameof(seunder) };
-			config.UpgradedRelativeEffects = new List<string>() { nameof(ExtraTurn), nameof(seunder) };
+		CardConfig config = GetCardDefaultConfig();
+		config.Colors = [ManaColor.Green, ManaColor.Colorless];
+		config.Cost = new ManaGroup() { Any = 1, Green = 2, Colorless = 2 };
+		config.Rarity = Rarity.Rare;
+		config.Type = CardType.Ability;
+		config.TargetType = TargetType.Self;
+		config.RelativeKeyword = config.UpgradedRelativeKeyword = Keyword.NaturalTurn | Keyword.FollowAttack | Keyword.Purified;
+		config.RelativeEffects = config.UpgradedRelativeEffects = [nameof(ExtraTurn), nameof(seunder)];
 
-			config.Value1 = 1;
-			config.Value2 = 1;
-			config.UpgradedValue2 = 2;
+		config.Value1 = 1;
+		config.Value2 = 1;
+		config.UpgradedValue2 = 2;
 
-			config.Illustrator = "turtle-kun";
+		config.Illustrator = "turtle-kun";
 
-			config.Index = CardIndexGenerator.GetUniqueIndex(config);
-			return config;
-		}
-	}
-
-	[EntityLogic(typeof(cardextratickDef))]
-	public sealed class cardextratick : lvalonmimaCard.trigger50card
-	{
-		protected override IEnumerable<BattleAction> Actions(UnitSelector selector, ManaGroup consumingMana, Interaction precondition)
-		{
-			yield return new ApplyStatusEffectAction<seextratick>(Battle.Player, Value1, 0, Value2, 0);
-		}
+		config.Index = CardIndexGenerator.GetUniqueIndex(config);
+		return config;
 	}
 }
 
-
+[EntityLogic(typeof(cardextratickDef))]
+public sealed class cardextratick : lvalonmimaCard.trigger50card
+{
+	protected override IEnumerable<BattleAction> Actions(UnitSelector selector, ManaGroup consumingMana, Interaction precondition)
+	{
+		yield return new ApplyStatusEffectAction<seextratick>(Battle.Player, Value1, 0, Value2, 0);
+	}
+}

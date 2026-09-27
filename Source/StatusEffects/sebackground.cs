@@ -10,38 +10,37 @@ using LBoL.Core.Units;
 using LBoL.EntityLib.StatusEffects.Others;
 using LBoLEntitySideloader.Attributes;
 
-namespace lvalonmima.StatusEffects
+namespace lvalonmima.StatusEffects;
+
+public sealed class sebackgroundDef : lvalonmimaStatusEffectTemplate
 {
-	public sealed class sebackgroundDef : lvalonmimaStatusEffectTemplate
+	public override StatusEffectConfig MakeConfig()
 	{
-		public override StatusEffectConfig MakeConfig()
-		{
-			StatusEffectConfig config = GetDefaultStatusEffectConfig();
-			config.Type = StatusEffectType.Special;
-			config.RelativeEffects = new List<string>() { nameof(Poison) };
-			return config;
-		}
+		StatusEffectConfig config = GetDefaultStatusEffectConfig();
+		config.Type = StatusEffectType.Special;
+		config.RelativeEffects = [nameof(Poison)];
+		return config;
+	}
+}
+
+[EntityLogic(typeof(sebackgroundDef))]
+public sealed class sebackground : StatusEffect
+{
+	protected override void OnAdded(Unit unit)
+	{
+		ReactOwnerEvent(Owner.DamageDealt, OnDamageDealt);
 	}
 
-	[EntityLogic(typeof(sebackgroundDef))]
-	public sealed class sebackground : StatusEffect
+	private IEnumerable<BattleAction> OnDamageDealt(DamageEventArgs args)
 	{
-		protected override void OnAdded(Unit unit)
+		if (Battle.AllAliveEnemies.Any() && args.Target.IsAlive && args.ActionSource != this && args.Target.HasStatusEffect<Poison>())
 		{
-			ReactOwnerEvent(Owner.DamageDealt, OnDamageDealt);
-		}
-
-		private IEnumerable<BattleAction> OnDamageDealt(DamageEventArgs args)
-		{
-			if (Battle.AllAliveEnemies.Count() > 0 && args.Target.IsAlive && args.ActionSource != this && args.Target.HasStatusEffect<Poison>())
+			DamageInfo damageInfo = args.DamageInfo;
+			if (damageInfo.DamageType == DamageType.Attack)
 			{
-				DamageInfo damageInfo = args.DamageInfo;
-				if (damageInfo.DamageType == DamageType.Attack)
-				{
-					NotifyActivating();
-					yield return DamageAction.LoseLife(Battle.Player, Level);
-					yield return new DamageAction(Battle.Player, args.Target, DamageInfo.Attack(Level), "Poison");
-				}
+				NotifyActivating();
+				yield return DamageAction.LoseLife(Battle.Player, Level);
+				yield return new DamageAction(Battle.Player, args.Target, DamageInfo.Attack(Level), "Poison");
 			}
 		}
 	}

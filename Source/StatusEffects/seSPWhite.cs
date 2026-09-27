@@ -4,39 +4,32 @@ using LBoL.ConfigData;
 using LBoL.Core;
 using LBoL.Core.Battle;
 using LBoL.Core.Battle.BattleActions;
-using LBoL.Core.Cards;
 using LBoL.Core.StatusEffects;
 using LBoL.Core.Units;
 using LBoLEntitySideloader.Attributes;
 
-namespace lvalonmima.StatusEffects
+namespace lvalonmima.StatusEffects;
+
+public sealed class seSPWhiteDef : lvalonmimaStatusEffectTemplate
 {
-	public sealed class seSPWhiteDef : lvalonmimaStatusEffectTemplate
+	public override StatusEffectConfig MakeConfig() => Cfg(StatusEffectType.Positive);
+}
+
+[EntityLogic(typeof(seSPWhiteDef))]
+public sealed class seSPWhite : StatusEffect
+{
+	public override bool ForceNotShowDownText => true;
+	protected override void OnAdded(Unit unit)
 	{
-		public override StatusEffectConfig MakeConfig()
-		{
-			StatusEffectConfig config = GetDefaultStatusEffectConfig();
-			config.Type = StatusEffectType.Positive;
-			return config;
-		}
+		ReactOwnerEvent(Battle.ManaGained, OnManaGained);
 	}
 
-	[EntityLogic(typeof(seSPWhiteDef))]
-	public sealed class seSPWhite : StatusEffect
+	private IEnumerable<BattleAction> OnManaGained(ManaEventArgs args)
 	{
-		public override bool ForceNotShowDownText => true;
-		protected override void OnAdded(Unit unit)
+		if (args.Cause != ActionCause.TurnStart)
 		{
-			ReactOwnerEvent(Battle.ManaGained, OnManaGained);
-		}
-
-		private IEnumerable<BattleAction> OnManaGained(ManaEventArgs args)
-		{
-			if (args.Cause != ActionCause.TurnStart)
-			{
-				NotifyActivating();
-				yield return new LoseMoneyAction(5 * args.Value.Total);
-			}
+			NotifyActivating();
+			yield return new LoseMoneyAction(5 * args.Value.Total);
 		}
 	}
 }

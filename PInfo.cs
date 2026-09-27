@@ -1,13 +1,12 @@
 ﻿using HarmonyLib;
 
-namespace lvalonmima
-{
-	public static class PInfo
-	{
-		public const string GUID = "llbol.char.mima";
-		public const string Name = "Mima";
-		public const string version = "0.2.11";
-		public static readonly Harmony harmony = new Harmony(GUID);
+namespace lvalonmima;
 
-	}
+public static class PInfo
+{
+	public const string GUID = "llbol.char.mima";
+	public const string Name = "Mima";
+	public const string version = "0.2.12";
+	public static readonly Harmony harmony = new(GUID);
+
 }

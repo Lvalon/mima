@@ -1,4 +1,3 @@
-using System;
 using System.Linq;
 using LBoL.Base;
 using LBoL.ConfigData;
@@ -10,101 +9,86 @@ using LBoLEntitySideloader.Attributes;
 using LBoLEntitySideloader.CustomKeywords;
 using lvalonmima.Cards;
 using lvalonmima.Cards.Template;
-using lvalonmima.JadeBoxes;
 
-namespace lvalonmima.StatusEffects
+namespace lvalonmima.StatusEffects;
+
+public sealed class secreativeDef : lvalonmimaStatusEffectTemplate
 {
-	public sealed class secreativeDef : lvalonmimaStatusEffectTemplate
+	public override StatusEffectConfig MakeConfig() => Cfg(StatusEffectType.Special);
+}
+
+[EntityLogic(typeof(secreativeDef))]
+public sealed class secreative : StatusEffect
+{
+	public override bool ForceNotShowDownText => true;
+	protected override void OnAdded(Unit unit)
 	{
-		public override StatusEffectConfig MakeConfig()
-		{
-			StatusEffectConfig config = GetDefaultStatusEffectConfig();
-			config.Type = StatusEffectType.Special;
-			return config;
-		}
+		// HandleOwnerEvent(Battle.CardPlayed, OnCardPlayed);
+		HandleOwnerEvent(Battle.CardUsed, OnCardPlayed);
+		HandleOwnerEvent(Battle.Player.TurnEnded, OnRoundEnded, GameEventPriority.Lowest);
+		//HandleOwnerEvent(Battle.RoundEnded, OnRoundEnded, GameEventPriority.Lowest);
+		HandleOwnerEvent(Battle.CardsAddedToHand, OnCardAdded);
+		HandleOwnerEvent(Battle.CardsAddedToDiscard, OnCardAdded);
+		HandleOwnerEvent(Battle.CardsAddedToDrawZone, OnCardAddedDraw);
+		HandleOwnerEvent(Battle.CardsAddedToExile, OnCardAdded);
+		// if (GameRun.JadeBoxes.Any(x => x.Id == nameof(JadeBoxCreative)))
+		// {
+		HandleOwnerEvent(Battle.CardMoved, OnCardMoved);
+		// }
 	}
 
-	[EntityLogic(typeof(secreativeDef))]
-	public sealed class secreative : StatusEffect
+	private void RemoveKeyword(Card card)
 	{
-		public override bool ForceNotShowDownText => true;
-		protected override void OnAdded(Unit unit)
-		{
-			// HandleOwnerEvent(Battle.CardPlayed, OnCardPlayed);
-			HandleOwnerEvent(Battle.CardUsed, OnCardPlayed);
-			HandleOwnerEvent(Battle.Player.TurnEnded, OnRoundEnded, GameEventPriority.Lowest);
-			//HandleOwnerEvent(Battle.RoundEnded, OnRoundEnded, GameEventPriority.Lowest);
-			HandleOwnerEvent(Battle.CardsAddedToHand, OnCardAdded);
-			HandleOwnerEvent(Battle.CardsAddedToDiscard, OnCardAdded);
-			HandleOwnerEvent(Battle.CardsAddedToDrawZone, OnCardAddedDraw);
-			HandleOwnerEvent(Battle.CardsAddedToExile, OnCardAdded);
-			// if (GameRun.JadeBoxes.Any(x => x.Id == nameof(JadeBoxCreative)))
-			// {
-			HandleOwnerEvent(Battle.CardMoved, OnCardMoved);
-			// }
-		}
+		if (card.HasCustomKeyword(nameof(seused)))
+			card.RemoveCustomKeyword(lvalonmimakeyword.Used);
+	}
 
-		private void RemoveKeyword(Card card)
+	private void RemoveKeyword(Card[] cards)
+	{
+		foreach (Card card in cards)
+			RemoveKeyword(card);
+	}
+
+	private void OnCardMoved(CardMovingEventArgs args)
+	{
+		if (args.DestinationZone is CardZone.Hand && args.SourceZone != CardZone.Draw)
+			RemoveKeyword(args.Card);
+	}
+
+	private void OnCardAddedDraw(CardsAddingToDrawZoneEventArgs args)
+	{
+		RemoveKeyword(args.Cards);
+	}
+
+	private void OnCardAdded(CardsEventArgs args)
+	{
+		RemoveKeyword(args.Cards);
+	}
+
+	private void OnCardPlayed(CardUsingEventArgs args)
+	{
+		if (!args.Card.HasCustomKeyword(nameof(seused)))
 		{
-			if (card.HasCustomKeyword(nameof(seused)))
+			if (args.Card.Id != nameof(carddragonslay) && args.Card.CardType != CardType.Friend)
 			{
-				card.RemoveCustomKeyword(lvalonmimakeyword.Used);
+				args.Card.AddCustomKeyword(lvalonmimakeyword.Used);
 			}
 		}
-
-		private void RemoveKeyword(Card[] cards)
+	}
+	public override bool ShouldPreventCardUsage(Card card)
+	{
+		return card.HasCustomKeyword(nameof(seused));
+	}
+	public override string PreventCardUsageMessage
+	{
+		get
 		{
-			foreach (Card card in cards)
-			{
-				RemoveKeyword(card);
-			}
+			return TypeFactory<StatusEffect>.LocalizeProperty(Id, "seerror", true, true).RuntimeFormat(FormatWrapper);
 		}
-
-		private void OnCardMoved(CardMovingEventArgs args)
-		{
-			if (args.DestinationZone is CardZone.Hand && args.SourceZone != CardZone.Draw)
-			{
-				RemoveKeyword(args.Card);
-			}
-		}
-
-		private void OnCardAddedDraw(CardsAddingToDrawZoneEventArgs args)
-		{
-			RemoveKeyword(args.Cards);
-		}
-
-		private void OnCardAdded(CardsEventArgs args)
-		{
-			RemoveKeyword(args.Cards);
-		}
-
-		private void OnCardPlayed(CardUsingEventArgs args)
-		{
-			if (!args.Card.HasCustomKeyword(nameof(seused)))
-			{
-				if (args.Card.Id != nameof(carddragonslay) && args.Card.CardType != CardType.Friend)
-				{
-					args.Card.AddCustomKeyword(lvalonmimakeyword.Used);
-				}
-			}
-		}
-		public override bool ShouldPreventCardUsage(Card card)
-		{
-			return card.HasCustomKeyword(nameof(seused));
-		}
-		public override string PreventCardUsageMessage
-		{
-			get
-			{
-				return TypeFactory<StatusEffect>.LocalizeProperty(Id, "seerror", true, true).RuntimeFormat(FormatWrapper);
-			}
-		}
-		private void OnRoundEnded(GameEventArgs args)
-		{
-			foreach (Card card in Battle.EnumerateAllCards().Where(c => c.HasCustomKeyword(nameof(seused))))
-			{
-				RemoveKeyword(card);
-			}
-		}
+	}
+	private void OnRoundEnded(GameEventArgs args)
+	{
+		foreach (Card card in Battle.EnumerateAllCards().Where(c => c.HasCustomKeyword(nameof(seused))))
+			RemoveKeyword(card);
 	}
 }
