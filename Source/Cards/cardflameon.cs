@@ -1,9 +1,10 @@
 using LBoL.Base;
+using LBoLEntitySideloader.ExtraFunc;
 using LBoL.ConfigData;
 using LBoLEntitySideloader.Attributes;
 using System.Collections.Generic;
 using lvalonmima.Cards.Template;
-using lvalonmima.GunName;
+using LBoLEntitySideloader.ExtraFunc.GunHelpers;
 using LBoL.Core.Battle;
 using LBoL.Core.Battle.BattleActions;
 using LBoL.Core;

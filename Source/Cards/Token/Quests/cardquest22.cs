@@ -25,7 +25,7 @@ public sealed class cardquest22Def : lvalonmimaCardTemplate
 
 		config.Illustrator = "reimu.yuyuko.combo";
 
-		config.Index = CardIndexGenerator.GetUniqueIndex(config, 22);
+		config.Index = QuestIndex(config, 22);
 		return config;
 	}
 }

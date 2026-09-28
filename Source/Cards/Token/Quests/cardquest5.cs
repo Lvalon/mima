@@ -23,7 +23,7 @@ public sealed class cardquest5Def : lvalonmimaCardTemplate
 
 		config.Illustrator = "Niy";
 
-		config.Index = CardIndexGenerator.GetUniqueIndex(config, 5);
+		config.Index = QuestIndex(config, 5);
 		return config;
 	}
 }

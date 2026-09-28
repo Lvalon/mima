@@ -23,7 +23,7 @@ public sealed class cardquest3Def : lvalonmimaCardTemplate
 
 		config.Illustrator = "torque";
 
-		config.Index = CardIndexGenerator.GetUniqueIndex(config, 3);
+		config.Index = QuestIndex(config, 3);
 		return config;
 	}
 }

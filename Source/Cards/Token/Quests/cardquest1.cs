@@ -25,7 +25,7 @@ public sealed class cardquest1Def : lvalonmimaCardTemplate
 
 		config.Illustrator = "扇城ひな";
 
-		config.Index = CardIndexGenerator.GetUniqueIndex(config, 1);
+		config.Index = QuestIndex(config, 1);
 		return config;
 	}
 }

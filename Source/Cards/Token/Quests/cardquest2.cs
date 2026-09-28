@@ -27,7 +27,7 @@ public sealed class cardquest2Def : lvalonmimaCardTemplate
 
 		config.Illustrator = "GCMushroom";
 
-		config.Index = CardIndexGenerator.GetUniqueIndex(config, 2);
+		config.Index = QuestIndex(config, 2);
 		return config;
 	}
 }

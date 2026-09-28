@@ -23,7 +23,7 @@ public sealed class cardquest30Def : lvalonmimaCardTemplate
 
 		config.Illustrator = "lyiet";
 
-		config.Index = CardIndexGenerator.GetUniqueIndex(config, 30);
+		config.Index = QuestIndex(config, 30);
 		return config;
 	}
 }

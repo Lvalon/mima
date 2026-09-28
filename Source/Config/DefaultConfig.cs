@@ -1,7 +1,7 @@
 using LBoL.Base;
 using LBoL.ConfigData;
 using LBoLEntitySideloader.Entities;
-using lvalonmima.GunName;
+using LBoLEntitySideloader.ExtraFunc.GunHelpers;
 using UnityEngine;
 using static LBoLEntitySideloader.Entities.EnemyGroupTemplate;
 

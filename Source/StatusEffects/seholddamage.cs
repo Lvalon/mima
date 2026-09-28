@@ -11,7 +11,7 @@ using LBoL.Core.Units;
 using LBoLEntitySideloader.Attributes;
 using lvalonmima.Cards;
 using lvalonmima.Exhibits;
-using lvalonmima.GunName;
+using LBoLEntitySideloader.ExtraFunc.GunHelpers;
 using lvalonmima.Source.Patches;
 
 namespace lvalonmima.StatusEffects;

@@ -23,7 +23,7 @@ public sealed class cardquest15Def : lvalonmimaCardTemplate
 
 		config.Illustrator = "ZOIYA";
 
-		config.Index = CardIndexGenerator.GetUniqueIndex(config, 15);
+		config.Index = QuestIndex(config, 15);
 		return config;
 	}
 }

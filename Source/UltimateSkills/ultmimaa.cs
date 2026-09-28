@@ -1,4 +1,5 @@
 using LBoL.Base;
+using LBoLEntitySideloader.ExtraFunc.GunHelpers;
 using LBoL.ConfigData;
 using LBoL.Core.Battle.BattleActions;
 using LBoL.Core.Battle;

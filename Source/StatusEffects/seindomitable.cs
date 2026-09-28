@@ -9,7 +9,7 @@ using LBoL.Core.Battle.BattleActions;
 using LBoL.Core.StatusEffects;
 using LBoL.Core.Units;
 using LBoLEntitySideloader.Attributes;
-using lvalonmima.GunName;
+using LBoLEntitySideloader.ExtraFunc.GunHelpers;
 
 namespace lvalonmima.StatusEffects;
 

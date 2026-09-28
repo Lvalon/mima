@@ -23,7 +23,7 @@ public sealed class cardquest18Def : lvalonmimaCardTemplate
 
 		config.Illustrator = "yezhi na";
 
-		config.Index = CardIndexGenerator.GetUniqueIndex(config, 18);
+		config.Index = QuestIndex(config, 18);
 		return config;
 	}
 }

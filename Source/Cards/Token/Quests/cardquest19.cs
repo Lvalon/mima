@@ -23,7 +23,7 @@ public sealed class cardquest19Def : lvalonmimaCardTemplate
 
 		config.Illustrator = "しょぺ▼C107(火)Z-04b";
 
-		config.Index = CardIndexGenerator.GetUniqueIndex(config, 19);
+		config.Index = QuestIndex(config, 19);
 		return config;
 	}
 }

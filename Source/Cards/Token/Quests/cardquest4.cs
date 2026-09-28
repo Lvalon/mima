@@ -25,7 +25,7 @@ public sealed class cardquest4Def : lvalonmimaCardTemplate
 
 		config.Illustrator = "Men-dont-scream";
 
-		config.Index = CardIndexGenerator.GetUniqueIndex(config, 4);
+		config.Index = QuestIndex(config, 4);
 		return config;
 	}
 }

@@ -89,7 +89,6 @@ public class BepinexPlugin : BaseUnityPlugin
 		DontDestroyOnLoad(gameObject);
 		gameObject.hideFlags = HideFlags.HideAndDontSave;
 
-		CardIndexGenerator.PromiseClearIndexSet();
 		EntityManager.RegisterSelf();
 		new LiteProfileSaveData().RegisterSelf(PInfo.GUID);
 		// new CustomSaveData().RegisterSelf(PInfo.GUID);

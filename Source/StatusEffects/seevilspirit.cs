@@ -16,7 +16,7 @@ using LBoL.Presentation.UI.Panels;
 using LBoL.Presentation.Units;
 using LBoLEntitySideloader.Attributes;
 using lvalonmima.Exhibits;
-using lvalonmima.GunName;
+using LBoLEntitySideloader.ExtraFunc.GunHelpers;
 using lvalonmima.SFX;
 using lvalonmima.SFX.Template;
 using UnityEngine;

@@ -24,7 +24,7 @@ public sealed class cardquest28Def : lvalonmimaCardTemplate
 
 		config.Illustrator = "狼巴子原型机";
 
-		config.Index = CardIndexGenerator.GetUniqueIndex(config, 28);
+		config.Index = QuestIndex(config, 28);
 		return config;
 	}
 }

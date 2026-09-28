@@ -1,4 +1,5 @@
 using LBoL.Base;
+using LBoLEntitySideloader.ExtraFunc;
 using LBoL.ConfigData;
 using LBoLEntitySideloader.Attributes;
 using lvalonmima.Cards.Template;

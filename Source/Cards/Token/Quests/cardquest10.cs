@@ -25,7 +25,7 @@ public sealed class cardquest10Def : lvalonmimaCardTemplate
 
 		config.Illustrator = "Redlikeroses7";
 
-		config.Index = CardIndexGenerator.GetUniqueIndex(config, 10);
+		config.Index = QuestIndex(config, 10);
 		return config;
 	}
 }

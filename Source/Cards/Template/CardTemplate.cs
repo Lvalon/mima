@@ -1,4 +1,5 @@
 using LBoL.Base;
+using LBoLEntitySideloader.ExtraFunc;
 using LBoL.ConfigData;
 using LBoLEntitySideloader;
 using LBoLEntitySideloader.Entities;
@@ -12,6 +13,14 @@ namespace lvalonmima.Cards.Template;
 
 public abstract class lvalonmimaCardTemplate : CardTemplate
 {
+	// Quest cards sit in a fixed, quest-ordered range at the end of this mod's index block:
+	// the block base (Sideloader's index rounded down to its 10M block) + 9.5M + quest.
+	protected static int QuestIndex(CardConfig config, int quest)
+	{
+		int block = LBoLEntitySideloader.ExtraFunc.CardIndexGenerator.GetUniqueIndex(config) / LBoLEntitySideloader.ExtraFunc.CardIndexGenerator.milx1 * LBoLEntitySideloader.ExtraFunc.CardIndexGenerator.milx1;
+		return block + LBoLEntitySideloader.ExtraFunc.CardIndexGenerator.milx1 - 500000 + quest;
+	}
+
 	public override IdContainer GetId()
 	{
 		return lvalonmimaDefaultConfig.DefaultID(this);

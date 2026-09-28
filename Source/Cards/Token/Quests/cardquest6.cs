@@ -23,7 +23,7 @@ public sealed class cardquest6Def : lvalonmimaCardTemplate
 
 		config.Illustrator = "yange";
 
-		config.Index = CardIndexGenerator.GetUniqueIndex(config, 6);
+		config.Index = QuestIndex(config, 6);
 		return config;
 	}
 }
