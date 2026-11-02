@@ -212,34 +212,115 @@ public class LiteProfileSaveData
 		BepinexPlugin.log?.LogWarning($"[ShopSave] Created new empty shop for key {key} ({lookup}); it was not in the save. Other keys: [{others}]");
 	}
 
-	private string GetActiveRunProfileKey()
+	// Run flag naming the profile that owns the run: RunOwnerFlagPrefix + ProfileKey,
+	// e.g. "lvalonmima.owner:profile:1700000000". It is saved with the run, so it
+	// survives quit-and-Continue and can't be left over from another profile's run.
+	private const string RunOwnerFlagPrefix = "lvalonmima.owner:";
+
+	private static string RunOwnerKey(GameRunController run)
 	{
-		if (_activeRunProfileKey != null)
-			return _activeRunProfileKey;
-
-		if (GameMaster.Instance?.CurrentGameRun == null)
-			return GetProfileKey();
-
-		_activeRunProfileKey = GetProfileKey();
-		return _activeRunProfileKey;
+		if (run?.ExtraFlags == null)
+			return null;
+		foreach (string flag in run.ExtraFlags)
+		{
+			if (flag != null && flag.Length > RunOwnerFlagPrefix.Length && flag.StartsWith(RunOwnerFlagPrefix, StringComparison.Ordinal))
+				return flag[RunOwnerFlagPrefix.Length..];
+		}
+		return null;
 	}
 
-	private void ClearActiveRunProfileKey()
+	private static void SetRunOwnerKey(GameRunController run, string key)
 	{
+		if (run?.ExtraFlags == null || string.IsNullOrEmpty(key))
+			return;
+		run.ExtraFlags.RemoveWhere(flag => flag != null && flag.StartsWith(RunOwnerFlagPrefix, StringComparison.Ordinal));
+		run.ExtraFlags.Add(RunOwnerFlagPrefix + key);
+	}
+
+	/// <summary>
+	/// The profile key that owns run: its owner flag, or for a run without one (saved by
+	/// 0.2.12 or earlier) the current profile, which is then written to the run.
+	/// With no run, the current profile.
+	/// </summary>
+	private string ResolveRunOwnerKey(GameRunController run)
+	{
+		if (run == null)
+			return GetProfileKey();
+
+		string key = RunOwnerKey(run);
+		if (key == null)
+		{
+			key = GetProfileKey();
+			if (key == null)
+				return null;
+			SetRunOwnerKey(run, key);
+			ShopSaveLoader.Trace($"Run has no owner profile flag (saved by 0.2.12 or earlier); assigned it to the current profile {key}");
+		}
+
+		if (_activeRunProfileKey != key)
+		{
+			ShopSaveLoader.Trace($"Active run profile key {_activeRunProfileKey ?? "<none>"} -> {key} (current profile {GetProfileKey() ?? "<none>"})");
+			_activeRunProfileKey = key;
+		}
+		return key;
+	}
+
+	/// <summary>
+	/// A new run belongs to the profile it was started with.
+	/// </summary>
+	internal void OnRunStarted(GameRunController run, ProfileSaveData owner)
+	{
+		ClearActiveRunProfileKey("run start");
+		SetRunOwnerKey(run, ProfileKey(owner) ?? GetProfileKey());
+		ResolveRunOwnerKey(run);
+	}
+
+	/// <summary>
+	/// A restored run keeps its saved owner; a legacy run without one gets the current profile.
+	/// </summary>
+	internal void OnRunRestored(GameRunController run)
+	{
+		ClearActiveRunProfileKey("run restore");
+		ResolveRunOwnerKey(run);
+	}
+
+	internal void ClearActiveRunProfileKey(string reason)
+	{
+		if (_activeRunProfileKey == null)
+			return;
+		ShopSaveLoader.Trace($"Cleared active run profile key {_activeRunProfileKey} ({reason})");
 		_activeRunProfileKey = null;
 	}
 
+	/// <summary>
+	/// The shop of the profile that owns run (see ResolveRunOwnerKey).
+	/// </summary>
+	public LiteShop GetShopForRun(GameRunController run) => GetShopForProfileKey(ResolveRunOwnerKey(run));
+
 	public void Save(int amount, bool ending = true)
 	{
-		var shop = GetShopForProfileKey(GetActiveRunProfileKey());
-		if (shop == null || !shop.ChallengerModeEnabled)
-			return;
+		var gm = GameMaster.Instance;
+		Save(amount, gm != null ? gm.CurrentGameRun : null, ending);
+	}
 
-		int adjusted = ApplyBluePointMults(shop, GameMaster.Instance?.CurrentGameRun, amount);
-		if (adjusted > 0)
-			shop.AddMoney(adjusted);
+	/// <summary>
+	/// Banks amount Blue Points, after the owner's multipliers, to the profile that owns gameRun.
+	/// </summary>
+	public void Save(int amount, GameRunController gameRun, bool ending = true)
+	{
+		string key = ResolveRunOwnerKey(gameRun);
+		var shop = GetShopForProfileKey(key);
+		if (shop != null && shop.ChallengerModeEnabled)
+		{
+			int adjusted = ApplyBluePointMults(shop, gameRun, amount);
+			if (adjusted > 0)
+			{
+				shop.AddMoney(adjusted);
+				ShopSaveLoader.Trace($"Banked {adjusted} Blue Points (base {amount}) to {key}; current profile {GetProfileKey() ?? "<none>"}, money now {shop.MoneyOwned}");
+			}
+		}
 		if (ending)
-			ClearActiveRunProfileKey();
+			ClearActiveRunProfileKey("run end");
 	}
 
 	private static int ApplyBluePointMults(LiteShop shop, GameRunController gameRun, int bluePoint)

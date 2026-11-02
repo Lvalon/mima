@@ -28,9 +28,16 @@ public static class GameMaster_EndGameStatistics_Patch
 		SystemBoard_OnEnterGameRun_Patch.DisableWatermarkAll();
 		if (__result == null)
 			return;
-		var shop = MiniTracker.Instance?.CustomGrSaveData?.GetShopForCurrentProfile();
-		if (shop == null || !shop.ChallengerModeEnabled)
+		var customData = MiniTracker.Instance.CustomGrSaveData;
+		if (customData == null)
 			return;
+		// The run's owner, not the current profile: Blue Points go to the profile that played the run.
+		var shop = customData.GetShopForRun(gameRun);
+		if (shop == null || !shop.ChallengerModeEnabled)
+		{
+			customData.ClearActiveRunProfileKey("run end, nothing banked");
+			return;
+		}
 
 		var enTable = LocalisationKeys.GetTable(Locale.En);
 		var ids = new HashSet<string>(StringComparer.Ordinal);
@@ -52,7 +59,7 @@ public static class GameMaster_EndGameStatistics_Patch
 			AddBonusScores(__result, gameRun, resultType, shop, ids);
 
 		shop.BPProgress = [];
-		MiniTracker.Instance.CustomGrSaveData.Save(__result.BluePoint);
+		customData.Save(__result.BluePoint, gameRun);
 		ShopSaveLoader.Save("EndGameStatistics");  //save progress on the spot
 	}
 
