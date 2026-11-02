@@ -291,7 +291,10 @@ public static class ExquestingUiLauncher
 				}
 
 				exhibit.CleanupStaleQuestRequirements();
-				ShopModHandlers.PersistQuestProgress(GameMaster.Instance?.CurrentGameRun, exhibit.PendingQuestProgress, syncToLiteShop: false, saveToDisk: false, questRequirements: exhibit.QuestRequirements, completedQuestCards: exhibit.CompletedQuestCards, writeToRunFlags: false, questModifiers: exhibit.PendingQuestModifiers);
+				// Write the run flags now, so the quest record sits in the same game
+				// state as the deck change above: both reach disk at the next game
+				// save and both rewind on Restart station or quit-and-Continue.
+				ShopModHandlers.PersistQuestProgress(GameMaster.Instance?.CurrentGameRun, exhibit.PendingQuestProgress, syncToLiteShop: false, saveToDisk: false, questRequirements: exhibit.QuestRequirements, completedQuestCards: exhibit.CompletedQuestCards, writeToRunFlags: true, questModifiers: exhibit.PendingQuestModifiers);
 			}
 		}
 		finally
