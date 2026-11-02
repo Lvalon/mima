@@ -10,17 +10,14 @@ using lvalonmima.Source.Patches;
 namespace lvalonmima.Exhibits;
 
 // The reasons SyncPendingQuestProgressFromPersistence can be called for. Not
-// every value is used by a caller today (OnExhibitClicked, CreateExhibitWidget
-// aren't currently passed anywhere), but the method's branches still check for
-// them, so they're kept rather than pruned as dead — that's a separate, larger
-// decision than this 1:1 string-to-enum substitution.
+// every value is used by a caller today (OnExhibitClicked isn't currently passed
+// anywhere), but the method's branches still check for it, so it's kept.
 public enum QuestSyncReason
 {
 	OnAdded,
 	OnAddedDeferredAfterRestoreHydrateOnly,
 	OnStationEntered,
 	OnExhibitClicked,
-	CreateExhibitWidget,
 }
 
 public sealed partial class exquesting : Exhibit
@@ -71,8 +68,6 @@ public sealed partial class exquesting : Exhibit
 		QuestRequirements.Clear();
 		CompletedQuestCards.Clear();
 		PendingQuestModifiers.Clear();
-		bool useRestoreSnapshot = reason == QuestSyncReason.CreateExhibitWidget
-			&& ShopSaveLoader.ConsumePendingRestoreQuestHydration();
 
 		Dictionary<string, int> runProgress = ShopModHandlers.ReadQuestProgressFromRun(GameRun);
 		Dictionary<string, string> runRequirements = ShopModHandlers.ReadQuestRequirementsFromRun(GameRun);
@@ -91,30 +86,7 @@ public sealed partial class exquesting : Exhibit
 		string sourceName = "RunFlags";
 		bool allowLiteFallback = reason != QuestSyncReason.OnStationEntered;
 
-		if (useRestoreSnapshot)
-		{
-			Dictionary<string, int> liteProgress = ShopModHandlers.ReadQuestProgressFromLiteShop();
-			Dictionary<string, string> liteRequirements = ShopModHandlers.ReadQuestRequirementsFromLiteShop();
-			HashSet<string> liteCompleted = ShopModHandlers.ReadCompletedQuestCardsFromLiteShop();
-
-			bool runHasQuestState = runProgress.Count > 0 || runRequirements.Count > 0 || runCompleted.Count > 0;
-			if (runHasQuestState)
-			{
-				sourceProgress = runProgress;
-				sourceRequirements = runRequirements;
-				sourceCompleted = runCompleted;
-				sourceName = "RunFlagsRestoreSnapshot";
-			}
-			else
-			{
-				sourceProgress = liteProgress;
-				sourceRequirements = liteRequirements;
-				sourceCompleted = liteCompleted;
-				sourceName = "LiteShopRestoreFallback";
-			}
-		}
-
-		if (!useRestoreSnapshot && allowLiteFallback && sourceProgress.Count == 0 && sourceCompleted.Count == 0)
+		if (allowLiteFallback && sourceProgress.Count == 0 && sourceCompleted.Count == 0)
 		{
 			Dictionary<string, int> liteProgress = ShopModHandlers.ReadQuestProgressFromLiteShop();
 			Dictionary<string, string> liteRequirements = ShopModHandlers.ReadQuestRequirementsFromLiteShop();
@@ -336,14 +308,20 @@ public sealed partial class exquesting : Exhibit
 	protected override void OnAdded(PlayerUnit player)
 	{
 		if (ShopSaveLoader.GetGameRunRestoreInProgress())
+		{
 			DeferredRestoreHydration.Add(this);
+			ShopSaveLoader.Trace("Quest Board hydration deferred until GameRunController.Restore finishes");
+		}
 		else
 			SyncPendingQuestProgressFromPersistence(QuestSyncReason.OnAdded);
 
 		HandleGameRunEvent(GameRun.StationEntered, OnStationEntered, GameEventPriority.Lowest);
 	}
 
-	public static void ProcessDeferredRestoreHydration()
+	// Hydrates the exhibits deferred during a Restore that returned restoredRun.
+	// Exhibits that belong to any other run are dropped, never synced: syncing
+	// them would write a dead run's quest state into the profile's quest backup.
+	public static void ProcessDeferredRestoreHydration(GameRunController restoredRun)
 	{
 		if (DeferredRestoreHydration.Count == 0)
 			return;
@@ -351,16 +329,32 @@ public sealed partial class exquesting : Exhibit
 		exquesting[] pending = [.. DeferredRestoreHydration];
 		DeferredRestoreHydration.Clear();
 
+		int stale = 0;
 		for (int i = 0; i < pending.Length; i++)
 		{
 			exquesting exhibit = pending[i];
 			if (exhibit == null)
+				continue;
+
+			if (restoredRun == null || exhibit.GameRun != restoredRun)
 			{
+				stale++;
 				continue;
 			}
 
 			exhibit.SyncPendingQuestProgressFromPersistence(QuestSyncReason.OnAddedDeferredAfterRestoreHydrateOnly);
 		}
+
+		if (stale > 0)
+			BepinexPlugin.log?.LogWarning($"[ShopSave] Dropped {stale} deferred Quest Board hydration(s) that belong to a run other than the one just restored.");
+	}
+
+	// Empties the deferred list without syncing anything. Returns how many were dropped.
+	public static int DiscardDeferredRestoreHydration()
+	{
+		int count = DeferredRestoreHydration.Count;
+		DeferredRestoreHydration.Clear();
+		return count;
 	}
 
 	private void OnStationEntered(StationEventArgs args)
