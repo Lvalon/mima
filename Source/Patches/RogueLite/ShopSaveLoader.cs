@@ -19,6 +19,10 @@ public static class ShopSaveLoader
 {
 	private const string SaveFileName = "lvalonmimaShopSave.txt";
 	private static bool _loadFailed;
+	private static bool _blockedSaveWarned;
+	// Single on/off switch for the load/save and profile-change trace lines.
+	// Errors and warnings are logged either way.
+	public static bool TraceEnabled = true;
 	private static bool _pendingRestoreQuestHydration;
 	public static bool IsGameRunRestoreInProgress { get; private set; }
 
@@ -92,12 +96,56 @@ public static class ShopSaveLoader
 		return IsGameRunRestoreInProgress;
 	}
 
-	public static void Save()
+	internal static void Trace(string message)
+	{
+		if (TraceEnabled)
+			BepinexPlugin.log?.LogInfo("[ShopSave] " + message);
+	}
+
+	private static long GetFileLength(string filePath)
+	{
+		try
+		{
+			return File.Exists(filePath) ? new FileInfo(filePath).Length : -1;
+		}
+		catch (Exception)
+		{
+			return -1;
+		}
+	}
+
+	private static string DescribeState(LiteProfileSaveData csd)
+	{
+		if (csd == null)
+			return "no save data registered";
+
+		var gm = GameMaster.Instance;
+		var key = LiteProfileSaveData.ProfileKey(gm != null ? gm.CurrentProfile : null);
+		var shopText = "no shop for key";
+		if (key != null && csd.Saves != null && csd.Saves.TryGetValue(key, out var shop) && shop != null)
+		{
+			int tiers = shop.Items != null ? shop.Items.Values.Where(i => i != null).Sum(i => i.CurrentTier) : 0;
+			shopText = $"money={shop.MoneyOwned}, tiers={tiers}, challenger={shop.ChallengerModeEnabled}";
+		}
+
+		return $"key={key ?? "<no profile>"}, activeRunKey={csd.ActiveRunProfileKey ?? "<none>"}, {shopText}, keysInSave={csd.Saves?.Count ?? 0}";
+	}
+
+	public static void Save(string reason)
 	{
 		var filePath = GetSaveFilePath();
 		if (_loadFailed && File.Exists(filePath))
+		{
+			if (!_blockedSaveWarned)
+			{
+				_blockedSaveWarned = true;
+				BepinexPlugin.log?.LogWarning($"[ShopSave] Save skipped ({reason}): an earlier load of {SaveFileName} failed, so the file is left untouched and changes from this session are not saved. (Logged once per session.)");
+			}
+			Trace($"Save skipped ({reason}): earlier load failed. {DescribeState(MiniTracker.Instance.CustomGrSaveData)}");
 			return;
+		}
 
+		long lengthBefore = GetFileLength(filePath);
 		var customData = MiniTracker.Instance.CustomGrSaveData;
 		var csd = customData;
 		var shop = customData?.GetShopForCurrentProfile();
@@ -162,10 +210,11 @@ public static class ShopSaveLoader
 			var encryptedData = Encrypt(data);
 
 			WriteSaveData(SaveFileName, encryptedData);
+			Trace($"Save ({reason}): {DescribeState(csd)}, file {lengthBefore} -> {GetFileLength(filePath)} bytes (wrote {encryptedData.Length})");
 		}
 		catch (Exception e)
 		{
-			BepinexPlugin.log?.LogDebug(e);
+			BepinexPlugin.log?.LogError($"[ShopSave] Save failed ({reason}), file {lengthBefore} -> {GetFileLength(filePath)} bytes: {e}");
 		}
 		finally
 		{
@@ -186,6 +235,7 @@ public static class ShopSaveLoader
 		if (customData == null)
 		{
 			_pendingRestoreQuestHydration = false;
+			Trace($"Load ({location}) skipped: no save data registered");
 			return;
 		}
 		if (MiniTracker.Instance.CustomGrSaveData == null)
@@ -197,9 +247,11 @@ public static class ShopSaveLoader
 		if (!File.Exists(filePath))
 		{
 			_pendingRestoreQuestHydration = false;
+			Trace($"Load ({location}): no file at {filePath}. {DescribeState(csd)}");
 			return;
 		}
 
+		long fileLength = GetFileLength(filePath);
 		try
 		{
 			var deBuilder = new DeserializerBuilder().IgnoreUnmatchedProperties();
@@ -219,13 +271,15 @@ public static class ShopSaveLoader
 				}
 			}
 
-			loadedData.Restore();
+			loadedData.Restore($"{location}, file {fileLength} bytes");
 			_loadFailed = false;
+			Trace($"Load ({location}): file {fileLength} bytes, {loadedData.Saves?.Count ?? 0} keys on disk. {DescribeState(MiniTracker.Instance.CustomGrSaveData)}");
 		}
-		catch (Exception)
+		catch (Exception e)
 		{
 			_loadFailed = true;
 			_pendingRestoreQuestHydration = false;
+			BepinexPlugin.log?.LogError($"[ShopSave] Load failed ({location}), file {fileLength} bytes; saving is blocked until a later load succeeds: {e}");
 		}
 	}
 }
@@ -254,7 +308,7 @@ class GameRunController_Save_Patch
 
 		customData.Save(0, false);
 
-		ShopSaveLoader.Save();
+		ShopSaveLoader.Save("GameRunController.Save");
 	}
 }
 
@@ -310,11 +364,11 @@ public static class CoAbandonGameRun_Postfix
 			customData.Save(0, false);
 
 			// Serialize to disk
-			ShopSaveLoader.Save();
+			ShopSaveLoader.Save("GameMaster.CoAbandonGameRun");
 		}
 		catch (Exception e)
 		{
-			BepinexPlugin.log?.LogDebug(e);
+			BepinexPlugin.log?.LogWarning(e);
 		}
 	}
 }

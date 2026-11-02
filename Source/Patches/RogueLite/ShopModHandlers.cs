@@ -236,7 +236,7 @@ public partial class ShopModHandlers
 		shop.CurrentRunCompletedQuests.Add(questCardId);
 
 		customData.Save(0, false);
-		ShopSaveLoader.Save();
+		ShopSaveLoader.Save("RecordRewardedQuestCompletion");
 	}
 
 	public static void ResetCurrentRunRewardedQuestCompletions(LiteShop shop)
@@ -434,7 +434,7 @@ public partial class ShopModHandlers
 		if (saveToDisk)
 		{
 			MiniTracker.Instance?.CustomGrSaveData?.Save(0, false);
-			ShopSaveLoader.Save();
+			ShopSaveLoader.Save("PersistQuestProgress");
 		}
 	}
 

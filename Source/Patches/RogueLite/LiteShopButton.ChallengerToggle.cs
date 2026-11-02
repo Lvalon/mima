@@ -157,7 +157,7 @@ public partial class LiteShopButton
 			UpdateMainMenuButtonLabel();
 
 			// Save immediately to persist changes
-			ShopSaveLoader.Save();
+			ShopSaveLoader.Save("ShopPanel.ChallengerToggle");
 
 		}
 		catch (Exception e)

@@ -143,7 +143,7 @@ public static class GameMaster_EndGameStatistics_Patch
 
 		shop.BPProgress = [];
 		MiniTracker.Instance.CustomGrSaveData.Save(__result.BluePoint);
-		ShopSaveLoader.Save();  //save progress on the spot
+		ShopSaveLoader.Save("EndGameStatistics");  //save progress on the spot
 	}
 
 	private static void EnsureLocalizationKey(string key)
@@ -213,7 +213,7 @@ public static class GameResultPanel_CustomLocalizationAsync_Patch
 		}
 
 		MiniTracker.Instance.CustomGrSaveData.Save(0, false);
-		ShopSaveLoader.Save();
+		ShopSaveLoader.Save("GameResultPanel.CustomLocalizationAsync");
 	}
 
 	private static string GetLoc(string key) => LocalisationKeys.Get(key, "<{0}>");
@@ -253,11 +253,11 @@ public static class GameMaster_AppendGameRunHistory_Patch
 
 			ShopModHandlers.ResetCurrentRunRewardedQuestCompletions(shop);
 			MiniTracker.Instance?.CustomGrSaveData?.Save(0, false);
-			ShopSaveLoader.Save();
+			ShopSaveLoader.Save("AppendGameRunHistory");
 		}
 		catch (Exception e)
 		{
-			BepinexPlugin.log?.LogDebug(e);
+			BepinexPlugin.log?.LogWarning(e);
 		}
 	}
 }

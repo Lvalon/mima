@@ -405,7 +405,7 @@ public partial class ShopModHandlers
 		shop.BPProgress["level"] = stationLevel;
 
 		MiniTracker.Instance.CustomGrSaveData.Save(0, false);
-		ShopSaveLoader.Save();  //save progress on the spot
+		ShopSaveLoader.Save("StationEntered");  //save progress on the spot
 
 		if (isFirstRunEntryStation)
 		{

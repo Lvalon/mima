@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using LBoL.Core;
 using LBoL.Core.SaveData;
@@ -52,6 +53,8 @@ public class LiteProfileSaveData
 	}
 	public Dictionary<string, LiteShop> Saves = [];
 	private string _activeRunProfileKey;
+	[YamlIgnore]
+	internal string ActiveRunProfileKey => _activeRunProfileKey;
 
 	// Shared with LiteShopButton.cs, which independently resolves its own
 	// `profile` and built this same key inline.
@@ -70,6 +73,7 @@ public class LiteProfileSaveData
 		{
 			shop = new LiteShop();
 			Saves[key] = shop;
+			LogCreatedShop(key, "current profile");
 		}
 
 		return shop;
@@ -84,9 +88,16 @@ public class LiteProfileSaveData
 		{
 			shop = new LiteShop();
 			Saves[key] = shop;
+			LogCreatedShop(key, "active run profile");
 		}
 
 		return shop;
+	}
+
+	private void LogCreatedShop(string key, string lookup)
+	{
+		var others = string.Join(", ", Saves.Keys.Where(k => k != key));
+		BepinexPlugin.log?.LogWarning($"[ShopSave] Created new empty shop for key {key} ({lookup}); it was not in the save. Other keys: [{others}]");
 	}
 
 	private string GetActiveRunProfileKey()
@@ -143,7 +154,7 @@ public class LiteProfileSaveData
 	/// <summary>
 	/// Restore merges deserialized data into the active LiteProfileSaveData instance (if present), or registers itself as active.
 	/// </summary>
-	public void Restore()
+	public void Restore(string context)
 	{
 		try
 		{
@@ -160,8 +171,9 @@ public class LiteProfileSaveData
 			foreach (var kv in Saves)
 				active.Saves[kv.Key] = LiteShop.ReconcileWithDefaults(kv.Value);
 		}
-		catch (Exception)
+		catch (Exception e)
 		{
+			BepinexPlugin.log?.LogError($"[ShopSave] Restore failed ({context}); shops read from disk may not have been applied: {e}");
 		}
 	}
 

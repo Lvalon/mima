@@ -459,7 +459,7 @@ public partial class LiteShopButton
 					// Refresh the UI to show updated state
 					ShowLiteShopCategory(panel, _currentCategoryId);
 					// Save immediately to persist changes
-					ShopSaveLoader.Save();
+					ShopSaveLoader.Save("ShopPanel.Purchase");
 				}
 				else
 				{
@@ -498,7 +498,7 @@ public partial class LiteShopButton
 				// Refresh the UI to show updated state
 				ShowLiteShopCategory(panel, _currentCategoryId);
 				// Save immediately to persist changes
-				ShopSaveLoader.Save();
+				ShopSaveLoader.Save("ShopPanel.Refund");
 			}
 			else
 			{

@@ -255,7 +255,7 @@ public partial class LiteShopButton
 			clone.gameObject.SetActive(false);
 		});
 
-		ShopSaveLoader.Save();
+		ShopSaveLoader.Save("OpenShopUI");
 
 		clone.Show(); // triggers OnShowing, postfix rebuilds UI
 	}
@@ -277,6 +277,6 @@ public partial class LiteShopButton
 
 		menuShop.ChallengerModeEnabled = !menuShop.ChallengerModeEnabled;
 		UpdateMainMenuButtonLabel();
-		ShopSaveLoader.Save();
+		ShopSaveLoader.Save("ToggleChallengerModeFromMenu");
 	}
 }
