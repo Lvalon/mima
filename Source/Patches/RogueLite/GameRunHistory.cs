@@ -243,7 +243,7 @@ public static class GameMaster_AppendGameRunHistory_Patch
 		}
 		catch (Exception e)
 		{
-			BepinexPlugin.log?.LogWarning(e);
+			BepinexPlugin.log?.LogWarning($"[ShopSave] AppendGameRunHistory: recording the run's history or clearing the quest backup failed, so the history labels may be missing and the old quest backup may leak into the next run: {e}");
 		}
 	}
 

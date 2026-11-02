@@ -11,7 +11,6 @@ using LBoL.Presentation;
 using LBoL.Presentation.UI;
 using LBoL.Presentation.UI.Dialogs;
 using LBoL.Presentation.UI.Panels;
-using YamlDotNet.RepresentationModel;
 using YamlDotNet.Serialization;
 using static LBoL.Presentation.GameMaster;
 using lvalonmima.Exhibits;
@@ -34,12 +33,13 @@ public static class ShopSaveLoader
 	// together with a new step in Migrate whenever a serialized field is
 	// renamed or reshaped.
 	internal const int CurrentSchemaVersion = 1;
-	// Set when no readable copy was found while this file exists; saves are
-	// skipped until a later load succeeds, so the file stays recoverable.
+	// Set by a load that found an unreadable copy and could not move it aside,
+	// so the next save would overwrite the only copy of that data. Saves are
+	// skipped while it is set. Every load clears it before it looks at the
+	// files, so it never outlasts the session; the next launch tries the move
+	// again.
 	private static string _saveBlockedBy;
-	private static bool _legacyIgnoredLogged;
-	private static bool _blockedSaveWarned;
-	private static bool _replaceFallbackWarned;
+	private static readonly HashSet<string> LoggedOnce = new(StringComparer.Ordinal);
 	private static MessageContent _pendingLoadProblemDialog;
 	private static bool _loadProblemDialogShown;
 	// Single on/off switch for the load/save and profile-change trace lines.
@@ -141,11 +141,8 @@ public static class ShopSaveLoader
 		}
 		catch (Exception e)
 		{
-			if (!_replaceFallbackWarned)
-			{
-				_replaceFallbackWarned = true;
+			if (Once("File.Replace fallback"))
 				BepinexPlugin.log?.LogWarning($"[ShopSave] File.Replace failed, using delete-and-move instead (logged once per session): {e.Message}");
-			}
 			// Replace can fail after it has already moved the old file to .bak,
 			// so only move what is still there.
 			if (File.Exists(filePath))
@@ -174,6 +171,10 @@ public static class ShopSaveLoader
 			BepinexPlugin.log?.LogInfo("[ShopSave] " + message);
 	}
 
+	// True the first time it is called with id in this session, for lines that
+	// are logged once per session.
+	internal static bool Once(string id) => LoggedOnce.Add(id);
+
 	private static long GetFileLength(string filePath)
 	{
 		try
@@ -191,14 +192,10 @@ public static class ShopSaveLoader
 		if (csd == null)
 			return "no save data registered";
 
-		var gm = GameMaster.Instance;
-		var key = LiteProfileSaveData.ProfileKey(gm != null ? gm.CurrentProfile : null);
+		var key = LiteProfileSaveData.CurrentProfileKey();
 		var shopText = "no shop for key";
 		if (key != null && csd.Saves != null && csd.Saves.TryGetValue(key, out var shop) && shop != null)
-		{
-			int tiers = shop.Items != null ? shop.Items.Values.Where(i => i != null).Sum(i => i.CurrentTier) : 0;
-			shopText = $"money={shop.MoneyOwned}, tiers={tiers}, challenger={shop.ChallengerModeEnabled}";
-		}
+			shopText = $"money={shop.MoneyOwned}, tiers={shop.TierCount()}, challenger={shop.ChallengerModeEnabled}";
 
 		return $"key={key ?? "<no profile>"}, activeRunKey={csd.ActiveRunProfileKey ?? "<none>"}, {shopText}, keysInSave={csd.Saves?.Count ?? 0}";
 	}
@@ -208,12 +205,9 @@ public static class ShopSaveLoader
 		var filePath = GetSaveFilePath();
 		if (_saveBlockedBy != null && File.Exists(_saveBlockedBy))
 		{
-			if (!_blockedSaveWarned)
-			{
-				_blockedSaveWarned = true;
-				BepinexPlugin.log?.LogWarning($"[ShopSave] Save skipped ({reason}): no readable copy of {Path.GetFileName(_saveBlockedBy)} could be loaded, so the file is left untouched and changes from this session are not saved. (Logged once per session.)");
-			}
-			Trace($"Save skipped ({reason}): earlier load failed. {DescribeState(MiniTracker.Instance.CustomGrSaveData)}");
+			if (Once("save blocked"))
+				BepinexPlugin.log?.LogWarning($"[ShopSave] Save skipped ({reason}): the unreadable {Path.GetFileName(_saveBlockedBy)} could not be moved aside, so it is left untouched and changes from this session are not saved. (Logged once per session.)");
+			Trace($"Save skipped ({reason}): an unreadable copy could not be moved aside. {DescribeState(MiniTracker.Instance.CustomGrSaveData)}");
 			return;
 		}
 
@@ -301,82 +295,215 @@ public static class ShopSaveLoader
 		}
 	}
 
-	public static void Load(string location)
+	// Load order:
+	// - No file of the .sav family (.sav, .sav.tmp, .sav.bak) exists: the legacy
+	//   .txt family is read (LoadWithoutSaveFile).
+	// - The .sav and the legacy .txt both exist and the .txt is newer: an older
+	//   build saved after this one (a downgrade), so the .txt is read and copied
+	//   to the .sav name.
+	// - Otherwise the .sav family is read, newest copy first. Unreadable copies
+	//   are moved to .corrupt-<ts>. With no readable copy, the legacy .txt family
+	//   is the last resort, and after that the shop starts empty.
+	// Saving works after every outcome, except for the rest of the session when
+	// an unreadable copy could not be moved aside.
+	public static void Load(string reason)
 	{
 		var customData = MiniTracker.Instance.CustomGrSaveData ?? MiniTracker.LoadedFromDiskCustomGrSaveData;
 		if (customData == null)
 		{
-			Trace($"Load ({location}) skipped: no save data registered");
+			Trace($"Load ({reason}) skipped: no save data registered");
 			return;
 		}
 		if (MiniTracker.Instance.CustomGrSaveData == null)
 			MiniTracker.Instance.SetActive(customData);
 		var csd = customData;
+		_saveBlockedBy = null;
 
 		var filePath = GetSaveFilePath();
 		var tempPath = GetTempFilePath(filePath);
 		var backupPath = GetBackupFilePath(filePath);
-		bool mainExists = File.Exists(filePath);
-
 		var legacyPath = GetLegacySaveFilePath();
+		bool mainExists = File.Exists(filePath);
 
 		if (!mainExists && !File.Exists(tempPath) && !File.Exists(backupPath))
 		{
-			if (LoadLegacy(csd, filePath, legacyPath, location))
-				return;
-			csd.MarkFileLoaded();
-			Trace($"Load ({location}): no file at {filePath}. {DescribeState(csd)}");
+			LoadWithoutSaveFile(csd, filePath, legacyPath, reason);
+			TryShowPendingLoadProblemDialog();
 			return;
 		}
 
-		if (File.Exists(legacyPath))
-			LogLegacyIgnoredOnce(filePath, legacyPath);
-
-		if (mainExists && TryReadSaveFile(csd, filePath, location, out var loadedData, out _))
+		if (mainExists && LoadNewerLegacy(csd, filePath, legacyPath, reason))
 		{
-			ApplyLoaded(loadedData, filePath, location);
 			TryShowPendingLoadProblemDialog();
 			return;
 		}
 
 		if (!mainExists)
-			BepinexPlugin.log?.LogWarning($"[ShopSave] Load ({location}): {filePath} is missing but a temp or backup copy exists; an earlier save was probably interrupted. Trying those.");
+			BepinexPlugin.log?.LogWarning($"[ShopSave] Load ({reason}): {filePath} is missing but a temp or backup copy exists; an earlier save was probably interrupted. Trying those.");
 
 		// The temp file is only a candidate when the main file is missing: then
 		// a swap was interrupted after the old file moved away, and the temp
 		// file was flushed before the swap began, so it is the newest copy.
+		var candidates = mainExists ? new[] { filePath, backupPath } : new[] { tempPath, backupPath };
 		var unreadable = new List<string>();
-		if (mainExists)
-			unreadable.Add(filePath);
-		var candidates = mainExists ? new[] { backupPath } : new[] { tempPath, backupPath };
-		string recoveredFrom = null;
-		byte[] recoveredBytes = null;
-		LiteProfileSaveData recoveredData = null;
-		foreach (var candidate in candidates)
+		if (TryReadFirst(csd, candidates, reason, unreadable, out var readFrom, out var loadedData, out var bytes) && readFrom == filePath)
 		{
-			if (!File.Exists(candidate))
-				continue;
-			if (TryReadSaveFile(csd, candidate, location, out recoveredData, out recoveredBytes))
-			{
-				recoveredFrom = candidate;
-				break;
-			}
-			unreadable.Add(candidate);
-		}
-
-		if (recoveredFrom == null && mainExists)
-		{
-			// Nothing to recover from: block saving so the unreadable file stays
-			// as it is and can still be recovered by hand.
-			_saveBlockedBy = filePath;
-			BepinexPlugin.log?.LogError($"[ShopSave] Load failed ({location}): no readable copy of {SaveFileName} was found. {filePath} is left untouched and saving is blocked until a later load succeeds.");
-			QueueLoadProblemDialog("Shop.SaveProblem.Unreadable", Path.GetFileName(filePath));
+			ApplyLoaded(loadedData, filePath, reason);
 			TryShowPendingLoadProblemDialog();
 			return;
 		}
 
 		// Saving resumes from here, so first move every unreadable copy to
 		// where later saves will not overwrite it.
+		var keptText = MoveAsideUnreadable(unreadable);
+
+		if (readFrom != null)
+		{
+			AdoptCopy(filePath, readFrom, loadedData, bytes, reason, legacy: false);
+			BepinexPlugin.log?.LogWarning($"[ShopSave] Load ({reason}) recovered from {readFrom}. Unreadable copies kept: {keptText}");
+			// A missing main file with a good temp or backup is an interrupted
+			// save, not a bad one, so the player is only told when a copy was
+			// unreadable.
+			if (unreadable.Count > 0)
+				QueueLoadProblemDialog(_saveBlockedBy != null ? "Shop.SaveProblem.Unreadable" : "Shop.SaveProblem.Recovered", keptText);
+			TryShowPendingLoadProblemDialog();
+			return;
+		}
+
+		// No copy of the .sav family is readable. The legacy family is older,
+		// but it is better than an empty shop.
+		var legacyUnreadable = new List<string>();
+		if (TryReadFirst(csd, LegacyCandidates(legacyPath), reason, legacyUnreadable, out readFrom, out loadedData, out bytes))
+		{
+			AdoptCopy(filePath, readFrom, loadedData, bytes, reason, legacy: true);
+			BepinexPlugin.log?.LogError($"[ShopSave] Load ({reason}): no readable copy of {SaveFileName} was found, so the shop was restored from legacy {readFrom}, which may be missing recent progress. Unreadable copies kept: {keptText}");
+			if (_saveBlockedBy != null)
+				QueueLoadProblemDialog("Shop.SaveProblem.Unreadable", keptText);
+			else
+				QueueLoadProblemDialog("Shop.SaveProblem.Legacy", keptText, Path.GetFileName(readFrom));
+			TryShowPendingLoadProblemDialog();
+			return;
+		}
+
+		StartFresh(csd, reason, $"no readable copy of {SaveFileName} or legacy {LegacySaveFileName} was found", keptText);
+		TryShowPendingLoadProblemDialog();
+	}
+
+	// Called only when no file of the .sav family exists. Reads the legacy .txt
+	// family (see LegacyCandidates) and writes the readable copy to the .sav
+	// name byte for byte, so later loads use it. No legacy file is ever
+	// modified, renamed or deleted, unreadable ones included: nothing writes the
+	// .txt names any more, so they cannot be overwritten either. With only
+	// unreadable legacy copies the shop starts empty in the .sav, and the next
+	// launch reads that .sav.
+	private static void LoadWithoutSaveFile(LiteProfileSaveData csd, string filePath, string legacyPath, string reason)
+	{
+		var unreadable = new List<string>();
+		bool read = TryReadFirst(csd, LegacyCandidates(legacyPath), reason, unreadable, out var readFrom, out var loadedData, out var bytes);
+		var unreadableText = unreadable.Count > 0 ? string.Join(", ", unreadable.Select(Path.GetFileName)) : "-";
+
+		if (read)
+		{
+			AdoptCopy(filePath, readFrom, loadedData, bytes, reason, legacy: true);
+			if (unreadable.Count > 0)
+			{
+				BepinexPlugin.log?.LogWarning($"[ShopSave] Load ({reason}) recovered from legacy {readFrom}. Unreadable legacy copies left in place: {unreadableText}");
+				QueueLoadProblemDialog("Shop.SaveProblem.Recovered", unreadableText);
+			}
+			return;
+		}
+
+		if (unreadable.Count == 0)
+		{
+			csd.MarkFileLoaded();
+			Trace($"Load ({reason}): no file at {filePath}. {DescribeState(csd)}");
+			return;
+		}
+
+		StartFresh(csd, reason, $"only unreadable copies of legacy {LegacySaveFileName} were found and {SaveFileName} does not exist yet; saves go to {SaveFileName} and the legacy files are left in place", unreadableText);
+	}
+
+	// When the legacy .txt was modified after the .sav, an older build of the
+	// mod (which only knows the .txt) saved after this one last did: the player
+	// downgraded and played. That .txt is then loaded and copied to the .sav
+	// name, as when no .sav exists. Returns false, and the .sav family is read
+	// as usual, when the .txt is not newer or cannot be read.
+	private static bool LoadNewerLegacy(LiteProfileSaveData csd, string filePath, string legacyPath, string reason)
+	{
+		if (!File.Exists(legacyPath))
+			return false;
+
+		DateTime saveTime, legacyTime;
+		try
+		{
+			saveTime = File.GetLastWriteTime(filePath);
+			legacyTime = File.GetLastWriteTime(legacyPath);
+		}
+		catch (Exception e)
+		{
+			BepinexPlugin.log?.LogWarning($"[ShopSave] Load ({reason}): could not compare the modified times of {SaveFileName} and legacy {LegacySaveFileName}; using {SaveFileName}: {e.Message}");
+			return false;
+		}
+
+		if (legacyTime <= saveTime)
+		{
+			if (Once("legacy ignored"))
+				Trace($"Both {SaveFileName} ({DescribeFile(filePath)}) and legacy {LegacySaveFileName} ({DescribeFile(legacyPath)}) exist; {SaveFileName} is newer and used, and the legacy file is ignored and left untouched. (Logged once per session.)");
+			return false;
+		}
+
+		BepinexPlugin.log?.LogWarning($"[ShopSave] Load ({reason}): legacy {LegacySaveFileName} (modified {legacyTime:yyyy-MM-dd HH:mm:ss}) is newer than {SaveFileName} (modified {saveTime:yyyy-MM-dd HH:mm:ss}), so an older build of the mod saved after this one. Loading the legacy file and copying it to {SaveFileName}; the previous {SaveFileName} becomes {Path.GetFileName(GetBackupFilePath(filePath))} until the next save replaces it.");
+		if (!TryReadSaveFile(csd, legacyPath, reason, out var loadedData, out var bytes))
+		{
+			BepinexPlugin.log?.LogWarning($"[ShopSave] Load ({reason}): the newer legacy {LegacySaveFileName} could not be read, so {SaveFileName} is used and progress saved by the older build is not loaded. The legacy file is left in place.");
+			return false;
+		}
+
+		AdoptCopy(filePath, legacyPath, loadedData, bytes, reason, legacy: true);
+		return true;
+	}
+
+	// Legacy .txt family, newest copy first, mirroring the .sav order: with the
+	// .txt present it is .txt, then .txt.bak (the save before it), then .txt.tmp
+	// (a write whose swap never ran; it may be torn, so it comes last); with the
+	// .txt missing, a swap was interrupted after the old file moved away, so
+	// .txt.tmp is the newest copy, then .txt.bak.
+	private static string[] LegacyCandidates(string legacyPath)
+	{
+		var legacyTempPath = GetTempFilePath(legacyPath);
+		var legacyBackupPath = GetBackupFilePath(legacyPath);
+		return File.Exists(legacyPath)
+			? [legacyPath, legacyBackupPath, legacyTempPath]
+			: [legacyTempPath, legacyBackupPath];
+	}
+
+	// Reads the candidates in order and stops at the first readable one.
+	// Missing candidates are skipped; unreadable ones are added to unreadable.
+	private static bool TryReadFirst(LiteProfileSaveData csd, IEnumerable<string> candidates, string reason, List<string> unreadable, out string readFrom, out LiteProfileSaveData loadedData, out byte[] bytes)
+	{
+		foreach (var candidate in candidates)
+		{
+			if (!File.Exists(candidate))
+				continue;
+			if (TryReadSaveFile(csd, candidate, reason, out loadedData, out bytes))
+			{
+				readFrom = candidate;
+				return true;
+			}
+			unreadable.Add(candidate);
+		}
+		readFrom = null;
+		loadedData = null;
+		bytes = null;
+		return false;
+	}
+
+	// Moves each unreadable copy to .corrupt-<ts>, where later saves will not
+	// overwrite it. A copy that cannot be moved would be overwritten by the
+	// next save, so saving is blocked for the rest of the session instead.
+	// Returns the names the copies are now kept under, for the log and dialog.
+	private static string MoveAsideUnreadable(List<string> unreadable)
+	{
 		var kept = new List<string>();
 		foreach (var path in unreadable)
 		{
@@ -389,130 +516,51 @@ public static class ShopSaveLoader
 			}
 			catch (Exception e)
 			{
-				BepinexPlugin.log?.LogError($"[ShopSave] Could not move unreadable {path} to {corruptPath}; the next save may overwrite it: {e}");
+				_saveBlockedBy ??= path;
+				kept.Add(Path.GetFileName(path));
+				BepinexPlugin.log?.LogError($"[ShopSave] Could not move unreadable {path} to {corruptPath}, so saving is off for this session to keep it from being overwritten: {e}");
 			}
 		}
-		var keptText = kept.Count > 0 ? string.Join(", ", kept) : "-";
-
-		if (recoveredFrom == null)
-		{
-			// Nothing was restored, so this counts as a load of an empty file.
-			_saveBlockedBy = null;
-			csd.MarkFileLoaded();
-			BepinexPlugin.log?.LogError($"[ShopSave] Load failed ({location}): no readable copy of {SaveFileName} was found; the shop starts empty and saving resumes. Unreadable copies kept: {keptText}");
-			QueueLoadProblemDialog("Shop.SaveProblem.Fresh", keptText);
-			TryShowPendingLoadProblemDialog();
-			return;
-		}
-
-		// Put the recovered copy back as the main file, byte for byte, so the
-		// next load reads it directly. The .bak is left as it is.
-		try
-		{
-			WriteFileAtomic(filePath, recoveredBytes);
-		}
-		catch (Exception e)
-		{
-			BepinexPlugin.log?.LogError($"[ShopSave] Could not write the copy recovered from {recoveredFrom} back to {filePath}; the next save will write it: {e}");
-		}
-
-		ApplyLoaded(recoveredData, recoveredFrom, location);
-		BepinexPlugin.log?.LogWarning($"[ShopSave] Load ({location}) recovered from {recoveredFrom}. Unreadable copies kept: {keptText}");
-		// A missing main file with a good temp or backup is an interrupted
-		// save, not a bad one, so the player is only told when a copy was
-		// unreadable.
-		if (unreadable.Count > 0)
-			QueueLoadProblemDialog("Shop.SaveProblem.Recovered", keptText);
-		TryShowPendingLoadProblemDialog();
+		return kept.Count > 0 ? string.Join(", ", kept) : "-";
 	}
 
-	// Called only when no file of the .sav family exists. Reads the legacy
-	// .txt family, newest copy first, mirroring the .sav order: with the .txt
-	// present it is .txt, then .txt.bak (the save before it), then .txt.tmp (a
-	// write whose swap never ran; it may be torn, so it comes last); with the
-	// .txt missing, a swap was interrupted after the old file moved away, so
-	// .txt.tmp is the newest copy, then .txt.bak. The readable copy is written
-	// to the .sav name byte for byte, so later loads use it. No legacy file is
-	// ever modified, renamed or deleted, unreadable ones included: nothing
-	// writes the .txt names any more, so they cannot be overwritten either.
-	// Returns false when no legacy file exists.
-	private static bool LoadLegacy(LiteProfileSaveData csd, string filePath, string legacyPath, string location)
+	// Nothing could be read: the shop starts empty and, unless an unreadable
+	// copy is still in the way, saving resumes. MarkFileLoaded lets lookups
+	// create shops again, so Blue Points can bank.
+	private static void StartFresh(LiteProfileSaveData csd, string reason, string what, string keptText)
 	{
-		var legacyTempPath = GetTempFilePath(legacyPath);
-		var legacyBackupPath = GetBackupFilePath(legacyPath);
-		bool legacyMainExists = File.Exists(legacyPath);
-		var candidates = legacyMainExists
-			? new[] { legacyPath, legacyBackupPath, legacyTempPath }
-			: new[] { legacyTempPath, legacyBackupPath };
-		if (!candidates.Any(File.Exists))
-			return false;
-
-		var unreadable = new List<string>();
-		string recoveredFrom = null;
-		byte[] recoveredBytes = null;
-		LiteProfileSaveData recoveredData = null;
-		foreach (var candidate in candidates)
+		csd.MarkFileLoaded(loadFailed: true);
+		if (_saveBlockedBy != null)
 		{
-			if (!File.Exists(candidate))
-				continue;
-			if (TryReadSaveFile(csd, candidate, location, out recoveredData, out recoveredBytes))
-			{
-				recoveredFrom = candidate;
-				break;
-			}
-			unreadable.Add(candidate);
+			BepinexPlugin.log?.LogError($"[ShopSave] Load failed ({reason}): {what}. The shop starts empty and is not saved this session. Unreadable copies: {keptText}");
+			QueueLoadProblemDialog("Shop.SaveProblem.Unreadable", keptText);
+			return;
 		}
-		var unreadableText = unreadable.Count > 0 ? string.Join(", ", unreadable.Select(Path.GetFileName)) : "-";
-
-		if (recoveredFrom == null)
-		{
-			if (legacyMainExists)
-			{
-				// Saving now would create a .sav that wins over the .txt on every
-				// later load, so it is blocked; the next launch tries the .txt again.
-				_saveBlockedBy = legacyPath;
-				BepinexPlugin.log?.LogError($"[ShopSave] Load failed ({location}): no readable copy of {LegacySaveFileName} was found and {SaveFileName} does not exist yet. {legacyPath} is left untouched and saving is blocked until a later load succeeds.");
-				QueueLoadProblemDialog("Shop.SaveProblem.Unreadable", LegacySaveFileName);
-			}
-			else
-			{
-				_saveBlockedBy = null;
-				csd.MarkFileLoaded();
-				BepinexPlugin.log?.LogError($"[ShopSave] Load failed ({location}): only unreadable leftovers of {LegacySaveFileName} were found; the shop starts empty and saving resumes to {SaveFileName}. The leftovers are left in place: {unreadableText}");
-				QueueLoadProblemDialog("Shop.SaveProblem.Fresh", unreadableText);
-			}
-			TryShowPendingLoadProblemDialog();
-			return true;
-		}
-
-		try
-		{
-			WriteFileAtomic(filePath, recoveredBytes);
-			BepinexPlugin.log?.LogInfo($"[ShopSave] Load ({location}): copied legacy {recoveredFrom} to {filePath}; the legacy file is left in place.");
-		}
-		catch (Exception e)
-		{
-			BepinexPlugin.log?.LogError($"[ShopSave] Could not copy legacy {recoveredFrom} to {filePath}; the next save will write it, and the legacy file is left in place: {e}");
-		}
-
-		ApplyLoaded(recoveredData, recoveredFrom, location);
-		if (unreadable.Count > 0)
-		{
-			BepinexPlugin.log?.LogWarning($"[ShopSave] Load ({location}) recovered from legacy {recoveredFrom}. Unreadable legacy copies left in place: {unreadableText}");
-			QueueLoadProblemDialog("Shop.SaveProblem.Recovered", unreadableText);
-		}
-		TryShowPendingLoadProblemDialog();
-		return true;
+		BepinexPlugin.log?.LogError($"[ShopSave] Load failed ({reason}): {what}. The shop starts empty and saving resumes. Unreadable copies kept: {keptText}");
+		QueueLoadProblemDialog("Shop.SaveProblem.Fresh", keptText);
 	}
 
-	// The .sav family is the live save once any of it exists; a .txt next to it
-	// is a leftover from before the rename (or from a downgrade) and is ignored.
-	private static void LogLegacyIgnoredOnce(string filePath, string legacyPath)
+	// Puts a copy read from another file (the .bak, the .tmp or a legacy file)
+	// in place as the .sav, byte for byte, so the next load reads it directly,
+	// then applies it. The source file is left as it is. While saving is
+	// blocked the copy is only applied: the write would rotate an unreadable
+	// copy that could not be moved aside.
+	private static void AdoptCopy(string filePath, string readFrom, LiteProfileSaveData loadedData, byte[] bytes, string reason, bool legacy)
 	{
-		if (_legacyIgnoredLogged)
-			return;
-		_legacyIgnoredLogged = true;
-		BepinexPlugin.log?.LogInfo($"[ShopSave] Both {SaveFileName} ({DescribeFile(filePath)}) and legacy {LegacySaveFileName} ({DescribeFile(legacyPath)}) exist; {SaveFileName} is used and the legacy file is ignored and left untouched. (Logged once per session.)");
+		var source = legacy ? "legacy " + readFrom : readFrom;
+		if (_saveBlockedBy == null)
+		{
+			try
+			{
+				WriteFileAtomic(filePath, bytes);
+				Trace($"Load ({reason}): copied {source} to {filePath}{(legacy ? "; the legacy file is left in place." : ".")}");
+			}
+			catch (Exception e)
+			{
+				BepinexPlugin.log?.LogError($"[ShopSave] Could not copy {source} to {filePath}; the next save will write it{(legacy ? ", and the legacy file is left in place" : "")}: {e}");
+			}
+		}
+		ApplyLoaded(loadedData, readFrom, reason);
 	}
 
 	private static string DescribeFile(string path)
@@ -530,17 +578,16 @@ public static class ShopSaveLoader
 		}
 	}
 
-	private static void ApplyLoaded(LiteProfileSaveData loadedData, string path, string location)
+	private static void ApplyLoaded(LiteProfileSaveData loadedData, string path, string reason)
 	{
 		long fileLength = GetFileLength(path);
-		loadedData.Restore($"{location}, {Path.GetFileName(path)} {fileLength} bytes");
-		_saveBlockedBy = null;
-		Trace($"Load ({location}): {Path.GetFileName(path)} {fileLength} bytes, {loadedData.Saves?.Count ?? 0} keys on disk. {DescribeState(MiniTracker.Instance.CustomGrSaveData)}");
+		loadedData.Restore($"{reason}, {Path.GetFileName(path)} {fileLength} bytes");
+		Trace($"Load ({reason}): {Path.GetFileName(path)} {fileLength} bytes, {loadedData.Saves?.Count ?? 0} keys on disk. {DescribeState(MiniTracker.Instance.CustomGrSaveData)}");
 	}
 
 	// Reads, decrypts, deserializes, migrates and reconciles one file. It does
 	// not touch the active save data; the caller restores the result.
-	private static bool TryReadSaveFile(LiteProfileSaveData csd, string path, string location, out LiteProfileSaveData loadedData, out byte[] rawBytes)
+	private static bool TryReadSaveFile(LiteProfileSaveData csd, string path, string reason, out LiteProfileSaveData loadedData, out byte[] rawBytes)
 	{
 		loadedData = null;
 		rawBytes = null;
@@ -556,13 +603,11 @@ public static class ShopSaveLoader
 			if (data == null)
 				throw new InvalidDataException("the file holds no save data");
 
-			Migrate(data, decodedYaml, path);
+			Migrate(data, path);
 
 			if (data.Saves != null)
-			{
 				foreach (var key in data.Saves.Keys.ToList())
 					data.Saves[key] = LiteShop.ReconcileWithDefaults(data.Saves[key]);
-			}
 
 			loadedData = data;
 			rawBytes = bytes;
@@ -570,17 +615,17 @@ public static class ShopSaveLoader
 		}
 		catch (Exception e)
 		{
-			BepinexPlugin.log?.LogError($"[ShopSave] Could not read {path} ({location}), {fileLength} bytes: {e}");
+			BepinexPlugin.log?.LogError($"[ShopSave] Could not read {path} ({reason}), {fileLength} bytes: {e}");
 			return false;
 		}
 	}
 
 	// Brings a freshly deserialized file up to CurrentSchemaVersion, one step
-	// per version. Each step gets the file's raw YAML as well as the typed
-	// data, because IgnoreUnmatchedProperties has already dropped any key the
-	// current classes no longer have: a rename reads the old key from `raw`
-	// and writes it into `data`.
-	private static void Migrate(LiteProfileSaveData data, string yaml, string path)
+	// per version, before it is merged into the active save data. A future step
+	// that renames a field needs the file's raw YAML too, because
+	// IgnoreUnmatchedProperties has already dropped any key the current classes
+	// no longer have.
+	private static void Migrate(LiteProfileSaveData data, string path)
 	{
 		int fromVersion = data.SchemaVersion;
 		if (fromVersion > CurrentSchemaVersion)
@@ -591,13 +636,12 @@ public static class ShopSaveLoader
 		if (fromVersion == CurrentSchemaVersion)
 			return;
 
-		var raw = ParseRawYaml(yaml);
 		while (data.SchemaVersion < CurrentSchemaVersion)
 		{
 			switch (data.SchemaVersion)
 			{
 				case 0:
-					MigrateV0ToV1(raw, data);
+					MigrateV0ToV1(data);
 					break;
 				default:
 					throw new InvalidDataException($"no migration from schema version {data.SchemaVersion}");
@@ -608,24 +652,17 @@ public static class ShopSaveLoader
 	}
 
 	// Version 0 is the unversioned file written by 0.2.12 and earlier. Its
-	// fields have the same names and shapes as version 1, so nothing needs
-	// converting; version 1 only adds the SchemaVersion key.
-	private static void MigrateV0ToV1(YamlMappingNode raw, LiteProfileSaveData data)
+	// fields have the same names and shapes as version 1; version 1 adds the
+	// SchemaVersion key and means the shops are keyed by "profile:{ts}" alone,
+	// so the legacy "profile:{ts}_{name}" keys are migrated here.
+	private static void MigrateV0ToV1(LiteProfileSaveData data)
 	{
-	}
-
-	private static YamlMappingNode ParseRawYaml(string yaml)
-	{
-		var stream = new YamlStream();
-		stream.Load(new StringReader(yaml));
-		if (stream.Documents.Count == 0)
-			return new YamlMappingNode();
-		return stream.Documents[0].RootNode as YamlMappingNode ?? new YamlMappingNode();
+		data.MigrateLegacyProfileKeys();
 	}
 
 	// Tells the player once per session, the same way the game reports a
 	// corrupted run save (GameMaster.ShowErrorDialogWithKey).
-	private static void QueueLoadProblemDialog(string subTextKey, string fileNames)
+	private static void QueueLoadProblemDialog(string subTextKey, params string[] arguments)
 	{
 		if (_loadProblemDialogShown || _pendingLoadProblemDialog != null)
 			return;
@@ -634,7 +671,7 @@ public static class ShopSaveLoader
 		{
 			TextKey = "Shop.SaveProblem",
 			SubTextKey = subTextKey,
-			SubTextArguments = [fileNames],
+			SubTextArguments = arguments,
 			Icon = MessageIcon.Error,
 		};
 	}
@@ -694,22 +731,43 @@ class GameRunController_Restore_Patch
 		ShopSaveLoader.SetGameRunRestoreInProgress(true);
 	}
 
+	// The mod's only Restore postfix, so the order of its steps is fixed here.
 	// Restore returns the new run before GameMaster.CurrentGameRun is set, so
 	// __result is the only reliable "current run" here.
+	// The game treats an exception from Restore as a corrupt run save and
+	// deletes game{i}.sav, so a bug in a step must not escape: each step
+	// catches and logs its own, and the run is kept.
 	static void Postfix(GameRunController __result)
 	{
-		ShopSaveLoader.Load("GameRunController.Restore");
-		exquesting.ProcessDeferredRestoreHydration(__result);
-		ShopModHandlers.ReapplyPerStageEffectsOnRestore(__result);
+		RunStep("load the shop file", () => ShopSaveLoader.Load("GameRunController.Restore"));
+		// A restored run keeps its saved owner profile; see RunOwnerPatches.cs.
+		RunStep("set the run's owner profile", () => MiniTracker.Instance.CustomGrSaveData?.OnRunRestored(__result));
+		RunStep("hydrate the Quest Board", () => exquesting.ProcessDeferredRestoreHydration(__result));
+		RunStep("re-apply per-stage shop effects", () => ShopModHandlers.ReapplyPerStageEffectsOnRestore(__result));
+		RunStep("re-add the wings map mode", () =>
+		{
+			var shop = MiniTracker.Instance?.CustomGrSaveData?.GetShopForCurrentProfile();
+			if (shop != null && shop.ChallengerModeEnabled && shop.GetItem("alter.wings")?.CurrentTier > 0)
+				GameMaster.Instance?.StartCoroutine(DeferredAddMapModeOverrider());
+		});
+	}
 
-		var shop = MiniTracker.Instance?.CustomGrSaveData?.GetShopForCurrentProfile();
-		if (shop != null && shop.ChallengerModeEnabled && shop.GetItem("alter.wings")?.CurrentTier > 0)
-			GameMaster.Instance?.StartCoroutine(DeferredAddMapModeOverrider());
+	private static void RunStep(string step, Action action)
+	{
+		try
+		{
+			action();
+		}
+		catch (Exception e)
+		{
+			BepinexPlugin.log?.LogError($"[ShopSave] GameRunController.Restore postfix could not {step}; the run is kept and continues without it: {e}");
+		}
 	}
 
 	// Harmony skips postfixes when the original throws (the game does that on a
 	// corrupt save and catches it itself), so the bookkeeping is cleared here.
-	// The exception is left to propagate to the game's own handler.
+	// The postfix catches its own exceptions, so __exception is always the
+	// game's; it is left to propagate to the game's own handler.
 	static void Finalizer(Exception __exception)
 	{
 		ShopSaveLoader.SetGameRunRestoreInProgress(false);
@@ -748,7 +806,7 @@ public static class CoAbandonGameRun_Postfix
 		}
 		catch (Exception e)
 		{
-			BepinexPlugin.log?.LogWarning(e);
+			BepinexPlugin.log?.LogWarning($"[ShopSave] Saving the shop after abandoning the run failed, so shop changes since the last save may be lost: {e}");
 		}
 	}
 }

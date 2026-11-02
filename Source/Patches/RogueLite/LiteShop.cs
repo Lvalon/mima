@@ -182,6 +182,10 @@ public class LiteShop //per-profile
 		MoneyOwned = startingMoney;
 	}
 
+	// Tiers bought across all items. A method, so the save file doesn't store it.
+	public int TierCount() =>
+		Items != null ? Items.Values.Where(i => i != null).Sum(i => i.CurrentTier) : 0;
+
 	public static LiteShop ReconcileWithDefaults(LiteShop saved)
 	{
 		var latest = new LiteShop

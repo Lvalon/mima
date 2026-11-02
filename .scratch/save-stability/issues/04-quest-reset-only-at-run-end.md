@@ -12,6 +12,8 @@
 - [x] Compiles with the command in the README
 - [x] In-game checklist appended (accept a quest, quit, Continue: progress still there; finish a run: backup cleared; change language mid-run: nothing reset)
 
+Note: a second clear, `ShopModHandlers.ResetQuestStateForNewRun` on entering the first station of a run (Challenger on), predates this branch and is still there; this ticket left it alone.
+
 ## In-game checklist
 
 Keep `ShopSaveLoader.TraceEnabled = true` (ticket 01) so every save logs `[ShopSave] Save (<reason>): ...` to `BepInEx/LogOutput.log`. Use a profile with Challenger mode on and the Quest Board. Back up `lvalonmimaShopSave.txt` first.

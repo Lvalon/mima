@@ -447,8 +447,7 @@ public partial class ShopModHandlers
 			return;
 
 		ApplyPerStageEffects(gameRun, shop);
-		if (ShopSaveLoader.TraceEnabled)
-			BepinexPlugin.log?.LogInfo($"[ShopSave] Restore re-applied per-stage effects: shop price x{LastAppliedShopDiscountFactor}, see draw order +{LastAppliedSeeOrder}, blank card +{LastAppliedBlankCard}");
+		ShopSaveLoader.Trace($"Restore re-applied per-stage effects: shop price x{LastAppliedShopDiscountFactor}, see draw order +{LastAppliedSeeOrder}, blank card +{LastAppliedBlankCard}");
 	}
 
 	// The LastApplied* values belong to one run; a new run starts with none applied.
@@ -457,9 +456,7 @@ public partial class ShopModHandlers
 		if (ReferenceEquals(CachedGameRun, gameRun))
 			return;
 		CachedGameRun = gameRun;
-		LastAppliedShopDiscountFactor = 1f;
-		LastAppliedSeeOrder = 0;
-		LastAppliedBlankCard = 0;
+		ResetLastAppliedPerStageEffects();
 	}
 
 	private static void UndoPerStageEffects(GameRunController gameRun)
@@ -469,6 +466,11 @@ public partial class ShopModHandlers
 		gameRun.CanViewDrawZoneActualOrder -= LastAppliedSeeOrder;
 		if (LastAppliedBlankCard > 0)
 			gameRun.RewardAndShopCardColorLimitFlag -= LastAppliedBlankCard;
+		ResetLastAppliedPerStageEffects();
+	}
+
+	private static void ResetLastAppliedPerStageEffects()
+	{
 		LastAppliedShopDiscountFactor = 1f;
 		LastAppliedSeeOrder = 0;
 		LastAppliedBlankCard = 0;

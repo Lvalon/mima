@@ -8,7 +8,7 @@
 
 - [x] One key function, timestamp-only; no other code builds profile keys by hand
 - [x] A 0.2.12 file with `profile:{ts}_{name}` keys loads with every shop intact under the new keys
-- [x] Several legacy keys for one timestamp: the richest is kept, the choice is logged, the rest stay in the file untouched (not deleted) so nothing is destroyed
+- [x] Several legacy keys for one timestamp: the richest is kept (most money plus Blue Points spent on bought tiers, then most tiers), the choice is logged, the rest stay in the file untouched (not deleted) so nothing is destroyed
 - [x] Renaming a profile keeps money, tiers, Challenger toggle and history labels
 - [x] No empty shop is created or saved for a profile before the file has loaded
 - [x] Compiles with the command in the README
@@ -17,7 +17,7 @@
 ## Implementation notes
 
 - `LiteProfileSaveData.ProfileKey` is now `profile:{CreationTimestamp}` and is the only place a key is built. `LiteShopButton.GetMenuShop` uses the new non-creating `FindShop(profile)`.
-- Migration runs in `Restore` for every legacy key whose stable key is missing, and again on any lookup that misses (same code path, `MigrateLegacyKeys`).
+- Migration runs in the schema step `ShopSaveLoader.MigrateV0ToV1` (`LiteProfileSaveData.MigrateLegacyProfileKeys`), on the data read from a version 0 file before it is merged into the active save, for every legacy key whose stable key is missing. Schema version 1 therefore means the keys are migrated, and a second load before the first save can't merge a legacy key back in. There is no lookup-time fallback: after the schema step no legacy key is left without its stable key.
 - "Richest" = `MoneyOwned` plus the BluePoints spent on bought tiers (sum of `TierCosts` up to `CurrentTier`), then tier count, then key order. Summing raw money and tier count would always favour money and rank a profile that spent everything below an empty one.
 - The chosen legacy entry is moved (removed from the dictionary and added under the new key), so it leaves the file in the same write that adds the new key. The other legacy entries are never touched.
 - Until the file has loaded (`Restore` ran, or `Load` found no file), a lookup that misses returns no shop instead of creating one. That needed one line in `ShopSaveLoader.Load`'s no-file branch (`csd.MarkFileLoaded()`).

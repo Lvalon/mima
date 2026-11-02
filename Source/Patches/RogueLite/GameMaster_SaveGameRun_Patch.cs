@@ -17,8 +17,6 @@ namespace lvalonmima.Source.Patches;
 [HarmonyPriority(Priority.Last)]
 class GameMaster_SaveGameRun_Patch
 {
-	private static bool _loggedCopy;
-
 	static void Postfix(GameMaster __instance, GameRunSaveData data)
 	{
 		// SaveGameRun returns early (keeping nothing) when no save slot is set.
@@ -27,9 +25,7 @@ class GameMaster_SaveGameRun_Patch
 
 		data.ExtraFlags = new HashSet<string>(data.ExtraFlags, data.ExtraFlags.Comparer);
 
-		if (_loggedCopy)
-			return;
-		_loggedCopy = true;
-		BepinexPlugin.log?.LogInfo($"[ShopSave] GameMaster.SaveGameRun: the kept game-run snapshot now holds its own copy of ExtraFlags ({data.ExtraFlags.Count} flags), so Restart station rewinds quest flags like Continue. (Logged once per session.)");
+		if (ShopSaveLoader.Once("SaveGameRun flag copy"))
+			ShopSaveLoader.Trace($"GameMaster.SaveGameRun: the kept game-run snapshot now holds its own copy of ExtraFlags ({data.ExtraFlags.Count} flags), so Restart station rewinds quest flags like Continue. (Logged once per session.)");
 	}
 }
