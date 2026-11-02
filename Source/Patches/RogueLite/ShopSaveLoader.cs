@@ -313,6 +313,7 @@ class GameRunController_Restore_Patch
 	{
 		ShopSaveLoader.Load("GameRunController.Restore");
 		exquesting.ProcessDeferredRestoreHydration(__result);
+		ShopModHandlers.ReapplyPerStageEffectsOnRestore(__result);
 
 		var shop = MiniTracker.Instance?.CustomGrSaveData?.GetShopForCurrentProfile();
 		if (shop != null && shop.ChallengerModeEnabled && shop.GetItem("alter.wings")?.CurrentTier > 0)
