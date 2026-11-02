@@ -509,5 +509,5 @@ seJunko:
   Name: "溢出的瑕穢（昇華）"
 
 seSeija:
-  Description: "每當{OwnerName}受到 |c:300| 點未被阻擋的傷害時，獲得一個隨機展品。\n（受到 {Count} 點未被阻擋的傷害後獲得）"
+  Description: "{OwnerName}擁有雙倍最大生命值。"
   Name: "道具的解放者（昇華）"

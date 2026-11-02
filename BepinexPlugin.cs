@@ -7,7 +7,6 @@ using LBoL.Presentation;
 using LBoLEntitySideloader;
 using LBoLEntitySideloader.Resource;
 using lvalonmima.Cards;
-using lvalonmima.Cards.Template;
 using lvalonmima.Exhibits;
 using lvalonmima.StatusEffects;
 using System.Collections.Generic;

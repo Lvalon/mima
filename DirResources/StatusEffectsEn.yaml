@@ -510,5 +510,5 @@ seJunko:
   Name: "Overflowing Blemishes (Ascended)"
 
 seSeija:
-  Description: "{OwnerName} gains a random Exhibit for every |c:300| unblocked damage taken.\n(Gain after {Count} unblocked damage)"
+  Description: "{OwnerName} has double maximum life."
   Name: "Liberator of Items (Ascended)"

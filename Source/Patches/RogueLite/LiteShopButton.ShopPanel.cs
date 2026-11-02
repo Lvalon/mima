@@ -15,10 +15,6 @@ using Object = UnityEngine.Object;
 using LBoL.Presentation.InputSystemExtend;
 using LBoL.Presentation;
 using LBoL.Presentation.UI.ExtraWidgets;
-using UnityEngine.InputSystem;
-using UnityEngine.EventSystems;
-using YamlDotNet.RepresentationModel;
-using lvalonmima.Localization;
 
 namespace lvalonmima.Source.Patches;
 

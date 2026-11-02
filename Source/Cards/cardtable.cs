@@ -9,7 +9,6 @@ using LBoL.Core.Cards;
 using LBoL.Core.Battle.BattleActions;
 using LBoL.Base.Extensions;
 using LBoL.Core;
-using System.Linq;
 using lvalonmima.StatusEffects;
 using LBoL.Core.Randoms;
 
