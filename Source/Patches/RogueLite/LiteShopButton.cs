@@ -177,15 +177,8 @@ public partial class LiteShopButton
 		if (customData == null)
 			return null;
 
-		var profile = GameMaster.Instance?.CurrentProfile;
-		if (profile == null)
-			return null;
-
-		var key = LiteProfileSaveData.ProfileKey(profile);
-		if (!customData.Saves.TryGetValue(key, out var shop))
-			return null;
-
-		return shop;
+		var gm = GameMaster.Instance;
+		return gm != null ? customData.FindShop(gm.CurrentProfile) : null;
 	}
 
 	public static void RefreshMainMenuButtonLabel()

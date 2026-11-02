@@ -56,43 +56,155 @@ public class LiteProfileSaveData
 	[YamlIgnore]
 	internal string ActiveRunProfileKey => _activeRunProfileKey;
 
-	// Shared with LiteShopButton.cs, which independently resolves its own
-	// `profile` and built this same key inline.
+	// False until the shop file has been read (or found missing). Until then no
+	// shop is created, so an early lookup can't put an empty shop into the save.
+	private bool _fileLoaded;
+	private bool _preLoadLookupLogged;
+
+	private const string KeyPrefix = "profile:";
+
+	// The only place a profile key is built. Keyed by creation timestamp alone, so
+	// renaming a profile keeps its shop. 0.2.12 and earlier used
+	// "profile:{CreationTimestamp}_{Name}"; those keys are migrated on load and on lookup.
 	public static string ProfileKey(ProfileSaveData profile) =>
-		profile != null ? $"profile:{profile.CreationTimestamp}_{profile.Name}" : null;
+		profile != null ? KeyPrefix + profile.CreationTimestamp : null;
 
-	private string GetProfileKey() => ProfileKey(GameMaster.Instance?.CurrentProfile);
-
-	public LiteShop GetShopForCurrentProfile()
+	// The stable key that a legacy "profile:{ts}_{name}" key belongs to, or null if key is not a legacy key.
+	private static string StableKeyOfLegacyKey(string key)
 	{
-		var key = GetProfileKey();
-		if (key == null)
+		if (key == null || !key.StartsWith(KeyPrefix, StringComparison.Ordinal))
+			return null;
+		int separator = key.IndexOf('_', KeyPrefix.Length);
+		return separator > KeyPrefix.Length ? key.Substring(0, separator) : null;
+	}
+
+	private string GetProfileKey()
+	{
+		var gm = GameMaster.Instance;
+		return gm != null ? ProfileKey(gm.CurrentProfile) : null;
+	}
+
+	internal void MarkFileLoaded()
+	{
+		_fileLoaded = true;
+	}
+
+	public LiteShop GetShopForCurrentProfile() => GetOrCreateShop(GetProfileKey(), "current profile");
+
+	private LiteShop GetShopForProfileKey(string key) => GetOrCreateShop(key, "active run profile");
+
+	/// <summary>
+	/// Finds the profile's shop without creating one, migrating a legacy key if needed.
+	/// </summary>
+	public LiteShop FindShop(ProfileSaveData profile) => FindShop(ProfileKey(profile));
+
+	private LiteShop FindShop(string key)
+	{
+		if (string.IsNullOrEmpty(key) || Saves == null)
 			return null;
 
-		if (!Saves.TryGetValue(key, out var shop))
+		if (Saves.TryGetValue(key, out var shop))
+			return shop;
+
+		return MigrateLegacyKeys(key);
+	}
+
+	private LiteShop GetOrCreateShop(string key, string lookup)
+	{
+		if (string.IsNullOrEmpty(key) || Saves == null)
+			return null;
+
+		var shop = FindShop(key);
+		if (shop != null)
+			return shop;
+
+		if (!_fileLoaded)
 		{
-			shop = new LiteShop();
-			Saves[key] = shop;
-			LogCreatedShop(key, "current profile");
+			if (!_preLoadLookupLogged)
+			{
+				_preLoadLookupLogged = true;
+				ShopSaveLoader.Trace($"Shop lookup for {key} ({lookup}) before the shop file loaded; returning no shop. (Logged once per session.)");
+			}
+			return null;
 		}
 
+		shop = new LiteShop();
+		Saves[key] = shop;
+		LogCreatedShop(key, lookup);
 		return shop;
 	}
 
-	private LiteShop GetShopForProfileKey(string key)
+	/// <summary>
+	/// If key is missing, moves the shop of a legacy "{key}_{name}" entry under key.
+	/// With several legacy entries (the profile was renamed under 0.2.12 and its shop
+	/// restarted), the richest is moved and the others stay in the save unchanged.
+	/// Returns the shop now under key, or null if there was nothing to migrate.
+	/// </summary>
+	private LiteShop MigrateLegacyKeys(string key)
 	{
-		if (string.IsNullOrEmpty(key))
+		if (Saves == null || Saves.ContainsKey(key))
 			return null;
 
-		if (!Saves.TryGetValue(key, out var shop))
-		{
-			shop = new LiteShop();
-			Saves[key] = shop;
-			LogCreatedShop(key, "active run profile");
-		}
+		var candidates = Saves
+			.Where(kv => kv.Value != null && StableKeyOfLegacyKey(kv.Key) == key)
+			.OrderByDescending(kv => ShopWorth(kv.Value))
+			.ThenByDescending(kv => TierCount(kv.Value))
+			.ThenBy(kv => kv.Key, StringComparer.Ordinal)
+			.ToList();
+		if (candidates.Count == 0)
+			return null;
 
-		return shop;
+		var chosen = candidates[0];
+		// The legacy entry leaves the file in the same write that adds key, so the
+		// data is never on disk under neither key.
+		Saves.Remove(chosen.Key);
+		Saves[key] = chosen.Value;
+
+		if (candidates.Count == 1)
+			BepinexPlugin.log?.LogInfo($"[ShopSave] Migrated shop {DescribeShop(chosen.Key, chosen.Value)} to key {key}.");
+		else
+			BepinexPlugin.log?.LogWarning($"[ShopSave] Found {candidates.Count} legacy shops for {key}; migrated the richest, {DescribeShop(chosen.Key, chosen.Value)}. Left in the save unchanged: {string.Join("; ", candidates.Skip(1).Select(kv => DescribeShop(kv.Key, kv.Value)))}");
+
+		return chosen.Value;
 	}
+
+	private void MigrateAllLegacyKeys()
+	{
+		if (Saves == null)
+			return;
+
+		var stableKeys = Saves.Keys
+			.Select(StableKeyOfLegacyKey)
+			.Where(k => k != null && !Saves.ContainsKey(k))
+			.Distinct()
+			.ToList();
+		foreach (var key in stableKeys)
+			MigrateLegacyKeys(key);
+	}
+
+	// Money plus the BluePoints spent on bought tiers, so a shop that spent its money still ranks high.
+	private static long ShopWorth(LiteShop shop)
+	{
+		long worth = shop.MoneyOwned;
+		if (shop.Items == null)
+			return worth;
+
+		foreach (var item in shop.Items.Values)
+		{
+			if (item?.TierCosts == null)
+				continue;
+			int bought = Math.Min(item.CurrentTier, item.TierCosts.Count);
+			for (int i = 0; i < bought; i++)
+				worth += item.TierCosts[i];
+		}
+		return worth;
+	}
+
+	private static int TierCount(LiteShop shop) =>
+		shop.Items != null ? shop.Items.Values.Where(i => i != null).Sum(i => i.CurrentTier) : 0;
+
+	private static string DescribeShop(string key, LiteShop shop) =>
+		$"{key} (money={shop.MoneyOwned}, tiers={TierCount(shop)}, challenger={shop.ChallengerModeEnabled})";
 
 	private void LogCreatedShop(string key, string lookup)
 	{
@@ -164,12 +276,16 @@ public class LiteProfileSaveData
 				ReconcileSaves(Saves);
 				// No active instance; set this deserialized instance as active
 				MiniTracker.Instance.SetActive(this);
+				MigrateAllLegacyKeys();
+				MarkFileLoaded();
 				return;
 			}
 
 			// Merge saved shops into active instance
 			foreach (var kv in Saves)
 				active.Saves[kv.Key] = LiteShop.ReconcileWithDefaults(kv.Value);
+			active.MigrateAllLegacyKeys();
+			active.MarkFileLoaded();
 		}
 		catch (Exception e)
 		{
