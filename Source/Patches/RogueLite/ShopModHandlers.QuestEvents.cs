@@ -347,20 +347,9 @@ public partial class ShopModHandlers
 	public static void StationEntered(StationEventArgs args)
 	{
 		GameRunController gameRun = Singleton<GameMaster>.Instance.CurrentGameRun;
-		if (!ReferenceEquals(CachedGameRun, gameRun))
-		{
-			CachedGameRun = gameRun;
-			LastAppliedShopDiscountFactor = 1f;
-			LastAppliedSeeOrder = 0;
-			LastAppliedBlankCard = 0;
-		}
+		TrackPerStageEffectsRun(gameRun);
 		EnsureFreeChoiceFlag(gameRun);
-		// reset stuff
-		if (LastAppliedShopDiscountFactor > 0f)
-			gameRun.ShopPriceMultiplier /= LastAppliedShopDiscountFactor;
-		gameRun.CanViewDrawZoneActualOrder -= LastAppliedSeeOrder;
-		if (LastAppliedBlankCard > 0)
-			gameRun.RewardAndShopCardColorLimitFlag -= LastAppliedBlankCard;
+		UndoPerStageEffects(gameRun);
 		// 1-0
 		var shop = MiniTracker.Instance?.CustomGrSaveData?.GetShopForCurrentProfile();
 		if (shop == null)
@@ -441,6 +430,54 @@ public partial class ShopModHandlers
 		}
 
 		// every stage
+		ApplyPerStageEffects(gameRun, shop);
+	}
+
+	// Called from the GameRunController.Restore postfix with the restored run.
+	// These effects live on GameRunController properties the game save doesn't
+	// keep, and a Continue at BattleFinish, AfterBossReward or Adventure timing
+	// doesn't enter a station, so without this they'd be missing until the next
+	// one. Recording the run here lets that next StationEntered undo these values
+	// before applying them, instead of stacking a second copy.
+	internal static void ReapplyPerStageEffectsOnRestore(GameRunController gameRun)
+	{
+		TrackPerStageEffectsRun(gameRun);
+		var shop = MiniTracker.Instance?.CustomGrSaveData?.GetShopForCurrentProfile();
+		if (shop == null || !shop.ChallengerModeEnabled)
+			return;
+
+		ApplyPerStageEffects(gameRun, shop);
+		if (ShopSaveLoader.TraceEnabled)
+			BepinexPlugin.log?.LogInfo($"[ShopSave] Restore re-applied per-stage effects: shop price x{LastAppliedShopDiscountFactor}, see draw order +{LastAppliedSeeOrder}, blank card +{LastAppliedBlankCard}");
+	}
+
+	// The LastApplied* values belong to one run; a new run starts with none applied.
+	private static void TrackPerStageEffectsRun(GameRunController gameRun)
+	{
+		if (ReferenceEquals(CachedGameRun, gameRun))
+			return;
+		CachedGameRun = gameRun;
+		LastAppliedShopDiscountFactor = 1f;
+		LastAppliedSeeOrder = 0;
+		LastAppliedBlankCard = 0;
+	}
+
+	private static void UndoPerStageEffects(GameRunController gameRun)
+	{
+		if (LastAppliedShopDiscountFactor > 0f)
+			gameRun.ShopPriceMultiplier /= LastAppliedShopDiscountFactor;
+		gameRun.CanViewDrawZoneActualOrder -= LastAppliedSeeOrder;
+		if (LastAppliedBlankCard > 0)
+			gameRun.RewardAndShopCardColorLimitFlag -= LastAppliedBlankCard;
+		LastAppliedShopDiscountFactor = 1f;
+		LastAppliedSeeOrder = 0;
+		LastAppliedBlankCard = 0;
+	}
+
+	// discount.shop, battle.seedraw and alter.blankcard for each owned tier,
+	// recording what was applied. Callers check Challenger mode first.
+	private static void ApplyPerStageEffects(GameRunController gameRun, LiteShop shop)
+	{
 		bool appliedShopDiscount = false;
 		bool appliedSeeOrder = false;
 		bool appliedBlankCard = false;
@@ -493,8 +530,6 @@ public partial class ShopModHandlers
 					break;
 			}
 		}
-		if (!appliedShopDiscount)
-			LastAppliedShopDiscountFactor = 1f;
 	}
 
 	public static IEnumerator CoAddMapModeOverrider(GameRunController gameRun, IMapModeOverrider overrider)
