@@ -8,7 +8,10 @@ using HarmonyLib;
 using LBoL.Core;
 using LBoL.Core.SaveData;
 using LBoL.Presentation;
+using LBoL.Presentation.UI;
+using LBoL.Presentation.UI.Dialogs;
 using LBoL.Presentation.UI.Panels;
+using YamlDotNet.RepresentationModel;
 using YamlDotNet.Serialization;
 using static LBoL.Presentation.GameMaster;
 using lvalonmima.Exhibits;
@@ -18,8 +21,16 @@ namespace lvalonmima.Source.Patches;
 public static class ShopSaveLoader
 {
 	private const string SaveFileName = "lvalonmimaShopSave.txt";
+	// Version of the file's shape, written as the top-level SchemaVersion on
+	// every save. Files without the key (0.2.12 and earlier) read as 0. Bump it
+	// together with a new step in Migrate whenever a serialized field is
+	// renamed or reshaped.
+	internal const int CurrentSchemaVersion = 1;
 	private static bool _loadFailed;
 	private static bool _blockedSaveWarned;
+	private static bool _replaceFallbackWarned;
+	private static MessageContent _pendingLoadProblemDialog;
+	private static bool _loadProblemDialogShown;
 	// Single on/off switch for the load/save and profile-change trace lines.
 	// Errors and warnings are logged either way.
 	public static bool TraceEnabled = true;
@@ -72,9 +83,63 @@ public static class ShopSaveLoader
 		return resultStream.ToArray();
 	}
 
+	// Every file the shop save touches is derived from GetSaveFilePath, so
+	// renaming the save is a change to SaveFileName alone.
 	private static string GetSaveFilePath()
 	{
 		return Path.Combine(GameMaster.PlatformHandler.GetSaveDataFolder(), SaveFileName);
+	}
+
+	private static string GetTempFilePath(string filePath) => filePath + ".tmp";
+
+	private static string GetBackupFilePath(string filePath) => filePath + ".bak";
+
+	private static string GetCorruptFilePath(string filePath) => $"{filePath}.corrupt-{DateTime.Now:yyyyMMdd-HHmmss}";
+
+	// Writes to a temp file, flushes it to disk, then swaps it in, so a crash
+	// or force-quit leaves either the old file or the new one, never a
+	// truncated one. The file being replaced is kept as the .bak.
+	private static void WriteFileAtomic(string filePath, byte[] data)
+	{
+		var folder = Path.GetDirectoryName(filePath);
+		if (!string.IsNullOrEmpty(folder) && !Directory.Exists(folder))
+			Directory.CreateDirectory(folder);
+
+		var tempPath = GetTempFilePath(filePath);
+		using (var stream = new FileStream(tempPath, FileMode.Create, FileAccess.Write, FileShare.None))
+		{
+			stream.Write(data, 0, data.Length);
+			stream.Flush(true);
+		}
+
+		if (!File.Exists(filePath))
+		{
+			File.Move(tempPath, filePath);
+			return;
+		}
+
+		var backupPath = GetBackupFilePath(filePath);
+		try
+		{
+			File.Replace(tempPath, filePath, backupPath);
+		}
+		catch (Exception e)
+		{
+			if (!_replaceFallbackWarned)
+			{
+				_replaceFallbackWarned = true;
+				BepinexPlugin.log?.LogWarning($"[ShopSave] File.Replace failed, using delete-and-move instead (logged once per session): {e.Message}");
+			}
+			// Replace can fail after it has already moved the old file to .bak,
+			// so only move what is still there.
+			if (File.Exists(filePath))
+			{
+				if (File.Exists(backupPath))
+					File.Delete(backupPath);
+				File.Move(filePath, backupPath);
+			}
+			File.Move(tempPath, filePath);
+		}
 	}
 
 	public static bool ConsumePendingRestoreQuestHydration()
@@ -139,7 +204,7 @@ public static class ShopSaveLoader
 			if (!_blockedSaveWarned)
 			{
 				_blockedSaveWarned = true;
-				BepinexPlugin.log?.LogWarning($"[ShopSave] Save skipped ({reason}): an earlier load of {SaveFileName} failed, so the file is left untouched and changes from this session are not saved. (Logged once per session.)");
+				BepinexPlugin.log?.LogWarning($"[ShopSave] Save skipped ({reason}): no readable copy of {SaveFileName} could be loaded, so the file is left untouched and changes from this session are not saved. (Logged once per session.)");
 			}
 			Trace($"Save skipped ({reason}): earlier load failed. {DescribeState(MiniTracker.Instance.CustomGrSaveData)}");
 			return;
@@ -201,6 +266,7 @@ public static class ShopSaveLoader
 			// csd.Save(); // Note: csd.Save() adds BluePoints from current run, usually not desired if just saving shop state from menu.
 			// However, if we are just persisting the current state (which includes purchased items), we just serialize csd.
 
+			csd.SchemaVersion = CurrentSchemaVersion;
 			using StringWriter stringWriter = new() { NewLine = "\n" };
 			var seBuilder = new SerializerBuilder().DisableAliases();
 			csd.TypeConverters().Do((tc) => { seBuilder = seBuilder.WithTypeConverter(tc); });
@@ -209,7 +275,7 @@ public static class ShopSaveLoader
 			var data = SaveDataHelper.EncodeYaml(stringWriter.ToString(), false);
 			var encryptedData = Encrypt(data);
 
-			WriteSaveData(SaveFileName, encryptedData);
+			WriteFileAtomic(filePath, encryptedData);
 			Trace($"Save ({reason}): {DescribeState(csd)}, file {lengthBefore} -> {GetFileLength(filePath)} bytes (wrote {encryptedData.Length})");
 		}
 		catch (Exception e)
@@ -243,43 +309,234 @@ public static class ShopSaveLoader
 		var csd = customData;
 
 		var filePath = GetSaveFilePath();
+		var tempPath = GetTempFilePath(filePath);
+		var backupPath = GetBackupFilePath(filePath);
+		bool mainExists = File.Exists(filePath);
 
-		if (!File.Exists(filePath))
+		if (!mainExists && !File.Exists(tempPath) && !File.Exists(backupPath))
 		{
 			_pendingRestoreQuestHydration = false;
 			Trace($"Load ({location}): no file at {filePath}. {DescribeState(csd)}");
 			return;
 		}
 
-		long fileLength = GetFileLength(filePath);
+		if (mainExists && TryReadSaveFile(csd, filePath, location, out var loadedData, out _))
+		{
+			ApplyLoaded(loadedData, filePath, location);
+			TryShowPendingLoadProblemDialog();
+			return;
+		}
+
+		if (!mainExists)
+			BepinexPlugin.log?.LogWarning($"[ShopSave] Load ({location}): {filePath} is missing but a temp or backup copy exists; an earlier save was probably interrupted. Trying those.");
+
+		// The temp file is only a candidate when the main file is missing: then
+		// a swap was interrupted after the old file moved away, and the temp
+		// file was flushed before the swap began, so it is the newest copy.
+		var unreadable = new List<string>();
+		if (mainExists)
+			unreadable.Add(filePath);
+		var candidates = mainExists ? new[] { backupPath } : new[] { tempPath, backupPath };
+		string recoveredFrom = null;
+		byte[] recoveredBytes = null;
+		LiteProfileSaveData recoveredData = null;
+		foreach (var candidate in candidates)
+		{
+			if (!File.Exists(candidate))
+				continue;
+			if (TryReadSaveFile(csd, candidate, location, out recoveredData, out recoveredBytes))
+			{
+				recoveredFrom = candidate;
+				break;
+			}
+			unreadable.Add(candidate);
+		}
+
+		if (recoveredFrom == null && mainExists)
+		{
+			// Nothing to recover from: block saving so the unreadable file stays
+			// as it is and can still be recovered by hand.
+			_loadFailed = true;
+			_pendingRestoreQuestHydration = false;
+			BepinexPlugin.log?.LogError($"[ShopSave] Load failed ({location}): no readable copy of {SaveFileName} was found. {filePath} is left untouched and saving is blocked until a later load succeeds.");
+			QueueLoadProblemDialog("Shop.SaveProblem.Unreadable", Path.GetFileName(filePath));
+			TryShowPendingLoadProblemDialog();
+			return;
+		}
+
+		// Saving resumes from here, so first move every unreadable copy to
+		// where later saves will not overwrite it.
+		var kept = new List<string>();
+		foreach (var path in unreadable)
+		{
+			var corruptPath = GetCorruptFilePath(path);
+			try
+			{
+				File.Move(path, corruptPath);
+				kept.Add(Path.GetFileName(corruptPath));
+				BepinexPlugin.log?.LogWarning($"[ShopSave] Kept unreadable {path} as {corruptPath}");
+			}
+			catch (Exception e)
+			{
+				BepinexPlugin.log?.LogError($"[ShopSave] Could not move unreadable {path} to {corruptPath}; the next save may overwrite it: {e}");
+			}
+		}
+		var keptText = kept.Count > 0 ? string.Join(", ", kept) : "-";
+
+		if (recoveredFrom == null)
+		{
+			_loadFailed = false;
+			_pendingRestoreQuestHydration = false;
+			BepinexPlugin.log?.LogError($"[ShopSave] Load failed ({location}): no readable copy of {SaveFileName} was found; the shop starts empty and saving resumes. Unreadable copies kept: {keptText}");
+			QueueLoadProblemDialog("Shop.SaveProblem.Fresh", keptText);
+			TryShowPendingLoadProblemDialog();
+			return;
+		}
+
+		// Put the recovered copy back as the main file, byte for byte, so the
+		// next load reads it directly. The .bak is left as it is.
+		try
+		{
+			WriteFileAtomic(filePath, recoveredBytes);
+		}
+		catch (Exception e)
+		{
+			BepinexPlugin.log?.LogError($"[ShopSave] Could not write the copy recovered from {recoveredFrom} back to {filePath}; the next save will write it: {e}");
+		}
+
+		ApplyLoaded(recoveredData, recoveredFrom, location);
+		BepinexPlugin.log?.LogWarning($"[ShopSave] Load ({location}) recovered from {recoveredFrom}. Unreadable copies kept: {keptText}");
+		// A missing main file with a good temp or backup is an interrupted
+		// save, not a bad one, so the player is only told when a copy was
+		// unreadable.
+		if (unreadable.Count > 0)
+			QueueLoadProblemDialog("Shop.SaveProblem.Recovered", keptText);
+		TryShowPendingLoadProblemDialog();
+	}
+
+	private static void ApplyLoaded(LiteProfileSaveData loadedData, string path, string location)
+	{
+		long fileLength = GetFileLength(path);
+		loadedData.Restore($"{location}, {Path.GetFileName(path)} {fileLength} bytes");
+		_loadFailed = false;
+		Trace($"Load ({location}): {Path.GetFileName(path)} {fileLength} bytes, {loadedData.Saves?.Count ?? 0} keys on disk. {DescribeState(MiniTracker.Instance.CustomGrSaveData)}");
+	}
+
+	// Reads, decrypts, deserializes, migrates and reconciles one file. It does
+	// not touch the active save data; the caller restores the result.
+	private static bool TryReadSaveFile(LiteProfileSaveData csd, string path, string location, out LiteProfileSaveData loadedData, out byte[] rawBytes)
+	{
+		loadedData = null;
+		rawBytes = null;
+		long fileLength = GetFileLength(path);
 		try
 		{
 			var deBuilder = new DeserializerBuilder().IgnoreUnmatchedProperties();
 			csd.TypeConverters().Do((tc) => { deBuilder = deBuilder.WithTypeConverter(tc); });
 
-			var encryptedData = File.ReadAllBytes(filePath);
-			var decryptedData = Decrypt(encryptedData);
-			var decodedYaml = SaveDataHelper.DecodeYaml(decryptedData);
-			object csdObject = deBuilder.Build().Deserialize(decodedYaml, csd.GetType());
+			var bytes = File.ReadAllBytes(path);
+			var decodedYaml = SaveDataHelper.DecodeYaml(Decrypt(bytes));
+			var data = (LiteProfileSaveData)deBuilder.Build().Deserialize(decodedYaml, csd.GetType());
+			if (data == null)
+				throw new InvalidDataException("the file holds no save data");
 
-			var loadedData = (LiteProfileSaveData)csdObject;
-			if (loadedData?.Saves != null)
+			Migrate(data, decodedYaml, path);
+
+			if (data.Saves != null)
 			{
-				foreach (var key in loadedData.Saves.Keys.ToList())
-				{
-					loadedData.Saves[key] = LiteShop.ReconcileWithDefaults(loadedData.Saves[key]);
-				}
+				foreach (var key in data.Saves.Keys.ToList())
+					data.Saves[key] = LiteShop.ReconcileWithDefaults(data.Saves[key]);
 			}
 
-			loadedData.Restore($"{location}, file {fileLength} bytes");
-			_loadFailed = false;
-			Trace($"Load ({location}): file {fileLength} bytes, {loadedData.Saves?.Count ?? 0} keys on disk. {DescribeState(MiniTracker.Instance.CustomGrSaveData)}");
+			loadedData = data;
+			rawBytes = bytes;
+			return true;
 		}
 		catch (Exception e)
 		{
-			_loadFailed = true;
-			_pendingRestoreQuestHydration = false;
-			BepinexPlugin.log?.LogError($"[ShopSave] Load failed ({location}), file {fileLength} bytes; saving is blocked until a later load succeeds: {e}");
+			BepinexPlugin.log?.LogError($"[ShopSave] Could not read {path} ({location}), {fileLength} bytes: {e}");
+			return false;
+		}
+	}
+
+	// Brings a freshly deserialized file up to CurrentSchemaVersion, one step
+	// per version. Each step gets the file's raw YAML as well as the typed
+	// data, because IgnoreUnmatchedProperties has already dropped any key the
+	// current classes no longer have: a rename reads the old key from `raw`
+	// and writes it into `data`.
+	private static void Migrate(LiteProfileSaveData data, string yaml, string path)
+	{
+		int fromVersion = data.SchemaVersion;
+		if (fromVersion > CurrentSchemaVersion)
+		{
+			BepinexPlugin.log?.LogWarning($"[ShopSave] {path} has schema version {fromVersion}, newer than this mod's {CurrentSchemaVersion}; fields this version does not know are dropped on the next save.");
+			return;
+		}
+		if (fromVersion == CurrentSchemaVersion)
+			return;
+
+		var raw = ParseRawYaml(yaml);
+		while (data.SchemaVersion < CurrentSchemaVersion)
+		{
+			switch (data.SchemaVersion)
+			{
+				case 0:
+					MigrateV0ToV1(raw, data);
+					break;
+				default:
+					throw new InvalidDataException($"no migration from schema version {data.SchemaVersion}");
+			}
+			data.SchemaVersion++;
+		}
+		Trace($"Migrated {Path.GetFileName(path)} from schema version {fromVersion} to {CurrentSchemaVersion}");
+	}
+
+	// Version 0 is the unversioned file written by 0.2.12 and earlier. Its
+	// fields have the same names and shapes as version 1, so nothing needs
+	// converting; version 1 only adds the SchemaVersion key.
+	private static void MigrateV0ToV1(YamlMappingNode raw, LiteProfileSaveData data)
+	{
+	}
+
+	private static YamlMappingNode ParseRawYaml(string yaml)
+	{
+		var stream = new YamlStream();
+		stream.Load(new StringReader(yaml));
+		if (stream.Documents.Count == 0)
+			return new YamlMappingNode();
+		return stream.Documents[0].RootNode as YamlMappingNode ?? new YamlMappingNode();
+	}
+
+	// Tells the player once per session, the same way the game reports a
+	// corrupted run save (GameMaster.ShowErrorDialogWithKey).
+	private static void QueueLoadProblemDialog(string subTextKey, string fileNames)
+	{
+		if (_loadProblemDialogShown || _pendingLoadProblemDialog != null)
+			return;
+
+		_pendingLoadProblemDialog = new MessageContent
+		{
+			TextKey = "Shop.SaveProblem",
+			SubTextKey = subTextKey,
+			SubTextArguments = [fileNames],
+			Icon = MessageIcon.Error,
+		};
+	}
+
+	private static void TryShowPendingLoadProblemDialog()
+	{
+		if (_pendingLoadProblemDialog == null || !UiManager.IsInitialized)
+			return;
+
+		try
+		{
+			UiManager.GetDialog<MessageDialog>().Show(_pendingLoadProblemDialog);
+			_pendingLoadProblemDialog = null;
+			_loadProblemDialogShown = true;
+		}
+		catch (Exception e)
+		{
+			BepinexPlugin.log?.LogWarning($"[ShopSave] Could not show the save problem dialog yet; it is retried on the next load: {e.Message}");
 		}
 	}
 }

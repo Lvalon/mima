@@ -163,6 +163,11 @@ MessageDialog:
   Shop:
     refund:
       Confirm: "確定要退款所有的升級嗎？"
+    SaveProblem:
+      Text: "無法讀取 Roguelite 商店存檔。"
+      Recovered: "已從備份還原，備份可能比最新存檔早一次儲存。無法讀取的檔案已保留為：{0}"
+      Unreadable: "找不到可讀取的副本，因此本次遊戲中商店為空且不會儲存。原檔案保持不變，以便還原：{0}"
+      Fresh: "找不到可讀取的副本，因此商店從空白開始。無法讀取的檔案已保留為：{0}"
 BluePoint:
   hurryact1level4:
     Name: "你沒急吧？"

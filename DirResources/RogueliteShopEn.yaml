@@ -163,6 +163,11 @@ MessageDialog:
   Shop:
     refund:
       Confirm: "Confirm refunding all purchases?"
+    SaveProblem:
+      Text: "The Roguelite Shop save could not be read."
+      Recovered: "It was restored from the backup, which may be one save behind. The unreadable file was kept as: {0}"
+      Unreadable: "No readable copy was found, so the shop is empty and will not be saved this session. The file was left untouched so it can be recovered: {0}"
+      Fresh: "No readable copy was found, so the shop starts empty. The unreadable files were kept as: {0}"
 BluePoint:
   hurryact1level4:
     Name: "What's the hurry?"

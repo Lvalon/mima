@@ -51,6 +51,10 @@ public class LiteProfileSaveData
 	{
 		yield break;
 	}
+	// Top-level file schema version. ShopSaveLoader.Save sets it before every
+	// write; files from before it existed (0.2.12) have no such key, read as 0
+	// and go through ShopSaveLoader.Migrate.
+	public int SchemaVersion;
 	public Dictionary<string, LiteShop> Saves = [];
 	private string _activeRunProfileKey;
 	[YamlIgnore]
