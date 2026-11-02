@@ -20,13 +20,24 @@ namespace lvalonmima.Source.Patches;
 
 public static class ShopSaveLoader
 {
-	private const string SaveFileName = "lvalonmimaShopSave.txt";
+	// Steam Cloud syncs only *.sav files (and Profiles/*.json) at the save
+	// root, so the shop file uses that extension. Its .bak, .tmp and
+	// .corrupt-* siblings end in other extensions and stay local.
+	private const string SaveFileName = "lvalonmimaShopSave.sav";
+	// Written by 0.2.12 and the builds before the rename. It is only ever
+	// read: when no .sav file exists it is loaded and copied to the .sav
+	// name, and it is never modified, renamed or deleted, so a downgrade or a
+	// failed first write loses nothing.
+	private const string LegacySaveFileName = "lvalonmimaShopSave.txt";
 	// Version of the file's shape, written as the top-level SchemaVersion on
 	// every save. Files without the key (0.2.12 and earlier) read as 0. Bump it
 	// together with a new step in Migrate whenever a serialized field is
 	// renamed or reshaped.
 	internal const int CurrentSchemaVersion = 1;
-	private static bool _loadFailed;
+	// Set when no readable copy was found while this file exists; saves are
+	// skipped until a later load succeeds, so the file stays recoverable.
+	private static string _saveBlockedBy;
+	private static bool _legacyIgnoredLogged;
 	private static bool _blockedSaveWarned;
 	private static bool _replaceFallbackWarned;
 	private static MessageContent _pendingLoadProblemDialog;
@@ -82,11 +93,17 @@ public static class ShopSaveLoader
 		return resultStream.ToArray();
 	}
 
-	// Every file the shop save touches is derived from GetSaveFilePath, so
-	// renaming the save is a change to SaveFileName alone.
+	// Every file the shop save touches is derived from GetSaveFilePath or
+	// GetLegacySaveFilePath, so renaming the save is a change to SaveFileName
+	// alone.
 	private static string GetSaveFilePath()
 	{
 		return Path.Combine(GameMaster.PlatformHandler.GetSaveDataFolder(), SaveFileName);
+	}
+
+	private static string GetLegacySaveFilePath()
+	{
+		return Path.Combine(GameMaster.PlatformHandler.GetSaveDataFolder(), LegacySaveFileName);
 	}
 
 	private static string GetTempFilePath(string filePath) => filePath + ".tmp";
@@ -189,12 +206,12 @@ public static class ShopSaveLoader
 	public static void Save(string reason)
 	{
 		var filePath = GetSaveFilePath();
-		if (_loadFailed && File.Exists(filePath))
+		if (_saveBlockedBy != null && File.Exists(_saveBlockedBy))
 		{
 			if (!_blockedSaveWarned)
 			{
 				_blockedSaveWarned = true;
-				BepinexPlugin.log?.LogWarning($"[ShopSave] Save skipped ({reason}): no readable copy of {SaveFileName} could be loaded, so the file is left untouched and changes from this session are not saved. (Logged once per session.)");
+				BepinexPlugin.log?.LogWarning($"[ShopSave] Save skipped ({reason}): no readable copy of {Path.GetFileName(_saveBlockedBy)} could be loaded, so the file is left untouched and changes from this session are not saved. (Logged once per session.)");
 			}
 			Trace($"Save skipped ({reason}): earlier load failed. {DescribeState(MiniTracker.Instance.CustomGrSaveData)}");
 			return;
@@ -301,12 +318,19 @@ public static class ShopSaveLoader
 		var backupPath = GetBackupFilePath(filePath);
 		bool mainExists = File.Exists(filePath);
 
+		var legacyPath = GetLegacySaveFilePath();
+
 		if (!mainExists && !File.Exists(tempPath) && !File.Exists(backupPath))
 		{
+			if (LoadLegacy(csd, filePath, legacyPath, location))
+				return;
 			csd.MarkFileLoaded();
 			Trace($"Load ({location}): no file at {filePath}. {DescribeState(csd)}");
 			return;
 		}
+
+		if (File.Exists(legacyPath))
+			LogLegacyIgnoredOnce(filePath, legacyPath);
 
 		if (mainExists && TryReadSaveFile(csd, filePath, location, out var loadedData, out _))
 		{
@@ -344,7 +368,7 @@ public static class ShopSaveLoader
 		{
 			// Nothing to recover from: block saving so the unreadable file stays
 			// as it is and can still be recovered by hand.
-			_loadFailed = true;
+			_saveBlockedBy = filePath;
 			BepinexPlugin.log?.LogError($"[ShopSave] Load failed ({location}): no readable copy of {SaveFileName} was found. {filePath} is left untouched and saving is blocked until a later load succeeds.");
 			QueueLoadProblemDialog("Shop.SaveProblem.Unreadable", Path.GetFileName(filePath));
 			TryShowPendingLoadProblemDialog();
@@ -373,7 +397,7 @@ public static class ShopSaveLoader
 		if (recoveredFrom == null)
 		{
 			// Nothing was restored, so this counts as a load of an empty file.
-			_loadFailed = false;
+			_saveBlockedBy = null;
 			csd.MarkFileLoaded();
 			BepinexPlugin.log?.LogError($"[ShopSave] Load failed ({location}): no readable copy of {SaveFileName} was found; the shop starts empty and saving resumes. Unreadable copies kept: {keptText}");
 			QueueLoadProblemDialog("Shop.SaveProblem.Fresh", keptText);
@@ -402,11 +426,115 @@ public static class ShopSaveLoader
 		TryShowPendingLoadProblemDialog();
 	}
 
+	// Called only when no file of the .sav family exists. Reads the legacy
+	// .txt family, newest copy first, mirroring the .sav order: with the .txt
+	// present it is .txt, then .txt.bak (the save before it), then .txt.tmp (a
+	// write whose swap never ran; it may be torn, so it comes last); with the
+	// .txt missing, a swap was interrupted after the old file moved away, so
+	// .txt.tmp is the newest copy, then .txt.bak. The readable copy is written
+	// to the .sav name byte for byte, so later loads use it. No legacy file is
+	// ever modified, renamed or deleted, unreadable ones included: nothing
+	// writes the .txt names any more, so they cannot be overwritten either.
+	// Returns false when no legacy file exists.
+	private static bool LoadLegacy(LiteProfileSaveData csd, string filePath, string legacyPath, string location)
+	{
+		var legacyTempPath = GetTempFilePath(legacyPath);
+		var legacyBackupPath = GetBackupFilePath(legacyPath);
+		bool legacyMainExists = File.Exists(legacyPath);
+		var candidates = legacyMainExists
+			? new[] { legacyPath, legacyBackupPath, legacyTempPath }
+			: new[] { legacyTempPath, legacyBackupPath };
+		if (!candidates.Any(File.Exists))
+			return false;
+
+		var unreadable = new List<string>();
+		string recoveredFrom = null;
+		byte[] recoveredBytes = null;
+		LiteProfileSaveData recoveredData = null;
+		foreach (var candidate in candidates)
+		{
+			if (!File.Exists(candidate))
+				continue;
+			if (TryReadSaveFile(csd, candidate, location, out recoveredData, out recoveredBytes))
+			{
+				recoveredFrom = candidate;
+				break;
+			}
+			unreadable.Add(candidate);
+		}
+		var unreadableText = unreadable.Count > 0 ? string.Join(", ", unreadable.Select(Path.GetFileName)) : "-";
+
+		if (recoveredFrom == null)
+		{
+			if (legacyMainExists)
+			{
+				// Saving now would create a .sav that wins over the .txt on every
+				// later load, so it is blocked; the next launch tries the .txt again.
+				_saveBlockedBy = legacyPath;
+				BepinexPlugin.log?.LogError($"[ShopSave] Load failed ({location}): no readable copy of {LegacySaveFileName} was found and {SaveFileName} does not exist yet. {legacyPath} is left untouched and saving is blocked until a later load succeeds.");
+				QueueLoadProblemDialog("Shop.SaveProblem.Unreadable", LegacySaveFileName);
+			}
+			else
+			{
+				_saveBlockedBy = null;
+				csd.MarkFileLoaded();
+				BepinexPlugin.log?.LogError($"[ShopSave] Load failed ({location}): only unreadable leftovers of {LegacySaveFileName} were found; the shop starts empty and saving resumes to {SaveFileName}. The leftovers are left in place: {unreadableText}");
+				QueueLoadProblemDialog("Shop.SaveProblem.Fresh", unreadableText);
+			}
+			TryShowPendingLoadProblemDialog();
+			return true;
+		}
+
+		try
+		{
+			WriteFileAtomic(filePath, recoveredBytes);
+			BepinexPlugin.log?.LogInfo($"[ShopSave] Load ({location}): copied legacy {recoveredFrom} to {filePath}; the legacy file is left in place.");
+		}
+		catch (Exception e)
+		{
+			BepinexPlugin.log?.LogError($"[ShopSave] Could not copy legacy {recoveredFrom} to {filePath}; the next save will write it, and the legacy file is left in place: {e}");
+		}
+
+		ApplyLoaded(recoveredData, recoveredFrom, location);
+		if (unreadable.Count > 0)
+		{
+			BepinexPlugin.log?.LogWarning($"[ShopSave] Load ({location}) recovered from legacy {recoveredFrom}. Unreadable legacy copies left in place: {unreadableText}");
+			QueueLoadProblemDialog("Shop.SaveProblem.Recovered", unreadableText);
+		}
+		TryShowPendingLoadProblemDialog();
+		return true;
+	}
+
+	// The .sav family is the live save once any of it exists; a .txt next to it
+	// is a leftover from before the rename (or from a downgrade) and is ignored.
+	private static void LogLegacyIgnoredOnce(string filePath, string legacyPath)
+	{
+		if (_legacyIgnoredLogged)
+			return;
+		_legacyIgnoredLogged = true;
+		BepinexPlugin.log?.LogInfo($"[ShopSave] Both {SaveFileName} ({DescribeFile(filePath)}) and legacy {LegacySaveFileName} ({DescribeFile(legacyPath)}) exist; {SaveFileName} is used and the legacy file is ignored and left untouched. (Logged once per session.)");
+	}
+
+	private static string DescribeFile(string path)
+	{
+		try
+		{
+			if (!File.Exists(path))
+				return "missing";
+			var info = new FileInfo(path);
+			return $"{info.Length} bytes, modified {info.LastWriteTime:yyyy-MM-dd HH:mm:ss}";
+		}
+		catch (Exception)
+		{
+			return "unknown";
+		}
+	}
+
 	private static void ApplyLoaded(LiteProfileSaveData loadedData, string path, string location)
 	{
 		long fileLength = GetFileLength(path);
 		loadedData.Restore($"{location}, {Path.GetFileName(path)} {fileLength} bytes");
-		_loadFailed = false;
+		_saveBlockedBy = null;
 		Trace($"Load ({location}): {Path.GetFileName(path)} {fileLength} bytes, {loadedData.Saves?.Count ?? 0} keys on disk. {DescribeState(MiniTracker.Instance.CustomGrSaveData)}");
 	}
 
