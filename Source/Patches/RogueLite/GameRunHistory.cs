@@ -32,8 +32,9 @@ public static class GameMaster_EndGameStatistics_Patch
 		if (shop == null || !shop.ChallengerModeEnabled)
 			return;
 
+		var enTable = LocalisationKeys.GetTable(Locale.En);
 		var ids = new HashSet<string>(StringComparer.Ordinal);
-		foreach (var key in LocalisationKeys.GetTable(Locale.En).Keys)
+		foreach (var key in enTable.Keys)
 		{
 			if (!key.StartsWith(BluePointPrefix, StringComparison.Ordinal))
 				continue;
@@ -44,10 +45,20 @@ public static class GameMaster_EndGameStatistics_Patch
 			ids.Add(fullId);
 		}
 
+		// Bank Blue Points even without the bonus table: missing localization must not cost the player money.
 		if (ids.Count == 0)
-			return;
+			BepinexPlugin.log?.LogWarning($"[ShopSave] Roguelite Shop En localization table has no {BluePointPrefix}* keys ({enTable.Count} keys total); banking {__result.BluePoint} Blue Points without run bonuses");
+		else
+			AddBonusScores(__result, gameRun, resultType, shop, ids);
 
-		__result.ScoreDatas ??= [];
+		shop.BPProgress = [];
+		MiniTracker.Instance.CustomGrSaveData.Save(__result.BluePoint);
+		ShopSaveLoader.Save("EndGameStatistics");  //save progress on the spot
+	}
+
+	private static void AddBonusScores(GameStatisticData result, GameRunController gameRun, GameResultType resultType, LiteShop shop, HashSet<string> ids)
+	{
+		result.ScoreDatas ??= [];
 
 		float diffMult = gameRun.Difficulty switch
 		{
@@ -60,11 +71,9 @@ public static class GameMaster_EndGameStatistics_Patch
 
 		float toAdd = 0;
 
-		GameRunSaveData gameRunSaveData = Singleton<GameMaster>.Instance.GameRunSaveData;
-
 		foreach (var fullId in ids)
 		{
-			if (__result.ScoreDatas.Exists(sd => sd.Id == fullId))
+			if (result.ScoreDatas.Exists(sd => sd.Id == fullId))
 				continue;
 
 			var idRoot = fullId[BluePointPrefix.Length..];
@@ -132,18 +141,14 @@ public static class GameMaster_EndGameStatistics_Patch
 			EnsureLocalizationKey(fullId + ".Description");
 
 			// panel showing, mult is handled elsewhere
-			__result.ScoreDatas.Add(new ScoreData
+			result.ScoreDatas.Add(new ScoreData
 			{
 				Id = fullId,
 				TotalBluePoint = delta
 			});
 			toAdd += delta;
 		}
-		__result.BluePoint += (int)(toAdd * diffMult);
-
-		shop.BPProgress = [];
-		MiniTracker.Instance.CustomGrSaveData.Save(__result.BluePoint);
-		ShopSaveLoader.Save("EndGameStatistics");  //save progress on the spot
+		result.BluePoint += (int)(toAdd * diffMult);
 	}
 
 	private static void EnsureLocalizationKey(string key)
@@ -178,7 +183,9 @@ public static class GameResultPanel_CustomLocalizationAsync_Patch
 
 	private static void AddCustomScoreEntries(GameResultPanel panel)
 	{
-		if (panel?._stringTable == null)
+		// Runs on every UI load and language change (run start, Continue, Restart station, menu),
+		// so it only injects text. Run-end resets live in GameMaster_AppendGameRunHistory_Patch.
+		if (panel == null || panel._stringTable == null)
 			return;
 
 		var ids = new HashSet<string>(StringComparer.Ordinal);
@@ -201,19 +208,6 @@ public static class GameResultPanel_CustomLocalizationAsync_Patch
 				Description = GetLoc(fullId + ".Description")
 			};
 		}
-
-		// reset quest run-state snapshots
-		var shop = MiniTracker.Instance?.CustomGrSaveData?.GetShopForCurrentProfile();
-		if (shop != null)
-		{
-			shop.QuestProgress = new Dictionary<string, int>(StringComparer.Ordinal);
-			shop.QuestRequirements = new Dictionary<string, string>(StringComparer.Ordinal);
-			shop.QuestCompletedCards = new HashSet<string>(StringComparer.Ordinal);
-			shop.QuestModifiers = new Dictionary<string, int>(StringComparer.Ordinal);
-		}
-
-		MiniTracker.Instance.CustomGrSaveData.Save(0, false);
-		ShopSaveLoader.Save("GameResultPanel.CustomLocalizationAsync");
 	}
 
 	private static string GetLoc(string key) => LocalisationKeys.Get(key, "<{0}>");
@@ -222,43 +216,49 @@ public static class GameResultPanel_CustomLocalizationAsync_Patch
 [HarmonyPatch(typeof(GameMaster), nameof(GameMaster.AppendGameRunHistory))]
 public static class GameMaster_AppendGameRunHistory_Patch
 {
+	// Runs once per ended run (SaveProfileWithEndingGameRun): record the run's history,
+	// then clear the quest backup so it can't leak into the next run.
 	static void Postfix(GameRunRecordSaveData record)
 	{
 		try
 		{
-			if (record == null || string.IsNullOrEmpty(record.SaveTimestamp))
+			var customData = MiniTracker.Instance?.CustomGrSaveData;
+			var shop = customData?.GetShopForCurrentProfile();
+			if (shop == null)
 				return;
 
-			var shop = MiniTracker.Instance?.CustomGrSaveData?.GetShopForCurrentProfile();
-			if (shop == null || !shop.ChallengerModeEnabled)
-				return;
+			if (shop.ChallengerModeEnabled && record != null && !string.IsNullOrEmpty(record.SaveTimestamp))
+				RecordRunHistory(shop, record.SaveTimestamp);
 
-			shop.RunModifiersByTimestamp ??= [];
-			var modifiers = shop.Items?.Values
-					.Where(item => item != null && item.CurrentTier > 0)
-					.Select(item => (item.Id, item.CurrentTier))
-					.ToList() ?? [];
-
-			// Always record that Challenger Mode was active for this run when the shop indicates so.
-			// If no modifiers were purchased, store an empty list so the history UI can still
-			// indicate "Challenger Mode Active" and show the "None" tooltip.
-			modifiers.Sort((left, right) => string.CompareOrdinal(left.Id, right.Id));
-			shop.RunModifiersByTimestamp[record.SaveTimestamp] = modifiers;
-
-			shop.RunCompletedQuestsByTimestamp ??= new Dictionary<string, List<string>>(StringComparer.Ordinal);
-			List<string> completedQuests = shop.CurrentRunCompletedQuests != null
-				? [.. shop.CurrentRunCompletedQuests.Where(id => !string.IsNullOrEmpty(id))]
-				: [];
-			shop.RunCompletedQuestsByTimestamp[record.SaveTimestamp] = completedQuests;
-
-			ShopModHandlers.ResetCurrentRunRewardedQuestCompletions(shop);
-			MiniTracker.Instance?.CustomGrSaveData?.Save(0, false);
+			ShopModHandlers.ClearLiteQuestBackup(shop);
+			customData.Save(0, false);
 			ShopSaveLoader.Save("AppendGameRunHistory");
 		}
 		catch (Exception e)
 		{
 			BepinexPlugin.log?.LogWarning(e);
 		}
+	}
+
+	private static void RecordRunHistory(LiteShop shop, string saveTimestamp)
+	{
+		shop.RunModifiersByTimestamp ??= [];
+		var modifiers = shop.Items?.Values
+				.Where(item => item != null && item.CurrentTier > 0)
+				.Select(item => (item.Id, item.CurrentTier))
+				.ToList() ?? [];
+
+		// Always record that Challenger Mode was active for this run when the shop indicates so.
+		// If no modifiers were purchased, store an empty list so the history UI can still
+		// indicate "Challenger Mode Active" and show the "None" tooltip.
+		modifiers.Sort((left, right) => string.CompareOrdinal(left.Id, right.Id));
+		shop.RunModifiersByTimestamp[saveTimestamp] = modifiers;
+
+		shop.RunCompletedQuestsByTimestamp ??= new Dictionary<string, List<string>>(StringComparer.Ordinal);
+		List<string> completedQuests = shop.CurrentRunCompletedQuests != null
+			? [.. shop.CurrentRunCompletedQuests.Where(id => !string.IsNullOrEmpty(id))]
+			: [];
+		shop.RunCompletedQuestsByTimestamp[saveTimestamp] = completedQuests;
 	}
 }
 
