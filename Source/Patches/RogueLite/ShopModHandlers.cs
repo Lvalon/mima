@@ -247,6 +247,22 @@ public partial class ShopModHandlers
 		shop.CurrentRunCompletedQuests = [];
 	}
 
+	// Run end: drop the per-profile Quest Board backup so the next run starts clean.
+	// Callers move CurrentRunCompletedQuests into history before calling this.
+	public static void ClearLiteQuestBackup(LiteShop shop)
+	{
+		if (shop == null)
+			return;
+
+		shop.QuestProgress = new Dictionary<string, int>(StringComparer.Ordinal);
+		shop.QuestRequirements = new Dictionary<string, string>(StringComparer.Ordinal);
+		shop.QuestCompletedCards = new HashSet<string>(StringComparer.Ordinal);
+		shop.QuestModifiers = new Dictionary<string, int>(StringComparer.Ordinal);
+		shop.QuestRolledSlots = [];
+		shop.QuestSoldSlots = [];
+		ResetCurrentRunRewardedQuestCompletions(shop);
+	}
+
 	public static void PersistQuestProgress(GameRunController gameRun, IDictionary<string, int> pendingQuestProgress, bool syncToLiteShop, bool saveToDisk, IDictionary<string, string> questRequirements, ISet<string> completedQuestCards = null, bool writeToRunFlags = true, IDictionary<string, int> questModifiers = null)
 	{
 		HashSet<string> completedToPersist = completedQuestCards == null
