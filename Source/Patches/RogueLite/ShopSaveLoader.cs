@@ -23,7 +23,6 @@ public static class ShopSaveLoader
 	// Single on/off switch for the load/save and profile-change trace lines.
 	// Errors and warnings are logged either way.
 	public static bool TraceEnabled = true;
-	private static bool _pendingRestoreQuestHydration;
 	public static bool IsGameRunRestoreInProgress { get; private set; }
 
 	private static readonly byte[] EncryptionKey =
@@ -75,15 +74,6 @@ public static class ShopSaveLoader
 	private static string GetSaveFilePath()
 	{
 		return Path.Combine(GameMaster.PlatformHandler.GetSaveDataFolder(), SaveFileName);
-	}
-
-	public static bool ConsumePendingRestoreQuestHydration()
-	{
-		if (!_pendingRestoreQuestHydration)
-			return false;
-
-		_pendingRestoreQuestHydration = false;
-		return true;
 	}
 
 	public static void SetGameRunRestoreInProgress(bool inProgress)
@@ -230,11 +220,9 @@ public static class ShopSaveLoader
 
 	public static void Load(string location)
 	{
-		_pendingRestoreQuestHydration = string.Equals(location, "GameRunController.Restore", StringComparison.Ordinal);
 		var customData = MiniTracker.Instance.CustomGrSaveData ?? MiniTracker.LoadedFromDiskCustomGrSaveData;
 		if (customData == null)
 		{
-			_pendingRestoreQuestHydration = false;
 			Trace($"Load ({location}) skipped: no save data registered");
 			return;
 		}
@@ -246,7 +234,6 @@ public static class ShopSaveLoader
 
 		if (!File.Exists(filePath))
 		{
-			_pendingRestoreQuestHydration = false;
 			csd.MarkFileLoaded();
 			Trace($"Load ({location}): no file at {filePath}. {DescribeState(csd)}");
 			return;
@@ -279,7 +266,6 @@ public static class ShopSaveLoader
 		catch (Exception e)
 		{
 			_loadFailed = true;
-			_pendingRestoreQuestHydration = false;
 			BepinexPlugin.log?.LogError($"[ShopSave] Load failed ({location}), file {fileLength} bytes; saving is blocked until a later load succeeds: {e}");
 		}
 	}
@@ -322,21 +308,27 @@ class GameRunController_Restore_Patch
 		ShopSaveLoader.SetGameRunRestoreInProgress(true);
 	}
 
-	static void Postfix()
+	// Restore returns the new run before GameMaster.CurrentGameRun is set, so
+	// __result is the only reliable "current run" here.
+	static void Postfix(GameRunController __result)
 	{
-		try
-		{
-			ShopSaveLoader.Load("GameRunController.Restore");
-			exquesting.ProcessDeferredRestoreHydration();
+		ShopSaveLoader.Load("GameRunController.Restore");
+		exquesting.ProcessDeferredRestoreHydration(__result);
 
-			var shop = MiniTracker.Instance?.CustomGrSaveData?.GetShopForCurrentProfile();
-			if (shop != null && shop.ChallengerModeEnabled && shop.GetItem("alter.wings")?.CurrentTier > 0)
-				GameMaster.Instance?.StartCoroutine(DeferredAddMapModeOverrider());
-		}
-		finally
-		{
-			ShopSaveLoader.SetGameRunRestoreInProgress(false);
-		}
+		var shop = MiniTracker.Instance?.CustomGrSaveData?.GetShopForCurrentProfile();
+		if (shop != null && shop.ChallengerModeEnabled && shop.GetItem("alter.wings")?.CurrentTier > 0)
+			GameMaster.Instance?.StartCoroutine(DeferredAddMapModeOverrider());
+	}
+
+	// Harmony skips postfixes when the original throws (the game does that on a
+	// corrupt save and catches it itself), so the bookkeeping is cleared here.
+	// The exception is left to propagate to the game's own handler.
+	static void Finalizer(Exception __exception)
+	{
+		ShopSaveLoader.SetGameRunRestoreInProgress(false);
+		int dropped = exquesting.DiscardDeferredRestoreHydration();
+		if (__exception != null)
+			BepinexPlugin.log?.LogWarning($"[ShopSave] GameRunController.Restore threw; cleared restore-in-progress and dropped {dropped} deferred Quest Board hydration(s): {__exception}");
 	}
 
 	private static IEnumerator DeferredAddMapModeOverrider()
