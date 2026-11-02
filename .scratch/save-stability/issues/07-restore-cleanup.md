@@ -4,7 +4,7 @@
 
 **Blocked by:** 01
 
-**Status:** ready-for-agent
+**Status:** done (awaiting in-game checklist)
 
 - [x] Restore bookkeeping is cleared even when the game's restore throws, and the exception is logged
 - [x] Deferred exhibits from a dead run are discarded, not synced

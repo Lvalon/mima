@@ -4,7 +4,7 @@
 
 **Blocked by:** 01
 
-**Status:** ready-for-agent
+**Status:** done (awaiting in-game checklist)
 
 - [x] Every write goes temp → flush → swap, leaving the previous file as `.bak`
 - [x] A failed load tries `.bak`; the bad file is preserved as `.corrupt-<ts>`; a one-time dialog tells the player

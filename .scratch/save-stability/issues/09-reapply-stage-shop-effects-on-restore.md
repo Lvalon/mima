@@ -4,7 +4,7 @@
 
 **Blocked by:** 07
 
-**Status:** ready-for-agent
+**Status:** done (awaiting in-game checklist)
 
 - [x] Restore re-applies the three per-stage effects, gated the same way station entry gates them (Challenger on, tier owned)
 - [x] Entering the next station afterwards doesn't apply them twice

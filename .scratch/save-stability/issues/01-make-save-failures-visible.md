@@ -4,7 +4,7 @@
 
 **Blocked by:** None (can start immediately)
 
-**Status:** ready-for-agent
+**Status:** done (awaiting in-game checklist)
 
 - [x] Load and restore failures log an error with reason, file length and exception; nothing is swallowed silently
 - [x] A save blocked by an earlier failed load logs a warning once per session

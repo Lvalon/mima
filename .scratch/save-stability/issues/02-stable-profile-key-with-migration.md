@@ -4,7 +4,7 @@
 
 **Blocked by:** 01
 
-**Status:** ready-for-agent
+**Status:** done (awaiting in-game checklist)
 
 - [x] One key function, timestamp-only; no other code builds profile keys by hand
 - [x] A 0.2.12 file with `profile:{ts}_{name}` keys loads with every shop intact under the new keys
@@ -36,7 +36,7 @@ Back up `lvalonmimaShopSave.txt` (in the game's save folder) before starting. Ke
 4. **An already-renamed profile gets its progress back.** Use a 0.2.12 save in which a profile was renamed after buying, so it has two keys `profile:{ts}_OldName` (the real progress) and `profile:{ts}_NewName` (nearly empty).
    Expected: a `Found 2 legacy shops for profile:{ts}; migrated the richest, profile:{ts}_OldName (…). Left in the save unchanged: profile:{ts}_NewName (…)` warning. The shop shows the OldName progress. After a save, decrypting the file (openssl command in research.md) shows `profile:{ts}` and the untouched `profile:{ts}_NewName`; `profile:{ts}_OldName` is gone because its data is now under `profile:{ts}`.
 5. **New profile.** Create a new profile and open the shop.
-   Expected: one `Created new empty shop for key profile:{ts}` warning; the shop is at 0. Deleting a profile and recreating it under the same name also gives a fresh shop (new timestamp).
+   Expected: one `Created new empty shop for key profile:{ts}` Info trace (a warning only if the save already had keys for that timestamp or failed to load); the shop is at 0. Deleting a profile and recreating it under the same name also gives a fresh shop (new timestamp).
 6. **No shop before load.** Start the game with trace on.
    Expected: no `Created new empty shop` line before the first `Load (MainMenuPanel.Awake)` line. If something asks for the shop early, the log shows at most one `Shop lookup for … before the shop file loaded; returning no shop` trace instead.
 7. **Run end and Continue still work.** Finish a run with Challenger on, then continue a saved run from the main menu.

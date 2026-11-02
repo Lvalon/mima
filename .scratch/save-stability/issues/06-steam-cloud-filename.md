@@ -4,7 +4,7 @@
 
 **Blocked by:** 05
 
-**Status:** ready-for-agent
+**Status:** done (awaiting in-game checklist)
 
 - [x] Saves go to `lvalonmimaShopSave.sav` (plus its `.bak`/`.corrupt-*`)
 - [x] With only the legacy `.txt` present, it loads, migrates, and the next save writes `.sav`; the `.txt` is never modified or deleted

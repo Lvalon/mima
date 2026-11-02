@@ -4,7 +4,7 @@
 
 **Blocked by:** 04, 07
 
-**Status:** ready-for-agent
+**Status:** done (awaiting in-game checklist)
 
 - [x] The in-memory last save holds its own copy of run flags after every game save; disk output unchanged
 - [x] Accept and abandon write the quest's run flags immediately

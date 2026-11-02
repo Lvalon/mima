@@ -4,7 +4,7 @@
 
 **Blocked by:** 01
 
-**Status:** ready-for-agent
+**Status:** done (awaiting in-game checklist)
 
 - [x] The result-panel hook no longer changes or saves quest data
 - [x] The quest backup reset runs once per ended run, in the run-history hook, and clears every quest backup field

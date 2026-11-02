@@ -4,7 +4,7 @@
 
 **Blocked by:** 02
 
-**Status:** ready-for-agent
+**Status:** done (awaiting in-game checklist)
 
 - [x] The run records its owning profile key (new key format from 02) and banking uses it
 - [x] The remembered key is cleared on run start, run leave and profile change, including when Challenger is off
