@@ -6,7 +6,7 @@ public static class PInfo
 {
 	public const string GUID = "llbol.char.mima";
 	public const string Name = "Mima";
-	public const string version = "0.2.12";
+	public const string version = "0.2.13";
 	public static readonly Harmony harmony = new(GUID);
 
 }

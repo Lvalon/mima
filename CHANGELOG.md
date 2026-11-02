@@ -1,5 +1,31 @@
 # Changelog / 更新日誌
 
+## [0.2.13] - 2026-11-2
+
+### Changes / 改動
+
+- Major Roguelite Shop save stability fixes. Existing saves are carried over automatically.
+- Fixed Roguelite Shop progress resetting after renaming a profile. Progress lost this way in earlier versions is recovered.
+- Fixed Quest progress being wiped when continuing a run, after a restart, when returning to the menu or when changing language.
+- Fixed points from a run sometimes being saved to the wrong profile.
+- Fixed restarting a level and quitting then continuing rewinding Quests differently, which could lose Quest rewards.
+- Fixed "Regular Customer", "Heart of the Cards" and "Unlimited Experience" not working right after continuing a run.
+- Fixed the Quest Board not loading in later runs after a corrupted run save.
+- The Roguelite Shop save is now written safely with a backup, and a damaged save is recovered from the backup instead of resetting the shop.
+- The Roguelite Shop save is now `lvalonmimaShopSave.sav` so Steam Cloud can sync it. The old `lvalonmimaShopSave.txt` is left untouched.
+- Ascended Seija now has double maximum life instead of gaining Exhibits from unblocked damage.
+
+- Roguelite 商店存檔穩定性大修。現有存檔會自動轉移。
+- 修了改名設定檔後 Roguelite 商店進度被重置的問題。之前版本因此遺失的進度會被找回。
+- 修了繼續遊戲、sl、回到主選單或切換語言時任務進度被清空的問題。
+- 修了一局的點數有時存到錯誤設定檔的問題。
+- 修了重新開始關卡和離開後繼續遊戲時任務回溯不一致，可能導致任務獎勵遺失的問題。
+- 修了「常客」、「開眼了」和「無限體驗」在繼續遊戲後不會立即生效的問題。
+- 修了遊戲存檔損壞後，之後的對局任務欄不會載入的問題。
+- Roguelite 商店存檔現在會安全寫入並保留備份，存檔損壞時會從備份還原，而不是重置商店。
+- Roguelite 商店存檔現在是 `lvalonmimaShopSave.sav`，可以透過 Steam 雲端同步。舊的 `lvalonmimaShopSave.txt` 不會被改動。
+- 昇華正邪現在擁有雙倍最大生命值，取代受到未格擋傷害時獲得展品。
+
 ## [0.2.12] - 2026-9-27
 
 ### Changes / 改動
