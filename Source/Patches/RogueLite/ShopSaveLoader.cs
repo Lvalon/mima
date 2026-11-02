@@ -234,6 +234,7 @@ public static class ShopSaveLoader
 
 		if (!File.Exists(filePath))
 		{
+			csd.MarkFileLoaded();
 			Trace($"Load ({location}): no file at {filePath}. {DescribeState(csd)}");
 			return;
 		}
