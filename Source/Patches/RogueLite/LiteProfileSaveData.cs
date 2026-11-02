@@ -63,15 +63,24 @@ public class LiteProfileSaveData
 	// False until the shop file has been read (or found missing). Until then no
 	// shop is created, so an early lookup can't put an empty shop into the save.
 	private bool _fileLoaded;
-	private bool _preLoadLookupLogged;
+	// True when the last load found no readable copy and started the shop empty.
+	private bool _fileLoadFailed;
 
 	private const string KeyPrefix = "profile:";
 
 	// The only place a profile key is built. Keyed by creation timestamp alone, so
 	// renaming a profile keeps its shop. 0.2.12 and earlier used
-	// "profile:{CreationTimestamp}_{Name}"; those keys are migrated on load and on lookup.
+	// "profile:{CreationTimestamp}_{Name}"; those keys are migrated when a
+	// version 0 file is read (MigrateLegacyProfileKeys).
 	public static string ProfileKey(ProfileSaveData profile) =>
 		profile != null ? KeyPrefix + profile.CreationTimestamp : null;
+
+	// The current profile's key, or null when there is no GameMaster or profile.
+	internal static string CurrentProfileKey()
+	{
+		var gm = GameMaster.Instance;
+		return gm != null ? ProfileKey(gm.CurrentProfile) : null;
+	}
 
 	// The stable key that a legacy "profile:{ts}_{name}" key belongs to, or null if key is not a legacy key.
 	private static string StableKeyOfLegacyKey(string key)
@@ -82,38 +91,29 @@ public class LiteProfileSaveData
 		return separator > KeyPrefix.Length ? key.Substring(0, separator) : null;
 	}
 
-	private string GetProfileKey()
-	{
-		var gm = GameMaster.Instance;
-		return gm != null ? ProfileKey(gm.CurrentProfile) : null;
-	}
-
-	internal void MarkFileLoaded()
+	internal void MarkFileLoaded(bool loadFailed = false)
 	{
 		_fileLoaded = true;
+		_fileLoadFailed = loadFailed;
 	}
 
-	public LiteShop GetShopForCurrentProfile() => GetOrCreateShop(GetProfileKey(), "current profile");
+	public LiteShop GetShopForCurrentProfile() => GetOrCreateShop(CurrentProfileKey(), "current profile");
 
 	private LiteShop GetShopForProfileKey(string key) => GetOrCreateShop(key, "active run profile");
 
 	/// <summary>
-	/// Finds the profile's shop without creating one, migrating a legacy key if needed.
+	/// Finds the current profile's shop without creating one.
 	/// </summary>
-	public LiteShop FindShop(ProfileSaveData profile) => FindShop(ProfileKey(profile));
+	public LiteShop FindShopForCurrentProfile() => FindShop(CurrentProfileKey());
 
 	private LiteShop FindShop(string key)
 	{
 		if (string.IsNullOrEmpty(key) || Saves == null)
 			return null;
-
-		if (Saves.TryGetValue(key, out var shop))
-			return shop;
-
-		return MigrateLegacyKeys(key);
+		return Saves.TryGetValue(key, out var shop) ? shop : null;
 	}
 
-	private LiteShop GetOrCreateShop(string key, string lookup)
+	private LiteShop GetOrCreateShop(string key, string reason)
 	{
 		if (string.IsNullOrEmpty(key) || Saves == null)
 			return null;
@@ -124,66 +124,54 @@ public class LiteProfileSaveData
 
 		if (!_fileLoaded)
 		{
-			if (!_preLoadLookupLogged)
-			{
-				_preLoadLookupLogged = true;
-				ShopSaveLoader.Trace($"Shop lookup for {key} ({lookup}) before the shop file loaded; returning no shop. (Logged once per session.)");
-			}
+			if (ShopSaveLoader.Once("pre-load lookup"))
+				ShopSaveLoader.Trace($"Shop lookup for {key} ({reason}) before the shop file loaded; returning no shop. (Logged once per session.)");
 			return null;
 		}
 
 		shop = new LiteShop();
 		Saves[key] = shop;
-		LogCreatedShop(key, lookup);
+		LogCreatedShop(key, reason);
 		return shop;
 	}
 
 	/// <summary>
-	/// If key is missing, moves the shop of a legacy "{key}_{name}" entry under key.
-	/// With several legacy entries (the profile was renamed under 0.2.12 and its shop
-	/// restarted), the richest is moved and the others stay in the save unchanged.
-	/// Returns the shop now under key, or null if there was nothing to migrate.
+	/// Schema step 0 -> 1: for every legacy "profile:{ts}_{name}" key whose stable key
+	/// "profile:{ts}" is missing, moves a legacy shop under the stable key. With several
+	/// legacy entries (the profile was renamed under 0.2.12 and its shop restarted), the
+	/// richest is moved and the others stay in the save unchanged. It runs on the data
+	/// read from a version 0 file, before that is merged into the active save data, so
+	/// every load of the file migrates the same way and no legacy key is merged back in.
 	/// </summary>
-	private LiteShop MigrateLegacyKeys(string key)
-	{
-		if (Saves == null || Saves.ContainsKey(key))
-			return null;
-
-		var candidates = Saves
-			.Where(kv => kv.Value != null && StableKeyOfLegacyKey(kv.Key) == key)
-			.OrderByDescending(kv => ShopWorth(kv.Value))
-			.ThenByDescending(kv => TierCount(kv.Value))
-			.ThenBy(kv => kv.Key, StringComparer.Ordinal)
-			.ToList();
-		if (candidates.Count == 0)
-			return null;
-
-		var chosen = candidates[0];
-		// The legacy entry leaves the file in the same write that adds key, so the
-		// data is never on disk under neither key.
-		Saves.Remove(chosen.Key);
-		Saves[key] = chosen.Value;
-
-		if (candidates.Count == 1)
-			BepinexPlugin.log?.LogInfo($"[ShopSave] Migrated shop {DescribeShop(chosen.Key, chosen.Value)} to key {key}.");
-		else
-			BepinexPlugin.log?.LogWarning($"[ShopSave] Found {candidates.Count} legacy shops for {key}; migrated the richest, {DescribeShop(chosen.Key, chosen.Value)}. Left in the save unchanged: {string.Join("; ", candidates.Skip(1).Select(kv => DescribeShop(kv.Key, kv.Value)))}");
-
-		return chosen.Value;
-	}
-
-	private void MigrateAllLegacyKeys()
+	internal void MigrateLegacyProfileKeys()
 	{
 		if (Saves == null)
 			return;
 
-		var stableKeys = Saves.Keys
-			.Select(StableKeyOfLegacyKey)
-			.Where(k => k != null && !Saves.ContainsKey(k))
-			.Distinct()
+		var groups = Saves
+			.Where(kv => kv.Value != null)
+			.Select(kv => (stableKey: StableKeyOfLegacyKey(kv.Key), entry: kv))
+			.Where(x => x.stableKey != null && !Saves.ContainsKey(x.stableKey))
+			.GroupBy(x => x.stableKey, x => x.entry)
 			.ToList();
-		foreach (var key in stableKeys)
-			MigrateLegacyKeys(key);
+		foreach (var group in groups)
+		{
+			var candidates = group
+				.OrderByDescending(kv => ShopWorth(kv.Value))
+				.ThenByDescending(kv => kv.Value.TierCount())
+				.ThenBy(kv => kv.Key, StringComparer.Ordinal)
+				.ToList();
+			var chosen = candidates[0];
+			// The legacy entry leaves the file in the same write that adds the stable
+			// key, so the data is never on disk under neither key.
+			Saves.Remove(chosen.Key);
+			Saves[group.Key] = chosen.Value;
+
+			if (candidates.Count == 1)
+				ShopSaveLoader.Trace($"Migrated shop {DescribeShop(chosen.Key, chosen.Value)} to key {group.Key}.");
+			else
+				BepinexPlugin.log?.LogWarning($"[ShopSave] Found {candidates.Count} legacy shops for {group.Key}; migrated the richest, {DescribeShop(chosen.Key, chosen.Value)}. Left in the save unchanged: {string.Join("; ", candidates.Skip(1).Select(kv => DescribeShop(kv.Key, kv.Value)))}");
+		}
 	}
 
 	// Money plus the BluePoints spent on bought tiers, so a shop that spent its money still ranks high.
@@ -204,16 +192,26 @@ public class LiteProfileSaveData
 		return worth;
 	}
 
-	private static int TierCount(LiteShop shop) =>
-		shop.Items != null ? shop.Items.Values.Where(i => i != null).Sum(i => i.CurrentTier) : 0;
-
 	private static string DescribeShop(string key, LiteShop shop) =>
-		$"{key} (money={shop.MoneyOwned}, tiers={TierCount(shop)}, challenger={shop.ChallengerModeEnabled})";
+		$"{key} (money={shop.MoneyOwned}, tiers={shop.TierCount()}, challenger={shop.ChallengerModeEnabled})";
 
-	private void LogCreatedShop(string key, string lookup)
+	// A new profile getting its first shop is routine, so that is a trace. It is a
+	// warning when the save holds other keys for the same timestamp, or when the
+	// file could not be read, because then the profile's progress may be lost.
+	private void LogCreatedShop(string key, string reason)
 	{
+		var sameProfile = Saves.Keys.Where(k => StableKeyOfLegacyKey(k) == key).ToList();
+		if (sameProfile.Count == 0 && !_fileLoadFailed)
+		{
+			ShopSaveLoader.Trace($"Created new empty shop for key {key} ({reason}).");
+			return;
+		}
+
+		var cause = _fileLoadFailed
+			? "the shop file could not be read"
+			: $"the save has other keys for this profile: [{string.Join(", ", sameProfile)}]";
 		var others = string.Join(", ", Saves.Keys.Where(k => k != key));
-		BepinexPlugin.log?.LogWarning($"[ShopSave] Created new empty shop for key {key} ({lookup}); it was not in the save. Other keys: [{others}]");
+		BepinexPlugin.log?.LogWarning($"[ShopSave] Created new empty shop for key {key} ({reason}); it was not in the save and {cause}. Other keys: [{others}]");
 	}
 
 	// Run flag naming the profile that owns the run: RunOwnerFlagPrefix + ProfileKey,
@@ -221,17 +219,8 @@ public class LiteProfileSaveData
 	// survives quit-and-Continue and can't be left over from another profile's run.
 	private const string RunOwnerFlagPrefix = "lvalonmima.owner:";
 
-	private static string RunOwnerKey(GameRunController run)
-	{
-		if (run?.ExtraFlags == null)
-			return null;
-		foreach (string flag in run.ExtraFlags)
-		{
-			if (flag != null && flag.Length > RunOwnerFlagPrefix.Length && flag.StartsWith(RunOwnerFlagPrefix, StringComparison.Ordinal))
-				return flag[RunOwnerFlagPrefix.Length..];
-		}
-		return null;
-	}
+	private static string RunOwnerKey(GameRunController run) =>
+		ShopModHandlers.RunFlagPayloads(run, RunOwnerFlagPrefix).FirstOrDefault(key => key.Length > 0);
 
 	private static void SetRunOwnerKey(GameRunController run, string key)
 	{
@@ -249,12 +238,12 @@ public class LiteProfileSaveData
 	private string ResolveRunOwnerKey(GameRunController run)
 	{
 		if (run == null)
-			return GetProfileKey();
+			return CurrentProfileKey();
 
 		string key = RunOwnerKey(run);
 		if (key == null)
 		{
-			key = GetProfileKey();
+			key = CurrentProfileKey();
 			if (key == null)
 				return null;
 			SetRunOwnerKey(run, key);
@@ -263,7 +252,7 @@ public class LiteProfileSaveData
 
 		if (_activeRunProfileKey != key)
 		{
-			ShopSaveLoader.Trace($"Active run profile key {_activeRunProfileKey ?? "<none>"} -> {key} (current profile {GetProfileKey() ?? "<none>"})");
+			ShopSaveLoader.Trace($"Active run profile key {_activeRunProfileKey ?? "<none>"} -> {key} (current profile {CurrentProfileKey() ?? "<none>"})");
 			_activeRunProfileKey = key;
 		}
 		return key;
@@ -275,7 +264,7 @@ public class LiteProfileSaveData
 	internal void OnRunStarted(GameRunController run, ProfileSaveData owner)
 	{
 		ClearActiveRunProfileKey("run start");
-		SetRunOwnerKey(run, ProfileKey(owner) ?? GetProfileKey());
+		SetRunOwnerKey(run, ProfileKey(owner) ?? CurrentProfileKey());
 		ResolveRunOwnerKey(run);
 	}
 
@@ -320,7 +309,7 @@ public class LiteProfileSaveData
 			if (adjusted > 0)
 			{
 				shop.AddMoney(adjusted);
-				ShopSaveLoader.Trace($"Banked {adjusted} Blue Points (base {amount}) to {key}; current profile {GetProfileKey() ?? "<none>"}, money now {shop.MoneyOwned}");
+				ShopSaveLoader.Trace($"Banked {adjusted} Blue Points (base {amount}) to {key}; current profile {CurrentProfileKey() ?? "<none>"}, money now {shop.MoneyOwned}");
 			}
 		}
 		if (ending)
@@ -350,8 +339,9 @@ public class LiteProfileSaveData
 
 	/// <summary>
 	/// Restore merges deserialized data into the active LiteProfileSaveData instance (if present), or registers itself as active.
+	/// The data has already been migrated to the current schema (ShopSaveLoader.Migrate).
 	/// </summary>
-	public void Restore(string context)
+	public void Restore(string reason)
 	{
 		try
 		{
@@ -361,7 +351,6 @@ public class LiteProfileSaveData
 				ReconcileSaves(Saves);
 				// No active instance; set this deserialized instance as active
 				MiniTracker.Instance.SetActive(this);
-				MigrateAllLegacyKeys();
 				MarkFileLoaded();
 				return;
 			}
@@ -369,12 +358,11 @@ public class LiteProfileSaveData
 			// Merge saved shops into active instance
 			foreach (var kv in Saves)
 				active.Saves[kv.Key] = LiteShop.ReconcileWithDefaults(kv.Value);
-			active.MigrateAllLegacyKeys();
 			active.MarkFileLoaded();
 		}
 		catch (Exception e)
 		{
-			BepinexPlugin.log?.LogError($"[ShopSave] Restore failed ({context}); shops read from disk may not have been applied: {e}");
+			BepinexPlugin.log?.LogError($"[ShopSave] Restore failed ({reason}); shops read from disk may not have been applied: {e}");
 		}
 	}
 

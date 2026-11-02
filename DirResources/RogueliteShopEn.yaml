@@ -166,8 +166,9 @@ MessageDialog:
     SaveProblem:
       Text: "The Roguelite Shop save could not be read."
       Recovered: "It was restored from the backup, which may be one save behind. The unreadable file was kept as: {0}"
-      Unreadable: "No readable copy was found, so the shop is empty and will not be saved this session. The file was left untouched so it can be recovered: {0}"
-      Fresh: "No readable copy was found, so the shop starts empty. The unreadable files were kept as: {0}"
+      Unreadable: "The unreadable file could not be moved aside, so shop changes will not be saved this session, to keep it recoverable. It is still named: {0}"
+      Fresh: "No readable copy was found, so the shop started fresh. The unreadable file was kept as: {0}"
+      Legacy: "No readable copy was found, so the shop was restored from the older {1}, which may be missing recent progress. The unreadable file was kept as: {0}"
 BluePoint:
   hurryact1level4:
     Name: "What's the hurry?"

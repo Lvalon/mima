@@ -27,7 +27,7 @@ public partial class ShopModHandlers
 	private const string QuestSoldFlagPrefix = "exquesting.sold:";   // format: exquesting.sold:slot
 
 	// Yields the text after `prefix` for every run flag that starts with it.
-	private static IEnumerable<string> RunFlagPayloads(GameRunController gameRun, string prefix)
+	internal static IEnumerable<string> RunFlagPayloads(GameRunController gameRun, string prefix)
 	{
 		if (gameRun?.ExtraFlags == null)
 			yield break;
